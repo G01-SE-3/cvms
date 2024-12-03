@@ -49,8 +49,8 @@ The **PV Management System** is a school project (Software Engineering module, E
 ### 🛠️ Steps to Set Up  
 1. Clone the repository:  
    ```bash  
-   git 
-   cd pv-management-system  
+   git clone https://github.com/G01-SE-3/Commercial-Violations-Management-System.git
+   cd   
    ```  
 
 2. Install dependencies:  
