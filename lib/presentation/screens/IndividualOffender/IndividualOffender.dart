@@ -6,3 +6,5 @@ class IndividualOffender extends StatefulWidget {
   @override
   IndividualOffenderScreen createState() => IndividualOffenderScreen();
 }
+
+

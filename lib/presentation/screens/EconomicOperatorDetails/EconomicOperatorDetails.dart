@@ -38,3 +38,5 @@ class EconomicOperatorDetails extends StatelessWidget {
     );
   }
 }
+
+

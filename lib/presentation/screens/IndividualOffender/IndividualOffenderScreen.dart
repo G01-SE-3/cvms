@@ -73,11 +73,7 @@ class IndividualOffenderScreen extends State<IndividualOffender> {
       ),
     );
   }
-
- 
-
-  // Generate Rows for the DataTable
-  List<DataRow> _createRows() {
+List<DataRow> _createRows() {
     return List<DataRow>.generate(
       9,
       (index) => DataRow(

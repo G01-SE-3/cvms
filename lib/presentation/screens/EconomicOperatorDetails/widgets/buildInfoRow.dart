@@ -21,3 +21,6 @@ Widget buildInfoRow(String title, String value) {
       ),
     );
 }
+
+
+
