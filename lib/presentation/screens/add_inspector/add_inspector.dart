@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'widgets/custom_text_field.dart';
 import 'widgets/custom_dropdown_field.dart';
+import 'package:cvms/presentation/screens/Appbars/widgets/general_appbar.dart';
 
 class AddInspectorPage extends StatefulWidget {
   @override
@@ -41,7 +42,10 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: null,  
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(100.0), // Adjust height as needed
+        child: const CVMSAppBar(),
+      ),  
       body: SingleChildScrollView( 
         padding: const EdgeInsets.all(20.0),
         child: Form(
@@ -77,43 +81,34 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,  
                   children: [
-                    // Inspector Number Field
                     CustomTextField(
                       controller: _inspectorNumberController,
                       hint: "Inspector number",
                       inputType: TextInputType.number,
                       validator: _validateInspectorNumber,
                     ),
-                    const SizedBox(height: 20), // Added spacing
-
-                    // Inspector Name Field
+                    const SizedBox(height: 20),
                     CustomTextField(
                       controller: _inspectorNameController,
                       hint: "Inspector Name",
                       inputType: TextInputType.text,
                       validator: _validateInspectorName,
                     ),
-                    const SizedBox(height: 20), // Added spacing
-
-                    // Inspector Surname Field
+                    const SizedBox(height: 20),
                     CustomTextField(
                       controller: _inspectorSurnameController,
                       hint: "Inspector Surname",
                       inputType: TextInputType.text,
                       validator: _validateInspectorSurname,
                     ),
-                    const SizedBox(height: 20), // Added spacing
-
-                    // Inspector Badge Number Field
+                    const SizedBox(height: 20),
                     CustomTextField(
                       controller: _inspectorBadgeNumberController,
                       hint: "Inspector Badge Number",
                       inputType: TextInputType.number,
                       validator: _validateInspectorBadgeNumber,
                     ),
-                    const SizedBox(height: 20), // Added spacing
-
-                    // Department Dropdown
+                    const SizedBox(height: 20),
                     CustomDropdownField(
                       selectedDepartment: _selectedDepartment,
                       onChanged: (value) {
@@ -123,21 +118,19 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
                       },
                       validator: _validateDepartment,
                     ),
-                    const SizedBox(height: 20), 
-
-                    // Contact Number Field
+                    const SizedBox(height: 20),
                     CustomTextField(
                       controller: _contactNumberController,
                       hint: "Contact Number",
                       inputType: TextInputType.phone,
                       validator: _validateContactNumber,
                     ),
-                    const SizedBox(height: 40), 
+                    const SizedBox(height: 40),
                   ],
                 ),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
                     onPressed: _clearForm,
@@ -149,7 +142,7 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
                     ),
                     child: const Text('Cancel'),
                   ),
-                  const SizedBox(width: 20),
+                  const SizedBox(width: 40),
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
@@ -188,7 +181,6 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
     );
   }
 
- 
   String? _validateInspectorNumber(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter inspector number';

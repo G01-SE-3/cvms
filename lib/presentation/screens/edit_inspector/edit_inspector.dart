@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'widgets/custom_text_field.dart';
 import 'widgets/custom_dropdown_field.dart';
-
+import 'package:cvms/presentation/screens/Appbars/widgets/general_appbar.dart';
 class EditInspectorPage extends StatefulWidget {
   final String inspectorNumber;
   final String inspectorName;
@@ -75,124 +75,115 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-      body: Padding(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(100.0), // Adjust height as needed
+        child: const CVMSAppBar(),
+      ),
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Form(
           key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.only(bottom: 20.0),
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(
-                                Icons.chevron_left,
-                                color: Color(0xFF306238),
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context); // This will handle the back action
-                              },
-                            ),
-                            const SizedBox(width: 10),
-                            const Text(
-                              "Edit Inspector",
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF306238),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 40),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 40.0, right: 10.0),
-                          child: Column(
-                            children: [
-                              CustomTextField(
-                                controller: _inspectorNumberController,
-                                hint: "Inspector number",
-                                inputType: TextInputType.number,
-                              ),
-                              const SizedBox(height: 40),
-                              CustomTextField(
-                                controller: _inspectorNameController,
-                                hint: "Inspector Name",
-                                inputType: TextInputType.text,
-                              ),
-                              const SizedBox(height: 40),
-                              CustomTextField(
-                                controller: _inspectorSurnameController,
-                                hint: "Inspector Surname",
-                                inputType: TextInputType.text,
-                              ),
-                              const SizedBox(height: 40),
-                              CustomTextField(
-                                controller: _inspectorBadgeNumberController,
-                                hint: "Inspector Badge Number",
-                                inputType: TextInputType.text,
-                              ),
-                              const SizedBox(height: 40),
-                              CustomDropdownFieldForDepartments(
-                                selectedDepartment: _selectedDepartment,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _selectedDepartment = value!;
-                                  });
-                                },
-                              ),
-                              const SizedBox(height: 40),
-                              CustomTextField(
-                                controller: _contactNumberController,
-                                hint: "Contact Number",
-                                inputType: TextInputType.phone,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+              Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.chevron_left,
+                      color: Color(0xFF306238),
                     ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    "Edit Inspector",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF306238),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 40),
+              Padding(
+                padding: const EdgeInsets.only(left: 0.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomTextField(
+                      controller: _inspectorNumberController,
+                      hint: "Inspector number",
+                      inputType: TextInputType.number,
+                    ),
+                    const SizedBox(height: 20),
+                    CustomTextField(
+                      controller: _inspectorNameController,
+                      hint: "Inspector Name",
+                      inputType: TextInputType.text,
+                    ),
+                    const SizedBox(height: 20),
+                    CustomTextField(
+                      controller: _inspectorSurnameController,
+                      hint: "Inspector Surname",
+                      inputType: TextInputType.text,
+                    ),
+                    const SizedBox(height: 20),
+                    CustomTextField(
+                      controller: _inspectorBadgeNumberController,
+                      hint: "Inspector Badge Number",
+                      inputType: TextInputType.number,
+                    ),
+                    const SizedBox(height: 20),
+                    CustomDropdownFieldForDepartments(
+                      selectedDepartment: _selectedDepartment,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedDepartment = value!;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    CustomTextField(
+                      controller: _contactNumberController,
+                      hint: "Contact Number",
+                      inputType: TextInputType.phone,
+                    ),
+                    const SizedBox(height: 40),
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 50.0, right: 40.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    ElevatedButton(
-                      onPressed: _resetForm,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Color(0xFF306238),
-                        side: BorderSide(color: Color(0xFF306238)),
-                        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
-                      ),
-                      child: const Text('Cancel'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: _resetForm,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: const Color(0xFF306238),
+                      side: const BorderSide(color: Color(0xFF306238)),
+                      padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
                     ),
-                    const SizedBox(width: 400),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          _showSnackbar('Inspector edited');
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF306238),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
-                      ),
-                      child: const Text('Edit'),
+                    child: const Text('Cancel'),
+                  ),
+                  const SizedBox(width: 40),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        _showSnackbar('Inspector edited');
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF306238),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
                     ),
-                  ],
-                ),
+                    child: const Text('Edit'),
+                  ),
+                ],
               ),
               const SizedBox(height: 40),
             ],
