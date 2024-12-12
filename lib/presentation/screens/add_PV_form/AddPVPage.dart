@@ -5,6 +5,7 @@ import 'widgets/text_field.dart';
 import 'widgets/price_field.dart';
 import 'widgets/officer_dropdown.dart';
 import 'widgets/expandable_section.dart';
+import 'constants/strings/add_PV_form_strings.dart';
 
 class AddPVPage extends StatefulWidget {
   @override
@@ -58,7 +59,7 @@ class _AddPVPageState extends State<AddPVPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Add PV",
+                      AppStrings.addPV, // Use the string from AppStrings
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     const SizedBox(height: 16),
@@ -82,23 +83,23 @@ class _AddPVPageState extends State<AddPVPage> {
                       ElevatedButton.icon(
                         onPressed: () {},
                         icon: const Icon(Icons.info_outline),
-                        label: const Text("See EO Details"),
+                        label: Text(AppStrings.seeEODetails), // Use the string
                       ),
                     ],
                     const SizedBox(height: 12),
                     DateField(
-                      placeholder: "Select PV Date",
+                      placeholder: AppStrings.selectPVDate, // Use the string
                       isRequired: true,
                     ),
                     const SizedBox(height: 12),
                     CustomTextField(
-                      placeholder: "Enter Violation Type",
+                      placeholder: AppStrings.violationType, // Use the string
                       isRequired: true,
                       controller: _violationTypeController,
                     ),
                     const SizedBox(height: 12),
                     OfficerDropdownField(
-                      title: "Select Officer 1",
+                      title: AppStrings.selectOff1,
                       selectedOfficer: _selectedOfficer1,
                       officerNames: officerNames,
                       onChanged: (value) {
@@ -109,7 +110,7 @@ class _AddPVPageState extends State<AddPVPage> {
                     ),
                     const SizedBox(height: 12),
                     OfficerDropdownField(
-                      title: "Select Officer 2",
+                      title: AppStrings.selectOff2,
                       selectedOfficer: _selectedOfficer2,
                       officerNames: officerNames,
                       onChanged: (value) {
@@ -120,7 +121,7 @@ class _AddPVPageState extends State<AddPVPage> {
                     ),
                     const SizedBox(height: 12),
                     OfficerDropdownField(
-                      title: "Select Officer 3",
+                      title: AppStrings.selectOff3,
                       selectedOfficer: _selectedOfficer3,
                       officerNames: officerNames,
                       onChanged: (value) {
@@ -131,7 +132,7 @@ class _AddPVPageState extends State<AddPVPage> {
                     ),
                     const SizedBox(height: 12),
                     OfficerDropdownField(
-                      title: "Select Officer 4",
+                      title: AppStrings.selectOff4,
                       selectedOfficer: _selectedOfficer4,
                       officerNames: officerNames,
                       onChanged: (value) {
@@ -142,100 +143,109 @@ class _AddPVPageState extends State<AddPVPage> {
                     ),
                     const SizedBox(height: 12),
                     PriceField(
-                      placeholder: "Total Non-Factorization Amount",
+                      placeholder: AppStrings
+                          .totalNonFactorizationAmount, // Use the string
                       isRequired: true,
                       controller: _nonFactorizationController,
                     ),
                     const SizedBox(height: 12),
                     PriceField(
-                      placeholder: "Total Illegal Profit",
+                      placeholder:
+                          AppStrings.totalIllegalProfit, // Use the string
                       isRequired: true,
                       controller: _illegalProfitController,
                     ),
                     const SizedBox(height: 12),
                     CustomTextField(
-                      placeholder: "Enter Subsidized Good",
+                      placeholder: AppStrings.subsidizedGood, // Use the string
                       isNumeric: true,
                       controller: _subsidizedGoodController,
                     ),
                     const SizedBox(height: 16),
-                    ExpandableSection(
-                      title: "Financial Penalty",
+                    const ExpandableSection(
+                      title: AppStrings.financialPenalty, // Use the string
                       fields: [
                         CustomTextField(
-                          placeholder: "Enter Penalty Amount",
+                          placeholder:
+                              AppStrings.penaltyAmount, // Use the string
                           isNumeric: true,
                         ),
                         DateField(
-                          placeholder: "Select Penalty Date",
+                          placeholder: AppStrings.penaltyDate, // Use the string
                         ),
                         CustomTextField(
-                          placeholder: "Enter Payment Receipt Number",
+                          placeholder:
+                              AppStrings.paymentReceiptNumber, // Use the string
                         ),
                         DateField(
-                          placeholder: "Select Payment Receipt Date",
+                          placeholder:
+                              AppStrings.paymentReceiptDate, // Use the string
                         ),
                       ],
                     ),
                     const SizedBox(height: 16),
                     ExpandableSection(
-                      title: "Seizure",
+                      title: AppStrings.seizure, // Use the string
                       fields: [
                         CustomTextField(
-                          placeholder: "Enter Amount",
+                          placeholder: AppStrings.amount, // Use the string
                           isNumeric: true,
                         ),
                         CustomTextField(
-                          placeholder: "Enter Quantity",
+                          placeholder: AppStrings.quantity, // Use the string
                           isNumeric: true,
                         ),
                         CustomTextField(
-                          placeholder: "Enter Goods",
+                          placeholder: AppStrings.goods, // Use the string
                         ),
                       ],
                     ),
                     const SizedBox(height: 16),
                     ExpandableSection(
-                      title: "Closure",
+                      title: AppStrings.closure, // Use the string
                       fields: [
                         CustomTextField(
-                          placeholder: "Enter Order Number",
+                          placeholder: AppStrings.orderNumber, // Use the string
                         ),
                         DateField(
-                          placeholder: "Select Order Date",
+                          placeholder: AppStrings.orderDate, // Use the string
                         ),
                         CustomTextField(
-                          placeholder: "Enter Remarks",
+                          placeholder: AppStrings.remarks, // Use the string
                         ),
                       ],
                     ),
                     const SizedBox(height: 16),
                     ExpandableSection(
-                      title: "Legal Proceedings",
+                      title: AppStrings.legalProceedings, // Use the string
                       fields: [
                         CustomTextField(
-                          placeholder: "Enter Case Number",
+                          placeholder: AppStrings.caseNumber, // Use the string
                         ),
                         DateField(
-                          placeholder: "Select Date",
+                          placeholder: AppStrings.date, // Use the string
                         ),
                         CustomTextField(
-                          placeholder: "Enter Court",
+                          placeholder: AppStrings.court, // Use the string
                         ),
                         CustomTextField(
-                          placeholder: "Enter Jurisdiction",
+                          placeholder:
+                              AppStrings.jurisdiction, // Use the string
                         ),
                       ],
                     ),
                     const SizedBox(height: 16),
                     ExpandableSection(
-                      title: "National Card Registration",
+                      title:
+                          AppStrings.nationalCardRegistration, // Use the string
                       fields: [
                         CustomTextField(
-                          placeholder: "Enter Registration Number",
+                          placeholder:
+                              AppStrings.registrationNumber, // Use the string
                         ),
                         DateField(
-                          placeholder: "Select Registration Date",
+                          placeholder:
+                              AppStrings.registrationDate, // Use the string
                         ),
                       ],
                     ),
@@ -249,7 +259,9 @@ class _AddPVPageState extends State<AddPVPage> {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text("Form Saved")),
+                                  SnackBar(
+                                      content: Text(AppStrings
+                                          .formSaved)), // Use the string
                                 );
                               }
                             },
@@ -260,9 +272,9 @@ class _AddPVPageState extends State<AddPVPage> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                            child: const Text(
-                              "Save",
-                              style: TextStyle(
+                            child: Text(
+                              AppStrings.save, // Use the string
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
@@ -293,8 +305,8 @@ class _AddPVPageState extends State<AddPVPage> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                            child: const Text(
-                              "Clear",
+                            child: Text(
+                              AppStrings.clear, // Use the string
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,

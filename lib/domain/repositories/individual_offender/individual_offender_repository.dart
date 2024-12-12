@@ -6,5 +6,6 @@ import '../entities/individual_offender.dart';
 abstract class IndividualOffenderRepository {
   Future<List<IndividualOffender>> fetchAllOffenders();
   Future<void> addOffender(IndividualOffender offender);
+  // ADD ANY OTHER NEEDED FUNCTIONS
 }
 */

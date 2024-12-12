@@ -1,9 +1,7 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:se_part/filter_by_date.dart';
 import 'package:se_part/filter_by_number.dart';
-
-
-
 
 // Combined App Bar and Search Bar Widget
 class AppBarWithSearch extends StatefulWidget {
@@ -33,7 +31,8 @@ class _AppBarWithSearchState extends State<AppBarWithSearch> {
         children: [
           // App Bar Section
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -135,7 +134,8 @@ class _AppBarWithSearchState extends State<AppBarWithSearch> {
                                 borderRadius: BorderRadius.circular(8.0),
                                 borderSide: BorderSide.none,
                               ),
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              contentPadding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
                             ),
                           ),
                         ),
@@ -153,7 +153,8 @@ class _AppBarWithSearchState extends State<AppBarWithSearch> {
                             value: selectedType,
                             underline: const SizedBox(),
                             items: const [
-                              DropdownMenuItem(value: "type", child: Text("type")),
+                              DropdownMenuItem(
+                                  value: "type", child: Text("type")),
                               DropdownMenuItem(value: "PV", child: Text("PV")),
                               DropdownMenuItem(value: "RC", child: Text("RC")),
                             ],
@@ -179,46 +180,40 @@ class _AppBarWithSearchState extends State<AppBarWithSearch> {
                   ),
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: DropdownButton<String>(
-          value: null,
-          hint: const Text("Filter by"),
-          underline: const SizedBox(),
-          items: const [
-            DropdownMenuItem(
-              value: "Latest",
-              child: Text("Latest"),
-            ),
-            DropdownMenuItem(
-              value: "Date",
-              child: Text("Date"),
-            ),
-          ],
-          onChanged: (value) {
-            if (value == "Latest") {
-              showDialog(
-                context: context,
-                builder: (context) => const LatestPopupForm(),
-              );
-            } else if (value == "Date") {
-              showDialog(
-                context: context,
-                builder: (context) => const DateFilterPopup(),
-              );
-            }
-          },
-        ),
-      ),
-  ],
-  
-
-),
-                    
-                    
+                    value: null,
+                    hint: const Text("Filter by"),
+                    underline: const SizedBox(),
+                    items: const [
+                      DropdownMenuItem(
+                        value: "Latest",
+                        child: Text("Latest"),
+                      ),
+                      DropdownMenuItem(
+                        value: "Date",
+                        child: Text("Date"),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      if (value == "Latest") {
+                        showDialog(
+                          context: context,
+                          builder: (context) => const LatestPopupForm(),
+                        );
+                      } else if (value == "Date") {
+                        showDialog(
+                          context: context,
+                          builder: (context) => const DateFilterPopup(),
+                        );
+                      }
+                    },
+                  ),
                 ),
               ],
             ),
-          );
-        
-      
-    
+          ),
+        ],
+      ),
+    );
   }
 }
+*/
