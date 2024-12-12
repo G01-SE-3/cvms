@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'edit_inspector.dart';
+import 'edit_inspector_page.dart';
 
 void main() {
   runApp(const EditInspectorApp());
 }
 
 class EditInspectorApp extends StatelessWidget {
-  const EditInspectorApp({super.key});
+  const EditInspectorApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: EditInspectorPage(
         inspectorNumber: '12345', 

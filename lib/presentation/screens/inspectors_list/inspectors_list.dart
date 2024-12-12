@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'widgets/inspector_table.dart';
-import 'widgets/add_inspector_button.dart';
-import 'widgets/export_button.dart';
+import 'widgets/add_inspector_button_widget.dart';
+import 'widgets/export_inspector_button_widget.dart';
 import 'package:cvms/presentation/screens/Appbars/widgets/general_appbar.dart';
+import 'constants/strings/inspectors_list_strings.dart';
 
 class InspectorsListPage extends StatelessWidget {
   const InspectorsListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(150.0), // Adjust height as needed
-        child: CVMSAppBar(),
+        preferredSize: const Size.fromHeight(150.0), // Adjust height as needed
+        child: const CVMSAppBar(),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -23,22 +24,22 @@ class InspectorsListPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Inspectors List',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  InspectorsListStrings.inspectorsListTitle,
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 Row(
                   children: [
-                    ExportButton(),
-                    SizedBox(width: 10),
-                    AddInspectorButton(),
+                    const ExportInspectorButtonWidget(),
+                    const SizedBox(width: 10),
+                    const AddInspectorButtonWidget(),
                   ],
                 ),
               ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Expanded(
               child: SingleChildScrollView(
-                child: InspectorTable(), // InspectorTable now scrolls vertically
+                child: const InspectorTable(), 
               ),
             ),
           ],

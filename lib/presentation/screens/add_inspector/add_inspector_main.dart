@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'add_inspector.dart';
+import 'add_inspector_page.dart';
 
 void main() {
   runApp(const AddInspectorApp());
 }
 
 class AddInspectorApp extends StatelessWidget {
-  const AddInspectorApp({super.key});
+  const AddInspectorApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

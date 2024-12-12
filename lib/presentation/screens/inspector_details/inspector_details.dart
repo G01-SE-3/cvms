@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'widgets/information_row.dart';
-import '../edit_inspector/edit_inspector.dart';
+import 'widgets/add_inspector_button.dart';
+import 'widgets/export_inspector_button.dart';
+import 'widgets/delete_inspector_button.dart';
 import 'package:cvms/presentation/screens/Appbars/widgets/general_appbar.dart';
+import 'constants/strings/inspector_details_strings.dart';
+
 
 class InspectorDetailsPage extends StatelessWidget {
   final String inspectorName;
@@ -10,7 +14,7 @@ class InspectorDetailsPage extends StatelessWidget {
   final String contactNumber;
 
   // Constructor to receive data
-  const InspectorDetailsPage({super.key, 
+  InspectorDetailsPage({
     required this.inspectorName,
     required this.inspectorSurname,
     required this.inspectorDepartment,
@@ -20,10 +24,10 @@ class InspectorDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(100.0), // Adjust height as needed
-        child: CVMSAppBar(),
-      ),  
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(100.0), // Adjust height as needed
+        child: const CVMSAppBar(),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -84,64 +88,16 @@ class InspectorDetailsPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end, // Align buttons to the right
                       children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            // Navigate to EditInspectorPage with relevant data
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EditInspectorPage(
-                                  inspectorNumber: '123456', // Example Inspector Number
-                                  inspectorName: inspectorName,
-                                  inspectorSurname: inspectorSurname,
-                                  inspectorBadgeNumber: '987654', // Example Badge Number
-                                  assignedDepartment: inspectorDepartment,
-                                  contactNumber: contactNumber,
-                                ),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF7E9A77),
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                          ),
-                          child: const Text(
-                            "Edit",
-                            style: TextStyle(color: Colors.white),
-                          ),
+                        AddInspectorButtonWidget(
+                          inspectorName: inspectorName,
+                          inspectorSurname: inspectorSurname,
+                          inspectorDepartment: inspectorDepartment,
+                          contactNumber: contactNumber,
                         ),
                         const SizedBox(width: 8),
-                        TextButton(
-                          onPressed: () {
-                            // Export functionality
-                          },
-                          style: TextButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                            backgroundColor: const Color(0xFF7E9A77),
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                          ),
-                          child: const Text("Export"),
-                        ),
+                        ExportInspectorButtonWidget(),
                         const SizedBox(width: 8),
-                        TextButton(
-                          onPressed: () {
-                            // Delete functionality
-                          },
-                          style: TextButton.styleFrom(
-                            backgroundColor: const Color(0xFFFCF4CF),
-                            foregroundColor: Colors.black,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                          ),
-                          child: const Text("Delete"),
-                        ),
+                        DeleteInspectorButtonWidget(),
                       ],
                     ),
                   ),
@@ -157,34 +113,52 @@ class InspectorDetailsPage extends StatelessWidget {
                   ),
                 ),
                 padding: const EdgeInsets.all(12.0),
-                child: const Row(
+                child: Row(
                   children: [
                     Expanded(
                       flex: 1,
                       child: Text(
-                        "Personal Information",
-                        style: TextStyle(
+                        InspectorDetailsPageStrings.personalInfoTitle,
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF566038),
                         ),
                       ),
                     ),
-                    Expanded(flex: 2, child: SizedBox.shrink()),
+                    const Expanded(flex: 2, child: SizedBox.shrink()),
                   ],
                 ),
               ),
-              const InformationRow(label: "Inspector Number", value: "123456"),
+              const InformationRow(
+                label: InspectorDetailsPageStrings.inspectorNumberLabel,
+                value: "123456",
+              ),
               const Divider(color: Colors.grey, thickness: 0.5),
-              InformationRow(label: "Inspector Name", value: inspectorName),
+              InformationRow(
+                label: InspectorDetailsPageStrings.inspectorNameLabel,
+                value: inspectorName,
+              ),
               const Divider(color: Colors.grey, thickness: 0.5),
-              InformationRow(label: "Inspector Surname", value: inspectorSurname),
+              InformationRow(
+                label: InspectorDetailsPageStrings.inspectorSurnameLabel,
+                value: inspectorSurname,
+              ),
               const Divider(color: Colors.grey, thickness: 0.5),
-              const InformationRow(label: "Inspector Badge Number", value: "987654"),
+              const InformationRow(
+                label: InspectorDetailsPageStrings.inspectorBadgeNumberLabel,
+                value: "987654",
+              ),
               const Divider(color: Colors.grey, thickness: 0.5),
-              InformationRow(label: "Assigned Department", value: inspectorDepartment),
+              InformationRow(
+                label: InspectorDetailsPageStrings.assignedDepartmentLabel,
+                value: inspectorDepartment,
+              ),
               const Divider(color: Colors.grey, thickness: 0.5),
-              InformationRow(label: "Contact Number", value: contactNumber),
+              InformationRow(
+                label: InspectorDetailsPageStrings.contactNumberLabel,
+                value: contactNumber,
+              ),
             ],
           ),
         ),
