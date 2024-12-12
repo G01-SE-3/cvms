@@ -45,153 +45,86 @@ The **PV Management System** is a school project (Software Engineering module, E
 The repository is organized into several directories and files, each serving a specific purpose in the application development. Below is a breakdown of the structure:
 
 ```
-app/                          # Main application package
-├── core/                     # Core logic and business rules (Domain Layer)
-│   ├── entities/             # Core domain entities 
-│   ├── value_objects/        # Immutable value objects 
-│   ├── services/             # Domain services
-│   ├── exceptions.py         # Custom exceptions for domain logic
-│   └── interfaces.py         # Interfaces for repositories, services, etc.
-├── infrastructure/           # Infrastructure Layer
-│   ├── repositories/         # Data access repositories
-│   ├── adapters/             # Adapters for APIs, file systems, etc.
-│   ├── services/             # External service handlers
-│   ├── database/             # DB connection and migrations
-│   │   ├── migrations/       # Migration scripts
-│   │   ├── base.py           # Base database setup
-│   │   └── session.py        # Database session management
-│   ├── config.py             # Configuration for database, services, etc.
-│   └── logger.py             # Application-wide logging setup
-├── application/              # Application Layer
-│   ├── use_cases/            # Use cases for specific workflows
-│   │   ├── add_user.py       # Example: Adding a user
-│   │   └── get_report.py     # Example: Generating a report
-│   ├── services.py           # Application-level services
-│   └── events.py             # Event system (optional)
-├── ui/                       # Presentation Layer (UI)
-│   ├── views/                # UI screens (e.g., MainWindow, Dashboard)
-│   ├── components/           # Reusable UI components
-│   ├── viewmodels/           # MVVM ViewModels
-│   ├── controllers/          # Controllers for routing (optional)
-│   └── styles/               # Stylesheets or QML files (optional)
-├── tests/                    # Unit and integration tests
-│   ├── core/                 # Tests for Domain Layer
-│   ├── application/          # Tests for Application Layer
-│   ├── infrastructure/       # Tests for Infrastructure Layer
-│   └── ui/                   # Tests for Presentation Layer
-├── utils/                    # Utility functions and helpers
-│   ├── validators.py         # Input validators
-│   ├── serializers.py        # Data serializers
-│   └── helpers.py            # Miscellaneous helpers
-├── main.py                   # Entry point for the application
-├── config.py                 # Global configuration settings
-└── requirements.txt          # Python dependencies
-docs/                         # Documentation
-├── architecture.md           # Detailed architecture description
-├── use_cases.md              # List of use cases and workflows
-└── api.md                    # API documentation (if any)
-scripts/                      # Automation scripts
-├── run.py                    # Script to launch the app
-├── setup.py                  # Environment setup script
-└── test.py                   # Script to run tests
-.gitignore                    # Files and directories to ignore in git
-README.md                     # Project overview and setup instructions
-LICENSE                       # License file
+cvms/
+├── lib/
+│   ├── main.dart                   # Entry point
+│   ├── core/                       # Core utilities, constants, and shared functions
+│   │   ├── constants/              # App-wide constants (e.g., colors, text styles)
+│   │   ├── exceptions/             # Custom exception classes
+│   │   ├── utils/                  # Helper functions and utilities
+│   ├── data/                       # Data layer (Model)
+│   │   ├── models/                 # Data models
+│   │   ├── services/               # APIs, local database, or data sources
+│   ├── domain/                     # Business logic (Controller)
+│   │   ├── use_cases/              # Application-specific use cases
+│   │   ├── repositories/           # Abstractions for data operations
+│   ├── presentation/               # UI layer (View)
+│   │   ├── screens/                # Screen widgets (pages)
+│   │   ├── widgets/                # Reusable UI components
+│   │   ├── themes/                 # Themes and styles
+│   ├── routes/                     # App navigation routes
+│   ├── controllers/                # UI Controllers for screen logic
+├── assets/                         # Static assets (images, fonts, etc.)
+├── test/                           # Unit and widget tests
+├── pubspec.yaml                    # Project dependencies
+├── analysis_options.yaml           # Code analysis rules
+└── README.md                       # Project documentation
+.
+.
+.
+└──
+
 ```
 
-### Descriptions
 
-- **app/**: The main application package containing all the source code.
-
-  - **core/**: Implements the core business logic and domain rules of the application.
-    - **entities/**: Contains domain entities, representing the main objects within the application (e.g., User, Order).
-    - **value_objects/**: Defines immutable objects used within the domain (e.g., Price, Address).
-    - **services/**: Contains business logic helpers that encapsulate domain operations.
-    - **exceptions.py**: Defines custom exceptions used throughout the domain.
-    - **interfaces.py**: Defines interfaces for repositories and services to enforce contract adherence.
-
-  - **infrastructure/**: Contains code that interacts with external systems and frameworks.
-    - **repositories/**: Implements data access logic for various storage solutions.
-    - **adapters/**: Contains adapters for integrating external APIs and file systems.
-    - **services/**: Defines handlers for external services (e.g., REST APIs).
-    - **database/**: Contains database connection setup and migration scripts.
-      - **migrations/**: Holds migration scripts for database schema changes.
-      - **base.py**: Contains the base configuration for the database connection.
-      - **session.py**: Manages database sessions and transactions.
-    - **config.py**: Manages application configuration settings (e.g., database credentials).
-    - **logger.py**: Sets up logging configuration for the application.
-
-  - **application/**: Manages application-specific use cases and workflows.
-    - **use_cases/**: Contains individual scripts for specific application functionalities.
-      - **add_user.py**: Implements the use case for adding a user to the system.
-      - **get_report.py**: Implements the use case for generating reports.
-    - **services.py**: Contains application-level services that provide higher-level functionality.
-    - **events.py**: (Optional) Implements an event system for handling application events.
-
-  - **ui/**: Contains all user interface components and logic.
-    - **views/**: Defines the main UI screens and layouts (e.g., MainWindow, Dashboard).
-    - **components/**: Reusable UI components (e.g., buttons, dialogs).
-    - **viewmodels/**: Implements MVVM pattern to separate UI logic from business logic.
-    - **controllers/**: (Optional) Manages the routing and communication between views and models.
-    - **styles/**: Holds stylesheets or QML files for UI styling.
-
-  - **tests/**: Contains unit and integration tests for the application.
-    - **core/**: Tests related to the core business logic.
-    - **application/**: Tests related to application use cases and services.
-    - **infrastructure/**: Tests related to data access and external services.
-    - **ui/**: Tests related to the user interface components.
-
-  - **utils/**: Contains utility functions and helper scripts.
-    - **validators.py**: Implements input validation functions.
-    - **serializers.py**: Implements data serialization and deserialization functions.
-    - **helpers.py**: Miscellaneous utility functions.
-
-  - **main.py**: The entry point for the application, starting the main application loop.
-  - **config.py**: Contains global configuration settings for the application.
-  - **requirements.txt**: Lists the Python dependencies required for the application.
-
-- **docs/**: Contains documentation related to the project.
-  - **architecture.md**: Detailed description of the system architecture.
-  - **use_cases.md**: Documentation of various use cases supported by the application.
-  - **api.md**: API documentation if applicable.
-
-- **scripts/**: Contains scripts for automation and setup.
-  - **run.py**: Script to launch the application.
-  - **setup.py**: Script for setting up the development environment.
-  - **test.py**: Script to run the application's tests.
-
-- **.gitignore**: Specifies files and directories to be ignored by Git.
-- **README.md**: Contains the project overview, setup instructions, and other relevant information.
-- **LICENSE**: License information for the project.
-
----
 
 
 ## 🚀 Getting Started  
 
 ### 📋 Prerequisites  
-- 🐍 Python 3.9+  
-- 🛢️ PostgreSQL (for database functionality)  
+1. **Flutter SDk**
+2. **Dart SDK**
+3. **IDE/Editor**
+   - Install an IDE or editor to work with Flutter:
+     - **Visual Studio Code** with Flutter and Dart plugins
+     - **Android Studio** with Flutter and Dart plugins
+     - **IntelliJ IDEA** with Flutter and Dart plugins
+
+4. **Flutter Desktop Support**
+   - Ensure you have Flutter Desktop support enabled. Follow the instructions in the [Flutter Desktop documentation](https://flutter.dev/desktop) to enable desktop support for your platform.
+
+5. **Operating System Requirements**
+   - For **Windows**:
+     - You need **Visual Studio** installed with Desktop development tools (C++, Windows SDK).
+   - For **macOS**:
+     - You need **Xcode** installed.
+   - For **Linux**:
+     - Install the necessary dependencies like **GTK** and **libxi-dev**.
+
+6. **Git**
+7. **Flutter Dependencies** (Optional)
+   - You may need to install additional Flutter packages. Check the `pubspec.yaml` file for required dependencies and run:
+     ```bash
+     flutter pub get
+     ```
+8. 🛢️ **PostgreSQL (for database functionality)**
 
 ### 🛠️ Steps to Set Up  
 1. Clone the repository:  
    ```bash  
-   git clone https://github.com/G01-SE-3/Commercial-Violations-Management-System.git
+   git clone https://github.com/G01-SE-3/cvms.git
    cd   
    ```  
 
-2. Install dependencies:  
+2. Install flutter dependencies:  
    ```bash  
-   pip install -r requirements.txt  
+   flutter pub get 
    ```  
 
-3. Run the initial database setup script:  
-   ```bash  
-    
-   ```  
 
 4. Launch the application:  
-   ```bash  
+   ```bash 
+   flutter run
     
    ```  
 
