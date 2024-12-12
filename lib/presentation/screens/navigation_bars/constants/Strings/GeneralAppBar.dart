@@ -1,0 +1,1 @@
+final List<String> tabs = ["PV", "Inspectors", "Economic Operators"];
