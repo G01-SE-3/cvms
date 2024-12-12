@@ -6,6 +6,8 @@ import 'package:cvms/presentation/screens/PVs_list_page/widgets/pv_data_table.da
 import 'package:cvms/presentation/screens/PVs_list_page/constants/strings/pvs_list_page_strings.dart';
 
 class PVListPage extends StatefulWidget {
+  const PVListPage({super.key});
+
   @override
   _PVListPageState createState() => _PVListPageState();
 }

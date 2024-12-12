@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../text_field.dart';
 
 class SeizureSection extends StatefulWidget {
-  const SeizureSection({Key? key}) : super(key: key);
+  const SeizureSection({super.key});
 
   @override
   _SeizureSectionState createState() => _SeizureSectionState();

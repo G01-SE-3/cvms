@@ -4,8 +4,7 @@ class FormSection extends StatelessWidget {
   final String title;
   final List<Widget> fields;
 
-  const FormSection({Key? key, required this.title, required this.fields})
-      : super(key: key);
+  const FormSection({super.key, required this.title, required this.fields});
 
   @override
   Widget build(BuildContext context) {

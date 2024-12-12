@@ -4,7 +4,7 @@ import '../constants/strings/financial_penalty_strings.dart'; // Import the stri
 class PVFinancialPenaltySection extends StatefulWidget {
   final Map<String, dynamic> pvData;
 
-  PVFinancialPenaltySection({required this.pvData});
+  const PVFinancialPenaltySection({super.key, required this.pvData});
 
   @override
   _PVFinancialPenaltySectionState createState() =>
@@ -24,7 +24,7 @@ class _PVFinancialPenaltySectionState extends State<PVFinancialPenaltySection> {
       children: [
         Row(
           children: [
-            Text(
+            const Text(
               FinancialPenaltyStrings.sectionTitle, // Use string from constants
               style: TextStyle(
                 fontSize: 18,
@@ -32,7 +32,7 @@ class _PVFinancialPenaltySectionState extends State<PVFinancialPenaltySection> {
                 color: Colors.black87,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             if (hasFinancialPenalty)
               TextButton(
                 onPressed: () {
@@ -50,7 +50,7 @@ class _PVFinancialPenaltySectionState extends State<PVFinancialPenaltySection> {
         hasFinancialPenalty
             ? (showFinancialPenalty
                 ? _buildFinancialPenaltyDetails(financialPenalty)
-                : SizedBox.shrink())
+                : const SizedBox.shrink())
             : _buildNoFinancialPenaltyMessage(),
       ],
     );
@@ -97,16 +97,16 @@ class _PVFinancialPenaltySectionState extends State<PVFinancialPenaltySection> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(color: Colors.black54)),
-          Text(value, style: TextStyle(color: Colors.black)),
+          Text(label, style: const TextStyle(color: Colors.black54)),
+          Text(value, style: const TextStyle(color: Colors.black)),
         ],
       ),
     );
   }
 
   Widget _buildNoFinancialPenaltyMessage() {
-    return Padding(
-      padding: const EdgeInsets.all(8),
+    return const Padding(
+      padding: EdgeInsets.all(8),
       child: Text(
         FinancialPenaltyStrings
             .noFinancialPenaltyMessage, // Use no financial penalty message text

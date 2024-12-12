@@ -4,7 +4,7 @@ import '../constants/strings/details_strings.dart'; // Import the strings file
 class PVDetailsSection extends StatelessWidget {
   final Map<String, dynamic> pvData;
 
-  PVDetailsSection({required this.pvData});
+  const PVDetailsSection({super.key, required this.pvData});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class PVDetailsSection extends StatelessWidget {
         children: [
           Container(
             height: 50,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color(0xFFDDE5CD),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(12),
@@ -24,7 +24,7 @@ class PVDetailsSection extends StatelessWidget {
               ),
             ),
             alignment: Alignment.center,
-            child: Text(
+            child: const Text(
               DetailsStrings.sectionTitle, // Use string from the constants
               style: TextStyle(
                 fontSize: 18,
@@ -73,7 +73,7 @@ class PVDetailsSection extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
               color: Colors.black87,
@@ -83,7 +83,7 @@ class PVDetailsSection extends StatelessWidget {
             child: Text(
               value,
               textAlign: TextAlign.right,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14,
                 color: Colors.black54,
               ),

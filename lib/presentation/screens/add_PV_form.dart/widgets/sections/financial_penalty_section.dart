@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../price_field.dart';
 
 class FinancialPenaltySection extends StatefulWidget {
-  const FinancialPenaltySection({Key? key}) : super(key: key);
+  const FinancialPenaltySection({super.key});
 
   @override
   _FinancialPenaltySectionState createState() =>

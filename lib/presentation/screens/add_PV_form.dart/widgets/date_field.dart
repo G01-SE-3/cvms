@@ -6,11 +6,11 @@ class DateField extends StatelessWidget {
   final TextEditingController? controller;
 
   const DateField({
-    Key? key,
+    super.key,
     required this.placeholder,
     this.isRequired = false,
     this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class DateField extends StatelessWidget {
         hintText: placeholder,
         hintStyle: const TextStyle(color: Colors.grey),
         filled: true,
-        fillColor: Color(0xFFDDE5CD),
+        fillColor: const Color(0xFFDDE5CD),
         contentPadding:
             const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         border: OutlineInputBorder(
@@ -43,10 +43,8 @@ class DateField extends StatelessWidget {
           firstDate: DateTime(2000),
           lastDate: DateTime(2100),
         );
-        if (selectedDate != null) {
-          controller?.text = "${selectedDate.toLocal()}".split(' ')[0];
-        }
-      },
+        controller?.text = "${selectedDate!.toLocal()}".split(' ')[0];
+            },
     );
   }
 }

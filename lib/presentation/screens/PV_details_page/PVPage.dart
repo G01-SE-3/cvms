@@ -13,7 +13,7 @@ import 'package:cvms/presentation/screens/PV_details_page/constants/strings/pv_p
 class PVPage extends StatefulWidget {
   final String pvnumber;
 
-  PVPage({required this.pvnumber});
+  const PVPage({super.key, required this.pvnumber});
 
   @override
   _PVPageState createState() => _PVPageState();
@@ -46,7 +46,7 @@ class _PVPageState extends State<PVPage> {
   @override
   Widget build(BuildContext context) {
     if (pvData == null) {
-      return Scaffold(body: Container(child: Text("no data found")));
+      return Scaffold(body: Container(child: const Text("no data found")));
     }
 
     return Scaffold(

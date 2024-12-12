@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ClosureSection extends StatefulWidget {
-  const ClosureSection({Key? key}) : super(key: key);
+  const ClosureSection({super.key});
 
   @override
   _ClosureSectionState createState() => _ClosureSectionState();
@@ -26,11 +26,11 @@ class _ClosureSectionState extends State<ClosureSection> {
               : "Show Closure Section"),
         ),
         if (_isSectionVisible)
-          Column(
+          const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 12),
-              const Text(
+              SizedBox(height: 12),
+              Text(
                 "Closure information is automatically added to this section.",
               ),
             ],

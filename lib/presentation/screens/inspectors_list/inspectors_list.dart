@@ -9,33 +9,33 @@ class InspectorsListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(150.0), // Adjust height as needed
-        child: const CVMSAppBar(),
+        preferredSize: Size.fromHeight(150.0), // Adjust height as needed
+        child: CVMSAppBar(),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   'Inspectors List',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 Row(
                   children: [
-                    const ExportButton(),
-                    const SizedBox(width: 10),
-                    const AddInspectorButton(),
+                    ExportButton(),
+                    SizedBox(width: 10),
+                    AddInspectorButton(),
                   ],
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             Expanded(
               child: SingleChildScrollView(
                 child: InspectorTable(), // InspectorTable now scrolls vertically

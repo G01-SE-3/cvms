@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/PVs_list_page/constants/strings/table_header_strings.dart';
 
 class HeaderRow extends StatelessWidget {
+  const HeaderRow({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
+        const Text(
           pvListTitle,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         Row(
           children: [
@@ -20,9 +22,9 @@ class HeaderRow extends StatelessWidget {
                 size: 20,
                 color: Color(0xFF344054),
               ),
-              label: Text(
+              label: const Text(
                 exportLabel,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Color(0xFF545837),
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
@@ -47,9 +49,9 @@ class HeaderRow extends StatelessWidget {
                 size: 20,
                 color: Colors.white,
               ),
-              label: Text(
+              label: const Text(
                 addNewPVLabel,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w500,
                   fontSize: 14,

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/EconomicOperatorDetails/constants/strings/EconomicOperatorpersonalInformation.dart';
 import 'InfoRow.dart';
 class PersonalInformationPage extends StatelessWidget {
+  const PersonalInformationPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Center(
-        child: Container(
+        child: SizedBox(
           width: 500,
           child: Column(
             children: [

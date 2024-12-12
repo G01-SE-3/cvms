@@ -5,7 +5,7 @@ import 'package:cvms/presentation/screens/PV_details_page/PVPage.dart';
 class PVDataTable extends StatelessWidget {
   final List<Map<String, dynamic>> tableData;
 
-  const PVDataTable({Key? key, required this.tableData}) : super(key: key);
+  const PVDataTable({super.key, required this.tableData});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class PVDataTable extends StatelessWidget {
         width: MediaQuery.of(context).size.width - 32,
         padding: const EdgeInsets.symmetric(horizontal: 0),
         child: DataTable(
-          headingRowColor: MaterialStateProperty.all(
+          headingRowColor: WidgetStateProperty.all(
             Colors.grey[200],
           ),
           columnSpacing: 24,
@@ -51,8 +51,8 @@ class PVDataTable extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       PopupMenuButton<int>(
-                        surfaceTintColor: Color(0xFF545837),
-                        iconColor: Color(0xFF545837),
+                        surfaceTintColor: const Color(0xFF545837),
+                        iconColor: const Color(0xFF545837),
                         onSelected: (value) {
                           if (value == 1) {
                             _showEditDialog(context, row);
@@ -61,7 +61,7 @@ class PVDataTable extends StatelessWidget {
                           }
                         },
                         itemBuilder: (context) => [
-                          PopupMenuItem<int>(
+                          const PopupMenuItem<int>(
                             value: 1,
                             child: Row(
                               children: [
@@ -71,7 +71,7 @@ class PVDataTable extends StatelessWidget {
                               ],
                             ),
                           ),
-                          PopupMenuItem<int>(
+                          const PopupMenuItem<int>(
                             value: 2,
                             child: Row(
                               children: [
@@ -85,7 +85,7 @@ class PVDataTable extends StatelessWidget {
                       ),
                       IconButton(
                         icon:
-                            Icon(Icons.arrow_forward, color: Color(0xFF545837)),
+                            const Icon(Icons.arrow_forward, color: Color(0xFF545837)),
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -129,19 +129,19 @@ class PVDataTable extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('$deleteDialogTitle ${row['PVnumber']}'),
-          content: Text(deleteDialogContent),
+          content: const Text(deleteDialogContent),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text(cancelLabel),
+              child: const Text(cancelLabel),
             ),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text(deleteLabelDialog),
+              child: const Text(deleteLabelDialog),
             ),
           ],
         );

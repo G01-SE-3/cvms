@@ -50,18 +50,16 @@ class _DateFilterPopupState extends State<DateFilterPopup> {
       lastDate: DateTime(2100),
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        if (isStartDate) {
-          _startDate = pickedDate;
-        } else {
-          _endDate = pickedDate;
-        }
-        controller.text = "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
-        _validateDates();
-      });
+    setState(() {
+      if (isStartDate) {
+        _startDate = pickedDate;
+      } else {
+        _endDate = pickedDate;
+      }
+      controller.text = "${pickedDate!.year}-${pickedDate!.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
+      _validateDates();
+    });
     }
-  }
 
   void _validateDates() {
     if (_startDate != null && _endDate != null && _startDate!.isAfter(_endDate!)) {

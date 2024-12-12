@@ -4,7 +4,7 @@ class CustomDropdownFieldForDepartments extends StatelessWidget {
   final String selectedDepartment;
   final ValueChanged<String?> onChanged;
 
-  const CustomDropdownFieldForDepartments({
+  const CustomDropdownFieldForDepartments({super.key, 
     required this.selectedDepartment,
     required this.onChanged,
   });
@@ -16,29 +16,29 @@ class CustomDropdownFieldForDepartments extends StatelessWidget {
       child: DropdownButtonFormField<String>(
         value: selectedDepartment, 
         items: const [
-          DropdownMenuItem(child: Text('HR'), value: 'HR'),
-          DropdownMenuItem(child: Text('Finance'), value: 'Finance'),
-          DropdownMenuItem(child: Text('Operations'), value: 'Operations'),
-          DropdownMenuItem(child: Text('IT'), value: 'IT'),
-          DropdownMenuItem(child: Text('Sales'), value: 'Sales'),
+          DropdownMenuItem(value: 'HR', child: Text('HR')),
+          DropdownMenuItem(value: 'Finance', child: Text('Finance')),
+          DropdownMenuItem(value: 'Operations', child: Text('Operations')),
+          DropdownMenuItem(value: 'IT', child: Text('IT')),
+          DropdownMenuItem(value: 'Sales', child: Text('Sales')),
         ],
         onChanged: onChanged, 
         decoration: InputDecoration(
           labelText: 'Assigned Department',
-          labelStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+          labelStyle: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
           filled: true,
-          fillColor: Color(0xFFDDE5CD),
+          fillColor: const Color(0xFFDDE5CD),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide.none,
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.red, width: 2.0),
+            borderSide: const BorderSide(color: Colors.red, width: 2.0),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.red, width: 2.0),
+            borderSide: const BorderSide(color: Colors.red, width: 2.0),
           ),
           contentPadding: const EdgeInsets.only(left: 20, top: 12, bottom: 12),
           floatingLabelBehavior: FloatingLabelBehavior.auto,

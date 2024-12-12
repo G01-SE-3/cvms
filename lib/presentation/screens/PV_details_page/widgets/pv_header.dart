@@ -4,7 +4,7 @@ import '../constants/strings/pv_header_strings.dart'; // Import the strings file
 class PVHeader extends StatelessWidget {
   final Map<String, dynamic> pvData;
 
-  PVHeader({required this.pvData});
+  const PVHeader({super.key, required this.pvData});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class PVHeader extends StatelessWidget {
       padding: const EdgeInsets.only(top: 80),
       child: Row(
         children: [
-          Text(
+          const Text(
             PVHeaderStrings.title, // Use title from constants
             style: TextStyle(
               fontSize: 22,
@@ -20,15 +20,15 @@ class PVHeader extends StatelessWidget {
               color: Colors.black,
             ),
           ),
-          Spacer(),
-          _buildActionButton(PVHeaderStrings.editButton, Color(0xFF7E9A77)),
+          const Spacer(),
+          _buildActionButton(PVHeaderStrings.editButton, const Color(0xFF7E9A77)),
           const SizedBox(width: 10),
-          _buildActionButton(PVHeaderStrings.exportButton, Color(0xFF7E9A77)),
+          _buildActionButton(PVHeaderStrings.exportButton, const Color(0xFF7E9A77)),
           const SizedBox(width: 10),
           _buildActionButton(
             PVHeaderStrings
                 .deleteButton, // Use delete button text from constants
-            Color(0xFFFFF4CF),
+            const Color(0xFFFFF4CF),
             textColor: const Color.fromARGB(255, 0, 0, 0),
           ),
         ],

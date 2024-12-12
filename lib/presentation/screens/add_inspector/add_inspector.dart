@@ -4,6 +4,8 @@ import 'widgets/custom_dropdown_field.dart';
 import 'package:cvms/presentation/screens/Appbars/widgets/general_appbar.dart';
 
 class AddInspectorPage extends StatefulWidget {
+  const AddInspectorPage({super.key});
+
   @override
   _AddInspectorPageState createState() => _AddInspectorPageState();
 }
@@ -42,9 +44,9 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100.0), // Adjust height as needed
-        child: const CVMSAppBar(),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(100.0), // Adjust height as needed
+        child: CVMSAppBar(),
       ),  
       body: SingleChildScrollView( 
         padding: const EdgeInsets.all(20.0),
@@ -150,10 +152,10 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
                           _message = 'Inspector added';
                         });
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text('Inspector added'),
+                          const SnackBar(
+                            content: Text('Inspector added'),
                             backgroundColor: Colors.green,
-                            duration: const Duration(seconds: 2),
+                            duration: Duration(seconds: 2),
                           ),
                         );
                         _clearForm();

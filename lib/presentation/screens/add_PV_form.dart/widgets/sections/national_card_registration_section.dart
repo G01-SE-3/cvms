@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class NationalCardRegistrationSection extends StatefulWidget {
-  const NationalCardRegistrationSection({Key? key}) : super(key: key);
+  const NationalCardRegistrationSection({super.key});
 
   @override
   _NationalCardRegistrationSectionState createState() =>
@@ -28,11 +28,11 @@ class _NationalCardRegistrationSectionState
               : "Show National Card Registration Section"),
         ),
         if (_isSectionVisible)
-          Column(
+          const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 12),
-              const Text(
+              SizedBox(height: 12),
+              Text(
                 "Details of national card registration can be added here.",
               ),
             ],

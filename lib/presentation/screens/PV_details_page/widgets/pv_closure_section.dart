@@ -4,7 +4,7 @@ import '../constants/strings/closure_strings.dart';
 class PVClosureSection extends StatefulWidget {
   final Map<String, dynamic> pvData;
 
-  PVClosureSection({required this.pvData});
+  const PVClosureSection({super.key, required this.pvData});
 
   @override
   _PVClosureSectionState createState() => _PVClosureSectionState();
@@ -22,7 +22,7 @@ class _PVClosureSectionState extends State<PVClosureSection> {
       children: [
         Row(
           children: [
-            Text(
+            const Text(
               ClosureStrings.sectionTitle, // Use string from the constants
               style: TextStyle(
                 fontSize: 18,
@@ -30,7 +30,7 @@ class _PVClosureSectionState extends State<PVClosureSection> {
                 color: Colors.black87,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             if (hasClosure)
               TextButton(
                 onPressed: () {
@@ -47,7 +47,7 @@ class _PVClosureSectionState extends State<PVClosureSection> {
           ],
         ),
         hasClosure
-            ? (showClosure ? _buildClosureDetails() : SizedBox.shrink())
+            ? (showClosure ? _buildClosureDetails() : const SizedBox.shrink())
             : _buildDisabledClosureMessage(),
       ],
     );
@@ -85,11 +85,11 @@ class _PVClosureSectionState extends State<PVClosureSection> {
           Text(
             label,
             style:
-                TextStyle(fontWeight: FontWeight.w500, color: Colors.black87),
+                const TextStyle(fontWeight: FontWeight.w500, color: Colors.black87),
           ),
           Text(
             displayValue,
-            style: TextStyle(color: Colors.black54),
+            style: const TextStyle(color: Colors.black54),
           ),
         ],
       ),
@@ -97,8 +97,8 @@ class _PVClosureSectionState extends State<PVClosureSection> {
   }
 
   Widget _buildDisabledClosureMessage() {
-    return Padding(
-      padding: const EdgeInsets.all(8),
+    return const Padding(
+      padding: EdgeInsets.all(8),
       child: Text(
         ClosureStrings.noClosureMessage, // Use string from the constants
         style: TextStyle(color: Colors.black54, fontStyle: FontStyle.italic),

@@ -6,11 +6,11 @@ class PriceField extends StatelessWidget {
   final TextEditingController? controller;
 
   const PriceField({
-    Key? key,
+    super.key,
     required this.placeholder,
     this.isRequired = false,
     this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
