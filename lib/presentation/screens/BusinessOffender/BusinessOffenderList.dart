@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
-import 'IndividualOffender.dart';
-import 'widgets/createColumns.dart';
-class IndividualOffenderScreen extends State<IndividualOffender> {
-  // ignore: prefer_final_fields
-  List<bool> _checkedStates = List<bool>.filled(9, false);
+import '../BusinessOffender/creations/ColumnsCreation.dart';
+import 'package:cvms/presentation/screens/BusinessOffender/constants/strings/BusinessOffenderTitle.dart';
+import 'package:cvms/presentation/screens/BusinessOffender/constants/strings/ButtonsText.dart';
+import '../BusinessOffender/creations/RowsCreation.dart';
+class BusinessOffenderList extends StatefulWidget {
+  const BusinessOffenderList({super.key});
 
+  @override
+  BusinessOffenderListScreen createState() => BusinessOffenderListScreen();
+}
+
+class BusinessOffenderListScreen extends State<BusinessOffenderList> {
+List<bool> checkedStates = List<bool>.filled(9, false);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,14 +36,14 @@ class IndividualOffenderScreen extends State<IndividualOffender> {
           child: Scaffold(
             backgroundColor: Colors.transparent, 
             appBar: AppBar(
-              title: const Text('Individual offenders List'),
+              title:  Text(title),
               actions: [
                 ElevatedButton.icon(
                   onPressed: () {},
                   icon: const Icon(Icons.file_download, color: Colors.black),
-                  label: const Text(
-                    'Export',
-                    style: TextStyle(color: Colors.black),
+                  label:  Text(
+                    Export,
+                    style: const TextStyle(color: Colors.black),
                   ),
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.white,
@@ -47,8 +54,8 @@ class IndividualOffenderScreen extends State<IndividualOffender> {
                 ElevatedButton.icon(
                   onPressed: () {},
                   icon: const Icon(Icons.add, color: Colors.white),
-                  label: const Text(
-                    'Add new Offender',
+                  label: Text(
+                    AddnewOffender,
                     style: TextStyle(color: Colors.white),
                   ),
                   style: TextButton.styleFrom(
@@ -63,8 +70,8 @@ class IndividualOffenderScreen extends State<IndividualOffender> {
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: DataTable(
-                  columns: createColumns(),
-                  rows: _createRows(),
+                  columns: ColumnsCreation(),
+                  rows: RowsCreation(),
                 ),
               ),
             ),
@@ -72,40 +79,10 @@ class IndividualOffenderScreen extends State<IndividualOffender> {
         ),
       ),
     );
-  }
-List<DataRow> _createRows() {
-    return List<DataRow>.generate(
-      9,
-      (index) => DataRow(
-        cells: [
-          DataCell(
-            Checkbox(
-              value: _checkedStates[index],
-              onChanged: (value) {
-                setState(() {
-                  _checkedStates[index] = value ?? false;
-                });
-              },
-              activeColor: const Color(0xFF545837),
-            ),
-          ),
-          
-          const DataCell(Text('name')),
-          const DataCell(Text('Surname')),
-          const DataCell(Text('YYYY-MM-DD')),
-          const DataCell(Text('00000000000')),
-          const DataCell(Text('name, surname')),
-          const DataCell(Text('name')),
-          const DataCell(Text('Address')),
-          const DataCell(Text('Address')),
-          DataCell(
-            IconButton(
-              icon: const Icon(Icons.more_vert),
-              onPressed: () {},
-            ),
-          ),
-        ],
-      ),
-    );
+    
   }
 }
+
+
+
+

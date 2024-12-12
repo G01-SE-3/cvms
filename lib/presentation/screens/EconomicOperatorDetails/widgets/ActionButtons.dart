@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-Widget buildActionButtons() {
+import 'package:cvms/presentation/screens/EconomicOperatorDetails/constants/strings/ButtonsText.dart';
+Widget ActionButtons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         const SizedBox(width: 35),
-        const Text(
-          "Individual Economic Operator",
+        Text(
+          IndividualEconomicOperator,
           style: TextStyle(fontSize: 12),
         ),
         const Spacer(),
@@ -14,8 +15,8 @@ Widget buildActionButtons() {
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF545837),
           ),
-          child: const Text(
-            "Edit",
+          child:  Text(
+            Edit,
             style: TextStyle(color: Colors.white),
           ),
         ),
@@ -25,8 +26,8 @@ Widget buildActionButtons() {
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF545837),
           ),
-          child: const Text(
-            "Export",
+          child:  Text(
+            Export,
             style: TextStyle(color: Colors.white),
           ),
         ),
@@ -36,8 +37,8 @@ Widget buildActionButtons() {
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFFFCF4CF),
           ),
-          child: const Text(
-            "Report",
+          child:  Text(
+            Report,
             style: TextStyle(color: Colors.black),
           ),
         ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart'; 
-Widget buildInfoRow(String title, String value) {
+Widget InfoRow(String title, String value) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Column(

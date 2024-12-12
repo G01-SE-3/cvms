@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
-import 'BusinessOffender.dart';
-import 'widgets/createColumns.dart';
-class BusinessOffenderScreen extends State<BusinessOffender> {
+import '../IndividualOffender/creations/ColumnsCreation.dart';
+import 'package:cvms/presentation/screens/IndividualOffender/constants/strings/IndividualOffenderTitle.dart';
+import 'package:cvms/presentation/screens/IndividualOffender/constants/strings/ButtonsText.dart';
+import '../IndividualOffender/creations/RowsCreation.dart';
+class IndividualOffenderList extends StatefulWidget {
+  const IndividualOffenderList({super.key});
+
+  @override
+  IndividualOffenderListScreen createState() => IndividualOffenderListScreen();
+}
+
+class IndividualOffenderListScreen extends State<IndividualOffenderList> {
 List<bool> checkedStates = List<bool>.filled(9, false);
   @override
   Widget build(BuildContext context) {
@@ -27,14 +36,14 @@ List<bool> checkedStates = List<bool>.filled(9, false);
           child: Scaffold(
             backgroundColor: Colors.transparent, 
             appBar: AppBar(
-              title: const Text('Business offenders List'),
+              title:  Text(title),
               actions: [
                 ElevatedButton.icon(
                   onPressed: () {},
                   icon: const Icon(Icons.file_download, color: Colors.black),
-                  label: const Text(
-                    'Export',
-                    style: TextStyle(color: Colors.black),
+                  label:  Text(
+                    Export,
+                    style: const TextStyle(color: Colors.black),
                   ),
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.white,
@@ -45,8 +54,8 @@ List<bool> checkedStates = List<bool>.filled(9, false);
                 ElevatedButton.icon(
                   onPressed: () {},
                   icon: const Icon(Icons.add, color: Colors.white),
-                  label: const Text(
-                    'Add new Offender',
+                  label: Text(
+                    AddnewOffender,
                     style: TextStyle(color: Colors.white),
                   ),
                   style: TextButton.styleFrom(
@@ -61,8 +70,8 @@ List<bool> checkedStates = List<bool>.filled(9, false);
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: DataTable(
-                  columns: createColumns(),
-                  rows: createRows(),
+                  columns: ColumnsCreation(),
+                  rows: RowsCreation(),
                 ),
               ),
             ),
@@ -72,42 +81,8 @@ List<bool> checkedStates = List<bool>.filled(9, false);
     );
     
   }
-  
-List<DataRow> createRows() {
-    return List<DataRow>.generate(
-      9,
-      (index) => DataRow(
-        cells: [
-          DataCell(
-            Checkbox(
-              value: checkedStates[index],
-              onChanged: (value) {
-                setState(() {
-                  checkedStates[index] = value ?? false;
-                });
-              },
-              activeColor: const Color(0xFF545837),
-            ),
-          ),
-          const DataCell(Text('business name')),
-          const DataCell(Text('name')),
-          const DataCell(Text('Surname')),
-          const DataCell(Text('YYYY-MM-DD')),
-          const DataCell(Text('00000000000')),
-          const DataCell(Text('name, surname')),
-          const DataCell(Text('name')),
-          const DataCell(Text('Address')),
-          const DataCell(Text('Address')),
-          DataCell(
-            IconButton(
-              icon: const Icon(Icons.more_vert),
-              onPressed: () {},
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
+
+
 
 

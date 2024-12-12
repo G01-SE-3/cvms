@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
-import 'buildActionButtons.dart';
+import 'ActionButtons.dart';
 import 'PersonalInformationPage.dart';
-Widget buildTabContent() {
+import 'package:cvms/presentation/screens/EconomicOperatorDetails/constants/strings/AssociatedPVsText.dart';
+Widget TabContent() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 8),
-        const Padding(
-          padding: EdgeInsets.only(left: 45),
+         Padding(
+          padding:const EdgeInsets.only(left: 45),
           child: Text(
-            "Sample Name",
-            style: TextStyle(color: Colors.black, fontSize: 34),
+            SampleName,
+            style: const TextStyle(color: Colors.black, fontSize: 34),
           ),
         ),
         Container(
           padding: const EdgeInsets.all(8),
-          child: buildActionButtons(),
+          child: ActionButtons(),
         ),
         Container(
             padding: const EdgeInsets.all(8),
             child: Column(
-              //crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 PersonalInformationPage(),
-                const SizedBox(height: 16), // Adding space between widgets
-                const Text(
-                    "Associated PVs",
-                    style: TextStyle(
+                const SizedBox(height: 16), 
+                Text(
+                    AssociatedPVs,
+                    style: const TextStyle(
                         color: Color(0xFF73AC8A),
-                        fontSize: 16, // Optional: Adjust font size
+                        fontSize: 16, 
                       ),
                   ),
                 ],
