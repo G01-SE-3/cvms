@@ -2,6 +2,7 @@ import 'package:cvms/presentation/screens/business_offender_form/Business_offend
 import 'package:cvms/presentation/screens/business_offender_form/constants/strings/BusinessOffenderFormTitle.dart';
 import 'package:cvms/presentation/screens/business_offender_form/widgets/OffenderForm.dart';
 import 'package:flutter/material.dart';
+import 'package:cvms/presentation/controllers/business_offender/business_offender_controller.dart';
 
 class BusinessOffenderForm extends StatefulWidget {
   const BusinessOffenderForm({super.key});
@@ -11,6 +12,8 @@ class BusinessOffenderForm extends StatefulWidget {
 }
 
 class _BusinessOffenderFormState extends State<BusinessOffenderForm> {
+  late BusinessOffenderController controller;
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -24,7 +27,7 @@ class _BusinessOffenderFormState extends State<BusinessOffenderForm> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(title), 
-                    OffenderForm(context: context),
+                    OffenderForm(context: context,controller: controller),
                   ],
                 ),
               ),
@@ -37,20 +40,21 @@ class _BusinessOffenderFormState extends State<BusinessOffenderForm> {
 
   @override
   void dispose() {
-    businessNameController.dispose();
+    business_nameController.dispose();
     CommercialRegisterNumberController.dispose();
     CommercialRegisterDateController.dispose();
     EditDateController.dispose();
     CancellationDateController.dispose();
     nameController.dispose();
     surnameController.dispose();
-    dobController.dispose();
-    birthCertificateController.dispose();
-    motherNameController.dispose();
-    motherSurnameController.dispose();
-    fatherNameController.dispose();
+    date_of_birthController.dispose();
+    place_of_birthController.dispose();
+    birth_certificate_numberController.dispose();
+    mother_nameController.dispose();
+    mother_surnameController.dispose();
+    father_nameController.dispose();
     addressController.dispose();
-    businessAddressController.dispose();
+    business_addressController.dispose();
     super.dispose();
   }
 }

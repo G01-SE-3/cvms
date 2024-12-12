@@ -56,7 +56,7 @@ class _DateFilterPopupState extends State<DateFilterPopup> {
       } else {
         _endDate = pickedDate;
       }
-      controller.text = "${pickedDate!.year}-${pickedDate!.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
+      controller.text = "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
       _validateDates();
     });
     }
