@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart'; 
-import 'buildInfoRow.dart';
+import 'package:cvms/presentation/screens/EconomicOperatorDetails/constants/strings/EconomicOperatorpersonalInformation.dart';
+import 'InfoRow.dart';
 class PersonalInformationPage extends StatelessWidget {
   const PersonalInformationPage({super.key});
 
@@ -11,7 +12,6 @@ class PersonalInformationPage extends StatelessWidget {
           width: 500,
           child: Column(
             children: [
-              // Header
               Container(
                 decoration: const BoxDecoration(
                   color: Color(0xFFDDE5CD),
@@ -22,9 +22,9 @@ class PersonalInformationPage extends StatelessWidget {
                 ),
                 padding: const EdgeInsets.all(16),
                 width: 1300,
-                child: const Text(
-                  'Personal Information',
-                  style: TextStyle(
+                child: Text(
+                  PersonalInformation,
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18.0,
                   ),
@@ -42,21 +42,21 @@ class PersonalInformationPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    buildInfoRow('Name', 'sample name'),
+                    InfoRow(Name, samplename),
                     const Divider(color: Colors.grey,),
-                    buildInfoRow('Surname', 'sample surname'),
+                    InfoRow(Surname, samplesurname),
                     const Divider(color: Colors.grey,),
-                    buildInfoRow('Date and place of birth', '12/12/2000'),
+                    InfoRow(birthInfo, Dateandplaceofbirth),
                     const Divider(color: Colors.grey,),
-                    buildInfoRow('Birth certificate number', '4556856'),
+                    InfoRow(Birthcertificatenumber, Simple),
                     const Divider(color: Colors.grey,),
-                    buildInfoRow('Mother’s name and surname', 'sample name'),
+                    InfoRow(Mothernameandsurname, samplename),
                     const Divider(color: Colors.grey,),
-                    buildInfoRow('Father’s name', 'Sample name'),
+                    InfoRow(Fathername, samplename),
                     const Divider(color: Colors.grey,),
-                    buildInfoRow('Address', 'sample address'),
+                    InfoRow(Address, sampleaddress),
                     const Divider(color: Colors.grey,),
-                    buildInfoRow('Business address', 'sample address'),
+                    InfoRow(Businessaddress, sampleaddress),
                     const Divider(color: Colors.grey,),
                   ],
                 ),

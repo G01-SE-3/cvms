@@ -1,0 +1,11 @@
+String Name="Name";
+String Surname="Surname";
+String birthInfo="YYYY-MM-DD";
+String BirthCertificatenum="00000000000";
+String Address="Address";
+String DateandPlaceofbirth="Date & Place of birth";
+String BirthCertificatenumber="Birth Certificate num";
+String MothersnameandSurname="Mothers name & Surname";
+String FatherName="Father Name";
+String BusinessAddress="Business Address";
+String Menu="Menu";
