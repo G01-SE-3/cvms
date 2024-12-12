@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import '../constants/strings/custom_dropdown_field_strings.dart';
+
+
 
 class CustomDropdownField extends StatelessWidget {
   final String? selectedDepartment;
   final ValueChanged<String?> onChanged;
-  final String? Function(String?)? validator; 
+  final String? Function(String?)? validator;
 
   const CustomDropdownField({
-    super.key,
+    Key? key,
     required this.selectedDepartment,
     required this.onChanged,
-    this.validator,  
-  });
+    this.validator,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +22,30 @@ class CustomDropdownField extends StatelessWidget {
       child: DropdownButtonFormField<String>(
         value: selectedDepartment,
         items: const [
-          DropdownMenuItem(value: 'HR', child: Text('HR')),
-          DropdownMenuItem(value: 'Finance', child: Text('Finance')),
-          DropdownMenuItem(value: 'Operations', child: Text('Operations')),
-          DropdownMenuItem(value: 'IT', child: Text('IT')),
-          DropdownMenuItem(value: 'Sales', child: Text('Sales')),
+          DropdownMenuItem(
+            child: Text(CustomDropdownFieldStrings.hr),
+            value: CustomDropdownFieldStrings.hr,
+          ),
+          DropdownMenuItem(
+            child: Text(CustomDropdownFieldStrings.finance),
+            value: CustomDropdownFieldStrings.finance,
+          ),
+          DropdownMenuItem(
+            child: Text(CustomDropdownFieldStrings.operations),
+            value: CustomDropdownFieldStrings.operations,
+          ),
+          DropdownMenuItem(
+            child: Text(CustomDropdownFieldStrings.it),
+            value: CustomDropdownFieldStrings.it,
+          ),
+          DropdownMenuItem(
+            child: Text(CustomDropdownFieldStrings.sales),
+            value: CustomDropdownFieldStrings.sales,
+          ),
         ],
         onChanged: onChanged,
         decoration: InputDecoration(
-          labelText: "Department",
+          labelText: CustomDropdownFieldStrings.labelText,
           labelStyle: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
           filled: true,
           fillColor: const Color(0xFFDDE5CD),
@@ -36,7 +54,7 @@ class CustomDropdownField extends StatelessWidget {
             borderSide: BorderSide.none,
           ),
         ),
-        validator: validator, 
+        validator: validator,
       ),
     );
   }

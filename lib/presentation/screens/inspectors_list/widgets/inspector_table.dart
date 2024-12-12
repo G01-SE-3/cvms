@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../edit_inspector/edit_inspector.dart';
+import '../constants/strings/inspector_table_strings.dart'; 
+import '../../edit_inspector/edit_inspector_page.dart';
 import '../../inspector_details/inspector_details.dart';
-
 
 class DetailsPage extends StatelessWidget {
   final Map<String, dynamic> inspector;
@@ -12,7 +12,7 @@ class DetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Inspector Details'),
+        title: const Text(InspectorTableStrings.inspectorDetails),  // Use the string from AppStrings
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -103,12 +103,12 @@ class _InspectorTableState extends State<InspectorTable> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Delete Inspector ${inspector['Name']}'),
-        content: const Text('Are you sure you want to delete this inspector?'),
+        title: Text('${InspectorTableStrings.deleteInspector} ${inspector['Name']}'),  // Use the string from AppStrings
+        content: const Text(InspectorTableStrings.areYouSureDelete),  // Use the string from AppStrings
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: const Text(InspectorTableStrings.cancel),  // Use the string from AppStrings
           ),
           TextButton(
             onPressed: () {
@@ -117,7 +117,7 @@ class _InspectorTableState extends State<InspectorTable> {
               });
               Navigator.pop(context);
             },
-            child: const Text('Delete'),
+            child: const Text(InspectorTableStrings.delete),  // Use the string from AppStrings
           ),
         ],
       ),
@@ -146,7 +146,6 @@ class _InspectorTableState extends State<InspectorTable> {
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: DataTable(
-          // Updated column definition without the checkbox column
           columns: const [
             DataColumn(label: Text('Inspector Number')),
             DataColumn(label: Text('Name')),
@@ -154,13 +153,13 @@ class _InspectorTableState extends State<InspectorTable> {
             DataColumn(label: Text('Badge Number')),
             DataColumn(label: Text('Department')),
             DataColumn(label: Text('Contact')),
-            DataColumn(label: SizedBox(width: 50, child: Text(''))), // Three dots column
+            DataColumn(label: SizedBox(width: 50, child: Text(''))),
           ],
           rows: inspectors.map((inspector) {
             return DataRow(
               onSelectChanged: (selected) {
                 if (selected == true) {
-                  _navigateToDetailsPage(inspector); // Push InspectorDetailsPage
+                  _navigateToDetailsPage(inspector); 
                 }
               },
               cells: [
@@ -174,23 +173,23 @@ class _InspectorTableState extends State<InspectorTable> {
                   PopupMenuButton(
                     icon: const Icon(Icons.more_vert),
                     itemBuilder: (context) => [
-                      const PopupMenuItem(
+                      PopupMenuItem(
                         value: 'edit',
                         child: Row(
                           children: [
-                            Icon(Icons.edit, size: 18),
-                            SizedBox(width: 8),
-                            Text('Edit'),
+                            const Icon(Icons.edit, size: 18),
+                            const SizedBox(width: 8),
+                            Text(InspectorTableStrings.edit),  // Use the string from AppStrings
                           ],
                         ),
                       ),
-                      const PopupMenuItem(
+                      PopupMenuItem(
                         value: 'delete',
                         child: Row(
                           children: [
-                            Icon(Icons.delete, size: 18),
-                            SizedBox(width: 8),
-                            Text('Delete'),
+                            const Icon(Icons.delete, size: 18),
+                            const SizedBox(width: 8),
+                            Text(InspectorTableStrings.deleteOption),  // Use the string from AppStrings
                           ],
                         ),
                       ),

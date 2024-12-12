@@ -6,8 +6,6 @@ void main() {
 }
 
 class InspectorDetailsApp extends StatelessWidget {
-  const InspectorDetailsApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     // Sample data to pass to the InspectorDetailsPage
