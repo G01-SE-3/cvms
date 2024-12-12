@@ -11,14 +11,14 @@ class EditInspectorPage extends StatefulWidget {
   final String contactNumber;
 
   const EditInspectorPage({
-    Key? key,
+    super.key,
     required this.inspectorNumber,
     required this.inspectorName,
     required this.inspectorSurname,
     required this.inspectorBadgeNumber,
     required this.assignedDepartment,
     required this.contactNumber,
-  }) : super(key: key);
+  });
 
   @override
   _EditInspectorPageState createState() => _EditInspectorPageState();
@@ -75,9 +75,9 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100.0), // Adjust height as needed
-        child: const CVMSAppBar(),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(100.0), // Adjust height as needed
+        child: CVMSAppBar(),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),

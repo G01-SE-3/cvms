@@ -6,7 +6,7 @@ void main() {
 }
 
 class AddInspectorApp extends StatelessWidget {
-  const AddInspectorApp({Key? key}) : super(key: key);
+  const AddInspectorApp({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart'; 
 import 'buildInfoRow.dart';
 class PersonalInformationPage extends StatelessWidget {
+  const PersonalInformationPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Center(
-        child: Container(
+        child: SizedBox(
           width: 500,
           child: Column(
             children: [

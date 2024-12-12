@@ -6,11 +6,11 @@ class CustomDropdownField extends StatelessWidget {
   final String? Function(String?)? validator; 
 
   const CustomDropdownField({
-    Key? key,
+    super.key,
     required this.selectedDepartment,
     required this.onChanged,
     this.validator,  
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +19,11 @@ class CustomDropdownField extends StatelessWidget {
       child: DropdownButtonFormField<String>(
         value: selectedDepartment,
         items: const [
-          DropdownMenuItem(child: Text('HR'), value: 'HR'),
-          DropdownMenuItem(child: Text('Finance'), value: 'Finance'),
-          DropdownMenuItem(child: Text('Operations'), value: 'Operations'),
-          DropdownMenuItem(child: Text('IT'), value: 'IT'),
-          DropdownMenuItem(child: Text('Sales'), value: 'Sales'),
+          DropdownMenuItem(value: 'HR', child: Text('HR')),
+          DropdownMenuItem(value: 'Finance', child: Text('Finance')),
+          DropdownMenuItem(value: 'Operations', child: Text('Operations')),
+          DropdownMenuItem(value: 'IT', child: Text('IT')),
+          DropdownMenuItem(value: 'Sales', child: Text('Sales')),
         ],
         onChanged: onChanged,
         decoration: InputDecoration(

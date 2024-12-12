@@ -6,11 +6,11 @@ void main() {
 }
 
 class EditInspectorApp extends StatelessWidget {
-  const EditInspectorApp({Key? key}) : super(key: key);
+  const EditInspectorApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: EditInspectorPage(
         inspectorNumber: '12345', 

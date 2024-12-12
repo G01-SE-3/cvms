@@ -10,7 +10,7 @@ class InspectorDetailsPage extends StatelessWidget {
   final String contactNumber;
 
   // Constructor to receive data
-  InspectorDetailsPage({
+  const InspectorDetailsPage({super.key, 
     required this.inspectorName,
     required this.inspectorSurname,
     required this.inspectorDepartment,
@@ -20,9 +20,9 @@ class InspectorDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100.0), // Adjust height as needed
-        child: const CVMSAppBar(),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(100.0), // Adjust height as needed
+        child: CVMSAppBar(),
       ),  
       body: SingleChildScrollView(
         child: Padding(
@@ -61,16 +61,16 @@ class InspectorDetailsPage extends StatelessWidget {
                       children: [
                         Text(
                           inspectorName,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                             color: Colors.black, // Inspector name in black
                           ),
                         ),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         Text(
                           inspectorDepartment,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             color: Colors.grey,
                           ),

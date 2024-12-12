@@ -4,7 +4,7 @@ import '../constants/strings/pv_legal_proceedings_strings.dart'; // Import the s
 class PVLegalProceedingsSection extends StatefulWidget {
   final Map<String, dynamic> pvData;
 
-  PVLegalProceedingsSection({required this.pvData});
+  const PVLegalProceedingsSection({super.key, required this.pvData});
 
   @override
   _PVLegalProceedingsSectionState createState() =>
@@ -24,7 +24,7 @@ class _PVLegalProceedingsSectionState extends State<PVLegalProceedingsSection> {
       children: [
         Row(
           children: [
-            Text(
+            const Text(
               PVLegalProceedingsStrings.title, // Use title from constants
               style: TextStyle(
                 fontSize: 18,
@@ -32,7 +32,7 @@ class _PVLegalProceedingsSectionState extends State<PVLegalProceedingsSection> {
                 color: Colors.black87,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             if (hasLegalProceedings)
               TextButton(
                 onPressed: () {
@@ -49,7 +49,7 @@ class _PVLegalProceedingsSectionState extends State<PVLegalProceedingsSection> {
         hasLegalProceedings
             ? (showLegalProceedings
                 ? _buildLegalProceedingsDetails(legalProceedings)
-                : SizedBox.shrink())
+                : const SizedBox.shrink())
             : _buildNoLegalProceedingsMessage(),
       ],
     );
@@ -91,16 +91,16 @@ class _PVLegalProceedingsSectionState extends State<PVLegalProceedingsSection> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(color: Colors.black54)),
-          Text(value, style: TextStyle(color: Colors.black)),
+          Text(label, style: const TextStyle(color: Colors.black54)),
+          Text(value, style: const TextStyle(color: Colors.black)),
         ],
       ),
     );
   }
 
   Widget _buildNoLegalProceedingsMessage() {
-    return Padding(
-      padding: const EdgeInsets.all(8),
+    return const Padding(
+      padding: EdgeInsets.all(8),
       child: Text(
         PVLegalProceedingsStrings
             .noProceedingsMessage, // Use message from constants

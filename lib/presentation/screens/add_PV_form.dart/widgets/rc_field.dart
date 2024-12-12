@@ -5,10 +5,10 @@ class RcField extends StatefulWidget {
   final Function(bool isRcExisting, String? error) onRcChanged;
 
   const RcField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.onRcChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<RcField> createState() => _RcFieldState();

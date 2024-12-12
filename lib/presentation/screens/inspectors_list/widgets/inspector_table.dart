@@ -174,20 +174,20 @@ class _InspectorTableState extends State<InspectorTable> {
                   PopupMenuButton(
                     icon: const Icon(Icons.more_vert),
                     itemBuilder: (context) => [
-                      PopupMenuItem(
+                      const PopupMenuItem(
                         value: 'edit',
                         child: Row(
-                          children: const [
+                          children: [
                             Icon(Icons.edit, size: 18),
                             SizedBox(width: 8),
                             Text('Edit'),
                           ],
                         ),
                       ),
-                      PopupMenuItem(
+                      const PopupMenuItem(
                         value: 'delete',
                         child: Row(
-                          children: const [
+                          children: [
                             Icon(Icons.delete, size: 18),
                             SizedBox(width: 8),
                             Text('Delete'),

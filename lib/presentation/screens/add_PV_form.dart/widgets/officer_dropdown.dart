@@ -7,12 +7,12 @@ class OfficerDropdownField extends StatelessWidget {
   final ValueChanged<String?> onChanged;
 
   const OfficerDropdownField({
-    Key? key,
+    super.key,
     required this.title,
     required this.selectedOfficer,
     required this.officerNames,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

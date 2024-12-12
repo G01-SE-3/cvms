@@ -4,7 +4,7 @@ import '../constants/strings/pv_national_card_strings.dart'; // Import the strin
 class PVNationalCardSection extends StatefulWidget {
   final Map<String, dynamic> pvData;
 
-  PVNationalCardSection({required this.pvData});
+  const PVNationalCardSection({super.key, required this.pvData});
 
   @override
   _PVNationalCardSectionState createState() => _PVNationalCardSectionState();
@@ -23,7 +23,7 @@ class _PVNationalCardSectionState extends State<PVNationalCardSection> {
       children: [
         Row(
           children: [
-            Text(
+            const Text(
               PVNationalCardStrings.title, // Use title from constants
               style: TextStyle(
                 fontSize: 18,
@@ -31,7 +31,7 @@ class _PVNationalCardSectionState extends State<PVNationalCardSection> {
                 color: Colors.black87,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             if (hasNationalCard)
               TextButton(
                 onPressed: () {
@@ -60,8 +60,8 @@ class _PVNationalCardSectionState extends State<PVNationalCardSection> {
             ),
           )
         else if (!hasNationalCard)
-          Padding(
-            padding: const EdgeInsets.all(8),
+          const Padding(
+            padding: EdgeInsets.all(8),
             child: Text(
               PVNationalCardStrings
                   .noNationalCardMessage, // Use message from constants
@@ -93,8 +93,8 @@ class _PVNationalCardSectionState extends State<PVNationalCardSection> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(color: Colors.black54)),
-          Text(value ?? "N/A", style: TextStyle(color: Colors.black)),
+          Text(label, style: const TextStyle(color: Colors.black54)),
+          Text(value ?? "N/A", style: const TextStyle(color: Colors.black)),
         ],
       ),
     );

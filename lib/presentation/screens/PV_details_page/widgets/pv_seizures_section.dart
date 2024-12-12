@@ -4,7 +4,7 @@ import '../constants/strings/pv_seizures_strings.dart'; // Import the strings fi
 class PVSeizuresSection extends StatefulWidget {
   final Map<String, dynamic> pvData;
 
-  PVSeizuresSection({required this.pvData});
+  const PVSeizuresSection({super.key, required this.pvData});
 
   @override
   _PVSeizuresSectionState createState() => _PVSeizuresSectionState();
@@ -21,7 +21,7 @@ class _PVSeizuresSectionState extends State<PVSeizuresSection> {
       children: [
         Row(
           children: [
-            Text(
+            const Text(
               PVSeizuresStrings.title, // Use the title from constants
               style: TextStyle(
                 fontSize: 18,
@@ -29,7 +29,7 @@ class _PVSeizuresSectionState extends State<PVSeizuresSection> {
                 color: Colors.black87,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             if (hasSeizures)
               TextButton(
                 onPressed: () {
@@ -46,7 +46,7 @@ class _PVSeizuresSectionState extends State<PVSeizuresSection> {
           ],
         ),
         hasSeizures
-            ? (showSeizures ? _buildSeizuresTable() : SizedBox.shrink())
+            ? (showSeizures ? _buildSeizuresTable() : const SizedBox.shrink())
             : _buildDisabledSeizuresMessage(),
       ],
     );
@@ -66,7 +66,7 @@ class _PVSeizuresSectionState extends State<PVSeizuresSection> {
               PVSeizuresStrings.amount,
               PVSeizuresStrings.quantity,
             ),
-            Divider(),
+            const Divider(),
             for (var seizure in seizures)
               _buildSeizureRow(
                 seizure['number']?.toString() ?? "N/A",
@@ -85,17 +85,17 @@ class _PVSeizuresSectionState extends State<PVSeizuresSection> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(number, style: TextStyle(fontWeight: FontWeight.w500)),
-          Text(amount, style: TextStyle(color: Colors.black54)),
-          Text(quantity, style: TextStyle(color: Colors.black54)),
+          Text(number, style: const TextStyle(fontWeight: FontWeight.w500)),
+          Text(amount, style: const TextStyle(color: Colors.black54)),
+          Text(quantity, style: const TextStyle(color: Colors.black54)),
         ],
       ),
     );
   }
 
   Widget _buildDisabledSeizuresMessage() {
-    return Padding(
-      padding: const EdgeInsets.all(8),
+    return const Padding(
+      padding: EdgeInsets.all(8),
       child: Text(
         PVSeizuresStrings.noSeizuresMessage, // Use message from constants
         style: TextStyle(color: Colors.black54, fontStyle: FontStyle.italic),

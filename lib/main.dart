@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import '/presentation/screens/login/LoginPage.dart';
+import '/presentation/screens/sign_up/SignUpPage.dart';
+
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   // Constructor now includes the named 'key' parameter
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,27 +18,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(), // Passing 'key' to MyHomePage widget
+      home: const SignUpPage(), // Passing 'key' to MyHomePage widget
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  // Constructor now includes the named 'key' parameter
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Hello to CVMS'),
-      ),
-      body: const Center(
-        child: Text(
-          'Hello to CVMS',
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
-    );
-  }
-}

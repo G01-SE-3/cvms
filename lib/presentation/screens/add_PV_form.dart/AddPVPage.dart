@@ -7,6 +7,8 @@ import 'widgets/officer_dropdown.dart';
 import 'widgets/expandable_section.dart';
 
 class AddPVPage extends StatefulWidget {
+  const AddPVPage({super.key});
+
   @override
   _AddPVPageState createState() => _AddPVPageState();
 }
@@ -49,7 +51,7 @@ class _AddPVPageState extends State<AddPVPage> {
         child: Center(
           child: Container(
             width: 1000,
-            constraints: BoxConstraints(maxWidth: 1000),
+            constraints: const BoxConstraints(maxWidth: 1000),
             child: Form(
               key: _formKey,
               child: SingleChildScrollView(
@@ -86,7 +88,7 @@ class _AddPVPageState extends State<AddPVPage> {
                       ),
                     ],
                     const SizedBox(height: 12),
-                    DateField(
+                    const DateField(
                       placeholder: "Select PV Date",
                       isRequired: true,
                     ),
@@ -159,7 +161,7 @@ class _AddPVPageState extends State<AddPVPage> {
                       controller: _subsidizedGoodController,
                     ),
                     const SizedBox(height: 16),
-                    ExpandableSection(
+                    const ExpandableSection(
                       title: "Financial Penalty",
                       fields: [
                         CustomTextField(
@@ -178,7 +180,7 @@ class _AddPVPageState extends State<AddPVPage> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    ExpandableSection(
+                    const ExpandableSection(
                       title: "Seizure",
                       fields: [
                         CustomTextField(
@@ -195,7 +197,7 @@ class _AddPVPageState extends State<AddPVPage> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    ExpandableSection(
+                    const ExpandableSection(
                       title: "Closure",
                       fields: [
                         CustomTextField(
@@ -210,7 +212,7 @@ class _AddPVPageState extends State<AddPVPage> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    ExpandableSection(
+                    const ExpandableSection(
                       title: "Legal Proceedings",
                       fields: [
                         CustomTextField(
@@ -228,7 +230,7 @@ class _AddPVPageState extends State<AddPVPage> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    ExpandableSection(
+                    const ExpandableSection(
                       title: "National Card Registration",
                       fields: [
                         CustomTextField(

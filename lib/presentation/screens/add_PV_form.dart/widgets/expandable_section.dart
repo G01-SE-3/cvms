@@ -5,10 +5,10 @@ class ExpandableSection extends StatefulWidget {
   final List<Widget> fields;
 
   const ExpandableSection({
-    Key? key,
+    super.key,
     required this.title,
     required this.fields,
-  }) : super(key: key);
+  });
 
   @override
   _ExpandableSectionState createState() => _ExpandableSectionState();
@@ -68,8 +68,8 @@ class _ExpandableSectionState extends State<ExpandableSection> {
                     children: [
                       Text(
                         _isExpanded ? "Hide Details" : "Show Details",
-                        style: TextStyle(
-                          color: const Color(0xFF545837),
+                        style: const TextStyle(
+                          color: Color(0xFF545837),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -89,8 +89,8 @@ class _ExpandableSectionState extends State<ExpandableSection> {
                       .expand((field) => [
                             field,
                             if (widget.fields.last != field) ...[
-                              Divider(
-                                color: const Color(0xFFDDE5CD),
+                              const Divider(
+                                color: Color(0xFFDDE5CD),
                                 thickness: 1,
                               ),
                             ],

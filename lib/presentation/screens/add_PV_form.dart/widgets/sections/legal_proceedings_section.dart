@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LegalProceedingsSection extends StatefulWidget {
-  const LegalProceedingsSection({Key? key}) : super(key: key);
+  const LegalProceedingsSection({super.key});
 
   @override
   _LegalProceedingsSectionState createState() =>
@@ -27,11 +27,11 @@ class _LegalProceedingsSectionState extends State<LegalProceedingsSection> {
               : "Show Legal Proceedings Section"),
         ),
         if (_isSectionVisible)
-          Column(
+          const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 12),
-              const Text(
+              SizedBox(height: 12),
+              Text(
                 "Details of legal proceedings are added here.",
               ),
             ],

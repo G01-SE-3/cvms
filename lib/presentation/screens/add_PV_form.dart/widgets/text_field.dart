@@ -7,12 +7,12 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
 
   const CustomTextField({
-    Key? key,
+    super.key,
     required this.placeholder,
     this.isNumeric = false,
     this.isRequired = false,
     this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
