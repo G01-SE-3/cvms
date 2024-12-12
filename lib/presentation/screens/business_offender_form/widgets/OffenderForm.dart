@@ -3,7 +3,7 @@ import 'package:cvms/presentation/screens/business_offender_form/widgets/TextFie
 import 'package:cvms/presentation/screens/business_offender_form/Business_offender_informations/BusinessOffenderInformation.dart';
 import 'package:cvms/presentation/screens/business_offender_form/constants/strings/businessoffenderinformation.dart';
 import 'package:cvms/presentation/screens/business_offender_form/constants/strings/messages.dart';
-import 'package:cvms/presentation/screens/business_offender_form/constants/strings/buttons.dart';
+import 'package:cvms/presentation/screens/business_offender_form/constants/strings/buttonsText.dart';
 
 Widget OffenderForm({
   required BuildContext context,
