@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'widgets/custom_text_field.dart';
-import 'widgets/custom_dropdown_field.dart';
+import 'widgets/custom_dropdown_field_for_departments.dart';
 import 'package:cvms/presentation/screens/Appbars/widgets/general_appbar.dart';
+import 'constants/strings/edit_inspector_page_strings.dart';
+import 'widgets/validation_util.dart';
+
 class EditInspectorPage extends StatefulWidget {
   final String inspectorNumber;
   final String inspectorName;
@@ -39,10 +42,9 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
   void initState() {
     super.initState();
 
-    const validDepartments = ['HR', 'Finance', 'Operations', 'IT', 'Sales'];
-    _selectedDepartment = validDepartments.contains(widget.assignedDepartment)
+    _selectedDepartment = widget.assignedDepartment.isNotEmpty
         ? widget.assignedDepartment
-        : 'HR'; // Default to 'HR' if invalid or empty
+        : EditInspectorPageStrings.inspectorDefaultDepartment;
 
     _inspectorNumberController = TextEditingController(text: widget.inspectorNumber);
     _inspectorNameController = TextEditingController(text: widget.inspectorName);
@@ -59,10 +61,9 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
       _inspectorBadgeNumberController.text = widget.inspectorBadgeNumber;
       _contactNumberController.text = widget.contactNumber;
 
-      const validDepartments = ['HR', 'Finance', 'Operations', 'IT', 'Sales'];
-      _selectedDepartment = validDepartments.contains(widget.assignedDepartment)
+      _selectedDepartment = widget.assignedDepartment.isNotEmpty
           ? widget.assignedDepartment
-          : 'HR';
+          : EditInspectorPageStrings.inspectorDefaultDepartment;
     });
   }
 
@@ -76,7 +77,7 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100.0), // Adjust height as needed
+        preferredSize: const Size.fromHeight(100.0),
         child: const CVMSAppBar(),
       ),
       body: SingleChildScrollView(
@@ -98,9 +99,9 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
                     },
                   ),
                   const SizedBox(width: 10),
-                  const Text(
-                    "Edit Inspector",
-                    style: TextStyle(
+                  Text(
+                    EditInspectorPageStrings.title,
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF306238),
@@ -116,25 +117,25 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
                   children: [
                     CustomTextField(
                       controller: _inspectorNumberController,
-                      hint: "Inspector number",
+                      hint: EditInspectorPageStrings.inspectorNumberHint,
                       inputType: TextInputType.number,
                     ),
                     const SizedBox(height: 20),
                     CustomTextField(
                       controller: _inspectorNameController,
-                      hint: "Inspector Name",
+                      hint: EditInspectorPageStrings.inspectorNameHint,
                       inputType: TextInputType.text,
                     ),
                     const SizedBox(height: 20),
                     CustomTextField(
                       controller: _inspectorSurnameController,
-                      hint: "Inspector Surname",
+                      hint: EditInspectorPageStrings.inspectorSurnameHint,
                       inputType: TextInputType.text,
                     ),
                     const SizedBox(height: 20),
                     CustomTextField(
                       controller: _inspectorBadgeNumberController,
-                      hint: "Inspector Badge Number",
+                      hint: EditInspectorPageStrings.inspectorBadgeNumberHint,
                       inputType: TextInputType.number,
                     ),
                     const SizedBox(height: 20),
@@ -149,8 +150,11 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
                     const SizedBox(height: 20),
                     CustomTextField(
                       controller: _contactNumberController,
-                      hint: "Contact Number",
+                      hint: EditInspectorPageStrings.contactNumberHint,
                       inputType: TextInputType.phone,
+                      validator: (value) {
+                        return ValidationUtil.validateField(value, fieldType: 'phone');
+                      },
                     ),
                     const SizedBox(height: 40),
                   ],
@@ -167,13 +171,13 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
                       side: const BorderSide(color: Color(0xFF306238)),
                       padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
                     ),
-                    child: const Text('Cancel'),
+                    child: Text(EditInspectorPageStrings.cancelButton),
                   ),
                   const SizedBox(width: 40),
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        _showSnackbar('Inspector edited');
+                        _showSnackbar(EditInspectorPageStrings.inspectorAddedMessage);
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -181,7 +185,7 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
                     ),
-                    child: const Text('Edit'),
+                    child: Text(EditInspectorPageStrings.saveButton),
                   ),
                 ],
               ),

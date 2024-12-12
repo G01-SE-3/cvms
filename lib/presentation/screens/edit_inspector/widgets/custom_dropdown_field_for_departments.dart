@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../constants/strings/custom_dropdown_field_for_departments_strings.dart';
 class CustomDropdownFieldForDepartments extends StatelessWidget {
   final String selectedDepartment;
   final ValueChanged<String?> onChanged;
@@ -14,17 +14,17 @@ class CustomDropdownFieldForDepartments extends StatelessWidget {
     return SizedBox(
       width: 500,
       child: DropdownButtonFormField<String>(
-        value: selectedDepartment, 
+        value: selectedDepartment,
         items: const [
-          DropdownMenuItem(child: Text('HR'), value: 'HR'),
-          DropdownMenuItem(child: Text('Finance'), value: 'Finance'),
-          DropdownMenuItem(child: Text('Operations'), value: 'Operations'),
-          DropdownMenuItem(child: Text('IT'), value: 'IT'),
-          DropdownMenuItem(child: Text('Sales'), value: 'Sales'),
+          DropdownMenuItem(child: Text(CustomDropdownFieldForDepartmentsStrings.hr), value: 'HR'),
+          DropdownMenuItem(child: Text(CustomDropdownFieldForDepartmentsStrings.finance), value: 'Finance'),
+          DropdownMenuItem(child: Text(CustomDropdownFieldForDepartmentsStrings.operations), value: 'Operations'),
+          DropdownMenuItem(child: Text(CustomDropdownFieldForDepartmentsStrings.it), value: 'IT'),
+          DropdownMenuItem(child: Text(CustomDropdownFieldForDepartmentsStrings.sales), value: 'Sales'),
         ],
-        onChanged: onChanged, 
+        onChanged: onChanged,
         decoration: InputDecoration(
-          labelText: 'Assigned Department',
+          labelText: CustomDropdownFieldForDepartmentsStrings.labelText,
           labelStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
           filled: true,
           fillColor: Color(0xFFDDE5CD),
@@ -43,12 +43,6 @@ class CustomDropdownFieldForDepartments extends StatelessWidget {
           contentPadding: const EdgeInsets.only(left: 20, top: 12, bottom: 12),
           floatingLabelBehavior: FloatingLabelBehavior.auto,
         ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please select a department';
-          }
-          return null;
-        },
       ),
     );
   }

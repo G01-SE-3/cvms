@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import '../constants/strings/export_inspector_button_strings.dart';  // Import the AppStrings class
 
-class ExportButton extends StatelessWidget {
-  const ExportButton({super.key});
+class ExportInspectorButtonWidget extends StatelessWidget {
+  const ExportInspectorButtonWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,15 +16,14 @@ class ExportButton extends StatelessWidget {
         ),
       ),
       onPressed: () {
- 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Export feature coming soon!')),
+          SnackBar(content: Text(ExportInspectorButtonStrings.exportFeatureComingSoon)),  // Use the string from AppStrings
         );
       },
       icon: const Icon(Icons.download, color: Colors.black),
-      label: const Text(
-        'Export',
-        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+      label: Text(
+        ExportInspectorButtonStrings.export,  // Use the string from AppStrings
+        style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
       ),
     );
   }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'widgets/inspector_table.dart';
-import 'widgets/add_inspector_button.dart';
-import 'widgets/export_button.dart';
+import 'widgets/add_inspector_button_widget.dart';
+import 'widgets/export_inspector_button_widget.dart';
 import 'package:cvms/presentation/screens/Appbars/widgets/general_appbar.dart';
+import 'constants/strings/inspectors_list_strings.dart';
 
 class InspectorsListPage extends StatelessWidget {
   const InspectorsListPage({super.key});
@@ -22,15 +23,15 @@ class InspectorsListPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Inspectors List',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                Text(
+                  InspectorsListStrings.inspectorsListTitle,
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 Row(
                   children: [
-                    const ExportButton(),
+                    const ExportInspectorButtonWidget(),
                     const SizedBox(width: 10),
-                    const AddInspectorButton(),
+                    const AddInspectorButtonWidget(),
                   ],
                 ),
               ],
@@ -38,7 +39,7 @@ class InspectorsListPage extends StatelessWidget {
             const SizedBox(height: 16),
             Expanded(
               child: SingleChildScrollView(
-                child: InspectorTable(), // InspectorTable now scrolls vertically
+                child: const InspectorTable(), 
               ),
             ),
           ],
