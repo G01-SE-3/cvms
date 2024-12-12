@@ -1,25 +1,31 @@
 import 'package:flutter/material.dart';
-import '/presentation/screens/login/LoginPage.dart';
-import '/presentation/screens/sign_up/SignUpPage.dart';
+import 'core/utils/get_db.dart';
 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
-  runApp(const MyApp());
+  try {
+    final dbConnection = await getDatabaseConnection();
+    print("Database connected successfully!");
+  } catch (e) {
+    print("Database connection failed: $e");
+  }
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // Constructor now includes the named 'key' parameter
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Hello to CVMS',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Database Connection Test'),
+        ),
+        body: Center(
+          child: Text('Check your console for the DB connection status!'),
+        ),
       ),
-      home: const SignUpPage(), // Passing 'key' to MyHomePage widget
     );
   }
 }
-
