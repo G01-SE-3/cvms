@@ -1,0 +1,14 @@
+String PersonalInformation="Personal Information";
+String Name="Name";
+String samplename ="samplename";
+String Surname="Surname";
+String samplesurname="samplesurname";
+String birthInfo="Date and place of birth";
+String Dateandplaceofbirth="12/12/2000";
+String Birthcertificatenumber="Birthcertificatenumber";
+String Simple="4556856";
+String Mothernameandsurname="Mothernameandsurname";
+String Fathername="Fathername";
+String Address="Address";
+String sampleaddress="sampleaddress";
+String Businessaddress="Businessaddress";
