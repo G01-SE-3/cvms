@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:cvms/presentation/screens/navigation bars/constants/Strings/search_bar.dart';
-import 'package:cvms/presentation/screens/navigation bars/widgets/form.dart';
-import 'package:cvms/presentation/screens/navigation bars/widgets/DropdownButton.dart'; 
-import 'package:cvms/presentation/screens/navigation bars/forms/date_form.dart';
-import 'package:cvms/presentation/screens/navigation bars/forms/latest_form.dart';
+import 'package:cvms/presentation/screens/navigation_bars/constants/Strings/search_bar.dart';
+import 'package:cvms/presentation/screens/navigation_bars/widgets/form.dart';
+import 'package:cvms/presentation/screens/navigation_bars/widgets/DropdownButton.dart';
+import 'package:cvms/presentation/screens/navigation_bars/forms/date_form.dart';
+import 'package:cvms/presentation/screens/navigation_bars/forms/latest_form.dart';
 
 class CustomSearchBar extends StatefulWidget {
   const CustomSearchBar({super.key});
@@ -34,23 +34,20 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                 controller: searchController,
                 hintText: "Search",
                 icon: Icons.search,
-              
-                color:const Color(0xFFBDC9AA),
+                color: const Color(0xFFBDC9AA),
                 bordercolor: Colors.grey,
-                
                 isReadOnly: false,
                 onIconPressed: () {},
               ),
             ),
           ),
 
-          const SizedBox(width: 8.0), 
+          const SizedBox(width: 8.0),
 
-        
           buildDropdownButton(
             selectedValue: selectedType,
             hint: "Type",
-            items: typeDropdownItems, 
+            items: typeDropdownItems,
             onChanged: (value) {
               setState(() {
                 selectedType = value;
@@ -58,31 +55,28 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
             },
           ),
 
-          const SizedBox(width: 8.0), 
+          const SizedBox(width: 8.0),
 
           buildDropdownButton(
             selectedValue: null,
             hint: "Filter by",
-            items: filterDropdownItems, 
+            items: filterDropdownItems,
             onChanged: (value) {
-              if(value == 'Latest')
-              {
+              if (value == 'Latest') {
                 showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return const LatestPopupForm();
-              },
-            );
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const LatestPopupForm();
+                  },
+                );
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const DateFilterPopup();
+                  },
+                );
               }
-              else{
-                   showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return const DateFilterPopup();
-              },
-            );
-              }
-              
             },
           ),
         ],

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:provider/provider.dart';
 import 'package:cvms/presentation/screens/PVs_list_page/widgets/table_header.dart';
 import 'package:cvms/presentation/screens/PVs_list_page/widgets/pv_data_table.dart';
-import 'package:cvms/presentation/screens/PVs_list_page/constants/strings/pvs_list_page_strings.dart';
+import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
 
 class PVListPage extends StatefulWidget {
   const PVListPage({super.key});
@@ -13,38 +12,14 @@ class PVListPage extends StatefulWidget {
 }
 
 class _PVListPageState extends State<PVListPage> {
-  List<Map<String, dynamic>> tableData = [];
-
   @override
   void initState() {
     super.initState();
 
-    loadData();
-  }
-
-  Future<void> loadData() async {
-    try {
-      String jsonString = await rootBundle.loadString(jsonFilePath);
-      final List<dynamic> jsonData = json.decode(jsonString);
-
-      setState(() {
-        tableData = jsonData.map((item) {
-          return {
-            'PVid': item['PVid'],
-            'PVnumber': item['PVnumber'],
-            'offendercr': item['offendercr'],
-            'offendername': item['offendername'],
-            'pvissuedate': item['pvissuedate'],
-            'violationtype': item['violationtype'],
-            'inspectingofficers': item['inspectingofficers'],
-          };
-        }).toList();
-      });
-
-      print(tableData);
-    } catch (e) {
-      print('$loadDataError$e');
-    }
+    // Load all PVs when the page initializes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<PVController>(context, listen: false).loadAllPVs();
+    });
   }
 
   @override
@@ -53,15 +28,45 @@ class _PVListPageState extends State<PVListPage> {
       body: Padding(
         padding: const EdgeInsets.only(top: 30.0, left: 16.0, right: 16.0),
         child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              HeaderRow(),
-              const SizedBox(height: 16),
-              Expanded(
-                child: PVDataTable(tableData: tableData),
-              ),
-            ],
+          child: Consumer<PVController>(
+            builder: (context, pvController, child) {
+              if (pvController.isLoading) {
+                return const CircularProgressIndicator(); // Show a loading indicator
+              } else if (pvController.errorMessage != null) {
+                return Text(
+                    pvController.errorMessage!); // Display error message
+              } else {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    HeaderRow(),
+                    const SizedBox(height: 16),
+                    Expanded(
+                      child: PVDataTable(
+                        tableData: pvController.allPVs.map((pv) {
+                          return {
+                            'PVid': pv.pvId, // Ensure pvId is a String
+                            'PVnumber': pv.pvNumber
+                                .toString(), // Convert pvNumber to String
+                            'offendercr':
+                                pv.offender?.name ?? '', // Convert to String
+                            'offendername':
+                                pv.offender?.name ?? '', // Convert to String
+                            'pvissuedate': pv.issueDate
+                                .toIso8601String(), // Ensure DateTime is converted to String
+                            'violationtype':
+                                pv.violationType, // Already a String
+                            'inspectingofficers': pv.inspectors
+                                .map((i) => i.inspectorName)
+                                .join(", "), // Convert to String
+                          };
+                        }).toList(),
+                      ),
+                    ),
+                  ],
+                );
+              }
+            },
           ),
         ),
       ),
