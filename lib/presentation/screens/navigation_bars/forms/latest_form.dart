@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:cvms/presentation/screens/navigation bars/widgets/form.dart';
-import 'package:cvms/presentation/screens/navigation bars/constants/validation.dart';  
-import 'package:cvms/presentation/screens/navigation bars/widgets/title.dart'; 
-import 'package:cvms/presentation/screens/navigation bars/widgets/buttons.dart';
+import 'package:cvms/presentation/screens/navigation_bars/widgets/form.dart';
+import 'package:cvms/presentation/screens/navigation_bars/constants/validation.dart';
+import 'package:cvms/presentation/screens/navigation_bars/widgets/title.dart';
+import 'package:cvms/presentation/screens/navigation_bars/widgets/buttons.dart';
 
 class LatestPopupForm extends StatefulWidget {
   const LatestPopupForm({super.key});
@@ -41,7 +41,9 @@ class _LatestPopupFormState extends State<LatestPopupForm> {
                 hintText: "Enter a number",
                 icon: null,
                 color: Colors.white,
-                bordercolor: _errorText != null ? Colors.red : Colors.grey, // Set border color based on error
+                bordercolor: _errorText != null
+                    ? Colors.red
+                    : Colors.grey, // Set border color based on error
                 isReadOnly: false,
                 onIconPressed: null,
               ),

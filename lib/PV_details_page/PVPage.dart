@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:cvms/presentation/screens/PV_details_page/widgets/pv_financial_penalty_section.dart';
-import 'package:cvms/presentation/screens/PV_details_page/widgets/pv_national_card_registration.dart';
-import 'package:cvms/presentation/screens/PV_details_page/widgets/pv_legal_preceedings_section.dart';
-import 'package:cvms/presentation/screens/PV_details_page/widgets/pv_header.dart';
-import 'package:cvms/presentation/screens/PV_details_page/widgets/pv_details_section.dart';
-import 'package:cvms/presentation/screens/PV_details_page/widgets/pv_seizures_section.dart';
-import 'package:cvms/presentation/screens/PV_details_page/widgets/pv_closure_section.dart';
-import 'package:cvms/presentation/screens/PV_details_page/constants/strings/pv_page_strings.dart';
+import 'package:cvms/PV_details_page/widgets/pv_financial_penalty_section.dart';
+import 'package:cvms/PV_details_page/widgets/pv_national_card_registration.dart';
+import 'package:cvms/PV_details_page/widgets/pv_legal_preceedings_section.dart';
+import 'package:cvms/PV_details_page/widgets/pv_header.dart';
+import 'package:cvms/PV_details_page/widgets/pv_details_section.dart';
+import 'package:cvms/PV_details_page/widgets/pv_seizures_section.dart';
+import 'package:cvms/PV_details_page/widgets/pv_closure_section.dart';
+import 'package:cvms/PV_details_page/constants/strings/pv_page_strings.dart';
 
 class PVPage extends StatefulWidget {
   final String pvnumber;
