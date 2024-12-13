@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core/utils/get_db.dart';
+import 'presentation/screens/inspectors_list/inspectors_list.dart'; // Adjust the path as needed.
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,14 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Database Connection Test'),
-        ),
-        body: Center(
-          child: Text('Check your console for the DB connection status!'),
-        ),
-      ),
+      home: InspectorsListPage(),
     );
   }
 }

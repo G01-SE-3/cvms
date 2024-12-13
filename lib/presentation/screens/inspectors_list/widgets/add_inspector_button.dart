@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../add_inspector/add_inspector.dart';
+import '../../add_inspector/add_inspector_page.dart';
 
 class AddInspectorButton extends StatelessWidget {
   const AddInspectorButton({super.key});
