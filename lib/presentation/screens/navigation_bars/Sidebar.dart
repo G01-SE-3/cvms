@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cvms/presentation/screens/navigation bars/constants/Strings/Sidebar.dart';
+import 'package:cvms/presentation/screens/navigation_bars/constants/Strings/Sidebar.dart';
 
 class Sidebar extends StatelessWidget {
   const Sidebar({super.key});
@@ -16,16 +16,12 @@ class Sidebar extends StatelessWidget {
             // Top menu items
             Expanded(
               child: Column(
-                children: 
-                 sidebarItemsTop(context),
-                
+                children: sidebarItemsTop(context),
               ),
             ),
             // Bottom menu items
             Column(
-              children: 
-                sidebarItemsBottom(context),
-              
+              children: sidebarItemsBottom(context),
             ),
           ],
         ),
@@ -33,12 +29,3 @@ class Sidebar extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-

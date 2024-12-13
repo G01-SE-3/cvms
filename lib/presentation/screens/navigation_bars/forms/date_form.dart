@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:cvms/presentation/screens/navigation bars/widgets/form.dart';
-import 'package:cvms/presentation/screens/navigation bars/constants/validation.dart';  
-import 'package:cvms/presentation/screens/navigation bars/constants/data_picker.dart';
-import 'package:cvms/presentation/screens/navigation bars/widgets/title.dart'; 
-import 'package:cvms/presentation/screens/navigation bars/constants/error.dart';
-import 'package:cvms/presentation/screens/navigation bars/widgets/buttons.dart';
+import 'package:cvms/presentation/screens/navigation_bars/widgets/form.dart';
+import 'package:cvms/presentation/screens/navigation_bars/constants/validation.dart';
+import 'package:cvms/presentation/screens/navigation_bars/constants/data_picker.dart';
+import 'package:cvms/presentation/screens/navigation_bars/widgets/title.dart';
+import 'package:cvms/presentation/screens/navigation_bars/constants/error.dart';
+import 'package:cvms/presentation/screens/navigation_bars/widgets/buttons.dart';
 
 class DateFilterPopup extends StatefulWidget {
   const DateFilterPopup({super.key});
@@ -58,7 +58,6 @@ class _DateFilterPopupState extends State<DateFilterPopup> {
                   ),
                 ),
                 const SizedBox(width: 10),
-
                 buildInputField(
                   controller: _endDateController,
                   hintText: "End Date",
@@ -107,4 +106,5 @@ class _DateFilterPopupState extends State<DateFilterPopup> {
         ),
       ),
     );
-  }}
+  }
+}
