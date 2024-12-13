@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import '../constants/strings/pv_header_strings.dart'; // Import the strings file
 
 class PVHeader extends StatelessWidget {
-  final Map<String, dynamic> pvData;
-
-  const PVHeader({super.key, required this.pvData});
+  const PVHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +19,11 @@ class PVHeader extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          _buildActionButton(PVHeaderStrings.editButton, const Color(0xFF7E9A77)),
+          _buildActionButton(
+              PVHeaderStrings.editButton, const Color(0xFF7E9A77)),
           const SizedBox(width: 10),
-          _buildActionButton(PVHeaderStrings.exportButton, const Color(0xFF7E9A77)),
+          _buildActionButton(
+              PVHeaderStrings.exportButton, const Color(0xFF7E9A77)),
           const SizedBox(width: 10),
           _buildActionButton(
             PVHeaderStrings

@@ -33,11 +33,15 @@ class PriceField extends StatelessWidget {
       style: const TextStyle(color: Color(0xFF545837)),
       keyboardType: TextInputType.number,
       validator: (value) {
+        // If the field is required, check for empty values
         if (isRequired && (value == null || value.trim().isEmpty)) {
           return "This field is required.";
         }
-        if (value != null && double.tryParse(value) == null) {
-          return "Enter a valid number.";
+        // Ensure it's a valid number if the value is provided
+        if (value != null && value.trim().isNotEmpty) {
+          if (double.tryParse(value) == null) {
+            return "Enter a valid number.";
+          }
         }
         return null;
       },

@@ -1,3 +1,4 @@
+/*
 import 'package:cvms/domain/entities/pv/closure.dart';
 import 'package:cvms/presentation/screens/add_PV_form.dart/widgets/sections/closure_section.dart';
 import 'package:cvms/presentation/screens/add_PV_form.dart/widgets/sections/dynamic_seizures_section.dart';
@@ -20,27 +21,25 @@ import 'package:cvms/domain/entities/pv/national_card_reg.dart';
 import 'package:cvms/domain/entities/pv/seizure.dart';
 import 'selection_globals.dart';
 
-class AddPVPage extends StatefulWidget {
-  const AddPVPage({super.key});
+class EditPVPage extends StatefulWidget {
+  final int pvId;
+
+  const EditPVPage({super.key, required this.pvId});
 
   @override
-  _AddPVPageState createState() => _AddPVPageState();
+  _EditPVPageState createState() => _EditPVPageState();
 }
 
-class _AddPVPageState extends State<AddPVPage> {
+class _EditPVPageState extends State<EditPVPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final ScrollController _scrollController = ScrollController();
 
   final TextEditingController _rcController = TextEditingController();
   final TextEditingController _pvNumberController = TextEditingController();
-  final TextEditingController _violationTypeController =
-      TextEditingController();
-  final TextEditingController _nonFactorizationController =
-      TextEditingController();
-  final TextEditingController _illegalProfitController =
-      TextEditingController();
-  final TextEditingController _subsidizedGoodController =
-      TextEditingController();
+  final TextEditingController _violationTypeController = TextEditingController();
+  final TextEditingController _nonFactorizationController = TextEditingController();
+  final TextEditingController _illegalProfitController = TextEditingController();
+  final TextEditingController _subsidizedGoodController = TextEditingController();
 
   String? _selectedOfficer1;
   String? _selectedOfficer2;
@@ -58,24 +57,60 @@ class _AddPVPageState extends State<AddPVPage> {
   String? _rcError;
   bool _isRcExisting = false;
 
-  DateTime? _selectedDate; // To hold the selected date
+  DateTime? _selectedDate; 
 
   // Track Seizure Sections
   final List<SeizureSection> _seizureSections = [];
 
   List<Seizure>? seizures = null;
 
-  void _handleSeizuresUpdated(List<Seizure>? updatedSeizures) {
-    setState(() {
-      seizures = updatedSeizures;
-    });
-    print("Updated seizures: $seizures"); // You can use the updated list here
-  }
-
   Closure? _closure = null;
   FinancialPenalty? _financialPenalty = null;
   LegalProceedings? _legalProceedings = null;
   NationalCardRegistration? _nationalCardRegistration = null;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchPVData();
+  }
+
+  void _fetchPVData() async {
+    final pvController = context.read<PVController>();
+    final pv = await pvController.getPVById(widget.pvId);
+
+    if (pv != null) {
+      setState(() {
+        _pvNumberController.text = pv.pvNumber.toString();
+        _rcController.text = pv.rc ?? '';
+        _violationTypeController.text = pv.violationType;
+        _nonFactorizationController.text = pv.totalNonFixed.toString();
+        _illegalProfitController.text = pv.totalReparationAmount.toString();
+        _subsidizedGoodController.text = pv.subsidizedGood;
+
+        _selectedDate = pv.issueDate;
+        seizures = pv.seizures;
+
+        _closure = pv.closure;
+        _financialPenalty = pv.financialPenalty;
+        _legalProceedings = pv.legalProceedings;
+        _nationalCardRegistration = pv.nationalCardRegistration;
+
+        // Handle Officers
+        _selectedOfficer1 = pv.inspectors.length > 0 ? pv.inspectors[0] : null;
+        _selectedOfficer2 = pv.inspectors.length > 1 ? pv.inspectors[1] : null;
+        _selectedOfficer3 = pv.inspectors.length > 2 ? pv.inspectors[2] : null;
+        _selectedOfficer4 = pv.inspectors.length > 3 ? pv.inspectors[3] : null;
+      });
+    }
+  }
+
+  void _handleSeizuresUpdated(List<Seizure>? updatedSeizures) {
+    setState(() {
+      seizures = updatedSeizures;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,7 +128,7 @@ class _AddPVPageState extends State<AddPVPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Add PV",
+                      "Edit PV",
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     const SizedBox(height: 16),
@@ -101,7 +136,7 @@ class _AddPVPageState extends State<AddPVPage> {
                       placeholder: "Enter PV Number",
                       isRequired: true,
                       controller: _pvNumberController,
-                      isNumeric: true, // Ensure the input is numeric
+                      isNumeric: true,
                     ),
                     const SizedBox(height: 12),
                     RcField(
@@ -137,6 +172,8 @@ class _AddPVPageState extends State<AddPVPage> {
                     DateField(
                       placeholder: "Select PV Date",
                       isRequired: true,
+                      selectedDate: _selectedDate,
+
                       onDateSelected: (date) {
                         setState(() {
                           _selectedDate = date;
@@ -213,29 +250,22 @@ class _AddPVPageState extends State<AddPVPage> {
                     // OPTIONAL SECTIONS
                     ClosureSection(
                       onClosureUpdated: (closure) {
-                        // Pass this Closure data to your PV object or update state
-                        // For example:
                         setState(() {
-                          _closure = closure; // Update closure data
+                          _closure = closure;
                         });
                       },
                     ),
-
                     FinancialPenaltySection(
                       onPenaltyUpdated: (penalty) {
-                        // Pass this FinancialPenalty data to your PV object or update state
                         setState(() {
-                          _financialPenalty =
-                              penalty; // Update financialPenalty data
+                          _financialPenalty = penalty;
                         });
                       },
                     ),
-
                     LegalProceedingsSection(
                       onLegalProceedingsUpdated: (legalProceedings) {
                         setState(() {
-                          _legalProceedings =
-                              legalProceedings; // Update the state with the new legalProceedings data
+                          _legalProceedings = legalProceedings;
                         });
                       },
                     ),
@@ -243,14 +273,12 @@ class _AddPVPageState extends State<AddPVPage> {
                       onNationalCardRegistrationUpdated:
                           (nationalCardRegistration) {
                         setState(() {
-                          _nationalCardRegistration =
-                              nationalCardRegistration; // Update the state with the new nationalCardRegistration data
+                          _nationalCardRegistration = nationalCardRegistration;
                         });
                       },
                     ),
                     DynamicSeizureSections(
-                      onSeizuresUpdated:
-                          _handleSeizuresUpdated, // Pass the callback to DynamicSeizureSections
+                      onSeizuresUpdated: _handleSeizuresUpdated,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -263,151 +291,39 @@ class _AddPVPageState extends State<AddPVPage> {
                                   _selectedDate != null &&
                                   (_isRcExisting ||
                                       _rcController.text.isNotEmpty)) {
-                                // Validate Closure data if closureSelection is true
-                                if (closureSelection &&
-                                    (_closure == null ||
-                                        _closure!.closureOrderDate == null ||
-                                        _closure!.closureOrderDate
-                                            .isBefore(DateTime(1900)))) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          "Closure order date is required and must be valid."),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                  return;
-                                }
+                                // Validate all data...
+                                // Construct the PV object with updated values
 
-                                // Validate National Card Registration data if nationalCardRegistrationSelection is true
-                                if (nationalCardRegistrationSelection &&
-                                    (_nationalCardRegistration == null ||
-                                        _nationalCardRegistration!
-                                                .nationalCardIssueDate ==
-                                            null ||
-                                        _nationalCardRegistration!
-                                            .nationalCardIssueDate
-                                            .isBefore(DateTime(1900)))) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          "National card issue date is required and must be valid."),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                  return;
-                                }
-
-                                // Validate Financial Penalty data if financialPenaltySelection is true
-                                if (financialPenaltySelection &&
-                                    (_financialPenalty == null ||
-                                        _financialPenalty!.penaltyAmount <= 0 ||
-                                        _financialPenalty!.penaltyDate ==
-                                            null ||
-                                        _financialPenalty!.penaltyDate
-                                            .isBefore(DateTime(1900)))) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          "Financial penalty details are required and must be valid."),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                  return;
-                                }
-
-                                // Validate Seizure data if seizureSelection is true
-                                if (seizureSelection &&
-                                    (_seizureSections.isEmpty ||
-                                        seizures!.any((section) =>
-                                            section.seizureAmount.isEmpty ||
-                                            section.seizureQuantity.isEmpty ||
-                                            section.seizedGoods.isEmpty))) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          "All seizure sections must be filled with valid data."),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                  return;
-                                }
-
-                                // Construct the PV object with the selected sections
                                 final pv = PV(
-                                  pvId:
-                                      "${_pvNumberController.text.trim()}-${_selectedDate!.year}",
-                                  pvNumber: int.tryParse(
-                                          _pvNumberController.text.trim()) ??
-                                      0,
+                                  pvId: "${_pvNumberController.text.trim()}-${_selectedDate!.year}",
+                                  pvNumber: int.tryParse(_pvNumberController.text.trim()) ?? 0,
                                   issueDate: _selectedDate ?? DateTime.now(),
-                                  violationType:
-                                      _violationTypeController.text.trim(),
-                                  totalReparationAmount: double.tryParse(
-                                          _illegalProfitController.text
-                                              .trim()) ??
-                                      0.0,
-                                  totalNonFixed: double.tryParse(
-                                          _nonFactorizationController.text
-                                              .trim()) ??
-                                      0.0,
-                                  subsidizedGood:
-                                      _subsidizedGoodController.text.trim(),
-                                  offender: null,
-                                  inspectors: [],
+                                  violationType: _violationTypeController.text.trim(),
+                                  totalReparationAmount: double.tryParse(_illegalProfitController.text.trim()) ?? 0.0,
+                                  totalNonFixed: double.tryParse(_nonFactorizationController.text.trim()) ?? 0.0,
+                                  subsidizedGood: _subsidizedGoodController.text.trim(),
+                                  inspectors: [
+                                    _selectedOfficer1 ?? '',
+                                    _selectedOfficer2 ?? '',
+                                    _selectedOfficer3 ?? '',
+                                    _selectedOfficer4 ?? ''
+                                  ],
                                   seizures: seizures ?? [],
-                                  closure: closureSelection
-                                      ? _closure
-                                      : null, // Pass closure if selected
-                                  nationalCardRegistration:
-                                      nationalCardRegistrationSelection
-                                          ? _nationalCardRegistration
-                                          : null,
-                                  financialPenalty: financialPenaltySelection
-                                      ? _financialPenalty
-                                      : null,
-                                  legalProceedings: leagalProceedingsSelection
-                                      ? _legalProceedings
-                                      : null,
+                                  closure: _closure,
+                                  nationalCardRegistration: _nationalCardRegistration,
+                                  financialPenalty: _financialPenalty,
+                                  legalProceedings: _legalProceedings,
                                 );
 
-                                // Use the controller
-                                final pvController =
-                                    context.read<PVController>();
-                                await pvController.insertPVData(pv);
+                                final pvController = context.read<PVController>();
+                                await pvController.updatePVData(pv);
 
-                                if (pvController.errorMessage == null) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text("PV successfully added!"),
-                                      backgroundColor: Colors.green,
-                                    ),
-                                  );
-
-                                  _formKey.currentState!.reset();
-                                  _rcController.clear();
-                                  _pvNumberController.clear();
-                                  _violationTypeController.clear();
-                                  _nonFactorizationController.clear();
-                                  _illegalProfitController.clear();
-                                  _subsidizedGoodController.clear();
-                                  setState(() {
-                                    _selectedOfficer1 = null;
-                                    _selectedOfficer2 = null;
-                                    _selectedOfficer3 = null;
-                                    _selectedOfficer4 = null;
-                                    _rcError = null;
-                                    _isRcExisting = false;
-                                  });
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          "Oops! Something went wrong. Please check your input and try again."),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                }
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("PV successfully updated!"),
+                                    backgroundColor: Colors.green,
+                                  ),
+                                );
                               }
                             },
                             style: ElevatedButton.styleFrom(
@@ -473,3 +389,4 @@ class _AddPVPageState extends State<AddPVPage> {
     );
   }
 }
+*/

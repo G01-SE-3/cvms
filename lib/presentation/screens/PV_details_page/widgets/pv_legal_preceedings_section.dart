@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import '../constants/strings/pv_legal_proceedings_strings.dart'; // Import the strings file
+import 'package:cvms/domain/entities/pv/legal_proceedings.dart'; // Import the LegalProceedings class
 
 class PVLegalProceedingsSection extends StatefulWidget {
-  final Map<String, dynamic> pvData;
+  final LegalProceedings?
+      legalProceedings; // Use the entity instead of raw data
 
-  const PVLegalProceedingsSection({super.key, required this.pvData});
+  const PVLegalProceedingsSection({super.key, required this.legalProceedings});
 
   @override
   _PVLegalProceedingsSectionState createState() =>
@@ -16,8 +18,7 @@ class _PVLegalProceedingsSectionState extends State<PVLegalProceedingsSection> {
 
   @override
   Widget build(BuildContext context) {
-    final hasLegalProceedings = widget.pvData['legal_proceedings'] == "Yes";
-    final legalProceedings = widget.pvData['legalproceedings'] ?? {};
+    final hasLegalProceedings = widget.legalProceedings != null;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,14 +49,14 @@ class _PVLegalProceedingsSectionState extends State<PVLegalProceedingsSection> {
         ),
         hasLegalProceedings
             ? (showLegalProceedings
-                ? _buildLegalProceedingsDetails(legalProceedings)
+                ? _buildLegalProceedingsDetails(widget.legalProceedings!)
                 : const SizedBox.shrink())
             : _buildNoLegalProceedingsMessage(),
       ],
     );
   }
 
-  Widget _buildLegalProceedingsDetails(Map<String, dynamic> legalProceedings) {
+  Widget _buildLegalProceedingsDetails(LegalProceedings legalProceedings) {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -66,19 +67,19 @@ class _PVLegalProceedingsSectionState extends State<PVLegalProceedingsSection> {
           children: [
             const SizedBox(height: 10),
             _buildLegalRow(PVLegalProceedingsStrings.referralToJusticeNumber,
-                legalProceedings['referraltojusticenumber'] ?? "N/A"),
+                legalProceedings.referralToJusticeNumber ?? "N/A"),
             _buildLegalRow(PVLegalProceedingsStrings.referralToJusticeDate,
-                legalProceedings['referraltojusticedate'] ?? "N/A"),
+                legalProceedings.referralToJusticeDate?.toString() ?? "N/A"),
             _buildLegalRow(PVLegalProceedingsStrings.jurisdiction,
-                legalProceedings['jurisdiction'] ?? "N/A"),
+                legalProceedings.jurisdiction ?? "N/A"),
             _buildLegalRow(PVLegalProceedingsStrings.legalProvisions,
-                legalProceedings['legalprovisions'] ?? "N/A"),
+                legalProceedings.legalProvisions ?? "N/A"),
             _buildLegalRow(PVLegalProceedingsStrings.courtDecisionNumber,
-                legalProceedings['courtdecisionnumber'] ?? "N/A"),
+                legalProceedings.courtDecisionNumber ?? "N/A"),
             _buildLegalRow(PVLegalProceedingsStrings.courtDecisionDate,
-                legalProceedings['courtdecisiondate'] ?? "N/A"),
+                legalProceedings.courtDecisionDate?.toString() ?? "N/A"),
             _buildLegalRow(PVLegalProceedingsStrings.courtImposedFineAmount,
-                legalProceedings['courtimposedfineamount'] ?? "N/A"),
+                legalProceedings.courtImposedFineAmount?.toString() ?? "N/A"),
           ],
         ),
       ),

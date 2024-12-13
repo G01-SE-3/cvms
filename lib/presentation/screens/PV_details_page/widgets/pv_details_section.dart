@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import '../constants/strings/details_strings.dart'; // Import the strings file
+import 'package:cvms/domain/entities/pv/pv.dart';
+import '../constants/strings/details_strings.dart';
 
 class PVDetailsSection extends StatelessWidget {
-  final Map<String, dynamic> pvData;
+  final PV pv;
 
-  const PVDetailsSection({super.key, required this.pvData});
+  const PVDetailsSection({super.key, required this.pv});
 
   @override
   Widget build(BuildContext context) {
@@ -38,25 +39,29 @@ class PVDetailsSection extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
-                for (var key in [
-                  DetailsStrings.pvNumber,
-                  DetailsStrings.offenderName,
-                  DetailsStrings.offenderCr,
-                  DetailsStrings.pvIssueDate,
-                  DetailsStrings.violationType,
-                  DetailsStrings.inspectingOfficers,
-                  DetailsStrings.totalNonFactorizationAmount,
-                  DetailsStrings.totalIllegalProfit,
-                  DetailsStrings.subsidizedGood,
-                ]) ...[
-                  _buildDetailRow(key,
-                      pvData[key.toLowerCase().replaceAll(' ', '')] ?? "N/A"),
-                  Divider(
-                    color: Colors.grey[300],
-                    thickness: 0.8,
-                    height: 10,
-                  ),
-                ],
+                _buildDetailRow(
+                    DetailsStrings.pvNumber, pv.pvNumber.toString()),
+                _buildDetailRow(DetailsStrings.offenderName,
+                    pv.offender?.name ?? "N/A"), // TO BE UPDATED
+                _buildDetailRow(DetailsStrings.offenderCr,
+                    pv.offender?.name ?? "N/A"), // TO BE UPDATED
+                _buildDetailRow(
+                    DetailsStrings.pvIssueDate, pv.issueDate.toString()),
+                _buildDetailRow(DetailsStrings.violationType, pv.violationType),
+                _buildDetailRow(
+                    DetailsStrings.inspectingOfficers,
+                    pv.inspectors
+                        .map((e) => "${e.inspectorName} ${e.inspectorSurname}")
+                        .join(", ")), // TO BE UPDATED
+                _buildDetailRow(DetailsStrings.totalNonFactorizationAmount,
+                    pv.totalNonFixed?.toString() ?? "N/A"),
+                _buildDetailRow(DetailsStrings.totalIllegalProfit,
+                    pv.totalReparationAmount?.toString() ?? "N/A"),
+                _buildDetailRow(
+                    DetailsStrings.subsidizedGood,
+                    pv.subsidizedGood != null
+                        ? pv.subsidizedGood.toString()
+                        : "N/A"),
               ],
             ),
           ),

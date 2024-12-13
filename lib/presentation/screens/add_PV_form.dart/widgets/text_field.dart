@@ -33,11 +33,15 @@ class CustomTextField extends StatelessWidget {
       style: const TextStyle(color: Color(0xFF545837)),
       keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
       validator: (value) {
+        // If the field is required, check for empty values
         if (isRequired && (value == null || value.trim().isEmpty)) {
           return "This field is required.";
         }
-        if (isNumeric && value != null && double.tryParse(value) == null) {
-          return "Enter a valid number.";
+        // If it's numeric, ensure the input is a valid number
+        if (isNumeric && value != null && value.trim().isNotEmpty) {
+          if (double.tryParse(value) == null) {
+            return "Enter a valid number.";
+          }
         }
         return null;
       },

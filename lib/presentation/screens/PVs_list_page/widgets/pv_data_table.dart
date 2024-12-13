@@ -84,17 +84,17 @@ class PVDataTable extends StatelessWidget {
                         ],
                       ),
                       IconButton(
-                        icon:
-                            const Icon(Icons.arrow_forward, color: Color(0xFF545837)),
+                        icon: const Icon(Icons.arrow_forward,
+                            color: Color(0xFF545837)),
                         onPressed: () {
+                          // Navigate to the PVPage with the PV ID
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PVPage(pvnumber: "12345"),
+                              builder: (context) => PVPage(
+                                  pvId: row['PVid']), // Pass the pvId to PVPage
                             ),
                           );
-
-                          print('PV Number: ${row['PVnumber']}');
                         },
                       ),
                     ],

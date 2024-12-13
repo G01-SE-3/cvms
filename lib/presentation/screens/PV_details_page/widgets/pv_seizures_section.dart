@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:cvms/domain/entities/pv/seizure.dart'; // Import the Seizure entity
 import '../constants/strings/pv_seizures_strings.dart'; // Import the strings file
 
 class PVSeizuresSection extends StatefulWidget {
-  final Map<String, dynamic> pvData;
+  final List<Seizure> seizures; // Use List<Seizure> instead of raw map data
 
-  const PVSeizuresSection({super.key, required this.pvData});
+  const PVSeizuresSection({super.key, required this.seizures});
 
   @override
   _PVSeizuresSectionState createState() => _PVSeizuresSectionState();
@@ -15,7 +16,8 @@ class _PVSeizuresSectionState extends State<PVSeizuresSection> {
 
   @override
   Widget build(BuildContext context) {
-    final hasSeizures = widget.pvData['seizure'] == "Yes";
+    final hasSeizures = widget.seizures.isNotEmpty;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -53,7 +55,6 @@ class _PVSeizuresSectionState extends State<PVSeizuresSection> {
   }
 
   Widget _buildSeizuresTable() {
-    final seizures = widget.pvData['seizures'] as List<dynamic>? ?? [];
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -67,12 +68,9 @@ class _PVSeizuresSectionState extends State<PVSeizuresSection> {
               PVSeizuresStrings.quantity,
             ),
             const Divider(),
-            for (var seizure in seizures)
-              _buildSeizureRow(
-                seizure['number']?.toString() ?? "N/A",
-                seizure['amount']?.toString() ?? "N/A",
-                seizure['quantity']?.toString() ?? "N/A",
-              ),
+            for (var seizure in widget.seizures)
+              _buildSeizureRow(seizure.seizureAmount, seizure.seizureQuantity,
+                  seizure.seizedGoods),
           ],
         ),
       ),

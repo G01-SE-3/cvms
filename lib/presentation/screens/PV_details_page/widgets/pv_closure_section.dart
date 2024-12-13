@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import '../constants/strings/closure_strings.dart';
+import 'package:cvms/domain/entities/pv/closure.dart'; // Import the Closure entity
 
 class PVClosureSection extends StatefulWidget {
-  final Map<String, dynamic> pvData;
+  final Closure?
+      closure; // Make it nullable, as the closure data might be absent
 
-  const PVClosureSection({super.key, required this.pvData});
+  const PVClosureSection({super.key, required this.closure});
 
   @override
   _PVClosureSectionState createState() => _PVClosureSectionState();
@@ -15,7 +17,12 @@ class _PVClosureSectionState extends State<PVClosureSection> {
 
   @override
   Widget build(BuildContext context) {
-    final hasClosure = widget.pvData['closure'] == "Yes";
+    final closure = widget.closure; // Access the closure data directly
+
+    // Check if closure is present (not null) and has necessary fields populated
+    final hasClosure = closure != null &&
+        (closure.reopeningRequestNumber != null ||
+            closure.reportingDate != null);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,13 +54,15 @@ class _PVClosureSectionState extends State<PVClosureSection> {
           ],
         ),
         hasClosure
-            ? (showClosure ? _buildClosureDetails() : const SizedBox.shrink())
+            ? (showClosure
+                ? _buildClosureDetails(closure)
+                : const SizedBox.shrink())
             : _buildDisabledClosureMessage(),
       ],
     );
   }
 
-  Widget _buildClosureDetails() {
+  Widget _buildClosureDetails(Closure closure) {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -62,21 +71,20 @@ class _PVClosureSectionState extends State<PVClosureSection> {
         child: Column(
           children: [
             _buildDetailRow(ClosureStrings.closureOrderNumber,
-                widget.pvData['closureordernumber']),
+                closure.closureId.toString()),
             _buildDetailRow(ClosureStrings.closureOrderDate,
-                widget.pvData['closureorderdate']),
+                closure.closureOrderDate.toString()),
             _buildDetailRow(ClosureStrings.reopeningRequestNumber,
-                widget.pvData['reopeningrequestnumber']),
+                closure.reopeningRequestNumber ?? "N/A"),
             _buildDetailRow(ClosureStrings.reportingNumber,
-                widget.pvData['reportingnumber']),
+                closure.reportingDate?.toString() ?? "N/A"),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildDetailRow(String label, dynamic value) {
-    final displayValue = value != null ? value.toString() : "N/A";
+  Widget _buildDetailRow(String label, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
       child: Row(
@@ -84,11 +92,11 @@ class _PVClosureSectionState extends State<PVClosureSection> {
         children: [
           Text(
             label,
-            style:
-                const TextStyle(fontWeight: FontWeight.w500, color: Colors.black87),
+            style: const TextStyle(
+                fontWeight: FontWeight.w500, color: Colors.black87),
           ),
           Text(
-            displayValue,
+            value,
             style: const TextStyle(color: Colors.black54),
           ),
         ],

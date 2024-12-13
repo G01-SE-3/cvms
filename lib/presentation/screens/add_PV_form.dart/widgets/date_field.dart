@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DateField extends StatelessWidget {
   final String placeholder;
   final bool isRequired;
-  final TextEditingController? controller;
+  final Function(DateTime)? onDateSelected;
 
   const DateField({
     super.key,
     required this.placeholder,
     this.isRequired = false,
-    this.controller,
+    this.onDateSelected, // Callback for selected date
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       readOnly: true,
-      controller: controller,
+      controller: TextEditingController(
+        text: onDateSelected != null && onDateSelected != null
+            ? DateFormat('yyyy-MM-dd').format(DateTime.now())
+            : null,
+      ),
       decoration: InputDecoration(
         hintText: placeholder,
         hintStyle: const TextStyle(color: Colors.grey),
@@ -43,8 +48,13 @@ class DateField extends StatelessWidget {
           firstDate: DateTime(2000),
           lastDate: DateTime(2100),
         );
-        controller?.text = "${selectedDate!.toLocal()}".split(' ')[0];
-            },
+
+        if (selectedDate != null) {
+          if (onDateSelected != null) {
+            onDateSelected!(selectedDate);
+          }
+        }
+      },
     );
   }
 }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import '../constants/strings/pv_national_card_strings.dart'; // Import the strings file
+import 'package:cvms/domain/entities/pv/national_card_reg.dart'; // Import the NationalCardRegistration entity
 
 class PVNationalCardSection extends StatefulWidget {
-  final Map<String, dynamic> pvData;
+  final NationalCardRegistration? nationalCardRegistration;
 
-  const PVNationalCardSection({super.key, required this.pvData});
+  const PVNationalCardSection(
+      {super.key, required this.nationalCardRegistration});
 
   @override
   _PVNationalCardSectionState createState() => _PVNationalCardSectionState();
@@ -15,8 +17,7 @@ class _PVNationalCardSectionState extends State<PVNationalCardSection> {
 
   @override
   Widget build(BuildContext context) {
-    final hasNationalCard =
-        widget.pvData['national_card_registration'] == "Yes";
+    final hasNationalCard = widget.nationalCardRegistration != null;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,9 +81,9 @@ class _PVNationalCardSectionState extends State<PVNationalCardSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildDetailRow(PVNationalCardStrings.registrationDate,
-            widget.pvData['registrationdate']),
+            widget.nationalCardRegistration?.nationalCardIssueDate.toString()),
         _buildDetailRow(PVNationalCardStrings.registrationNumber,
-            widget.pvData['registrationnumber']),
+            widget.nationalCardRegistration?.nationalCardRegId.toString()),
       ],
     );
   }
