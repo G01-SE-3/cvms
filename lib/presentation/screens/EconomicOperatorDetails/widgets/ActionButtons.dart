@@ -7,7 +7,7 @@ Widget ActionButtons() {
         const SizedBox(width: 35),
         Text(
           IndividualEconomicOperator,
-          style: TextStyle(fontSize: 12),
+          style: const TextStyle(fontSize: 12),
         ),
         const Spacer(),
         ElevatedButton(
@@ -17,7 +17,7 @@ Widget ActionButtons() {
           ),
           child:  Text(
             Edit,
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
           ),
         ),
         const SizedBox(width: 5),
@@ -28,7 +28,7 @@ Widget ActionButtons() {
           ),
           child:  Text(
             Export,
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
           ),
         ),
         const SizedBox(width: 5),
@@ -39,7 +39,7 @@ Widget ActionButtons() {
           ),
           child:  Text(
             Report,
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
           ),
         ),
       ],

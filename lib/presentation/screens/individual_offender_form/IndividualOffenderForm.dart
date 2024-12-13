@@ -2,7 +2,6 @@ import 'package:cvms/presentation/screens/individual_offender_form/constants/str
 import 'package:cvms/presentation/screens/individual_offender_form/individual_offender_informations/individualOffenderInformation.dart';
 import 'package:cvms/presentation/screens/individual_offender_form/widgets/OffenderForm.dart';
 import 'package:flutter/material.dart';
-import 'package:cvms/presentation/controllers/individual_offender/individual_offender_controller.dart';
 
 class IndividualOffenderForm extends StatefulWidget {
   const IndividualOffenderForm({super.key});
@@ -12,8 +11,7 @@ class IndividualOffenderForm extends StatefulWidget {
 }
 
 class _IndividualOffenderFormState extends State<IndividualOffenderForm> {
-  late IndividualOffenderController controller;
-
+  
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -27,7 +25,7 @@ class _IndividualOffenderFormState extends State<IndividualOffenderForm> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(title), 
-                    OffenderForm(context: context,controller: controller),
+                    OffenderForm(context: context),
                   ],
                 ),
               ),

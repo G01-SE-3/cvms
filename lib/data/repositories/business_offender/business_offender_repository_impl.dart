@@ -3,10 +3,10 @@ import 'package:cvms/domain/entities/business_offender/business_offender.dart';
 import 'package:cvms/domain/repositories/business_offender/business_offender_repository.dart';
 import 'package:cvms/data/datasources/business_offender/business_offender_datasource.dart';
 import 'package:cvms/data/models/business_offender/business_offender_model.dart';
-class BusinessOffenderRepositoryImpl implements BusinessOffenderRepository {
+class BusinessOffenderrepositoryImpl implements BusinessOffenderrepository {
   final BusinessOffenderDataSource dataSource;
 
-  BusinessOffenderRepositoryImpl(this.dataSource);
+  BusinessOffenderrepositoryImpl(this.dataSource);
 
   @override
   Future<List<BusinessOffender>> fetchAllOffenders() async {

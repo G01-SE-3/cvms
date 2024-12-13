@@ -56,7 +56,7 @@ class _PVListPageState extends State<PVListPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              HeaderRow(),
+              const HeaderRow(),
               const SizedBox(height: 16),
               Expanded(
                 child: PVDataTable(tableData: tableData),

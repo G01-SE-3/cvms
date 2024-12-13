@@ -3,22 +3,15 @@ class CommercialRegisterModel extends CommercialRegister {
   
 
   CommercialRegisterModel({
-    required int business_id,
-    required String CommercialRegisterNumber,
-    required String CommercialRegisterDate,
-    required String EditDate,
-    required String CancellationDate,
+    required super.business_id,
+    required super.CommercialRegisterNumber,
+    required super.CommercialRegisterDate,
+    required super.EditDate,
+    required super.CancellationDate,
 
-  }) : super(
-          business_id: business_id,
-          CommercialRegisterNumber: CommercialRegisterNumber,
-          CommercialRegisterDate: CommercialRegisterDate,
-          EditDate: EditDate,
-          CancellationDate: CancellationDate,
+  });
 
-        );
-
-  /*factory CommercialRegister.fromMap(Map<String, dynamic> map) {
+  factory CommercialRegisterModel.fromMap(Map<String, dynamic> map) {
     return CommercialRegisterModel(
       business_id: map['business_id'], 
       CommercialRegisterNumber: map['CommercialRegisterNumber'],
@@ -27,7 +20,7 @@ class CommercialRegisterModel extends CommercialRegister {
       CancellationDate: map['CancellationDate'],
       
     );
-  }*/
+  }
 
   Map<String, dynamic> toMap() {
     return {

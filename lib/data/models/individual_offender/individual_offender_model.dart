@@ -4,31 +4,19 @@ class IndividualOffenderModel extends IndividualOffender {
   
 
   IndividualOffenderModel({
-    required int individual_id,
-    required String name,
-    required String surname,
-    required String date_of_birth,
-    required String place_of_birth,
-    required String birth_certificate_number,
-    required String mother_name,
-    required String mother_surname,
-    required String father_name,
-    required String address,
-    required String business_address,
+    required super.individual_id,
+    required super.name,
+    required super.surname,
+    required super.date_of_birth,
+    required super.place_of_birth,
+    required super.birth_certificate_number,
+    required super.mother_name,
+    required super.mother_surname,
+    required super.father_name,
+    required super.address,
+    required super.business_address,
 
-  }) : super(
-          individual_id: individual_id,
-          name: name,
-          surname: surname,
-          date_of_birth: date_of_birth,
-          place_of_birth: place_of_birth,
-          birth_certificate_number: birth_certificate_number,
-          mother_name: mother_name,
-          mother_surname: mother_surname,
-          father_name: father_name,
-          address: address,
-          business_address: business_address,
-        );
+  });
 
   factory IndividualOffenderModel.fromMap(Map<String, dynamic> map) {
     return IndividualOffenderModel(

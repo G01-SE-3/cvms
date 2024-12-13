@@ -18,7 +18,7 @@ class AddInspectorButton extends StatelessWidget {
        
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AddInspectorPage()),
+          MaterialPageRoute(builder: (context) => const AddInspectorPage()),
         );
       },
       icon: const Icon(Icons.add, color: Colors.white),

@@ -90,7 +90,7 @@ class PVDataTable extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PVPage(pvnumber: "12345"),
+                              builder: (context) => const PVPage(pvnumber: "12345"),
                             ),
                           );
 

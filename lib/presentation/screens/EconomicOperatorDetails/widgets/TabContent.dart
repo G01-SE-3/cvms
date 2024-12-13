@@ -22,7 +22,7 @@ Widget TabContent() {
             padding: const EdgeInsets.all(8),
             child: Column(
               children: [
-                PersonalInformationPage(),
+                const PersonalInformationPage(),
                 const SizedBox(height: 16), 
                 Text(
                     AssociatedPVs,

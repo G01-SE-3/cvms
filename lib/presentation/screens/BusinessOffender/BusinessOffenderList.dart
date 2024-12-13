@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/BusinessOffender/constants/strings/BusinessOffenderInformations.dart';
 import 'package:cvms/presentation/screens/BusinessOffender/constants/strings/ButtonsText.dart';
 import 'package:cvms/domain/entities/business_offender/business_offender.dart';
-import 'package:cvms/domain/usecases/business_offender/get_all_offenders.dart';
+import 'package:cvms/domain/usecases/business_offender/add_offender.dart';
 import 'package:cvms/presentation/controllers/business_offender/business_offender_controller.dart';
+import 'package:cvms/domain/repositories/business_offender/business_offender_repository.dart';
+import 'package:postgres/postgres.dart';
+
 
 class BusinessOffenderList extends StatefulWidget {
   const BusinessOffenderList({super.key});
@@ -14,12 +17,23 @@ class BusinessOffenderList extends StatefulWidget {
 
 class BusinessOffenderListScreen extends State<BusinessOffenderList> {
   late BusinessOffenderController_two _controller;
+  late PostgreSQLConnection _connection;
 
   @override
   void initState() {
     super.initState();
-    // Initialize the controller with the GetAllOffenders use case
-    _controller = BusinessOffenderController_two(GetAllOffenders());
+
+    // Set up PostgreSQL connection
+    _connection = PostgreSQLConnection(
+      'localhost', // Database host
+      5432,        // Port (default for PostgreSQL)
+      'your_db_name', // Database name
+      username: 'your_username', // Database username
+      password: 'your_password', // Database password
+    );
+
+    // Initialize the controller with the repository
+    _controller = BusinessOffenderController_two(BusinessOffenderRepository(_connection));
   }
 
   @override
@@ -51,9 +65,9 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
                 ElevatedButton.icon(
                   onPressed: () {},
                   icon: const Icon(Icons.file_download, color: Colors.black),
-                  label:  Text(
+                  label: Text(
                     Export,
-                    style: TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black),
                   ),
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.white,
@@ -64,9 +78,9 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
                 ElevatedButton.icon(
                   onPressed: () {},
                   icon: const Icon(Icons.add, color: Colors.white),
-                  label:  Text(
+                  label: Text(
                     AddnewOffender,
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
                   style: TextButton.styleFrom(
                     backgroundColor: const Color(0xFF545837),
@@ -76,8 +90,7 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
               ],
             ),
             body: FutureBuilder<List<BusinessOffender>>(
-              // Using the correct method to fetch offenders from the controller
-              future: _controller.fetchOffenders(), 
+              future: _controller.fetchOffenders(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());

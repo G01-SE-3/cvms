@@ -16,7 +16,7 @@ class AddInspectorApp extends StatelessWidget {
         primarySwatch: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: AddInspectorPage(),
+      home: const AddInspectorPage(),
     );
   }
 }

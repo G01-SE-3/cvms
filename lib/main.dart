@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'core/utils/get_db.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -15,14 +14,16 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Database Connection Test'),
+          title: const Text('Database Connection Test'),
         ),
-        body: Center(
+        body: const Center(
           child: Text('Check your console for the DB connection status!'),
         ),
       ),

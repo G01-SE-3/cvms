@@ -2,7 +2,6 @@ import 'package:cvms/presentation/screens/business_offender_form/Business_offend
 import 'package:cvms/presentation/screens/business_offender_form/constants/strings/BusinessOffenderFormTitle.dart';
 import 'package:cvms/presentation/screens/business_offender_form/widgets/OffenderForm.dart';
 import 'package:flutter/material.dart';
-import 'package:cvms/presentation/controllers/business_offender/business_offender_controller.dart';
 
 class BusinessOffenderForm extends StatefulWidget {
   const BusinessOffenderForm({super.key});
@@ -12,8 +11,7 @@ class BusinessOffenderForm extends StatefulWidget {
 }
 
 class _BusinessOffenderFormState extends State<BusinessOffenderForm> {
-  late BusinessOffenderController controller;
-
+  
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -27,7 +25,7 @@ class _BusinessOffenderFormState extends State<BusinessOffenderForm> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(title), 
-                    OffenderForm(context: context,controller: controller),
+                    OffenderForm(context: context),
                   ],
                 ),
               ),

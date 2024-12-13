@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'inspector_details.dart';
 
 void main() {
-  runApp(InspectorDetailsApp());
+  runApp(const InspectorDetailsApp());
 }
 
 class InspectorDetailsApp extends StatelessWidget {
@@ -11,7 +11,7 @@ class InspectorDetailsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Sample data to pass to the InspectorDetailsPage
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: InspectorDetailsPage(
         inspectorName: 'John Doe', 

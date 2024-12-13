@@ -18,7 +18,7 @@ class SignUpForm extends StatelessWidget {
   final String? Function(String?) validatePassword;
   final Function onSubmit;
 
-  const SignUpForm({
+  const SignUpForm({super.key, 
     required this.isPasswordVisible,
     required this.isConfirmPasswordVisible,
     required this.onPasswordVisibilityToggle,

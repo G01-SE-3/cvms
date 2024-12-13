@@ -1,8 +1,8 @@
 import 'package:cvms/domain/entities/individual_offender/individual_offender.dart';
 import 'package:cvms/domain/repositories/individual_offender/individual_offender_repository.dart';
-
+import 'package:cvms/domain/usecases/individual_offender/add_offender.dart';
 class AddOffender {
-  final IndividualOffenderRepository repository;
+  final IndividualOffenderrepository repository;
 
   AddOffender(this.repository);
 
