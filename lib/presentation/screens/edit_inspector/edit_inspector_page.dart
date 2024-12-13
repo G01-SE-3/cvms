@@ -1,9 +1,12 @@
+import 'package:cvms/data/repositories/inspector/inspector_repository_impl.dart';
+import 'package:cvms/domain/entities/inspector/inspector.dart';
 import 'package:flutter/material.dart';
 import 'widgets/custom_text_field.dart';
 import 'widgets/custom_dropdown_field_for_departments.dart';
 import 'package:cvms/presentation/screens/Appbars/widgets/general_appbar.dart';
 import 'constants/strings/edit_inspector_page_strings.dart';
 import 'widgets/validation_util.dart';
+import 'package:cvms/domain/repositories/inspector/inspector_repository.dart';
 
 class EditInspectorPage extends StatefulWidget {
   final String inspectorNumber;
@@ -38,6 +41,8 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
 
   late String _selectedDepartment;
 
+  final InspectorRepository _inspectorRepository = InspectorRepositoryImpl();
+
   @override
   void initState() {
     super.initState();
@@ -71,6 +76,32 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message)),
     );
+  }
+
+  Future<void> _updateInspector() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        final inspector = InspectorEntity(
+          inspectorNumber: int.tryParse(_inspectorNumberController.text) ?? 0,
+          name: _inspectorNameController.text,
+          surname: _inspectorSurnameController.text,
+          badgeNumber: int.tryParse(_inspectorBadgeNumberController.text) ?? 0,
+          assignedDepartment: _selectedDepartment,
+          contactNumber: int.tryParse(_contactNumberController.text) ?? 0,
+        );
+
+        // Call the repository to update the inspector data
+        await _inspectorRepository.updateInspector(inspector);
+
+        // Show success message after updating
+        _showSnackbar('Inspector data updated successfully!');
+
+        // Optionally, return to the previous page or notify it to refresh the list
+        Navigator.pop(context, true);  // Passing true to indicate a change occurred
+      } catch (e) {
+        _showSnackbar('Failed to update inspector data.');
+      }
+    }
   }
 
   @override
@@ -175,11 +206,7 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
                   ),
                   const SizedBox(width: 40),
                   ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _showSnackbar(EditInspectorPageStrings.inspectorAddedMessage);
-                      }
-                    },
+                    onPressed: _updateInspector, // Updated to call the update function
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF306238),
                       foregroundColor: Colors.white,
@@ -189,7 +216,6 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 40),
             ],
           ),
         ),

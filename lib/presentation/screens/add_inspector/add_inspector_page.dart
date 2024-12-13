@@ -1,8 +1,12 @@
+import 'package:cvms/data/repositories/inspector/inspector_repository_impl.dart';
+import 'package:cvms/domain/entities/inspector/inspector.dart';
+import 'package:cvms/domain/repositories/inspector/inspector_repository.dart';
 import 'package:flutter/material.dart';
 import 'widgets/custom_text_field.dart';
 import 'widgets/custom_dropdown_field.dart';
 import 'widgets/validation_util.dart';
 import 'constants/strings/add_inspector_page_strings.dart';
+import '../../../core/utils/get_db.dart'; // Adjust the path as per your project structure.
 
 class AddInspectorPage extends StatefulWidget {
   @override
@@ -19,12 +23,15 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
   final TextEditingController _contactNumberController = TextEditingController();
 
   String? _selectedDepartment;
-  String _message =  AddInspectorPageStrings.message;
+  String _message = AddInspectorPageStrings.message;
+
+  // Initialize the repository
+  final InspectorRepository _inspectorRepository = InspectorRepositoryImpl();  
 
   @override
   void initState() {
     super.initState();
-    _selectedDepartment =  AddInspectorPageStrings.inspectorDefaultDepartment;
+    _selectedDepartment = AddInspectorPageStrings.inspectorDefaultDepartment;
   }
 
   void _clearForm() {
@@ -38,6 +45,48 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
       _selectedDepartment = AddInspectorPageStrings.inspectorDefaultDepartment;
       _message = "";
     });
+  }
+
+  void _addInspector() {
+    if (_formKey.currentState!.validate()) {
+      final contactNumber = int.tryParse(_contactNumberController.text);
+      if (contactNumber == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text("Please enter a valid contact number"),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 2),
+          ),
+        );
+        return;
+      }
+
+      final inspector = InspectorEntity(
+        inspectorNumber: int.tryParse(_inspectorNumberController.text) ?? 0,
+        name: _inspectorNameController.text,
+        surname: _inspectorSurnameController.text,
+        badgeNumber: int.tryParse(_inspectorBadgeNumberController.text) ?? 0,
+        assignedDepartment: _selectedDepartment ?? '',
+        contactNumber: contactNumber,  
+      );
+
+      // Call addInspector method from repository
+      _inspectorRepository.addInspector(inspector);
+
+      setState(() {
+        _message = AddInspectorPageStrings.inspectorAddedMessage;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(AddInspectorPageStrings.inspectorAddedMessage),
+          backgroundColor: Colors.green,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+
+      _clearForm();
+    }
   }
 
   @override
@@ -142,21 +191,7 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
                   ),
                   const SizedBox(width: 40),
                   ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        setState(() {
-                          _message = AddInspectorPageStrings.inspectorAddedMessage;
-                        });
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text(AddInspectorPageStrings.inspectorAddedMessage),
-                            backgroundColor: Colors.green,
-                            duration: const Duration(seconds: 2),
-                          ),
-                        );
-                        _clearForm();
-                      }
-                    },
+                    onPressed: _addInspector,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF306238),
                       foregroundColor: Colors.white,
