@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/sign_up/constants/strings/SignUpFormStrings.dart';
-import 'package:cvms/presentation/screens/sign_up/widgets/LoginPrompt.dart';
+import 'package:cvms/presentation/screens/sign_up/widgets/SignUpButton.dart';
 import 'CustomTextField.dart';
 import 'CustomPasswordField.dart';
 
@@ -17,8 +17,10 @@ class SignUpForm extends StatelessWidget {
   final String? Function(String?) validateEmail;
   final String? Function(String?) validatePassword;
   final Function onSubmit;
+  final bool isLoading; 
+  final String? errorMessage;
 
-  const SignUpForm({
+  const SignUpForm({super.key, 
     required this.isPasswordVisible,
     required this.isConfirmPasswordVisible,
     required this.onPasswordVisibilityToggle,
@@ -31,6 +33,8 @@ class SignUpForm extends StatelessWidget {
     required this.validateEmail,
     required this.validatePassword,
     required this.onSubmit,
+    required this.isLoading,  
+    this.errorMessage,
   });
 
   @override
@@ -83,7 +87,11 @@ class SignUpForm extends StatelessWidget {
           },
         ),
         const SizedBox(height: 50),
-        Loginprompt(onSubmit: onSubmit),
+        Signupbutton(
+          onSubmit: onSubmit,
+          isLoading: isLoading, 
+          errorMessage: errorMessage,  
+        ),
         const SizedBox(height: 10),
       ],
     );

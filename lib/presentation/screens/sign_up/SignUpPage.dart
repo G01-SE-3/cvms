@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
 import 'widgets/SignUpForm.dart';
 import 'widgets/LeftBackground.dart';
-import 'validators/SignUpPageValidate.dart';  
+import 'validators/SignUpPageValidate.dart';
 import 'constants/strings/SignUpPage.dart';  
+import 'package:cvms/domain/repositories/user/user_repository.dart'; 
+import '../../screens/login/LoginPage.dart'; 
 
-
-
+import 'package:cvms/domain/entities/user/user.dart';  
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+  final UserRepository userRepository;  
+
+  const SignUpPage({super.key, required this.userRepository});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  _SignUpPageState createState() => _SignUpPageState();
 }
 
 class _SignUpPageState extends State<SignUpPage> {
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
+  bool isLoading = false; 
+  String? errorMessage;
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _usernameController = TextEditingController();
@@ -24,7 +29,15 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
-  List<String> existingUsernames = [SignUpPageStrings.usernamExample];  //I did provided this just to check that username is unique
+  late final UserRepository _userRepository;
+
+  List<String> existingUsernames = [SignUpPageStrings.usernamExample];
+
+  @override
+  void initState() {
+    super.initState();
+    _userRepository = widget.userRepository;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +55,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: Center(
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
-                        maxWidth: isLargeScreen ? 400 : double.infinity, 
+                        maxWidth: isLargeScreen ? 400 : double.infinity,
                       ),
                       child: Form(
                         key: _formKey,
@@ -66,12 +79,39 @@ class _SignUpPageState extends State<SignUpPage> {
                           validateUsername: (value) => SignUpPageValidate.validateUsername(value, existingUsernames),
                           validateEmail: SignUpPageValidate.validateEmail,
                           validatePassword: SignUpPageValidate.validatePassword,
-                          onSubmit: () {
-                            if (_formKey.currentState?.validate() ?? false) {
+                          isLoading: isLoading,  
+                          errorMessage: errorMessage, 
+                          onSubmit: () async {
 
-                              print(SignUpPageStrings.validatedForm);
-                            } else {
-                              print(SignUpPageStrings.validatedForm);
+                            if (_formKey.currentState?.validate() ?? false) {
+                              setState(() {
+                                isLoading = true;
+                                errorMessage = null; 
+                              });
+
+                              final user = User(
+                                username: _usernameController.text,
+                                email: _emailController.text,
+                                hashedPassword: _passwordController.text, 
+                              );
+
+                              try {
+                                
+                                print("Attempting to add user...");
+                                await _userRepository.addUser(user);
+
+                                Navigator.pushReplacement(context,  MaterialPageRoute(builder: (context) => const LoginPage()),
+  );
+                              } catch (e) {
+                               
+                                setState(() {
+                                  errorMessage = SignUpPageStrings.signUpFailed;
+                                });
+                              } finally {
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              }
                             }
                           },
                         ),

@@ -10,5 +10,6 @@ class SignUpPageStrings {
   static const String passwordStrength = 'Password must contain at least one uppercase letter and one special character/number.';
   static const String validatedForm = 'Form is valid, submitting data.';
   static const String notValidatedForm = 'Form is invalid, please check your information';
+  static const String signUpFailed = 'Unexpected error occured, please try again later';
 
 }

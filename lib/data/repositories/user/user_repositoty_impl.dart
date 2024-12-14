@@ -1,36 +1,99 @@
-/*
 
-import '../../domain/entities/user.dart';
-import '../../domain/repositories/user_repository.dart';
-import '../datasources/user_datasource.dart';
-import '../models/user_model.dart';
+import 'package:cvms/data/datasources/user/user_datasource.dart';
+import 'package:cvms/domain/repositories/user/user_repository.dart';
+import 'package:cvms/data/models/user/user_model.dart';
+import 'package:cvms/domain/entities/user/user.dart';
 
 class UserRepositoryImpl implements UserRepository {
-  final UserDataSource dataSource;
+  final UserDataSource _datasource = UserDataSource();
 
-  UserRepositoryImpl(this.dataSource);
+  @override
+  Future<List<User>> getAllUsers() async {
+    final users = await _datasource.fetchAllUsers();
+    return users.map((model) => toEntity(model)).toList();
+  }
 
+  // Fetch user by username
+  @override
+  Future<User?> fetchUserByUsername(String username) async {
+    if (username.isEmpty) {
+      print("Username is empty. Please provide a valid username.");
+      return null;
+    }
+
+    final user = await _datasource.fetchUserByUsername(username);
+    return user != null ? toEntity(user) : null;
+  }
+
+  // Fetch user by email
+  @override
+  Future<User?> fetchUserByEmail(String email) async {
+    if (email.isEmpty) {
+      print("Email is empty. Please provide a valid email.");
+      return null;
+    }
+
+    final user = await _datasource.fetchUserByEmail(email);
+    return user != null ? toEntity(user) : null;
+  }
+
+  // Fetch user by ID
   @override
   Future<User?> fetchUserById(int id) async {
-    final data = await dataSource.fetchUserById(id);
-    if (data.isNotEmpty) {
-      final model = UserModel.fromMap(data);
-      return User(
-        id: model.id,
-        username: model.username,
-        email: model.email,
-      );
+    if (id <= 0) {
+      print("Invalid user ID. Please provide a valid ID.");
+      return null;
     }
-    return null;
+
+    final user = await _datasource.fetchUserById(id);
+    return user != null ? toEntity(user) : null;
+  }
+
+
+  /// Add new user
+  @override
+  Future<void> addUser(User user) async {
+    if (user.username.isEmpty || user.email.isEmpty || user.hashedPassword.isEmpty) {
+      print("Cannot add user. One or more required fields are empty.");
+      return;
+    }
+    
+    final userModel = UserModel(
+      username: user.username,
+      email: user.email,
+      hashedPassword: user.hashedPassword,
+    );
+    
+    await _datasource.addUser(userModel);
+  }
+
+  // Update user
+  @override
+  Future<void> updateUser(User user) async {
+    if (user.username.isEmpty || user.email.isEmpty) {
+      print("Cannot update user. One or more required fields are empty.");
+      return;
+    }
+
+    final userModel = UserModel(
+      username: user.username,
+      email: user.email,
+      hashedPassword: user.hashedPassword,
+    );
+
+    await _datasource.updateUser(userModel);
   }
 
   @override
-  Future<void> addUser(User user, String hashedPassword) async {
-    await dataSource.addUser({
-      'username': user.username,
-      'email': user.email,
-      'hashedPassword': hashedPassword,
-    });
+  Future<bool> checkUserCredentials(String username, String password) async {
+    return await _datasource.checkUserCredentials(username, password);
+  }
+
+  User toEntity(UserModel model) {
+    return User(
+      username: model.username,
+      email: model.email,
+      hashedPassword: model.hashedPassword,
+    );
   }
 }
-*/

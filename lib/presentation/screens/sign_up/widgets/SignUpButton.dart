@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/login/LoginPage.dart';
 import 'package:cvms/presentation/screens/sign_up/constants/strings/LoginPromptStrings.dart';
 
-
-class Loginprompt extends StatelessWidget {
+class Signupbutton extends StatelessWidget {
   final Function onSubmit;
+  final bool isLoading;  
+  final String? errorMessage;  
 
-  // ignore: use_super_parameters
-  const Loginprompt({required this.onSubmit, Key? key}) : super(key: key);
+  const Signupbutton({
+    required this.onSubmit,
+    required this.isLoading, 
+    this.errorMessage,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +20,40 @@ class Loginprompt extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         ElevatedButton(
-          onPressed: () => onSubmit(),
+          onPressed: () {
+            if (!isLoading) {
+              onSubmit(); 
+            }
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF7E9A77),
             padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
           ),
-          child: const Text(
-            AccountCreationButtonStrings.createAccountButton,
-            style: TextStyle(color: Colors.white),
-          ),
+          child: isLoading
+              ? const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
+                )
+              : const Text(
+                  AccountCreationButtonStrings.createAccountButton,
+                  style: TextStyle(color: Colors.white),
+                ),
         ),
+        if (errorMessage != null) 
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Text(
+              errorMessage!,
+              style: const TextStyle(
+                color: Colors.red,
+                fontSize: 14,
+              ),
+            ),
+          ),
         const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -55,5 +84,3 @@ class Loginprompt extends StatelessWidget {
     );
   }
 }
-
-

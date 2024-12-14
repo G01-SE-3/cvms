@@ -10,6 +10,11 @@ import 'package:cvms/domain/usecases/pv/get_all_pvs.dart';
 import 'package:cvms/domain/usecases/pv/get_pv_details.dart';
 import 'package:cvms/domain/usecases/pv/insert_pv.dart';
 import 'package:cvms/presentation/screens/inspectors_list/inspectors_list.dart';
+import 'package:cvms/presentation/screens/business_offender_form/BusinessOffenderForm.dart';
+import 'package:cvms/presentation/screens/BusinessOffender/BusinessOffenderList.dart';
+import 'package:cvms/presentation/screens/IndividualOffender/IndividualOffenderList.dart';
+import 'package:cvms/presentation/screens/sign_up/SignUpPage.dart';
+import 'package:cvms/presentation/screens/login/LoginPage.dart';
 
 void main() {
   // Instantiate the required dependencies
@@ -39,7 +44,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Center(child: PVListPage()),
+        body: Center(child: LoginPage()),
       ),
     );
   }

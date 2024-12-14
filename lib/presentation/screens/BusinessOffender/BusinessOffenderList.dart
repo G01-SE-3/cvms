@@ -6,7 +6,7 @@ import 'package:cvms/domain/usecases/business_offender/add_offender.dart';
 import 'package:cvms/presentation/controllers/business_offender/business_offender_controller.dart';
 import 'package:cvms/domain/repositories/business_offender/business_offender_repository.dart';
 import 'package:postgres/postgres.dart';
-
+import 'package:cvms/core/utils/get_db.dart';
 
 class BusinessOffenderList extends StatefulWidget {
   const BusinessOffenderList({super.key});
@@ -26,14 +26,15 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
     // Set up PostgreSQL connection
     _connection = PostgreSQLConnection(
       'localhost', // Database host
-      5432,        // Port (default for PostgreSQL)
-      'your_db_name', // Database name
-      username: 'your_username', // Database username
-      password: 'your_password', // Database password
+      5432, // Port (default for PostgreSQL)
+      'cvms', // Database name
+      username: "postgres", // Database username
+      password: "123456", // Database password
     );
 
     // Initialize the controller with the repository
-    _controller = BusinessOffenderController_two(BusinessOffenderRepository(_connection));
+    _controller =
+        BusinessOffenderController_two(BusinessOffenderRepository(_connection));
   }
 
   @override

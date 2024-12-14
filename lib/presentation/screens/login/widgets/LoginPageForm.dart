@@ -4,18 +4,27 @@ import 'PasswordField.dart';
 import 'ForgotPasswordButton.dart';
 import 'SignUpPrompt.dart';
 import '../constants/strings/LoginPageStrings.dart';
+import 'package:cvms/domain/repositories/user/user_repository.dart';
+import 'LoginButton.dart'; 
 
 class LoginPageForm extends StatefulWidget {
-  const LoginPageForm({super.key});
+  final TextEditingController usernameController;
+  final TextEditingController passwordController;
+  final UserRepository userRepository;
+
+  const LoginPageForm({
+    required this.usernameController,
+    required this.passwordController,
+    required this.userRepository,
+    super.key,
+  });
 
   @override
   State<LoginPageForm> createState() => _LoginPageFormState();
 }
 
 class _LoginPageFormState extends State<LoginPageForm> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>(); 
 
   @override
   Widget build(BuildContext context) {
@@ -32,25 +41,17 @@ class _LoginPageFormState extends State<LoginPageForm> {
             ),
           ),
           const SizedBox(height: 20),
-          UsernameField(controller: _usernameController),
+          UsernameField(controller: widget.usernameController),
           const SizedBox(height: 20),
-          PasswordField(controller: _passwordController),
+          PasswordField(controller: widget.passwordController),
           const SizedBox(height: 10),
           const ForgotPasswordButton(),
           const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              if (_formKey.currentState?.validate() ?? false) {
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF7E9A77), 
-              padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
-            ),
-            child: const Text(
-              LoginPageStrings.login,
-              style: TextStyle(color: Colors.white), 
-            ),
+          LoginButton(
+            usernameController: widget.usernameController,
+            passwordController: widget.passwordController,
+            userRepository: widget.userRepository,
+            formKey: _formKey, 
           ),
           const SizedBox(height: 10),
           const SignUpPrompt(),

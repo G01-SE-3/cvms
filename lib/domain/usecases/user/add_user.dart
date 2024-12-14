@@ -1,15 +1,23 @@
-/*EACH USE CASE SHALL HAVE A SEPARATE FILE*/ 
-/*
-import '../entities/user.dart';
-import '../repositories/user_repository.dart';
+import 'package:cvms/data/models/user/user_model.dart';
+import 'package:cvms/domain/repositories/user/user_repository.dart';
+
+import '/../domain/entities/user/user.dart';  
 
 class AddUser {
-  final UserRepository repository;
+  final UserRepository userRepository; 
 
-  AddUser(this.repository);
+  AddUser({required this.userRepository});
 
-  Future<void> execute(User user, String hashedPassword) async {
-    await repository.addUser(user, hashedPassword);
+  Future<void> call(UserModel userModel) async {
+    // Convert UserModel to UserEntity
+    final userEntity = User(
+      username: userModel.username,
+      email: userModel.email,
+      hashedPassword: userModel.getHashedPassword, 
+    );
+
+
+    await userRepository.addUser(userEntity); 
   }
+
 }
-*/

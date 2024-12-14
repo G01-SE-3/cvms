@@ -1,8 +1,7 @@
-import 'package:cvms/presentation/screens/login/widgets/LoginPageForm.dart';
+import 'package:cvms/domain/repositories/user/user_repository.dart';
 import 'package:flutter/material.dart';
-
-
-
+import '../../../data/repositories/user/user_repositoty_impl.dart';
+import '../../../presentation/screens/login/widgets/LoginPageForm.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,7 +11,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginPage> {
-  
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final UserRepository _userRepository = UserRepositoryImpl(); 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +32,11 @@ class _LoginFormState extends State<LoginPage> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  child: const LoginPageForm()
+                  child: LoginPageForm(
+                    usernameController: _usernameController,
+                    passwordController: _passwordController,
+                    userRepository: _userRepository,
+                  ),
                 ),
               ),
             ),
