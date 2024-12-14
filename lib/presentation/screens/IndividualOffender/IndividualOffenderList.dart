@@ -1,3 +1,4 @@
+import 'package:cvms/presentation/screens/individual_offender_form/IndividualOffenderForm.dart';
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/IndividualOffender/constants/strings/IndividualOffenderInformations.dart';
 import 'package:cvms/presentation/screens/IndividualOffender/constants/strings/ButtonsText.dart';
@@ -60,7 +61,7 @@ class IndividualOffenderListScreen extends State<IndividualOffenderList> {
           child: Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
-              title: const Text('Business Offender List'),
+              title: const Text('Individual Offender List'),
               actions: [
                 ElevatedButton.icon(
                   onPressed: () {},
@@ -76,7 +77,12 @@ class IndividualOffenderListScreen extends State<IndividualOffenderList> {
                 ),
                 const SizedBox(width: 8),
                 ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => IndividualOffenderForm()),
+                      );
+                  },
                   icon: const Icon(Icons.add, color: Colors.white),
                   label: Text(
                     AddnewOffender,

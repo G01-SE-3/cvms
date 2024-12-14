@@ -3,7 +3,7 @@ import 'package:cvms/domain/usecases/business_offender/get_all_offenders.dart';
 import 'package:cvms/domain/entities/business_offender/business_offender.dart';
 import 'package:cvms/domain/repositories/business_offender/business_offender_repository.dart';
 import 'package:postgres/postgres.dart';
-
+import 'package:cvms/data/datasources/database_connection.dart';
 
 /*
 class BusinessOffenderController {
@@ -35,10 +35,11 @@ class BusinessOffenderController_two {
 
 class BusinessOffenderController {
   // PostgreSQL connection details
-  late PostgreSQLConnection _connection;
+  //late PostgreSQLConnection _connection;
+   late final DatabaseConnection _databaseConnection;
 
   // Open the connection to PostgreSQL database
-  Future<void> openConnection() async {
+  /*Future<void> openConnection() async {
     _connection = PostgreSQLConnection(
       'localhost', // Database host
       5432,        // Database port
@@ -47,18 +48,19 @@ class BusinessOffenderController {
       password: 'your_password',  // Password
     );
     await _connection.open();
-  }
+  }*/
 
   // Function to create an offender (save to PostgreSQL database)
   Future<void> createOffender(BusinessOffender offender) async {
-    try {
-      // Open the connection if not already open
-      if (_connection.isClosed) {
-        await openConnection();
+     try {
+      // Ensure the connection is open
+      if (_databaseConnection.connection == null || _databaseConnection.connection!.isClosed) {
+        await _databaseConnection.connect();
       }
 
+
       // Insert the offender's data into the database
-      await _connection.query(
+      await _databaseConnection.connection!.query(
         '''
         INSERT INTO business_offender(
           business_name, name, surname, date_of_birth, place_of_birth, 
@@ -92,9 +94,7 @@ class BusinessOffenderController {
   }
 
   // Close the connection after the operation
-  Future<void> closeConnection() async {
-    if (!_connection.isClosed) {
-      await _connection.close();
-    }
+   Future<void> closeConnection() async {
+    await _databaseConnection.close();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core/utils/get_db.dart';
+import 'package:cvms/presentation/screens/IndividualOffender/IndividualOffenderList.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -23,9 +24,10 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Database Connection Test'),
         ),
-        body: const Center(
+        body: IndividualOffenderList(),
+        /*const Center(
           child: Text('Check your console for the DB connection status!'),
-        ),
+        ),*/
       ),
     );
   }

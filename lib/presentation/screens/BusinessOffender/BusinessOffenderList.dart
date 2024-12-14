@@ -6,7 +6,7 @@ import 'package:cvms/domain/usecases/business_offender/add_offender.dart';
 import 'package:cvms/presentation/controllers/business_offender/business_offender_controller.dart';
 import 'package:cvms/domain/repositories/business_offender/business_offender_repository.dart';
 import 'package:postgres/postgres.dart';
-
+import 'package:cvms/presentation/screens/business_offender_form/BusinessOffenderForm.dart';
 
 class BusinessOffenderList extends StatefulWidget {
   const BusinessOffenderList({super.key});
@@ -76,7 +76,13 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
                 ),
                 const SizedBox(width: 8),
                 ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => BusinessOffenderForm()),
+                      );
+                    },
+
                   icon: const Icon(Icons.add, color: Colors.white),
                   label: Text(
                     AddnewOffender,
