@@ -57,7 +57,7 @@ class _LatestPopupFormState extends State<LatestPopupForm> {
                   ),
                 ),
               const SizedBox(height: 20),
-              buildActionButtons(
+              buttons(
                 context: context,
                 onCancel: () {
                   Navigator.pop(context);
