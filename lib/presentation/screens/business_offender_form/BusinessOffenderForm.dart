@@ -11,6 +11,7 @@ class BusinessOffenderForm extends StatefulWidget {
 }
 
 class _BusinessOffenderFormState extends State<BusinessOffenderForm> {
+  
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -37,20 +38,21 @@ class _BusinessOffenderFormState extends State<BusinessOffenderForm> {
 
   @override
   void dispose() {
-    businessNameController.dispose();
+    business_nameController.dispose();
     CommercialRegisterNumberController.dispose();
     CommercialRegisterDateController.dispose();
     EditDateController.dispose();
     CancellationDateController.dispose();
     nameController.dispose();
     surnameController.dispose();
-    dobController.dispose();
-    birthCertificateController.dispose();
-    motherNameController.dispose();
-    motherSurnameController.dispose();
-    fatherNameController.dispose();
+    date_of_birthController.dispose();
+    place_of_birthController.dispose();
+    birth_certificate_numberController.dispose();
+    mother_nameController.dispose();
+    mother_surnameController.dispose();
+    father_nameController.dispose();
     addressController.dispose();
-    businessAddressController.dispose();
+    business_addressController.dispose();
     super.dispose();
   }
 }

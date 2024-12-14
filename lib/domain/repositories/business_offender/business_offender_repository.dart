@@ -1,32 +1,33 @@
 import 'package:postgres/postgres.dart';
-import 'package:cvms/domain/entities/individual_offender/individual_offender.dart';
-import 'package:cvms/domain/entities/individual_offender/individual_offender.dart';
-abstract class IndividualOffenderrepository {
-  //Future<List<IndividualOffender>> fetchAllOffenders();
-  Future<void> addOffender(IndividualOffender offender);
+import 'package:cvms/domain/entities/business_offender/business_offender.dart';
+import 'package:cvms/domain/entities/business_offender/business_offender.dart';
+abstract class BusinessOffenderrepository {
+  //Future<List<BusinessOffender>> fetchAllOffenders();
+  Future<void> addOffender(BusinessOffender offender);
 }
 
 
-class IndividualOffenderRepository {
+class BusinessOffenderRepository {
   final PostgreSQLConnection connection;
 
 
-  IndividualOffenderRepository(this.connection);
+  BusinessOffenderRepository(this.connection);
 
-  Future<List<IndividualOffender>> fetchAllOffenders() async {
+  Future<List<BusinessOffender>> fetchAllOffenders() async {
     // Connect to PostgreSQL
     await connection.open();
     
     // Fetch data from the PostgreSQL database
     List<List<dynamic>> results = await connection.query('''
-      SELECT  name, surname, date_of_birth, address, business_address
-      FROM individual_offender
+      SELECT business_name, name, surname, date_of_birth, address, business_address
+      FROM business_offender
     ''');
 
     // Convert results to a list of BusinessOffender objects
-    List<IndividualOffender> offenders = results.map((row) {
-  return IndividualOffender(
-    individual_id: row[0] is int ? row[0] as int : int.parse(row[0] as String),  // Correctly cast to int
+    List<BusinessOffender> offenders = results.map((row) {
+  return BusinessOffender(
+    business_id: row[0] is int ? row[0] as int : int.parse(row[0] as String),  // Correctly cast to int
+    business_name: row[1] as String,
     name: row[2] as String,
     surname: row[3] as String,
     date_of_birth: row[4] as String,

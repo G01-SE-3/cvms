@@ -1,5 +1,6 @@
-class IndividualOffender {
-  final int individual_id;
+class BusinessOffender {
+  final int business_id;
+  final String business_name;
   final String name;
   final String surname;
   String date_of_birth;
@@ -11,8 +12,9 @@ class IndividualOffender {
   String address;
   String business_address;
 
-  IndividualOffender({
-    required this.individual_id,
+  BusinessOffender({
+    required this.business_id,
+    required this.business_name,
     required this.name,
     required this.surname,
     required this.date_of_birth,

@@ -1,15 +1,14 @@
-
-
+// TODO/ FIX THE ERRORS IN THIS PAGE LINE 16 & LINE 20
 /*
-import '../../domain/entities/individual_offender.dart';
-import '../../domain/repositories/individual_offender_repository.dart';
-import '../datasources/individual_offender_datasource.dart';
-import '../models/individual_offender_model.dart';
-
-class IndividualOffenderRepositoryImpl implements IndividualOffenderRepository {
+import 'dart:math';
+import 'package:cvms/domain/entities/Individual_offender/Individual_offender.dart';
+import 'package:cvms/domain/repositories/Individual_offender/Individual_offender_repository.dart';
+import 'package:cvms/data/datasources/Individual_offender/Individual_offender_datasource.dart';
+import 'package:cvms/data/models/individual_offender/individual_offender_model.dart';
+class IndividualOffenderrepositoryImpl implements IndividualOffenderrepository {
   final IndividualOffenderDataSource dataSource;
 
-  IndividualOffenderRepositoryImpl(this.dataSource);
+  IndividualOffenderrepositoryImpl(this.dataSource);
 
   @override
   Future<List<IndividualOffender>> fetchAllOffenders() async {
@@ -18,20 +17,23 @@ class IndividualOffenderRepositoryImpl implements IndividualOffenderRepository {
   }
 
   @override
-  Future<void> addOffender(IndividualOffender offender) async {
-    final model = IndividualOffenderModel(
-      name: offender.name,
-      surname: offender.surname,
-      dateOfBirth: offender.dateOfBirth,
-      placeOfBirth: offender.placeOfBirth,
-      birthCertificateNumber: offender.birthCertificateNumber,
-      motherName: offender.motherName,
-      motherSurname: offender.motherSurname,
-      fatherName: offender.fatherName,
-      address: offender.address,
-      businessAddress: offender.businessAddress,
-    );
-    await dataSource.addOffender(model);
-  }
+Future<void> addOffender(IndividualOffender offender) async {
+  Random random = Random();
+  final model = IndividualOffenderModel(
+    individual_id : random.nextBool() ? 5000 : 1,
+    name: offender.name,
+    surname: offender.surname,
+    date_of_birth: offender.date_of_birth,
+    place_of_birth: offender.place_of_birth,
+    birth_certificate_number: offender.birth_certificate_number, // Ensure it's a String
+    mother_name: offender.mother_name,
+    mother_surname: offender.mother_surname,
+    father_name: offender.father_name,
+    address: offender.address,
+    business_address: offender.business_address,
+  );
+  await dataSource.addOffender(model);
+}
+
 }
 */

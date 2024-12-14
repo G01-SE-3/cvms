@@ -1,19 +1,20 @@
-import 'package:cvms/domain/usecases/individual_offender/add_offender.dart';
-import 'package:cvms/domain/usecases/individual_offender/get_all_offenders.dart';
-import 'package:cvms/domain/entities/individual_offender/individual_offender.dart';
+import 'package:cvms/domain/usecases/business_offender/add_offender.dart';
+import 'package:cvms/domain/usecases/business_offender/get_all_offenders.dart';
+import 'package:cvms/domain/entities/business_offender/business_offender.dart';
+import 'package:cvms/domain/repositories/business_offender/business_offender_repository.dart';
 import 'package:postgres/postgres.dart';
 
 
 /*
-class IndividualOffenderController {
+class BusinessOffenderController {
   // Declare an instance of AddOffender use case
   final AddOffender addOffender;
 
   // Constructor for the controller that takes an AddOffender instance
-  IndividualOffenderController(this.addOffender);
+  BusinessOffenderController(this.addOffender);
 
   // Function to create an offender by calling the AddOffender use case
-  Future<void> createOffender(IndividualOffender offender) async {
+  Future<void> createOffender(BusinessOffender offender) async {
     // Call the execute() function from AddOffender use case
     await addOffender.execute(offender);
   }
@@ -22,19 +23,17 @@ class IndividualOffenderController {
 
 */
 
+class BusinessOffenderController_two {
+  final BusinessOffenderRepository _repository;
 
-class IndividualOffenderController_two{
-  final GetAllOffenders _getAllOffenders;
+  BusinessOffenderController_two(this._repository);
 
-  IndividualOffenderController_two(this._getAllOffenders);
-
-  // Method that fetches the offenders
-  Future<List<IndividualOffender>> fetchOffenders() async {
-    return await _getAllOffenders.execute(); // Assuming execute() method fetches the data
+  Future<List<BusinessOffender>> fetchOffenders() async {
+    return await _repository.fetchAllOffenders(); // Fetch the data from the repository
   }
 }
 
-class IndividualOffenderController {
+class BusinessOffenderController {
   // PostgreSQL connection details
   late PostgreSQLConnection _connection;
 
@@ -51,7 +50,7 @@ class IndividualOffenderController {
   }
 
   // Function to create an offender (save to PostgreSQL database)
-  Future<void> createOffender(IndividualOffender offender) async {
+  Future<void> createOffender(BusinessOffender offender) async {
     try {
       // Open the connection if not already open
       if (_connection.isClosed) {
@@ -61,15 +60,16 @@ class IndividualOffenderController {
       // Insert the offender's data into the database
       await _connection.query(
         '''
-        INSERT INTO individual_offender(
-          name, surname, date_of_birth, place_of_birth, 
+        INSERT INTO business_offender(
+          business_name, name, surname, date_of_birth, place_of_birth, 
           birth_certificate_number, mother_name, mother_surname, 
           father_name, address, business_address
-        ) VALUES (@name, @surname, @date_of_birth, 
+        ) VALUES (@business_name, @name, @surname, @date_of_birth, 
         @place_of_birth, @birth_certificate_number, @mother_name, 
         @mother_surname, @father_name, @address, @business_address)
         ''',
         substitutionValues: {
+          'business_name': offender.business_name,
           'name': offender.name,
           'surname': offender.surname,
           'date_of_birth': offender.date_of_birth,
@@ -83,7 +83,7 @@ class IndividualOffenderController {
         },
       );
 
-      print("Offender saved: ${offender.name}");
+      print("Offender saved: ${offender.business_name}");
 
     } catch (e) {
       print("Failed to add offender: $e");

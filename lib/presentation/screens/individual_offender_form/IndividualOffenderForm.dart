@@ -11,6 +11,7 @@ class IndividualOffenderForm extends StatefulWidget {
 }
 
 class _IndividualOffenderFormState extends State<IndividualOffenderForm> {
+  
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -39,17 +40,19 @@ class _IndividualOffenderFormState extends State<IndividualOffenderForm> {
   void dispose() {
     nameController.dispose();
     surnameController.dispose();
-    CommercialRegisterNumberController.dispose();
-    CommercialRegisterDateController.dispose();
-    EditDateController.dispose();
-    CancellationDateController.dispose();
-    dobController.dispose();
-    birthCertificateController.dispose();
-    motherNameController.dispose();
-    motherSurnameController.dispose();
-    fatherNameController.dispose();
+    commercial_register_numberController.dispose();
+    commercial_register_dateController.dispose();
+    edit_dateController.dispose();
+    cancellation_dateController.dispose();
+    date_of_birthController.dispose();
+    place_of_birthController.dispose();
+    birth_certificate_numberController.dispose();
+    mother_nameController.dispose();
+    mother_surnameController.dispose();
+    father_nameController.dispose();
     addressController.dispose();
-    businessAddressController.dispose();
+    business_addressController.dispose();
     super.dispose();
   }
 }
+

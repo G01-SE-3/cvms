@@ -1,8 +1,5 @@
-/*
-/*EACH USE CASE SHOULD HAVE A SEPARATE FILE*/
-/* CONTAINS ONLY EXECUTE FUNCTION*/
-import '../entities/individual_offender.dart';
-import '../repositories/individual_offender_repository.dart';
+import 'package:cvms/domain/entities/individual_offender/individual_offender.dart';
+import 'package:cvms/domain/repositories/individual_offender/individual_offender_repository.dart';
 
 class GetAllOffenders {
   final IndividualOffenderRepository repository;
@@ -14,4 +11,5 @@ class GetAllOffenders {
   }
 }
 
-*/
+/*EACH USE CASE SHOULD HAVE A SEPARATE FILE*/
+/* CONTAINS ONLY EXECUTE FUNCTION*/

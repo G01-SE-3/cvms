@@ -1,10 +1,11 @@
-import 'package:cvms/domain/entities/individual_offender/individual_offender.dart';
+import 'package:cvms/domain/entities/business_offender/business_offender.dart';
 
-class IndividualOffenderModel extends IndividualOffender {
+class BusinessOffenderModel extends BusinessOffender {
   
 
-  IndividualOffenderModel({
-    required super.individual_id,
+  BusinessOffenderModel({
+    required super.business_id,
+    required super.business_name,
     required super.name,
     required super.surname,
     required super.date_of_birth,
@@ -18,9 +19,10 @@ class IndividualOffenderModel extends IndividualOffender {
 
   });
 
-  factory IndividualOffenderModel.fromMap(Map<String, dynamic> map) {
-    return IndividualOffenderModel(
-      individual_id: map['individual_id'], 
+  factory BusinessOffenderModel.fromMap(Map<String, dynamic> map) {
+    return BusinessOffenderModel(
+      business_id: map['business_id'], 
+      business_name: map['business_name'],
       name: map['name'],
       surname: map['surname'],
       date_of_birth: map['date_of_birth'],
@@ -37,7 +39,8 @@ class IndividualOffenderModel extends IndividualOffender {
 
   Map<String, dynamic> toMap() {
     return {
-      'individual_id': individual_id,
+      'business_id': business_id,
+      'business_name': business_name,
       'name': name,
       'surname': surname,
       'date_of_birth':date_of_birth,
@@ -52,9 +55,10 @@ class IndividualOffenderModel extends IndividualOffender {
 
   }
 
-  IndividualOffender toEntity() {
-    return IndividualOffender(
-      individual_id: individual_id,
+  BusinessOffender toEntity() {
+    return BusinessOffender(
+      business_id: business_id,
+      business_name: business_name,
       name: name,
       surname: surname,
       date_of_birth: date_of_birth,
@@ -68,9 +72,10 @@ class IndividualOffenderModel extends IndividualOffender {
     );
   }
 
-  factory IndividualOffenderModel.fromJson(Map<String, dynamic> json) {
-  return IndividualOffenderModel(
-    individual_id: json['individual_id'] ?? 0,
+  factory BusinessOffenderModel.fromJson(Map<String, dynamic> json) {
+  return BusinessOffenderModel(
+    business_id: json['business_id'] ?? 0,
+    business_name: json['business_name'] ?? '',
     name: json['name'] ?? '',
     surname: json['surname'] ?? '',
     date_of_birth: json['date_of_birth'] ?? '',
