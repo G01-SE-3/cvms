@@ -12,16 +12,16 @@ Widget buttons({
         onPressed: onCancel,
         child: const Text(
           "Cancel",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
       ),
       const SizedBox(width: 10),
       ElevatedButton(
         onPressed: onApply,
-        style: ElevatedButton.styleFrom(),
+        
         child: const Text(
           "Apply",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
       ),
     ],

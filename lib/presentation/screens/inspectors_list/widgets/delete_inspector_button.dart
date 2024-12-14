@@ -6,10 +6,10 @@ class DeleteInspectorButton extends StatelessWidget {
   final Function onDelete;
 
   const DeleteInspectorButton({
-    Key? key,
+    super.key,
     required this.inspector,
     required this.onDelete,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,18 +20,18 @@ class DeleteInspectorButton extends StatelessWidget {
           context: context,
           builder: (context) => AlertDialog(
             title: Text('${DeleteInspectorButtonStrings.deleteInspector} ${inspector[DeleteInspectorButtonStrings.delete]}'),  
-            content: Text(DeleteInspectorButtonStrings.areYouSureDelete),  
+            content: const Text(DeleteInspectorButtonStrings.areYouSureDelete),  
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text(DeleteInspectorButtonStrings.cancel), 
+                child: const Text(DeleteInspectorButtonStrings.cancel), 
               ),
               TextButton(
                 onPressed: () {
                   onDelete();
                   Navigator.pop(context);
                 },
-                child: Text(DeleteInspectorButtonStrings.delete),  
+                child: const Text(DeleteInspectorButtonStrings.delete),  
               ),
             ],
           ),

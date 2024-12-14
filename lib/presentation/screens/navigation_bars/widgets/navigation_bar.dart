@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-Widget navigation_bar(List<String> tabs, int selectedTabIndex, Function(int) onTap) {
+Widget navigation_bar(BuildContext context, List<String> tabs,
+    int selectedTabIndex, Function(int) onTap) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 16.0),
     child: Row(
@@ -9,7 +10,8 @@ Widget navigation_bar(List<String> tabs, int selectedTabIndex, Function(int) onT
         tabs.length,
         (index) => GestureDetector(
           onTap: () {
-            onTap(index);
+            onTap(index); // Update the selected tab index
+            // Navigate only in the parent widget
           },
           child: Padding(
             padding: const EdgeInsets.only(right: 16.0),
@@ -23,9 +25,8 @@ Widget navigation_bar(List<String> tabs, int selectedTabIndex, Function(int) onT
                     fontWeight: selectedTabIndex == index
                         ? FontWeight.bold
                         : FontWeight.normal,
-                    color: selectedTabIndex == index
-                        ? Colors.black
-                        : Colors.grey,
+                    color:
+                        selectedTabIndex == index ? Colors.black : Colors.grey,
                   ),
                 ),
                 if (selectedTabIndex == index)

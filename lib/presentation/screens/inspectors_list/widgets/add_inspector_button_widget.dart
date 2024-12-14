@@ -27,7 +27,7 @@ class AddInspectorButtonWidget extends StatelessWidget {
           // Your logic to refresh or update the list goes here
           // For example:
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text('Inspector added successfully!'),
               backgroundColor: Colors.green,
             ),
@@ -35,9 +35,9 @@ class AddInspectorButtonWidget extends StatelessWidget {
         }
       },
       icon: const Icon(Icons.add, color: Colors.white),
-      label: Text(
+      label: const Text(
         Strings.addNewInspector,  // Use the string from the Strings class
-        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
   }

@@ -13,7 +13,7 @@ class LoginPage extends StatefulWidget {
 class _LoginFormState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final UserRepository _userRepository = UserRepositoryImpl(); 
+  final UserRepository _userRepository = UserRepositoryImpl();
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,8 @@ class _LoginFormState extends State<LoginPage> {
           bool isLargeScreen = constraints.maxWidth > 600;
           return Center(
             child: Container(
-              color: isLargeScreen ? const Color(0xFF545837) : Colors.transparent,
+              color:
+                  isLargeScreen ? const Color(0xFF545837) : Colors.transparent,
               child: Center(
                 child: Container(
                   width: 400,

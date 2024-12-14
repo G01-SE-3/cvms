@@ -4,7 +4,12 @@ String? validateDateRange(DateTime? startDate, DateTime? endDate) {
   if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
     return "Start date cannot be later than end date.";
   }
-  return null;
+  else if(startDate == null && endDate == null )
+  {
+         return "Input  fields cannot be empty.";
+  }
+ 
+
 }
 
 

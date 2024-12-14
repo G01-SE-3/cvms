@@ -1,3 +1,4 @@
+import 'package:cvms/presentation/screens/homepage/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/inspectors_list/inspectors_list.dart';
 import 'package:cvms/presentation/screens/login/constants/strings/LoginButtonStrings.dart';
@@ -45,16 +46,17 @@ class LoginButtonState extends State<LoginButton> {
             final username = widget.usernameController.text;
             final password = widget.passwordController.text;
 
-            bool isValid = false; 
+            bool isValid = false;
 
             try {
-              isValid = await widget.userRepository.checkUserCredentials(username, password);
+              isValid = await widget.userRepository
+                  .checkUserCredentials(username, password);
             } catch (e) {
               setState(() {
                 isLoading = false;
-                errorMessage = Loginbuttonstrings.LoginFailed; 
+                errorMessage = Loginbuttonstrings.LoginFailed;
               });
-              return; 
+              return;
             }
 
             if (!mounted) return;
@@ -67,12 +69,12 @@ class LoginButtonState extends State<LoginButton> {
               if (mounted) {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const InspectorsListPage()),
+                  MaterialPageRoute(builder: (context) => const HomePage()),
                 );
               }
             } else {
               setState(() {
-                errorMessage = Loginbuttonstrings.LoginFailed; 
+                errorMessage = Loginbuttonstrings.LoginFailed;
               });
             }
           },
@@ -94,7 +96,6 @@ class LoginButtonState extends State<LoginButton> {
                   style: TextStyle(color: Colors.white),
                 ),
         ),
-
         if (errorMessage != null)
           Padding(
             padding: const EdgeInsets.only(top: 10.0),

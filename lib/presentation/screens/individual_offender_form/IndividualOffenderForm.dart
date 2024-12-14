@@ -2,6 +2,8 @@ import 'package:cvms/presentation/screens/individual_offender_form/constants/str
 import 'package:cvms/presentation/screens/individual_offender_form/individual_offender_informations/individualOffenderInformation.dart';
 import 'package:cvms/presentation/screens/individual_offender_form/widgets/OffenderForm.dart';
 import 'package:flutter/material.dart';
+import 'package:cvms/presentation/screens/navigation_bars/GeneralAppBar.dart';
+import 'package:cvms/presentation/screens/navigation_bars/sidebar.dart';
 
 class IndividualOffenderForm extends StatefulWidget {
   const IndividualOffenderForm({super.key});
@@ -11,27 +13,29 @@ class IndividualOffenderForm extends StatefulWidget {
 }
 
 class _IndividualOffenderFormState extends State<IndividualOffenderForm> {
-  
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        body: Row(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title), 
-                    OffenderForm(context: context),
-                  ],
-                ),
+    return Scaffold(
+      drawer: Sidebar(), // Add Sidebar if needed
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(220.0), // Adjust height as needed
+        child: GeneralAppBar(
+            search: true, initialTabIndex: 4), // Set to Individual Offender tab
+      ),
+      body: Row(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title),
+                  OffenderForm(context: context),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -55,4 +59,3 @@ class _IndividualOffenderFormState extends State<IndividualOffenderForm> {
     super.dispose();
   }
 }
-
