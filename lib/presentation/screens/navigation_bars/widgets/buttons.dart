@@ -10,12 +10,21 @@ Widget buildActionButtons({
     children: [
       TextButton(
         onPressed: onCancel,
-        child: const Text("Cancel"),
+        child: const Text(
+          "Cancel",
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       const SizedBox(width: 10),
       ElevatedButton(
         onPressed: onApply,
-        child: const Text("Apply"),
+        style: ElevatedButton.styleFrom(
+          primary: Colors.blue, // Button color (optional)
+        ),
+        child: const Text(
+          "Apply",
+          style: TextStyle(color: Colors.white),
+        ),
       ),
     ],
   );
