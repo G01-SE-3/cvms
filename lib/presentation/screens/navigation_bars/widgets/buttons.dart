@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget buildActionButtons({
+Widget buttons({
   required BuildContext context,
   required VoidCallback onCancel,
   required VoidCallback onApply,
