@@ -1,12 +1,11 @@
 import 'package:cvms/data/models/user/user_model.dart';
 import '../database_helper.dart';
 
-
 class UserDataSource {
-
   // Fetch all users
   Future<List<UserModel>> fetchAllUsers() async {
-    final connection = await DatabaseHelper().connection;  // Get the singleton connection
+    final connection =
+        await DatabaseHelper().connection; // Get the singleton connection
     final results = await connection.query('SELECT * FROM users');
 
     List<UserModel> users = [];
@@ -23,7 +22,8 @@ class UserDataSource {
       return null;
     }
 
-    final connection = await DatabaseHelper().connection;  // Get the singleton connection
+    final connection =
+        await DatabaseHelper().connection; // Get the singleton connection
     final result = await connection.query(
       'SELECT * FROM users WHERE username = @username',
       substitutionValues: {'username': username},
@@ -48,7 +48,8 @@ class UserDataSource {
       return null;
     }
 
-    final connection = await DatabaseHelper().connection;  // Get the singleton connection
+    final connection =
+        await DatabaseHelper().connection; // Get the singleton connection
     final result = await connection.query(
       'SELECT * FROM users WHERE email = @email',
       substitutionValues: {'email': email},
@@ -73,7 +74,8 @@ class UserDataSource {
       return null;
     }
 
-    final connection = await DatabaseHelper().connection;  // Get the singleton connection
+    final connection =
+        await DatabaseHelper().connection; // Get the singleton connection
     final result = await connection.query(
       'SELECT * FROM users WHERE user_id = @id',
       substitutionValues: {'id': id},
@@ -91,31 +93,34 @@ class UserDataSource {
     return null;
   }
 
-  // Check if user exists by username and password
   Future<bool> checkUserCredentials(String username, String password) async {
-    final connection = await DatabaseHelper().connection;  // Get the singleton connection
-    final result = await connection.query(
-      'SELECT * FROM users WHERE username = @username AND password = @password',
-      substitutionValues: {
-        'username': username,
-        'password': password,
-      },
-    );
+  final connection =
+      await DatabaseHelper().connection; 
 
-    return result.isNotEmpty;
-  }
+  final result = await connection.query(
+    'SELECT * FROM users WHERE username = @username AND password = @password',
+    substitutionValues: {
+      'username': username,  
+      'password': password,  
+    },
+  );
+
+  return result.isNotEmpty;
+}
+
 
   // Add a new user
   Future<void> addUser(UserModel user) async {
-    if (user.username.isEmpty || user.email.isEmpty || user.hashedPassword.isEmpty) {
+    if (user.username.isEmpty ||
+        user.email.isEmpty ||
+        user.hashedPassword.isEmpty) {
       print("Cannot add user. One or more required fields are empty.");
       return;
     }
 
     try {
-      final connection = await DatabaseHelper().connection;  // Get the singleton connection
-      print("Connection established: $connection");
-
+      final connection =
+          await DatabaseHelper().connection; 
       var result = await connection.query(
         'INSERT INTO users (username, email, password) VALUES (@username, @email, @password)',
         substitutionValues: {
@@ -130,10 +135,9 @@ class UserDataSource {
       } else {
         print("Query executed. User added successfully.");
       }
-
     } catch (e) {
       print("Error occurred during query: $e");
-      rethrow;  
+      rethrow;
     }
   }
 
@@ -144,7 +148,8 @@ class UserDataSource {
       return;
     }
 
-    final connection = await DatabaseHelper().connection;  // Get the singleton connection
+    final connection =
+        await DatabaseHelper().connection; // Get the singleton connection
     await connection.query(
       'UPDATE users SET username = @username, email = @email, password = @password WHERE user_id = @id',
       substitutionValues: {

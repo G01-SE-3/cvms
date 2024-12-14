@@ -1,3 +1,4 @@
+import 'package:cvms/data/repositories/user/user_repositoty_impl.dart';
 import 'package:cvms/presentation/screens/PV_details_page/PVPage.dart';
 import 'package:cvms/presentation/screens/PVs_list_page/PVListPage.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'package:cvms/presentation/screens/BusinessOffender/BusinessOffenderList.
 import 'package:cvms/presentation/screens/IndividualOffender/IndividualOffenderList.dart';
 import 'package:cvms/presentation/screens/sign_up/SignUpPage.dart';
 import 'package:cvms/presentation/screens/login/LoginPage.dart';
+import 'package:cvms/presentation/screens/sign_up/SignUpPage.dart';
 
 void main() {
   // Instantiate the required dependencies
@@ -44,7 +46,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Center(child: LoginPage()),
+        body: Center(child: SignUpPage(
+          userRepository: UserRepositoryImpl(),
+        )),
       ),
     );
   }

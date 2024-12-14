@@ -18,4 +18,11 @@ class Validation {
     }
     return null;
   }
+
+  static String? validateUsername(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Username must not be empty.';
+    }
+    return null;
+  }
 }

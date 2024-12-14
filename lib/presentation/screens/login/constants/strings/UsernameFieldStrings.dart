@@ -1,6 +1,6 @@
 class Usernamefieldstrings { 
   
-  static const String labelText = 'Email';
-  static const String hintText= 'Enter your email';
+  static const String labelText = 'Username';
+  static const String hintText= 'Enter your username';
 
 }

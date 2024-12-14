@@ -45,26 +45,27 @@ class LoginButtonState extends State<LoginButton> {
             final username = widget.usernameController.text;
             final password = widget.passwordController.text;
 
-            bool isValid = false; 
+            bool isValid = false;
 
             try {
               isValid = await widget.userRepository.checkUserCredentials(username, password);
             } catch (e) {
               setState(() {
                 isLoading = false;
-                errorMessage = Loginbuttonstrings.LoginFailed; 
+                errorMessage = Loginbuttonstrings.LoginFailed;
               });
-              return; 
+              return;
             }
 
             if (!mounted) return;
 
-            setState(() {
-              isLoading = false;
-            });
+            setState(() {});
 
             if (isValid) {
               if (mounted) {
+                // Delay for 3 seconds before navigating
+                await Future.delayed(const Duration(seconds: 3));
+
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const InspectorsListPage()),
@@ -72,7 +73,7 @@ class LoginButtonState extends State<LoginButton> {
               }
             } else {
               setState(() {
-                errorMessage = Loginbuttonstrings.LoginFailed; 
+                errorMessage = Loginbuttonstrings.LoginFailed;
               });
             }
           },
@@ -94,7 +95,6 @@ class LoginButtonState extends State<LoginButton> {
                   style: TextStyle(color: Colors.white),
                 ),
         ),
-
         if (errorMessage != null)
           Padding(
             padding: const EdgeInsets.only(top: 10.0),

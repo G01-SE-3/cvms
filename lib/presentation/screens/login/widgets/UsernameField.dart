@@ -18,7 +18,7 @@ class UsernameField extends StatelessWidget {
           borderSide: BorderSide(color: Color(0xFF306238)), 
         ),
       ),
-      validator: Validation.validateEmail,
+      validator: Validation.validateUsername,
     );
   }
 }
