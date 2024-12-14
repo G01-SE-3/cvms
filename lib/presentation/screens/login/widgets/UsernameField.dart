@@ -15,10 +15,10 @@ class UsernameField extends StatelessWidget {
         labelText: Usernamefieldstrings.labelText,
         hintText: Usernamefieldstrings.hintText,
         border: OutlineInputBorder(
-          borderSide: BorderSide(color: Color(0xFF306238)), 
+          borderSide: BorderSide(color: Color(0xFF306238)),
         ),
       ),
-      validator: Validation.validateEmail,
+      //validator: Validation.validateEmail,
     );
   }
 }
