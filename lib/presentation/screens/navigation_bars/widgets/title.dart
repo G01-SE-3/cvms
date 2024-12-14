@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget buildTitle(String title) {
+Widget title(String title) {
   return Text(
     title,
     style: const TextStyle(

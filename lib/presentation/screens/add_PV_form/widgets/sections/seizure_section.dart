@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cvms/data/models/pv/seizure_model.dart';
 import 'package:cvms/domain/entities/pv/seizure.dart';
 import '../../selection_globals.dart';
 

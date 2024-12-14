@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget navigation_bar(List<String> tabs, int selectedTabIndex, Function(int) onTap) {
+Widget navigation_bar(BuildContext context ,List<String> tabs, int selectedTabIndex, Function(int) onTap) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 16.0),
     child: Row(
@@ -9,7 +9,19 @@ Widget navigation_bar(List<String> tabs, int selectedTabIndex, Function(int) onT
         tabs.length,
         (index) => GestureDetector(
           onTap: () {
-            onTap(index);
+            switch (index) {
+    case 0:
+      Navigator.pushNamed(context, '/pvs');
+      break;
+    case 1:
+      Navigator.pushNamed(context, '/inspectors');
+      break;
+    case 2:
+      Navigator.pushNamed(context, '/economic_operators');
+      break;
+    
+    
+  }
           },
           child: Padding(
             padding: const EdgeInsets.only(right: 16.0),

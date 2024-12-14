@@ -2,6 +2,8 @@ import 'package:cvms/presentation/screens/individual_offender_form/constants/str
 import 'package:cvms/presentation/screens/individual_offender_form/individual_offender_informations/individualOffenderInformation.dart';
 import 'package:cvms/presentation/screens/individual_offender_form/widgets/OffenderForm.dart';
 import 'package:flutter/material.dart';
+import'package:cvms/presentation/screens/navigation_bars/GeneralAppBar.dart';
+import 'package:cvms/presentation/screens/navigation_bars/sidebar.dart';
 
 class IndividualOffenderForm extends StatefulWidget {
   const IndividualOffenderForm({super.key});
@@ -13,7 +15,13 @@ class IndividualOffenderForm extends StatefulWidget {
 class _IndividualOffenderFormState extends State<IndividualOffenderForm> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
+    return Scaffold(
+    drawer:const Sidebar(),
+    appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(150.0), // Adjust height as needed
+        child: GeneralAppBar(search:false),
+      ),
+   body: DefaultTabController(
       length: 3,
       child: Scaffold(
         body: Row(
@@ -32,7 +40,7 @@ class _IndividualOffenderFormState extends State<IndividualOffenderForm> {
           ],
         ),
       ),
-    );
+    ),);
   }
 
   @override

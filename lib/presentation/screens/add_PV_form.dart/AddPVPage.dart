@@ -5,6 +5,8 @@ import 'widgets/text_field.dart';
 import 'widgets/price_field.dart';
 import 'widgets/officer_dropdown.dart';
 import 'widgets/expandable_section.dart';
+import'package:cvms/presentation/screens/navigation_bars/GeneralAppBar.dart';
+import'package:cvms/presentation/screens/navigation_bars/sidebar.dart';
 
 class AddPVPage extends StatefulWidget {
   const AddPVPage({super.key});
@@ -46,6 +48,11 @@ class _AddPVPageState extends State<AddPVPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer:const Sidebar(),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(150.0), // Adjust height as needed
+        child: GeneralAppBar(search:false),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 30),
         child: Center(

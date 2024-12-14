@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import '../price_field.dart';
 import 'package:cvms/domain/entities/pv/financial_penalty.dart';
 import '../../selection_globals.dart';
-import 'package:flutter/material.dart';
-import '../price_field.dart';
-import 'package:cvms/data/models/pv/financial_penalty_model.dart';
 
 class FinancialPenaltySection extends StatefulWidget {
   final Function(FinancialPenalty? penalty) onPenaltyUpdated;

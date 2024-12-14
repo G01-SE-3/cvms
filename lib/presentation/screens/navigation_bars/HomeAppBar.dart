@@ -17,7 +17,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Sidebar(),
+      drawer: const Sidebar(),
       body: Column(
         children: [
           Container(
@@ -31,7 +31,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: navigation_bar(tabs, _selectedTabIndex, (index) {
+                  child: navigation_bar(context ,tabs, _selectedTabIndex, (index) {
                     setState(() {
                       _selectedTabIndex = index;
                     });

@@ -19,6 +19,8 @@ import 'package:cvms/domain/entities/pv/financial_penalty.dart';
 import 'package:cvms/domain/entities/pv/national_card_reg.dart';
 import 'package:cvms/domain/entities/pv/seizure.dart';
 import 'selection_globals.dart';
+import'package:cvms/presentation/screens/navigation_bars/GeneralAppBar.dart';
+import'package:cvms/presentation/screens/navigation_bars/sidebar.dart';
 
 class AddPVPage extends StatefulWidget {
   const AddPVPage({super.key});
@@ -63,7 +65,7 @@ class _AddPVPageState extends State<AddPVPage> {
   // Track Seizure Sections
   final List<SeizureSection> _seizureSections = [];
 
-  List<Seizure>? seizures = null;
+  List<Seizure>? seizures;
 
   void _handleSeizuresUpdated(List<Seizure>? updatedSeizures) {
     setState(() {
@@ -72,13 +74,18 @@ class _AddPVPageState extends State<AddPVPage> {
     print("Updated seizures: $seizures"); // You can use the updated list here
   }
 
-  Closure? _closure = null;
-  FinancialPenalty? _financialPenalty = null;
-  LegalProceedings? _legalProceedings = null;
-  NationalCardRegistration? _nationalCardRegistration = null;
+  Closure? _closure;
+  FinancialPenalty? _financialPenalty;
+  LegalProceedings? _legalProceedings;
+  NationalCardRegistration? _nationalCardRegistration;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+     drawer:const Sidebar(),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(150.0), // Adjust height as needed
+        child: GeneralAppBar(search:false),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 30),
         child: Center(
@@ -266,7 +273,6 @@ class _AddPVPageState extends State<AddPVPage> {
                                 // Validate Closure data if closureSelection is true
                                 if (closureSelection &&
                                     (_closure == null ||
-                                        _closure!.closureOrderDate == null ||
                                         _closure!.closureOrderDate
                                             .isBefore(DateTime(1900)))) {
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -282,9 +288,6 @@ class _AddPVPageState extends State<AddPVPage> {
                                 // Validate National Card Registration data if nationalCardRegistrationSelection is true
                                 if (nationalCardRegistrationSelection &&
                                     (_nationalCardRegistration == null ||
-                                        _nationalCardRegistration!
-                                                .nationalCardIssueDate ==
-                                            null ||
                                         _nationalCardRegistration!
                                             .nationalCardIssueDate
                                             .isBefore(DateTime(1900)))) {
@@ -302,8 +305,6 @@ class _AddPVPageState extends State<AddPVPage> {
                                 if (financialPenaltySelection &&
                                     (_financialPenalty == null ||
                                         _financialPenalty!.penaltyAmount <= 0 ||
-                                        _financialPenalty!.penaltyDate ==
-                                            null ||
                                         _financialPenalty!.penaltyDate
                                             .isBefore(DateTime(1900)))) {
                                   ScaffoldMessenger.of(context).showSnackBar(

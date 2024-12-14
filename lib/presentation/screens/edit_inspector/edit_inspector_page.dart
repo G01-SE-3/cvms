@@ -3,10 +3,12 @@ import 'package:cvms/domain/entities/inspector/inspector.dart';
 import 'package:flutter/material.dart';
 import 'widgets/custom_text_field.dart';
 import 'widgets/custom_dropdown_field_for_departments.dart';
-import 'package:cvms/presentation/screens/Appbars/widgets/general_appbar.dart';
 import 'constants/strings/edit_inspector_page_strings.dart';
 import 'widgets/validation_util.dart';
 import 'package:cvms/domain/repositories/inspector/inspector_repository.dart';
+import'package:cvms/presentation/screens/navigation_bars/GeneralAppBar.dart';
+import 'package:cvms/presentation/screens/navigation_bars/sidebar.dart';
+
 
 class EditInspectorPage extends StatefulWidget {
   final String inspectorNumber;
@@ -104,12 +106,13 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
     }
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer:Sidebar(),
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100.0),
-        child: const CVMSAppBar(),
+        preferredSize: Size.fromHeight(150.0), // Adjust height as needed
+        child: GeneralAppBar(search:false),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
@@ -202,7 +205,8 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
                       side: const BorderSide(color: Color(0xFF306238)),
                       padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
                     ),
-                    child: Text(EditInspectorPageStrings.cancelButton),
+
+child: Text(EditInspectorPageStrings.cancelButton),
                   ),
                   const SizedBox(width: 40),
                   ElevatedButton(

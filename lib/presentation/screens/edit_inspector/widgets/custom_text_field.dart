@@ -6,7 +6,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType inputType;
   final String? Function(String?)? validator; 
 
-  const CustomTextField({
+  const CustomTextField({super.key, 
     required this.controller,
     required this.hint,
     required this.inputType,
@@ -20,12 +20,12 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         keyboardType: inputType,
-        style: TextStyle(color: Colors.black),
+        style: const TextStyle(color: Colors.black),
         decoration: InputDecoration(
           labelText: hint,
-          labelStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+          labelStyle: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
           filled: true,
-          fillColor: Color(0xFFDDE5CD),
+          fillColor: const Color(0xFFDDE5CD),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide.none,

@@ -2,6 +2,8 @@ import 'package:cvms/presentation/screens/business_offender_form/Business_offend
 import 'package:cvms/presentation/screens/business_offender_form/constants/strings/BusinessOffenderFormTitle.dart';
 import 'package:cvms/presentation/screens/business_offender_form/widgets/OffenderForm.dart';
 import 'package:flutter/material.dart';
+import'package:cvms/presentation/screens/navigation_bars/GeneralAppBar.dart';
+import'package:cvms/presentation/screens/navigation_bars/sidebar.dart';
 
 class BusinessOffenderForm extends StatefulWidget {
   const BusinessOffenderForm({super.key});
@@ -16,6 +18,11 @@ class _BusinessOffenderFormState extends State<BusinessOffenderForm> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        drawer:const Sidebar(),
+        appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(150.0), // Adjust height as needed
+        child: GeneralAppBar(search:false),
+      ),
         body: Row(
           children: [
             Expanded(

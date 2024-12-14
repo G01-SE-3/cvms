@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Function to create the input field widget
-Widget buildInputField({
+Widget InputField({
   required TextEditingController controller,
   required String hintText,
   IconData? icon, // Make the icon parameter nullable

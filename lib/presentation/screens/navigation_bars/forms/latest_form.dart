@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:cvms/presentation/screens/navigation_bars/widgets/form.dart';
+import 'package:cvms/presentation/screens/navigation_bars/widgets/input_field.dart';
 import 'package:cvms/presentation/screens/navigation_bars/constants/validation.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/title.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/buttons.dart';
+
 
 class LatestPopupForm extends StatefulWidget {
   const LatestPopupForm({super.key});
@@ -10,16 +11,12 @@ class LatestPopupForm extends StatefulWidget {
   @override
   State<LatestPopupForm> createState() => _LatestPopupFormState();
 }
-
 class _LatestPopupFormState extends State<LatestPopupForm> {
   final TextEditingController _controller = TextEditingController();
-  String? _errorText; // Store error message
+  String? _errorText; 
 
   @override
   Widget build(BuildContext context) {
-    // Call validateInput and check if the text is valid or not
-    _errorText = validateInput(_controller.text);
-
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.all(16),
@@ -34,9 +31,9 @@ class _LatestPopupFormState extends State<LatestPopupForm> {
           ),
           child: Column(
             children: [
-              buildTitle("Latest :"),
+              title("Latest :"),
               const SizedBox(height: 20),
-              buildInputField(
+              InputField(
                 controller: _controller,
                 hintText: "Enter a number",
                 icon: null,
@@ -63,7 +60,13 @@ class _LatestPopupFormState extends State<LatestPopupForm> {
                   Navigator.pop(context);
                 },
                 onApply: () {
-                  // Handle apply logic here
+                  // Call validateInput here when the Apply button is pressed
+                  setState(() {
+                    _errorText = validateInput(_controller.text);
+                  });
+                  if (_errorText == null) {
+                    Navigator.pop(context);
+                  }
                 },
               ),
             ],

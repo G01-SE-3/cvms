@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:cvms/presentation/screens/navigation_bars/widgets/form.dart';
+import 'package:cvms/presentation/screens/navigation_bars/widgets/input_field.dart';
 import 'package:cvms/presentation/screens/navigation_bars/constants/validation.dart';
 import 'package:cvms/presentation/screens/navigation_bars/constants/data_picker.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/title.dart';
-import 'package:cvms/presentation/screens/navigation_bars/constants/error.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/buttons.dart';
 
 class DateFilterPopup extends StatefulWidget {
@@ -13,6 +12,8 @@ class DateFilterPopup extends StatefulWidget {
   State<DateFilterPopup> createState() => _DateFilterPopupState();
 }
 
+
+  
 class _DateFilterPopupState extends State<DateFilterPopup> {
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
@@ -33,11 +34,11 @@ class _DateFilterPopupState extends State<DateFilterPopup> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            buildTitle("Filtering by Date :"),
+            title("Filtering by Date :"),
             const SizedBox(height: 20),
             Row(
               children: [
-                buildInputField(
+                InputField(
                   controller: _startDateController,
                   hintText: "Start Date",
                   icon: Icons.calendar_today,
@@ -51,14 +52,14 @@ class _DateFilterPopupState extends State<DateFilterPopup> {
                     (pickedDate) {
                       setState(() {
                         _startDate = pickedDate;
-                        _errorText = null;
+                        _errorText = null; // Reset error text when date is picked
                       });
-                      _errorText = validateDateRange(_startDate, _endDate);
+                      _errorText = validateDateRange(_startDate, _endDate); // Validate date range
                     },
                   ),
                 ),
                 const SizedBox(width: 10),
-                buildInputField(
+                InputField(
                   controller: _endDateController,
                   hintText: "End Date",
                   icon: Icons.calendar_today,
@@ -72,9 +73,9 @@ class _DateFilterPopupState extends State<DateFilterPopup> {
                     (pickedDate) {
                       setState(() {
                         _endDate = pickedDate;
-                        _errorText = null;
+                        _errorText = null; // Reset error text when date is picked
                       });
-                      _errorText = validateDateRange(_startDate, _endDate);
+                      _errorText = validateDateRange(_startDate, _endDate); // Validate date range
                     },
                   ),
                 ),
@@ -96,9 +97,12 @@ class _DateFilterPopupState extends State<DateFilterPopup> {
                 Navigator.pop(context);
               },
               onApply: () {
+                setState(() {
+                  _errorText = validateDateRange(_startDate, _endDate); // Validate on apply
+                });
                 if (_errorText == null) {
+                  // If no error, proceed with apply logic
                   Navigator.pop(context);
-                  // Implement page-specific logic for Apply button here
                 }
               },
             ),
