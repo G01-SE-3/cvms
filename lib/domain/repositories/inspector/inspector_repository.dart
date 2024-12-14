@@ -4,6 +4,6 @@ abstract class InspectorRepository {
   Future<List<InspectorEntity>> getAllInspectors();
   Future<InspectorEntity?> getInspectorById(int id);
   Future<void> addInspector(InspectorEntity inspector);
-  Future<void> updateInspector(InspectorEntity inspector);  // Add this method
-  Future<void> deleteInspector(InspectorEntity inspector);  // Add delete method
+  Future<void> updateInspector(InspectorEntity inspector); 
+  Future<void> deleteInspector(InspectorEntity inspector);  
 }

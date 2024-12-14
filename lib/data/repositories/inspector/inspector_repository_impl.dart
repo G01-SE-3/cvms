@@ -66,7 +66,7 @@ class InspectorRepositoryImpl implements InspectorRepository {
     await _datasource.updateInspector(inspectorModel);  // Ensure this method is implemented in your datasource
   }
 
-  @override
+   @override
   Future<void> deleteInspector(InspectorEntity inspector) async {
     try {
       await _datasource.deleteInspector(inspector.inspectorNumber);
@@ -74,7 +74,6 @@ class InspectorRepositoryImpl implements InspectorRepository {
       throw Exception('Failed to delete inspector');
     }
   }
-
   InspectorEntity toEntity(InspectorModel model) {
     return InspectorEntity(
       inspectorNumber: model.id ?? 0,
