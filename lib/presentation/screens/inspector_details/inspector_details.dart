@@ -3,10 +3,9 @@ import 'widgets/information_row.dart';
 import 'widgets/add_inspector_button.dart';
 import 'widgets/export_inspector_button.dart';
 import 'widgets/delete_inspector_button.dart';
-import 'package:cvms/presentation/screens/Appbars/widgets/general_appbar.dart';
 import 'constants/strings/inspector_details_strings.dart';
 
-
+// this one defines the UI for the page and only creates an example by passing dummy data
 class InspectorDetailsPage extends StatelessWidget {
   final String inspectorName;
   final String inspectorSurname;
@@ -24,10 +23,7 @@ class InspectorDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100.0), // Adjust height as needed
-        child: const CVMSAppBar(),
-      ),
+      appBar: null,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

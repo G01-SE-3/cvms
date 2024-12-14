@@ -6,7 +6,6 @@ import 'widgets/custom_text_field.dart';
 import 'widgets/custom_dropdown_field.dart';
 import 'widgets/validation_util.dart';
 import 'constants/strings/add_inspector_page_strings.dart';
-import '../../../core/utils/get_db.dart'; // Adjust the path as per your project structure.
 
 class AddInspectorPage extends StatefulWidget {
   @override
@@ -25,7 +24,6 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
   String? _selectedDepartment;
   String _message = AddInspectorPageStrings.message;
 
-  // Initialize the repository
   final InspectorRepository _inspectorRepository = InspectorRepositoryImpl();  
 
   @override
@@ -70,7 +68,6 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
         contactNumber: contactNumber,  
       );
 
-      // Call addInspector method from repository
       _inspectorRepository.addInspector(inspector);
 
       setState(() {
@@ -197,16 +194,13 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
                     ),
-                    child: const Text(AddInspectorPageStrings.saveButton),
+                    child:  Text(AddInspectorPageStrings.saveButton),
                   ),
                 ],
               ),
               const SizedBox(height: 40),
-              if (_message.isNotEmpty)
-                Text(
-                  _message,
-                  style: const TextStyle(fontSize: 16, color: Colors.green),
-                ),
+              if (_message.isNotEmpty) 
+                Center(child: Text(_message, style: TextStyle(fontSize: 16, color: Colors.green))),
             ],
           ),
         ),

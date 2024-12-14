@@ -1,3 +1,4 @@
+import 'package:cvms/presentation/screens/add_inspector/add_inspector_page.dart';
 import 'package:flutter/material.dart';
 import '../../edit_inspector/edit_inspector_page.dart';
 import '../constants/strings/add_inspector_button_strings.dart'; 
@@ -25,13 +26,8 @@ class AddInspectorButtonWidget extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EditInspectorPage(
-              inspectorNumber: '123456', // Example Inspector Number
-              inspectorName: inspectorName,
-              inspectorSurname: inspectorSurname,
-              inspectorBadgeNumber: '987654', // Example Badge Number
-              assignedDepartment: inspectorDepartment,
-              contactNumber: contactNumber,
+            builder: (context) => AddInspectorPage(
+
             ),
           ),
         );

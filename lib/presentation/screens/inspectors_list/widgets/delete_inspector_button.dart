@@ -19,19 +19,19 @@ class DeleteInspectorButton extends StatelessWidget {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('${DeleteInspectorButtonStrings.deleteInspector} ${inspector['Name']}'),  // Use the string from AppStrings
-            content: Text(DeleteInspectorButtonStrings.areYouSureDelete),  // Use the string from AppStrings
+            title: Text('${DeleteInspectorButtonStrings.deleteInspector} ${inspector[DeleteInspectorButtonStrings.delete]}'),  
+            content: Text(DeleteInspectorButtonStrings.areYouSureDelete),  
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text(DeleteInspectorButtonStrings.cancel),  // Use the string from AppStrings
+                child: Text(DeleteInspectorButtonStrings.cancel), 
               ),
               TextButton(
                 onPressed: () {
                   onDelete();
                   Navigator.pop(context);
                 },
-                child: Text(DeleteInspectorButtonStrings.delete),  // Use the string from AppStrings
+                child: Text(DeleteInspectorButtonStrings.delete),  
               ),
             ],
           ),
