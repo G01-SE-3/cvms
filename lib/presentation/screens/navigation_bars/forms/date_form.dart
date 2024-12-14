@@ -90,7 +90,7 @@ class _DateFilterPopupState extends State<DateFilterPopup> {
                 ),
               ),
             const SizedBox(height: 20),
-            buildActionButtons(
+            buttons(
               context: context,
               onCancel: () {
                 Navigator.pop(context);
