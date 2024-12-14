@@ -9,77 +9,73 @@ import 'package:cvms/presentation/screens/PV_details_page/widgets/pv_closure_sec
 import 'package:provider/provider.dart';
 import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
 
-class PVPage extends StatefulWidget {
+class PVPage extends StatelessWidget {
   final String pvId;
 
   const PVPage({super.key, required this.pvId});
 
   @override
-  _PVPageState createState() => _PVPageState();
-}
-
-class _PVPageState extends State<PVPage> {
-  @override
-  void initState() {
-    super.initState();
-
-    // Load the PV data once the page is built
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final controller = Provider.of<PVController>(context, listen: false);
-      if (controller.pv == null && !controller.isLoading) {
-        controller.loadPV(widget.pvId); // Load the PV data using the pvId
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<PVController>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(title: const Text('PV Details')),
-      body: Consumer<PVController>(builder: (context, controller, _) {
-        if (controller.isLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
+      body: FutureBuilder(
+        future: controller.loadPV(pvId), // Call the loadPV method
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Error: ${snapshot.error}"),
+                  ElevatedButton(
+                    onPressed: () {
+                      controller.loadPV(pvId); // Retry loading
+                    },
+                    child: const Text("Retry"),
+                  ),
+                ],
+              ),
+            );
+          }
 
-        if (controller.errorMessage != null) {
-          return Center(
+          // Assuming loadPV populates the controller.pv directly
+          final pv = controller.pv;
+
+          // Ensure pv is available
+          if (pv == null) {
+            return const Center(child: Text("No PV data available."));
+          }
+
+          return SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Error: ${controller.errorMessage}"),
-                ElevatedButton(
-                  onPressed: () => controller.loadPV(widget.pvId),
-                  child: const Text("Retry"),
-                ),
+                const PVHeader(),
+                const SizedBox(height: 20),
+                PVDetailsSection(pv: pv),
+                const SizedBox(height: 20),
+                PVSeizuresSection(seizures: pv.seizures),
+                const SizedBox(height: 20),
+                PVClosureSection(closure: pv.closure),
+                const SizedBox(height: 20),
+                PVFinancialPenaltySection(
+                    financialPenalty: pv.financialPenalty),
+                const SizedBox(height: 20),
+                PVLegalProceedingsSection(
+                    legalProceedings: pv.legalProceedings),
+                const SizedBox(height: 20),
+                PVNationalCardSection(
+                    nationalCardRegistration: pv.nationalCardRegistration),
               ],
             ),
           );
-        }
-
-        final pv = controller.pv;
-        return SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const PVHeader(),
-              const SizedBox(height: 20),
-              PVDetailsSection(pv: pv!),
-              const SizedBox(height: 20),
-              PVSeizuresSection(seizures: pv.seizures),
-              const SizedBox(height: 20),
-              PVClosureSection(closure: pv.closure),
-              const SizedBox(height: 20),
-              PVFinancialPenaltySection(financialPenalty: pv.financialPenalty),
-              const SizedBox(height: 20),
-              PVLegalProceedingsSection(legalProceedings: pv.legalProceedings),
-              const SizedBox(height: 20),
-              PVNationalCardSection(
-                  nationalCardRegistration: pv.nationalCardRegistration),
-            ],
-          ),
-        );
-      }),
+        },
+      ),
     );
   }
 }

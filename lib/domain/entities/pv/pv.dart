@@ -2,10 +2,10 @@ import 'closure.dart';
 import 'financial_penalty.dart';
 import 'seizure.dart';
 import 'national_card_reg.dart';
-import 'inspector.dart';
 import 'offender.dart';
 import 'legal_proceedings.dart';
 import 'package:cvms/data/models/pv/pv_model.dart';
+import 'package:cvms/domain/entities/inspector/inspector.dart';
 
 class PV {
   final String pvId;
@@ -19,7 +19,7 @@ class PV {
   final Offender? offender;
   final List<Seizure> seizures; // List of seizures associated with the PV
   final Closure? closure; // Optional closure associated with the PV
-  final List<Inspector> inspectors; // List of inspectors for this PV
+  final List<InspectorEntity> inspectors; // List of inspectors for this PV
   final NationalCardRegistration?
       nationalCardRegistration; // Optional registration
   final FinancialPenalty? financialPenalty; // Optional financial penalty

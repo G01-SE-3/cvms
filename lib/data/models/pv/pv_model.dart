@@ -1,7 +1,7 @@
 import 'closure_model.dart';
 import 'financial_penalty_model.dart';
 import 'national_card_reg_model.dart';
-import 'inspector_model.dart';
+import 'package:cvms/data/models/inspector/inspector_model.dart';
 import 'seizure_model.dart';
 import 'offender.dart';
 import 'package:cvms/domain/entities/pv/pv.dart';

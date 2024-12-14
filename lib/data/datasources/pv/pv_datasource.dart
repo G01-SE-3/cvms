@@ -1,11 +1,12 @@
 import 'package:cvms/data/models/pv/pv_model.dart';
-import 'package:cvms/data/models/pv/inspector_model.dart';
 import 'package:cvms/data/models/pv/offender.dart';
 import 'package:cvms/core/utils/get_db.dart';
 import 'package:cvms/data/models/pv/financial_penalty_model.dart';
 import 'package:cvms/data/models/pv/closure_model.dart';
 import 'package:cvms/data/models/pv/national_card_reg_model.dart';
 import 'package:cvms/data/models/pv/seizure_model.dart';
+import 'package:cvms/data/models/inspector/inspector_model.dart';
+import 'package:cvms/data/models/inspector/inspector_model.dart';
 
 class PVDataSource {
   Future<PVModel?> getPVDetails(String pvId) async {
@@ -13,25 +14,25 @@ class PVDataSource {
     try {
       // Query to fetch PV details
       var result = await connection.connection!.query('''
-        SELECT 
-          pv_id, 
-          pv_number, 
-          issue_date, 
-          violation_type, 
-          total_reparation_amount, 
-          total_non_fixed, 
-          subsidized_good, 
-          individual_id, 
-          business_id
-        FROM pv
-        WHERE pv_id = @pvId;
-      ''', substitutionValues: {'pvId': pvId});
+      SELECT 
+        pv_id, 
+        pv_number, 
+        issue_date, 
+        violation_type, 
+        total_reparation_amount, 
+        total_non_fixed, 
+        subsidized_good, 
+        individual_id, 
+        business_id
+      FROM pv
+      WHERE pv_id = @pvId;
+    ''', substitutionValues: {'pvId': pvId});
 
       if (result.isEmpty) {
         return null; // No PV data found
       }
 
-      // Extract PV data from result
+      // Extract PV data
       var pvData = result.first;
       int pvNumber = pvData[1];
       DateTime issueDate = pvData[2];
@@ -40,11 +41,11 @@ class PVDataSource {
       double? totalNonFixed = _tryParseDouble(pvData[5]);
       String? subsidizedGood = pvData[6];
 
-      // Fetch Financial Penalty (Ensure only one penalty is returned)
+      // Fetch Financial Penalty
       var financialPenaltyResult = await connection.connection!.query('''
-        SELECT penalty_id, penalty_amount, penalty_date, payment_receipt_number, payment_receipt_date
-        FROM financial_penalty WHERE pv_id = @pvId LIMIT 1
-      ''', substitutionValues: {'pvId': pvId});
+      SELECT penalty_id, penalty_amount, penalty_date, payment_receipt_number, payment_receipt_date
+      FROM financial_penalty WHERE pv_id = @pvId LIMIT 1;
+    ''', substitutionValues: {'pvId': pvId});
 
       FinancialPenaltyModel? financialPenalty;
       if (financialPenaltyResult.isNotEmpty) {
@@ -59,13 +60,33 @@ class PVDataSource {
         );
       }
 
+      // Fetch Inspectors
+      var inspectorResult = await connection.connection!.query('''
+      SELECT i.inspector_id, i.name, i.surname, i.badge_number, i.assigned_department, i.contact_number
+      FROM inspector i
+      JOIN pv_inspector pi ON pi.inspector_id = i.inspector_id
+      WHERE pi.pv_id = @pvId;
+    ''', substitutionValues: {'pvId': pvId});
+
+      List<InspectorModel> inspectors = [];
+      for (var inspectorData in inspectorResult) {
+        inspectors.add(InspectorModel(
+          id: inspectorData[0],
+          name: inspectorData[1],
+          surname: inspectorData[2],
+          badgeNumber: inspectorData[3],
+          assignedDepartment: inspectorData[4],
+          contactNumber: inspectorData[5],
+        ));
+      }
+
       // Fetch Seizures
       var seizuresResult = await connection.connection!.query('''
-        SELECT s.seizure_id, s.seizure_amount, s.seizure_quantity, s.seized_goods
-        FROM seizure s
-        JOIN pv_seizure ps ON ps.seizure_id = s.seizure_id
-        WHERE ps.pv_id = @pvId;
-      ''', substitutionValues: {'pvId': pvId});
+      SELECT s.seizure_id, s.seizure_amount, s.seizure_quantity, s.seized_goods
+      FROM seizure s
+      JOIN pv_seizure ps ON ps.seizure_id = s.seizure_id
+      WHERE ps.pv_id = @pvId;
+    ''', substitutionValues: {'pvId': pvId});
 
       List<SeizureModel> seizures = [];
       for (var seizureData in seizuresResult) {
@@ -79,9 +100,9 @@ class PVDataSource {
 
       // Fetch Closure
       var closureResult = await connection.connection!.query('''
-        SELECT closure_id, closure_order_date, reopening_request_number
-        FROM closure WHERE pv_id = @pvId;
-      ''', substitutionValues: {'pvId': pvId});
+      SELECT closure_id, closure_order_date, reopening_request_number
+      FROM closure WHERE pv_id = @pvId;
+    ''', substitutionValues: {'pvId': pvId});
 
       ClosureModel? closure;
       if (closureResult.isNotEmpty) {
@@ -95,9 +116,9 @@ class PVDataSource {
 
       // Fetch National Card Registration
       var nationalCardResult = await connection.connection!.query('''
-        SELECT national_card_reg_id, national_card_issue_date
-        FROM national_card_reg WHERE pv_id = @pvId;
-      ''', substitutionValues: {'pvId': pvId});
+      SELECT national_card_reg_id, national_card_issue_date
+      FROM national_card_reg WHERE pv_id = @pvId;
+    ''', substitutionValues: {'pvId': pvId});
 
       NationalCardRegistrationModel? nationalCardRegistration;
       if (nationalCardResult.isNotEmpty) {
@@ -116,24 +137,16 @@ class PVDataSource {
         totalReparationAmount: totalReparationAmount,
         totalNonFixed: totalNonFixed,
         subsidizedGood: subsidizedGood,
-        offender: OffenderModel(name: "John Doe"), // Placeholder for Offender
-        inspectors: [
-          InspectorModel(
-              inspectorId: 1,
-              inspectorName: "John",
-              inspectorSurname: "Smith",
-              inspectorDepartment: "Dept A",
-              contactNumber: "123-456-7890"),
-        ],
+        offender: OffenderModel(name: "John Doe"),
+        inspectors: inspectors,
         seizures: seizures,
         closure: closure,
         nationalCardRegistration: nationalCardRegistration,
-        financialPenalty:
-            financialPenalty, // Single financial penalty, not a list
+        financialPenalty: financialPenalty,
       );
     } catch (e) {
       print("Error fetching PV details: $e");
-      rethrow; // Propagate the error to the caller
+      rethrow;
     }
   }
 
@@ -145,8 +158,10 @@ class PVDataSource {
 
   Future<List<PVModel>> getAllPVs() async {
     final connection = await getDatabaseConnection(); // Get DB connection
+    List<PVModel> pvList = [];
+
     try {
-      // Query to fetch all PVs
+      // Query to fetch all PV details
       var result = await connection.connection!.query('''
       SELECT 
         pv_id, 
@@ -155,60 +170,69 @@ class PVDataSource {
         violation_type, 
         total_reparation_amount, 
         total_non_fixed, 
-        subsidized_good, 
-        individual_id, 
-        business_id
+        subsidized_good
       FROM pv;
     ''');
 
-      // Debugging: print the raw result to inspect the data types
-      print('Query Result: $result');
+      for (var pvData in result) {
+        String pvId = pvData[0];
+        int pvNumber = pvData[1];
+        DateTime issueDate = pvData[2];
+        String violationType = pvData[3];
+        double? totalReparationAmount = _tryParseDouble(pvData[4]);
+        double? totalNonFixed = _tryParseDouble(pvData[5]);
+        String? subsidizedGood = pvData[6];
 
-      // Check if no PVs exist
-      if (result.isEmpty) {
-        return []; // Return an empty list if no PVs found
-      }
+        // Fetch Inspectors for each PV
+        var inspectorResult = await connection.connection!.query('''
+        SELECT 
+          i.inspector_id, 
+          i.name, 
+          i.surname, 
+          i.badge_number, 
+          i.assigned_department, 
+          i.contact_number
+        FROM inspector i
+        JOIN pv_inspector pi ON pi.inspector_id = i.inspector_id
+        WHERE pi.pv_id = @pvId;
+      ''', substitutionValues: {'pvId': pvId});
 
-      // Parse the results into a list of PVModel
-      List<PVModel> pvList = [];
-      for (var row in result) {
-        // Print the row to inspect the individual field values and types
-        print('Row: $row');
+        List<InspectorModel> inspectors = [];
+        for (var inspectorData in inspectorResult) {
+          inspectors.add(InspectorModel(
+            id: inspectorData[0],
+            name: inspectorData[1],
+            surname: inspectorData[2],
+            badgeNumber: inspectorData[3],
+            assignedDepartment: inspectorData[4],
+            contactNumber: inspectorData[5],
+          ));
+        }
 
+        // Create PVModel and add to list
         pvList.add(PVModel(
-          pvId: row[0]
-              as String, // Ensure pvId is treated as a String (VARCHAR in DB)
-          pvNumber:
-              row[1] as int, // Ensure pvNumber is treated as an int (INT in DB)
-          issueDate: row[2] as DateTime, // Ensure issue_date is DateTime
-          violationType: row[3] as String, // Ensure violation_type is String
-          totalReparationAmount:
-              _tryParseDouble(row[4]), // Safely parse as double
-          totalNonFixed: _tryParseDouble(row[5]), // Safely parse as double
-          subsidizedGood: row[6] as String, // Handle nullable bool
-          offender: OffenderModel(name: "Placeholder"), // Placeholder for now
-          inspectors: [
-            InspectorModel(
-                // TO BE UPDATED
-                inspectorId: 1,
-                inspectorName: "mohamed",
-                inspectorSurname: "ahmed",
-                inspectorDepartment: "dep",
-                contactNumber: "124566"),
-          ], // Empty list as inspectors are not fetched in this query
-          seizures: [], // Empty list as seizures are not fetched in this query
-          closure: null, // Closure is not fetched in this query
+          pvId: pvId,
+          pvNumber: pvNumber,
+          issueDate: issueDate,
+          violationType: violationType,
+          totalReparationAmount: totalReparationAmount,
+          totalNonFixed: totalNonFixed,
+          subsidizedGood: subsidizedGood,
+          offender:
+              OffenderModel(name: "John Doe"), // You can adjust this as needed
+          inspectors: inspectors,
+          seizures: [], // Empty list for seizures as per your requirements
+          closure: null, // No closure data included
           nationalCardRegistration:
-              null, // National card is not fetched in this query
-          financialPenalty:
-              null, // Financial penalty is not fetched in this query
+              null, // No national card registration included
+          financialPenalty: null, // No financial penalty included
         ));
       }
 
       return pvList;
     } catch (e) {
       print("Error fetching all PVs: $e");
-      rethrow; // Propagate the error to the caller
+      rethrow;
     }
   }
 
@@ -238,14 +262,20 @@ class PVDataSource {
           'businessId': pvModel.offender?.name ?? 1, // TO BE UPDATED
         });
 
-        // Insert into `pv_inspector` table for each inspector
         for (var inspector in pvModel.inspectors) {
-          await txn.query('''
-            INSERT INTO pv_inspector (pv_id, inspector_id) VALUES (@pvId, @inspectorId)
-          ''', substitutionValues: {
-            'pvId': pvModel.pvId,
-            'inspectorId': inspector.inspectorId,
-          });
+          try {
+            await txn.query('''
+      INSERT INTO pv_inspector (pv_id, inspector_id) VALUES (@pvId, @inspectorId)
+    ''', substitutionValues: {
+              'pvId': pvModel.pvId,
+              'inspectorId': inspector.id,
+            });
+            print(
+                "Inserted inspector with ID: ${inspector.id} for PV ID: ${pvModel.pvId}");
+          } catch (e) {
+            print(
+                "Error inserting inspector: ${inspector.id} for PV ID: ${pvModel.pvId}: $e");
+          }
         }
 
         // Insert into `financial_penalty` table if available

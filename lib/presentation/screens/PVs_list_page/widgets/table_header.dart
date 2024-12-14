@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/PVs_list_page/constants/strings/table_header_strings.dart';
+import 'package:cvms/presentation/screens/add_PV_form/AddPVPage.dart';
 
 class HeaderRow extends StatelessWidget {
   const HeaderRow({super.key});
@@ -43,7 +44,15 @@ class HeaderRow extends StatelessWidget {
             ),
             const SizedBox(width: 16),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                // Navigate to the AddPVPage
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddPVPage(),
+                  ),
+                );
+              },
               icon: const Icon(
                 Icons.add,
                 size: 20,

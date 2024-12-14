@@ -18,9 +18,7 @@ Widget buttons({
       const SizedBox(width: 10),
       ElevatedButton(
         onPressed: onApply,
-        style: ElevatedButton.styleFrom(
-          primary: Colors.blue, // Button color (optional)
-        ),
+        style: ElevatedButton.styleFrom(),
         child: const Text(
           "Apply",
           style: TextStyle(color: Colors.white),

@@ -71,6 +71,12 @@ class PVController extends ChangeNotifier {
     }
   }
 
+  void resetPV() {
+    pv = null; // Clear the PV data
+    errorMessage = null; // Clear any error messages
+    notifyListeners(); // Notify listeners about the change
+  }
+
   @override
   void dispose() {
     // Dispose any resources like database connection if needed

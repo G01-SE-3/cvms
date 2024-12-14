@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/PVs_list_page/constants/strings/pv_data_table.dart';
 import 'package:cvms/presentation/screens/PV_details_page/PVPage.dart';
+import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
+import 'package:provider/provider.dart';
 
 class PVDataTable extends StatelessWidget {
   final List<Map<String, dynamic>> tableData;
@@ -87,12 +89,16 @@ class PVDataTable extends StatelessWidget {
                         icon: const Icon(Icons.arrow_forward,
                             color: Color(0xFF545837)),
                         onPressed: () {
+                          // Reset the PV data in the controller
+                          final controller =
+                              Provider.of<PVController>(context, listen: false);
+                          controller.resetPV(); // Reset before navigating
+
                           // Navigate to the PVPage with the PV ID
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PVPage(
-                                  pvId: row['PVid']), // Pass the pvId to PVPage
+                              builder: (context) => PVPage(pvId: row['PVid']),
                             ),
                           );
                         },

@@ -1,3 +1,5 @@
+import 'package:cvms/domain/entities/inspector/inspector.dart';
+
 class InspectorModel {
   final int? id;
   final String name;
@@ -18,13 +20,15 @@ class InspectorModel {
   factory InspectorModel.fromMap(Map<String, dynamic> map) {
     return InspectorModel(
       id: map['inspector_id'],
-      name: map['name'] ?? 'Default Name', 
-      surname: map['surname'] ?? 'Default Surname', 
-      badgeNumber: map['badge_number'] != null ? int.tryParse(map['badge_number'].toString()) : null, 
-      assignedDepartment: map['assigned_department'], 
+      name: map['name'] ?? 'Default Name',
+      surname: map['surname'] ?? 'Default Surname',
+      badgeNumber: map['badge_number'] != null
+          ? int.tryParse(map['badge_number'].toString())
+          : null,
+      assignedDepartment: map['assigned_department'],
       contactNumber: map['contact_number'] != null
-          ? int.tryParse(map['contact_number'].toString()) 
-          : null, 
+          ? int.tryParse(map['contact_number'].toString())
+          : null,
     );
   }
 
@@ -34,8 +38,19 @@ class InspectorModel {
       'name': name,
       'surname': surname,
       'badge_number': badgeNumber,
-      'assigned_department': assignedDepartment, 
+      'assigned_department': assignedDepartment,
       'contact_number': contactNumber,
     };
+  }
+
+  InspectorEntity toEntity() {
+    return InspectorEntity(
+      name: name!,
+      inspectorNumber: id!,
+      surname: surname!,
+      badgeNumber: badgeNumber!,
+      assignedDepartment: assignedDepartment!,
+      contactNumber: contactNumber!,
+    );
   }
 }

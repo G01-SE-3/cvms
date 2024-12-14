@@ -2,9 +2,6 @@ import 'package:postgres/postgres.dart';
 import '../../models/inspector/inspector_model.dart';
 import '../database_helper.dart';
 
-
-
-
 class InspectorDatasource {
   final DatabaseHelper _dbHelper = DatabaseHelper();
 
@@ -56,8 +53,7 @@ class InspectorDatasource {
 
   Future<void> deleteInspector(int id) async {
     final connection = await _dbHelper.connection;
-    await connection.query(
-        'DELETE FROM inspector WHERE inspector_id = @id',
+    await connection.query('DELETE FROM inspector WHERE inspector_id = @id',
         substitutionValues: {'id': id});
   }
 }

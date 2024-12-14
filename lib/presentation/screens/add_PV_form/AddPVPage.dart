@@ -12,13 +12,17 @@ import 'widgets/rc_field.dart';
 import 'widgets/date_field.dart';
 import 'widgets/text_field.dart';
 import 'widgets/price_field.dart';
-import 'widgets/officer_dropdown.dart';
 import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
 import 'package:cvms/domain/entities/pv/legal_proceedings.dart';
 import 'package:cvms/domain/entities/pv/financial_penalty.dart';
 import 'package:cvms/domain/entities/pv/national_card_reg.dart';
 import 'package:cvms/domain/entities/pv/seizure.dart';
 import 'selection_globals.dart';
+import 'package:cvms/domain/repositories/inspector/inspector_repository.dart';
+import 'package:cvms/data/repositories/inspector/inspector_repository_impl.dart';
+import 'package:cvms/domain/entities/inspector/inspector.dart';
+import 'package:cvms/presentation/screens/business_offender_form/BusinessOffenderForm.dart';
+import 'package:cvms/presentation/screens/individual_offender_form/IndividualOffenderForm.dart';
 
 class AddPVPage extends StatefulWidget {
   const AddPVPage({super.key});
@@ -30,6 +34,7 @@ class AddPVPage extends StatefulWidget {
 class _AddPVPageState extends State<AddPVPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final ScrollController _scrollController = ScrollController();
+  final InspectorRepository _inspectorRepository = InspectorRepositoryImpl();
 
   final TextEditingController _rcController = TextEditingController();
   final TextEditingController _pvNumberController = TextEditingController();
@@ -42,43 +47,35 @@ class _AddPVPageState extends State<AddPVPage> {
   final TextEditingController _subsidizedGoodController =
       TextEditingController();
 
-  String? _selectedOfficer1;
-  String? _selectedOfficer2;
-  String? _selectedOfficer3;
-  String? _selectedOfficer4;
-
-  final List<String> officerNames = [
-    "Officer A",
-    "Officer B",
-    "Officer C",
-    "Officer D",
-    "Officer E"
-  ];
-
   String? _rcError;
   bool _isRcExisting = false;
 
-  DateTime? _selectedDate; // To hold the selected date
+  DateTime? _selectedDate;
 
-  // Track Seizure Sections
   final List<SeizureSection> _seizureSections = [];
-
   List<Seizure>? seizures = null;
-
   void _handleSeizuresUpdated(List<Seizure>? updatedSeizures) {
     setState(() {
       seizures = updatedSeizures;
     });
-    print("Updated seizures: $seizures"); // You can use the updated list here
   }
 
   Closure? _closure = null;
   FinancialPenalty? _financialPenalty = null;
   LegalProceedings? _legalProceedings = null;
   NationalCardRegistration? _nationalCardRegistration = null;
+
+  List<InspectorEntity> selectedInspectors = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Add PV",
+          style: Theme.of(context).textTheme.headlineSmall,
+        ), // Title for the page
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 30),
         child: Center(
@@ -92,16 +89,12 @@ class _AddPVPageState extends State<AddPVPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Add PV",
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
                     const SizedBox(height: 16),
                     CustomTextField(
                       placeholder: "Enter PV Number",
                       isRequired: true,
                       controller: _pvNumberController,
-                      isNumeric: true, // Ensure the input is numeric
+                      isNumeric: true,
                     ),
                     const SizedBox(height: 12),
                     RcField(
@@ -128,9 +121,33 @@ class _AddPVPageState extends State<AddPVPage> {
                       ),
                     ] else ...[
                       ElevatedButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                          // Navigate to the BusinessOffenderForm
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const BusinessOffenderForm(),
+                            ),
+                          );
+                        },
                         icon: const Icon(Icons.person_add),
-                        label: const Text("Add Offender"),
+                        label: const Text("Add Business Offender"),
+                      ),
+                      const SizedBox(height: 12),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          // Navigate to the IndividualOffenderForm
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const IndividualOffenderForm(),
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.person_add),
+                        label: const Text("Add Individual Offender"),
                       ),
                     ],
                     const SizedBox(height: 12),
@@ -150,49 +167,55 @@ class _AddPVPageState extends State<AddPVPage> {
                       controller: _violationTypeController,
                     ),
                     const SizedBox(height: 12),
-                    OfficerDropdownField(
-                      title: "Select Officer 1",
-                      selectedOfficer: _selectedOfficer1,
-                      officerNames: officerNames,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedOfficer1 = value;
-                        });
+
+                    // Dynamic Inspector Dropdowns
+                    FutureBuilder<List<InspectorEntity>>(
+                      future: _inspectorRepository.getAllInspectors(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
+                        } else if (!snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
+                          return Center(child: Text('No inspectors found'));
+                        } else {
+                          final inspectors = snapshot.data!;
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              for (int i = 0; i < 4; i++)
+                                InspectorDropdownField(
+                                  title: "Select Inspector ${i + 1}",
+                                  inspectors: inspectors,
+                                  onChanged: (selectedInspector) {
+                                    setState(() {
+                                      if (selectedInspector != null) {
+                                        if (selectedInspectors.length > i) {
+                                          selectedInspectors[i] =
+                                              selectedInspector;
+                                        } else {
+                                          selectedInspectors
+                                              .add(selectedInspector);
+                                        }
+                                      }
+                                    });
+                                  },
+                                  selectedInspector:
+                                      selectedInspectors.length > i
+                                          ? selectedInspectors[i]
+                                          : null,
+                                ),
+                              const SizedBox(height: 12),
+                            ],
+                          );
+                        }
                       },
                     ),
-                    const SizedBox(height: 12),
-                    OfficerDropdownField(
-                      title: "Select Officer 2",
-                      selectedOfficer: _selectedOfficer2,
-                      officerNames: officerNames,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedOfficer2 = value;
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 12),
-                    OfficerDropdownField(
-                      title: "Select Officer 3",
-                      selectedOfficer: _selectedOfficer3,
-                      officerNames: officerNames,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedOfficer3 = value;
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 12),
-                    OfficerDropdownField(
-                      title: "Select Officer 4",
-                      selectedOfficer: _selectedOfficer4,
-                      officerNames: officerNames,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedOfficer4 = value;
-                        });
-                      },
-                    ),
+
                     const SizedBox(height: 12),
                     PriceField(
                       placeholder: "Total Non-Factorization Amount",
@@ -210,23 +233,20 @@ class _AddPVPageState extends State<AddPVPage> {
                       controller: _subsidizedGoodController,
                     ),
                     const SizedBox(height: 16),
+
                     // OPTIONAL SECTIONS
                     ClosureSection(
                       onClosureUpdated: (closure) {
-                        // Pass this Closure data to your PV object or update state
-                        // For example:
                         setState(() {
-                          _closure = closure; // Update closure data
+                          _closure = closure;
                         });
                       },
                     ),
 
                     FinancialPenaltySection(
                       onPenaltyUpdated: (penalty) {
-                        // Pass this FinancialPenalty data to your PV object or update state
                         setState(() {
-                          _financialPenalty =
-                              penalty; // Update financialPenalty data
+                          _financialPenalty = penalty;
                         });
                       },
                     ),
@@ -234,8 +254,7 @@ class _AddPVPageState extends State<AddPVPage> {
                     LegalProceedingsSection(
                       onLegalProceedingsUpdated: (legalProceedings) {
                         setState(() {
-                          _legalProceedings =
-                              legalProceedings; // Update the state with the new legalProceedings data
+                          _legalProceedings = legalProceedings;
                         });
                       },
                     ),
@@ -243,15 +262,14 @@ class _AddPVPageState extends State<AddPVPage> {
                       onNationalCardRegistrationUpdated:
                           (nationalCardRegistration) {
                         setState(() {
-                          _nationalCardRegistration =
-                              nationalCardRegistration; // Update the state with the new nationalCardRegistration data
+                          _nationalCardRegistration = nationalCardRegistration;
                         });
                       },
                     ),
                     DynamicSeizureSections(
-                      onSeizuresUpdated:
-                          _handleSeizuresUpdated, // Pass the callback to DynamicSeizureSections
+                      onSeizuresUpdated: _handleSeizuresUpdated,
                     ),
+
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Row(
@@ -263,77 +281,6 @@ class _AddPVPageState extends State<AddPVPage> {
                                   _selectedDate != null &&
                                   (_isRcExisting ||
                                       _rcController.text.isNotEmpty)) {
-                                // Validate Closure data if closureSelection is true
-                                if (closureSelection &&
-                                    (_closure == null ||
-                                        _closure!.closureOrderDate == null ||
-                                        _closure!.closureOrderDate
-                                            .isBefore(DateTime(1900)))) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          "Closure order date is required and must be valid."),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                  return;
-                                }
-
-                                // Validate National Card Registration data if nationalCardRegistrationSelection is true
-                                if (nationalCardRegistrationSelection &&
-                                    (_nationalCardRegistration == null ||
-                                        _nationalCardRegistration!
-                                                .nationalCardIssueDate ==
-                                            null ||
-                                        _nationalCardRegistration!
-                                            .nationalCardIssueDate
-                                            .isBefore(DateTime(1900)))) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          "National card issue date is required and must be valid."),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                  return;
-                                }
-
-                                // Validate Financial Penalty data if financialPenaltySelection is true
-                                if (financialPenaltySelection &&
-                                    (_financialPenalty == null ||
-                                        _financialPenalty!.penaltyAmount <= 0 ||
-                                        _financialPenalty!.penaltyDate ==
-                                            null ||
-                                        _financialPenalty!.penaltyDate
-                                            .isBefore(DateTime(1900)))) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          "Financial penalty details are required and must be valid."),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                  return;
-                                }
-
-                                // Validate Seizure data if seizureSelection is true
-                                if (seizureSelection &&
-                                    (_seizureSections.isEmpty ||
-                                        seizures!.any((section) =>
-                                            section.seizureAmount.isEmpty ||
-                                            section.seizureQuantity.isEmpty ||
-                                            section.seizedGoods.isEmpty))) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          "All seizure sections must be filled with valid data."),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                  return;
-                                }
-
-                                // Construct the PV object with the selected sections
                                 final pv = PV(
                                   pvId:
                                       "${_pvNumberController.text.trim()}-${_selectedDate!.year}",
@@ -354,11 +301,9 @@ class _AddPVPageState extends State<AddPVPage> {
                                   subsidizedGood:
                                       _subsidizedGoodController.text.trim(),
                                   offender: null,
-                                  inspectors: [],
+                                  inspectors: selectedInspectors,
                                   seizures: seizures ?? [],
-                                  closure: closureSelection
-                                      ? _closure
-                                      : null, // Pass closure if selected
+                                  closure: closureSelection ? _closure : null,
                                   nationalCardRegistration:
                                       nationalCardRegistrationSelection
                                           ? _nationalCardRegistration
@@ -371,7 +316,6 @@ class _AddPVPageState extends State<AddPVPage> {
                                       : null,
                                 );
 
-                                // Use the controller
                                 final pvController =
                                     context.read<PVController>();
                                 await pvController.insertPVData(pv);
@@ -392,10 +336,7 @@ class _AddPVPageState extends State<AddPVPage> {
                                   _illegalProfitController.clear();
                                   _subsidizedGoodController.clear();
                                   setState(() {
-                                    _selectedOfficer1 = null;
-                                    _selectedOfficer2 = null;
-                                    _selectedOfficer3 = null;
-                                    _selectedOfficer4 = null;
+                                    selectedInspectors.clear();
                                     _rcError = null;
                                     _isRcExisting = false;
                                   });
@@ -436,10 +377,7 @@ class _AddPVPageState extends State<AddPVPage> {
                               _illegalProfitController.clear();
                               _subsidizedGoodController.clear();
                               setState(() {
-                                _selectedOfficer1 = null;
-                                _selectedOfficer2 = null;
-                                _selectedOfficer3 = null;
-                                _selectedOfficer4 = null;
+                                selectedInspectors.clear();
                                 _rcError = null;
                                 _isRcExisting = false;
                               });
@@ -470,6 +408,59 @@ class _AddPVPageState extends State<AddPVPage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class InspectorDropdownField extends StatelessWidget {
+  final String title;
+  final List<InspectorEntity> inspectors;
+  final ValueChanged<InspectorEntity?> onChanged;
+  final InspectorEntity? selectedInspector;
+
+  const InspectorDropdownField({
+    Key? key,
+    required this.title,
+    required this.inspectors,
+    required this.onChanged,
+    this.selectedInspector,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: Theme.of(context).textTheme.bodyMedium),
+        Container(
+          decoration: BoxDecoration(
+            color: const Color(0xFFDDE5CD),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: const Color(0xFFDDE5CD)),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: DropdownButton<InspectorEntity>(
+            value: selectedInspector,
+            isExpanded: true,
+            underline: SizedBox(),
+            dropdownColor: const Color(0xFFDDE5CD),
+            items: inspectors.map<DropdownMenuItem<InspectorEntity>>(
+                (InspectorEntity inspector) {
+              return DropdownMenuItem<InspectorEntity>(
+                value: inspector,
+                child: Container(
+                  color: const Color(0xFFDDE5CD),
+                  child: Text("${inspector.name} " " ${inspector.surname}"),
+                ),
+              );
+            }).toList(),
+            onChanged: onChanged,
+            style: const TextStyle(color: Colors.black), // Text color
+            icon: const Icon(Icons.arrow_drop_down,
+                color: Color.fromARGB(255, 43, 72, 44)),
+          ),
+        ),
+      ],
     );
   }
 }

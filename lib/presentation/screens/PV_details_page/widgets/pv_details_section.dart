@@ -51,7 +51,7 @@ class PVDetailsSection extends StatelessWidget {
                 _buildDetailRow(
                     DetailsStrings.inspectingOfficers,
                     pv.inspectors
-                        .map((e) => "${e.inspectorName} ${e.inspectorSurname}")
+                        .map((e) => "${e.name} ${e.surname}")
                         .join(", ")), // TO BE UPDATED
                 _buildDetailRow(DetailsStrings.totalNonFactorizationAmount,
                     pv.totalNonFixed?.toString() ?? "N/A"),
