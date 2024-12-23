@@ -6,8 +6,10 @@ import 'package:cvms/presentation/screens/navigation_bars/forms/date_form.dart';
 import 'package:cvms/presentation/screens/navigation_bars/forms/latest_form.dart';
 
 class CustomSearchBar extends StatefulWidget {
-  const CustomSearchBar({super.key});
-
+  final String PageName; 
+   const CustomSearchBar({super.key,this.PageName = 'none'});
+  
+//PageName will be used to differentiate on what table to search in based on the page
   @override
   _CustomSearchBarState createState() => _CustomSearchBarState();
 }
