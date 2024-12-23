@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 
-Widget sidebar_item(BuildContext context, IconData icon, String text, String navigationRoute) {
+Widget sidebar_item(BuildContext context, IconData icon, String text, Widget navigationRoute) {
   return InkWell(
    onTap: () {
-   Navigator.pushNamed(context, navigationRoute);
+   Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => navigationRoute),
+                );
 },
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),

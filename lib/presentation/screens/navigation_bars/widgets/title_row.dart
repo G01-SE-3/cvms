@@ -1,3 +1,5 @@
+import 'package:cvms/presentation/screens/Settings/settings.dart';
+import 'package:cvms/presentation/screens/homepage/homepage.dart';
 import 'package:flutter/material.dart';
 
 Widget title_row(bool isHome, BuildContext context) {
@@ -39,14 +41,20 @@ Widget title_row(bool isHome, BuildContext context) {
                     icon: const Icon(Icons.home),
                     color: Colors.black,
                     onPressed: () {
-                      // Navigate to home
+                     Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
                     },
                   ),
                   IconButton(
                     icon: const Icon(Icons.settings),
                     color: Colors.black,
                     onPressed: () {
-                      // Navigate to settings
+                      Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                );
                     },
                   ),
                 ],
