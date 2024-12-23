@@ -1,7 +1,7 @@
 class SignUpPageStrings {
 
   static const String usernameRequired = 'Username is required.';
-  static const String usernameExists = 'This username is already taken.';
+  static const String usernameExists = 'Username already exists';
   static const String emailRequired = 'Email is required.';
   static const String emailInvalid = 'Invalid email format.';
   static const String passwordRequired = 'Password is required.';
