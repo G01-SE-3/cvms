@@ -3,7 +3,9 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/homepage/homepage.dart';
 import 'package:cvms/presentation/screens/login/constants/strings/LoginButtonStrings.dart';
-import '../../../../domain/repositories/user/user_repository.dart';
+import 'package:cvms/domain/repositories/user/user_repository.dart';
+import 'package:provider/provider.dart';
+import 'package:cvms/services/auth_service.dart';
 
 class LoginButton extends StatefulWidget {
   final TextEditingController usernameController;
@@ -29,13 +31,16 @@ class LoginButtonState extends State<LoginButton> {
 
   // Function to hash the password
   String _hashPassword(String password) {
-    var bytes = utf8.encode(password); 
-    var digest = sha256.convert(bytes); 
-    return digest.toString(); 
+    var bytes = utf8.encode(password);
+    var digest = sha256.convert(bytes);
+    return digest.toString();
   }
 
   @override
   Widget build(BuildContext context) {
+    // Access AuthService using Provider
+    final authService = Provider.of<AuthService>(context, listen: false);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -78,6 +83,8 @@ class LoginButtonState extends State<LoginButton> {
             });
 
             if (isValid) {
+              await authService.signIn();
+
               if (mounted) {
                 Navigator.pushReplacement(
                   context,
