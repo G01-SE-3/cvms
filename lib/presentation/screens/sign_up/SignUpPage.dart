@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
 import 'widgets/SignUpForm.dart';
 import 'widgets/LeftBackground.dart';
 import 'validators/SignUpPageValidate.dart';
 import 'constants/strings/SignUpPage.dart';  
 import 'package:cvms/domain/repositories/user/user_repository.dart'; 
 import '../../screens/login/LoginPage.dart'; 
-
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 import 'package:cvms/domain/entities/user/user.dart';  
 
 class SignUpPage extends StatefulWidget {
@@ -81,39 +82,47 @@ class _SignUpPageState extends State<SignUpPage> {
                           validatePassword: SignUpPageValidate.validatePassword,
                           isLoading: isLoading,  
                           errorMessage: errorMessage, 
-                          onSubmit: () async {
 
+
+                          onSubmit: () async {
                             if (_formKey.currentState?.validate() ?? false) {
                               setState(() {
                                 isLoading = true;
-                                errorMessage = null; 
+                                errorMessage = null;
                               });
+
+                              var bytes = utf8.encode(_passwordController.text); 
+                              var digest = sha256.convert(bytes);
+
+                              String hashedPasswordController = digest.toString();
 
                               final user = User(
                                 username: _usernameController.text,
                                 email: _emailController.text,
-                                hashedPassword: _passwordController.text, 
+                                hashedPassword: hashedPasswordController,  
                               );
 
                               try {
-                                
-                                print("Attempting to add user...");
                                 await _userRepository.addUser(user);
-
-                                Navigator.pushReplacement(context,  MaterialPageRoute(builder: (context) => const LoginPage()),
-  );
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
                               } catch (e) {
-                               
-                                setState(() {
-                                  errorMessage = SignUpPageStrings.signUpFailed;
-                                });
+                                // Check for the specific PostgreSQL error for duplicate username
+                                if (e.toString().contains('23505')) {
+                                  setState(() {
+                                    errorMessage = SignUpPageStrings.usernameExists;
+                                  });
+                                } else {
+                                  setState(() {
+                                    errorMessage = SignUpPageStrings.signUpFailed;
+                                  });
+                                }
                               } finally {
                                 setState(() {
                                   isLoading = false;
                                 });
                               }
                             }
-                          },
+                          }
                         ),
                       ),
                     ),

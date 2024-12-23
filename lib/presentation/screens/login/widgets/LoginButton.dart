@@ -1,6 +1,7 @@
-import 'package:cvms/presentation/screens/homepage/homepage.dart';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:cvms/presentation/screens/inspectors_list/inspectors_list.dart';
+import 'package:cvms/presentation/screens/homepage/homepage.dart';
 import 'package:cvms/presentation/screens/login/constants/strings/LoginButtonStrings.dart';
 import '../../../../domain/repositories/user/user_repository.dart';
 
@@ -26,6 +27,13 @@ class LoginButtonState extends State<LoginButton> {
   bool isLoading = false;
   String? errorMessage;
 
+  // Function to hash the password
+  String _hashPassword(String password) {
+    var bytes = utf8.encode(password); 
+    var digest = sha256.convert(bytes); 
+    return digest.toString(); 
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -46,11 +54,15 @@ class LoginButtonState extends State<LoginButton> {
             final username = widget.usernameController.text;
             final password = widget.passwordController.text;
 
+            String hashedPassword = _hashPassword(password);
+
             bool isValid = false;
 
             try {
-              isValid = await widget.userRepository
-                  .checkUserCredentials(username, password);
+              isValid = await widget.userRepository.checkUserCredentials(
+                username,
+                hashedPassword,
+              );
             } catch (e) {
               setState(() {
                 isLoading = false;
