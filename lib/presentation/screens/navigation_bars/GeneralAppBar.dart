@@ -17,7 +17,7 @@ class GeneralAppBar extends StatefulWidget {
   const GeneralAppBar(
       {super.key,
       required this.search,
-      this.initialTabIndex = 0,
+      this.initialTabIndex = -1,
       this.PageName = 'none'}); // Default to 0
 
   @override
