@@ -1,8 +1,8 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-// TODO: TO BE FIXED, DOES NOT WORK PROPERLY
 class AuthService with ChangeNotifier {
+  final _secureStorage = const FlutterSecureStorage();
   bool _isSignedIn = false;
 
   AuthService() {
@@ -12,24 +12,20 @@ class AuthService with ChangeNotifier {
   bool get isSignedIn => _isSignedIn;
 
   Future<void> _loadAuthStatus() async {
-    final prefs = await SharedPreferences.getInstance();
-    _isSignedIn = prefs.getBool('isSignedIn') ?? false; // Load the saved state
+    final value = await _secureStorage.read(key: 'isSignedIn');
+    _isSignedIn = value == 'true';
     notifyListeners();
   }
 
   Future<void> signIn() async {
-    // Perform sign-in logic here
     _isSignedIn = true;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isSignedIn', true); // Save the state
+    await _secureStorage.write(key: 'isSignedIn', value: 'true');
     notifyListeners();
   }
 
   Future<void> signOut() async {
-    // Perform sign-out logic here
     _isSignedIn = false;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isSignedIn', false); // Save the state
+    await _secureStorage.delete(key: 'isSignedIn');
     notifyListeners();
   }
 }
