@@ -11,11 +11,11 @@ class InspectorsListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Sidebar(),
-      appBar: PreferredSize(
+      drawer: const Sidebar(),
+      appBar: const PreferredSize(
         preferredSize: Size.fromHeight(220.0), // Adjust height as needed
         child: GeneralAppBar(
-            search: true, initialTabIndex: 2), // Set index for Inspectors
+            search: false, initialTabIndex: 2), // Set index for Inspectors
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -38,9 +38,9 @@ class InspectorsListPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            Expanded(
+            const Expanded(
               child: SingleChildScrollView(
-                child: const InspectorTable(),
+                child: InspectorTable(),
               ),
             ),
           ],

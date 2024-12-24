@@ -27,11 +27,11 @@ class _PVListPageState extends State<PVListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Sidebar(),
-      appBar: PreferredSize(
+      drawer: const Sidebar(),
+      appBar: const PreferredSize(
         preferredSize: Size.fromHeight(220.0), // Adjust height as needed
         child: GeneralAppBar(
-            search: true, initialTabIndex: 1), // Set index for PV List
+            search: true, initialTabIndex: 1,PageName: 'PV'), 
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(top: 30.0, left: 16.0, right: 16.0),
@@ -49,7 +49,7 @@ class _PVListPageState extends State<PVListPage> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  HeaderRow(),
+                  const HeaderRow(),
                   const SizedBox(height: 16),
                   PVDataTable(
                     tableData: pvController.allPVs.map((pv) {

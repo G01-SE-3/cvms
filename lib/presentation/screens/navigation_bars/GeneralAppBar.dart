@@ -11,12 +11,14 @@ import 'package:cvms/presentation/screens/IndividualOffender/IndividualOffenderL
 
 class GeneralAppBar extends StatefulWidget {
   final bool search;
-  final int initialTabIndex; // New parameter to accept initial index
+  final int initialTabIndex;
+  final String PageName; // New parameter to accept initial index
 
   const GeneralAppBar(
       {super.key,
       required this.search,
-      this.initialTabIndex = 0}); // Default to 0
+      this.initialTabIndex = 0,
+      this.PageName = 'none'}); // Default to 0
 
   @override
   _GeneralAppBarState createState() => _GeneralAppBarState();
@@ -62,7 +64,7 @@ class _GeneralAppBarState extends State<GeneralAppBar> {
             }),
           ),
           const SizedBox(height: 8), // Decreased height
-          widget.search ? const CustomSearchBar() : const SizedBox(),
+          widget.search ? CustomSearchBar(PageName: widget.PageName) : const SizedBox(),
         ],
       ),
     );
@@ -71,11 +73,11 @@ class _GeneralAppBarState extends State<GeneralAppBar> {
   void _navigateToPage(int index, BuildContext context) {
     // Define the list of pages corresponding to each tab
     List<Widget> pages = [
-      HomePage(),
-      PVListPage(),
-      InspectorsListPage(),
-      BusinessOffenderList(),
-      IndividualOffenderList(),
+      const HomePage(),
+      const PVListPage(),
+      const InspectorsListPage(),
+      const BusinessOffenderList(),
+      const IndividualOffenderList(),
     ];
 
     // Ensure the index is valid and navigate to the selected page

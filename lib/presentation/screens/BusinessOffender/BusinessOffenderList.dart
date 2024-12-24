@@ -42,11 +42,11 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Sidebar(), // Add Sidebar if needed
-      appBar: PreferredSize(
+      drawer: const Sidebar(), // Add Sidebar if needed
+      appBar: const PreferredSize(
         preferredSize: Size.fromHeight(220.0), // Adjust height as needed
         child: GeneralAppBar(
-            search: true, initialTabIndex: 3), // Set to Business Offender tab
+            search: true, initialTabIndex: 4,PageName: 'BO'),
       ),
       body: Container(
         color: const Color(0xFF545837),
