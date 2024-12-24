@@ -5,7 +5,7 @@ import 'widgets/export_inspector_button.dart';
 import 'widgets/delete_inspector_button.dart';
 import 'constants/strings/inspector_details_strings.dart';
 
-// this one defines the UI for the page and only creates an example by passing dummy data
+// This one defines the UI for the page and only creates an example by passing dummy data
 class InspectorDetailsPage extends StatelessWidget {
   final String inspectorName;
   final String inspectorSurname;
@@ -34,14 +34,14 @@ class InspectorDetailsPage extends StatelessWidget {
               Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.black),  // Return arrow
+                    icon: const Icon(Icons.arrow_back, color: Colors.black), // Return arrow
                     onPressed: () {
                       Navigator.pop(context); // Navigate back to the previous page
                     },
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    "$inspectorName $inspectorSurname", // Show the inspector's name and surname
+                    "Inspector Details", // Show the inspector's name and surname
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -50,7 +50,7 @@ class InspectorDetailsPage extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 100),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -100,60 +100,83 @@ class InspectorDetailsPage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16),
-              Container(
-                decoration: const BoxDecoration(
-                  color: Color(0xFFD9EAD3),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8.0),
-                    topRight: Radius.circular(8.0),
+
+              // Control the spacing here (add more height for more space before the content starts)
+              const SizedBox(height: 32), // <-- Added space here
+
+              // "Table" container with shadow, width restriction, and centered alignment
+              Center(
+                child: Container(
+                  width: 1200, // <-- Control the width here. Increase this value to make it wider.
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12.0), // Rounded corners
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5), // Shadow color
+                        spreadRadius: 1,
+                        blurRadius: 6,
+                        offset: const Offset(0, 3), // Shadow offset
+                      ),
+                    ],
                   ),
-                ),
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Text(
-                        InspectorDetailsPageStrings.personalInfoTitle,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF566038),
+                  child: Column(
+                    children: [
+                      // Title row
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFD9EAD3),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(8.0),
+                            topRight: Radius.circular(8.0),
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                InspectorDetailsPageStrings.personalInfoTitle,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF566038),
+                                ),
+                              ),
+                            ),
+                            const Expanded(flex: 2, child: SizedBox.shrink()),
+                          ],
                         ),
                       ),
-                    ),
-                    const Expanded(flex: 2, child: SizedBox.shrink()),
-                  ],
+                      // Information rows
+                      InformationRow(
+                        label: InspectorDetailsPageStrings.inspectorNumberLabel,
+                        value: "123456",
+                      ),
+                      InformationRow(
+                        label: InspectorDetailsPageStrings.inspectorNameLabel,
+                        value: inspectorName,
+                      ),
+                      InformationRow(
+                        label: InspectorDetailsPageStrings.inspectorSurnameLabel,
+                        value: inspectorSurname,
+                      ),
+                      InformationRow(
+                        label: InspectorDetailsPageStrings.inspectorBadgeNumberLabel,
+                        value: "987654",
+                      ),
+                      InformationRow(
+                        label: InspectorDetailsPageStrings.assignedDepartmentLabel,
+                        value: inspectorDepartment,
+                      ),
+                      InformationRow(
+                        label: InspectorDetailsPageStrings.contactNumberLabel,
+                        value: contactNumber,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const InformationRow(
-                label: InspectorDetailsPageStrings.inspectorNumberLabel,
-                value: "123456",
-              ),
-              const Divider(color: Colors.grey, thickness: 0.5),
-              InformationRow(
-                label: InspectorDetailsPageStrings.inspectorNameLabel,
-                value: inspectorName,
-              ),
-              const Divider(color: Colors.grey, thickness: 0.5),
-              InformationRow(
-                label: InspectorDetailsPageStrings.inspectorSurnameLabel,
-                value: inspectorSurname,
-              ),
-              const Divider(color: Colors.grey, thickness: 0.5),
-              const InformationRow(
-                label: InspectorDetailsPageStrings.inspectorBadgeNumberLabel,
-                value: "987654",
-              ),
-              const Divider(color: Colors.grey, thickness: 0.5),
-              InformationRow(
-                label: InspectorDetailsPageStrings.assignedDepartmentLabel,
-                value: inspectorDepartment,
-              ),
-              const Divider(color: Colors.grey, thickness: 0.5),
-              InformationRow(
-                label: InspectorDetailsPageStrings.contactNumberLabel,
-                value: contactNumber,
               ),
             ],
           ),

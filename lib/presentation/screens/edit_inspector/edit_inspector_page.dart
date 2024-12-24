@@ -109,110 +109,114 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
       appBar: null,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.chevron_left,
-                      color: Color(0xFF306238),
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    EditInspectorPageStrings.title,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF306238),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 40),
-              Padding(
-                padding: const EdgeInsets.only(left: 0.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        child: Center(  // Centering the content
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,  // Center the form content
+              crossAxisAlignment: CrossAxisAlignment.center,  // Align items in the center
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    CustomTextField(
-                      controller: _inspectorNumberController,
-                      hint: EditInspectorPageStrings.inspectorNumberHint,
-                      inputType: TextInputType.number,
-                    ),
-                    const SizedBox(height: 20),
-                    CustomTextField(
-                      controller: _inspectorNameController,
-                      hint: EditInspectorPageStrings.inspectorNameHint,
-                      inputType: TextInputType.text,
-                    ),
-                    const SizedBox(height: 20),
-                    CustomTextField(
-                      controller: _inspectorSurnameController,
-                      hint: EditInspectorPageStrings.inspectorSurnameHint,
-                      inputType: TextInputType.text,
-                    ),
-                    const SizedBox(height: 20),
-                    CustomTextField(
-                      controller: _inspectorBadgeNumberController,
-                      hint: EditInspectorPageStrings.inspectorBadgeNumberHint,
-                      inputType: TextInputType.number,
-                    ),
-                    const SizedBox(height: 20),
-                    CustomDropdownFieldForDepartments(
-                      selectedDepartment: _selectedDepartment,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedDepartment = value!;
-                        });
+                    IconButton(
+                      icon: const Icon(
+                        Icons.chevron_left,
+                        color: Color(0xFF306238),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
                       },
                     ),
-                    const SizedBox(height: 20),
-                    CustomTextField(
-                      controller: _contactNumberController,
-                      hint: EditInspectorPageStrings.contactNumberHint,
-                      inputType: TextInputType.phone,
-                      validator: (value) {
-                        return ValidationUtil.validateField(value, fieldType: 'phone');
-                      },
+                    const SizedBox(width: 10),
+                    Text(
+                      EditInspectorPageStrings.title,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF306238),
+                      ),
                     ),
-                    const SizedBox(height: 40),
                   ],
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: _resetForm,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: const Color(0xFF306238),
-                      side: const BorderSide(color: Color(0xFF306238)),
-                      padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
-                    ),
-                    child: Text(EditInspectorPageStrings.cancelButton),
+                const SizedBox(height: 40),
+                Padding(
+                  padding: const EdgeInsets.only(left: 0.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomTextField(
+                        controller: _inspectorNumberController,
+                        hint: EditInspectorPageStrings.inspectorNumberHint,
+                        inputType: TextInputType.number,
+                      ),
+                      const SizedBox(height: 20),
+                      CustomTextField(
+                        controller: _inspectorNameController,
+                        hint: EditInspectorPageStrings.inspectorNameHint,
+                        inputType: TextInputType.text,
+                      ),
+                      const SizedBox(height: 20),
+                      CustomTextField(
+                        controller: _inspectorSurnameController,
+                        hint: EditInspectorPageStrings.inspectorSurnameHint,
+                        inputType: TextInputType.text,
+                      ),
+                      const SizedBox(height: 20),
+                      CustomTextField(
+                        controller: _inspectorBadgeNumberController,
+                        hint: EditInspectorPageStrings.inspectorBadgeNumberHint,
+                        inputType: TextInputType.number,
+                      ),
+                      const SizedBox(height: 20),
+                      CustomDropdownFieldForDepartments(
+                        selectedDepartment: _selectedDepartment,
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedDepartment = value!;
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      CustomTextField(
+                        controller: _contactNumberController,
+                        hint: EditInspectorPageStrings.contactNumberHint,
+                        inputType: TextInputType.phone,
+                        validator: (value) {
+                          return ValidationUtil.validateField(value, fieldType: 'phone');
+                        },
+                      ),
+                      const SizedBox(height: 40),
+                    ],
                   ),
-                  const SizedBox(width: 40),
-                  ElevatedButton(
-                    onPressed: _updateInspector, // Updated to call the update function
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF306238),
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,  // Center the buttons
+                  children: [
+                    ElevatedButton(
+                      onPressed: _resetForm,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: const Color(0xFF306238),
+                        side: const BorderSide(color: Color(0xFF306238)),
+                        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
+                      ),
+                      child: Text(EditInspectorPageStrings.cancelButton),
                     ),
-                    child: Text(EditInspectorPageStrings.saveButton),
-                  ),
-                ],
-              ),
-            ],
+                    const SizedBox(width: 40),
+                    ElevatedButton(
+                      onPressed: _updateInspector, // Updated to call the update function
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF306238),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
+                      ),
+                      child: Text(EditInspectorPageStrings.saveButton),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

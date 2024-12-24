@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants/strings/custom_dropdown_field_for_departments_strings.dart';
+
 class CustomDropdownFieldForDepartments extends StatelessWidget {
   final String selectedDepartment;
   final ValueChanged<String?> onChanged;
@@ -11,37 +12,53 @@ class CustomDropdownFieldForDepartments extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 500,
-      child: DropdownButtonFormField<String>(
-        value: selectedDepartment,
-        items: const [
-          DropdownMenuItem(child: Text(CustomDropdownFieldForDepartmentsStrings.hr), value: 'HR'),
-          DropdownMenuItem(child: Text(CustomDropdownFieldForDepartmentsStrings.finance), value: 'Finance'),
-          DropdownMenuItem(child: Text(CustomDropdownFieldForDepartmentsStrings.operations), value: 'Operations'),
-          DropdownMenuItem(child: Text(CustomDropdownFieldForDepartmentsStrings.it), value: 'IT'),
-          DropdownMenuItem(child: Text(CustomDropdownFieldForDepartmentsStrings.sales), value: 'Sales'),
-        ],
-        onChanged: onChanged,
-        decoration: InputDecoration(
-          labelText: CustomDropdownFieldForDepartmentsStrings.labelText,
-          labelStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-          filled: true,
-          fillColor: Color(0xFFDDE5CD),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide.none,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: SizedBox(
+        width: 800, // Adjusted width to match the second dropdown field
+        child: DropdownButtonFormField<String>(
+          value: selectedDepartment,
+          items: const [
+            DropdownMenuItem(
+              child: Text(CustomDropdownFieldForDepartmentsStrings.hr),
+              value: 'HR',
+            ),
+            DropdownMenuItem(
+              child: Text(CustomDropdownFieldForDepartmentsStrings.finance),
+              value: 'Finance',
+            ),
+            DropdownMenuItem(
+              child: Text(CustomDropdownFieldForDepartmentsStrings.operations),
+              value: 'Operations',
+            ),
+            DropdownMenuItem(
+              child: Text(CustomDropdownFieldForDepartmentsStrings.it),
+              value: 'IT',
+            ),
+            DropdownMenuItem(
+              child: Text(CustomDropdownFieldForDepartmentsStrings.sales),
+              value: 'Sales',
+            ),
+          ],
+          onChanged: onChanged,
+          decoration: InputDecoration(
+            labelText: CustomDropdownFieldForDepartmentsStrings.labelText,
+            labelStyle: const TextStyle(color: Colors.black54),
+            filled: true,
+            fillColor: const Color(0xFFDDE5CD),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: Colors.grey),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: Colors.grey),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: Colors.green),
+            ),
           ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.red, width: 2.0),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.red, width: 2.0),
-          ),
-          contentPadding: const EdgeInsets.only(left: 20, top: 12, bottom: 12),
-          floatingLabelBehavior: FloatingLabelBehavior.auto,
         ),
       ),
     );

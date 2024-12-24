@@ -24,11 +24,12 @@ class InspectorsListPage extends StatelessWidget {
           children: [
             Row(
               children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                const Text(
+                  'Inspectors List',  // Title text instead of the back arrow
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const Spacer(),
                 const ExportInspectorButtonWidget(),

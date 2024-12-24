@@ -35,62 +35,16 @@ class _InspectorTableState extends State<InspectorTable> {
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: DataTable(
-                columns: const [
-                  DataColumn(label: Text(InspectorTableStrings.inspectorNumber)),
-                  DataColumn(label: Text(InspectorTableStrings.name)),
-                  DataColumn(label: Text(InspectorTableStrings.surname)),
-                  DataColumn(label: Text(InspectorTableStrings.badgeNumber)),
-                  DataColumn(label: Text(InspectorTableStrings.department)),
-                  DataColumn(label: Text(InspectorTableStrings.contact)),
-                  DataColumn(label: SizedBox(width: 50, child: Text(''))),
-                ],
+                headingRowColor: MaterialStateProperty.resolveWith(
+                    (states) => Colors.grey[200]), // Header row background color
+                showCheckboxColumn: false, // Removes the checkbox
+                columns: _buildColumns(),
                 rows: _inspectors.map((inspector) {
                   return DataRow(
                     onSelectChanged: (_) {
                       _viewInspectorDetails(inspector);
                     },
-                    cells: [
-                      DataCell(Text(inspector.inspectorNumber.toString())),
-                      DataCell(Text(inspector.name)),
-                      DataCell(Text(inspector.surname)),
-                      DataCell(Text(inspector.badgeNumber?.toString() ?? 'N/A')),
-                      DataCell(Text(inspector.assignedDepartment)),
-                      DataCell(Text(inspector.contactNumber?.toString() ?? 'N/A')),
-                      DataCell(
-                        PopupMenuButton(
-                          icon: const Icon(Icons.more_vert),
-                          itemBuilder: (context) => [
-                            PopupMenuItem(
-                              value: 'edit',
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.edit, size: 18),
-                                  const SizedBox(width: 8),
-                                  Text(InspectorTableStrings.edit),
-                                ],
-                              ),
-                            ),
-                            PopupMenuItem(
-                              value: 'delete',
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.delete, size: 18),
-                                  const SizedBox(width: 8),
-                                  Text(InspectorTableStrings.delete),
-                                ],
-                              ),
-                            ),
-                          ],
-                          onSelected: (value) {
-                            if (value == 'edit') {
-                              _editInspector(inspector);
-                            } else if (value == 'delete') {
-                              _deleteInspector(inspector);
-                            }
-                          },
-                        ),
-                      ),
-                    ],
+                    cells: _buildCells(inspector),
                   );
                 }).toList(),
               ),
@@ -99,6 +53,86 @@ class _InspectorTableState extends State<InspectorTable> {
         }
       },
     );
+  }
+
+  List<DataColumn> _buildColumns() {
+    return [
+      _buildDataColumn(InspectorTableStrings.inspectorNumber),
+      _buildDataColumn(InspectorTableStrings.name),
+      _buildDataColumn(InspectorTableStrings.surname),
+      _buildDataColumn(InspectorTableStrings.badgeNumber),
+      _buildDataColumn(InspectorTableStrings.department),
+      _buildDataColumn(InspectorTableStrings.contact),
+      DataColumn(
+        label: SizedBox(width: 50, child: Text('')),
+      ),
+    ];
+  }
+
+  DataColumn _buildDataColumn(String label) {
+    return DataColumn(
+      label: Row(
+        children: [
+          Text(
+            "$label ",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.grey[800],
+            ),
+          ),
+          Icon(
+            Icons.arrow_drop_down,
+            size: 16, // Slightly larger size for the icon
+            color: Colors.grey[700], // Darker color for better visibility
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<DataCell> _buildCells(InspectorEntity inspector) {
+    return [
+      DataCell(Text(inspector.inspectorNumber.toString(), style: TextStyle(color: Colors.grey[800]))),
+      DataCell(Text(inspector.name, style: TextStyle(color: Colors.grey[800]))),
+      DataCell(Text(inspector.surname, style: TextStyle(color: Colors.grey[800]))),
+      DataCell(Text(inspector.badgeNumber?.toString() ?? 'N/A', style: TextStyle(color: Colors.grey[800]))),
+      DataCell(Text(inspector.assignedDepartment, style: TextStyle(color: Colors.grey[800]))),
+      DataCell(Text(inspector.contactNumber?.toString() ?? 'N/A', style: TextStyle(color: Colors.grey[800]))),
+      DataCell(
+        PopupMenuButton(
+          icon: Icon(Icons.more_vert, size: 18, color: Colors.grey[800]),
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              value: 'edit',
+              child: Row(
+                children: [
+                  Icon(Icons.edit, size: 18, color: Colors.grey[800]),
+                  SizedBox(width: 8),
+                  Text(InspectorTableStrings.edit, style: TextStyle(color: Colors.grey[800])),
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              value: 'delete',
+              child: Row(
+                children: [
+                  Icon(Icons.delete, size: 18, color: Colors.grey[800]),
+                  SizedBox(width: 8),
+                  Text(InspectorTableStrings.delete, style: TextStyle(color: Colors.grey[800])),
+                ],
+              ),
+            ),
+          ],
+          onSelected: (value) {
+            if (value == 'edit') {
+              _editInspector(inspector);
+            } else if (value == 'delete') {
+              _deleteInspector(inspector);
+            }
+          },
+        ),
+      ),
+    ];
   }
 
   void _viewInspectorDetails(InspectorEntity inspector) {
@@ -115,57 +149,50 @@ class _InspectorTableState extends State<InspectorTable> {
     );
   }
 
- void _editInspector(InspectorEntity inspector) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => EditInspectorPage(
-        inspectorNumber: inspector.inspectorNumber.toString(),
-        inspectorName: inspector.name,
-        inspectorSurname: inspector.surname,
-        inspectorBadgeNumber: inspector.badgeNumber?.toString() ?? '',
-        assignedDepartment: inspector.assignedDepartment,
-        contactNumber: inspector.contactNumber?.toString() ?? '',
+  void _editInspector(InspectorEntity inspector) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditInspectorPage(
+          inspectorNumber: inspector.inspectorNumber.toString(),
+          inspectorName: inspector.name,
+          inspectorSurname: inspector.surname,
+          inspectorBadgeNumber: inspector.badgeNumber?.toString() ?? '',
+          assignedDepartment: inspector.assignedDepartment,
+          contactNumber: inspector.contactNumber?.toString() ?? '',
+        ),
       ),
-    ),
-  ).then((_) {
-    // Instead of just calling setState, re-fetch the inspectors
-    _refreshInspectorList();
-  });
-}
+    ).then((_) {
+      _refreshInspectorList();
+    });
+  }
 
-void _deleteInspector(InspectorEntity inspector) {
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: Text('${InspectorTableStrings.deleteInspector} ${inspector.name}'),
-      content: const Text(InspectorTableStrings.areYouSureDelete),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text(InspectorTableStrings.cancel),
-        ),
-        TextButton(
-          onPressed: () {
-            // Call the delete method here
-            _inspectorRepository.deleteInspector(inspector).then((_) {
-              // Instead of just calling setState, re-fetch the inspectors
-              _refreshInspectorList();
-            });
-            Navigator.pop(context);
-          },
-          child: const Text(InspectorTableStrings.deleteAction),
-        ),
-      ],
-    ),
-  );
-}
+  void _deleteInspector(InspectorEntity inspector) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('${InspectorTableStrings.deleteInspector} ${inspector.name}', style: TextStyle(color: Colors.grey[800])),
+        content: Text(InspectorTableStrings.areYouSureDelete, style: TextStyle(color: Colors.grey[800])),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(InspectorTableStrings.cancel, style: TextStyle(color: Colors.grey[800])),
+          ),
+          TextButton(
+            onPressed: () {
+              _inspectorRepository.deleteInspector(inspector).then((_) {
+                _refreshInspectorList();
+              });
+              Navigator.pop(context);
+            },
+            child: Text(InspectorTableStrings.deleteAction, style: TextStyle(color: Colors.grey[800])),
+          ),
+        ],
+      ),
+    );
+  }
 
-// A helper method to refresh the inspector list by calling setState
-void _refreshInspectorList() {
-  setState(() {
-    // Refreshing the widget by triggering FutureBuilder again
-  });
-}
-
+  void _refreshInspectorList() {
+    setState(() {});
+  }
 }
