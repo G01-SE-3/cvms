@@ -17,7 +17,7 @@ class PVDataTable extends StatelessWidget {
         width: MediaQuery.of(context).size.width - 32,
         padding: const EdgeInsets.symmetric(horizontal: 0),
         child: DataTable(
-          headingRowColor: WidgetStateProperty.all(
+          headingRowColor: MaterialStateProperty.all(
             Colors.grey[200],
           ),
           columnSpacing: 24,
@@ -41,13 +41,32 @@ class PVDataTable extends StatelessWidget {
           ],
           rows: tableData.map((row) {
             return DataRow(
+              // Linking functionality without selection behavior
               cells: [
-                DataCell(Text(row['PVnumber'])),
-                DataCell(Text(row['offendercr'])),
-                DataCell(Text(row['offendername'])),
-                DataCell(Text(row['pvissuedate'])),
-                DataCell(Text(row['violationtype'])),
-                DataCell(Text(row['inspectingofficers'])),
+                DataCell(
+                  Text(row['PVnumber']),
+                  onTap: () => _navigateToPVPage(context, row),
+                ),
+                DataCell(
+                  Text(row['offendercr']),
+                  onTap: () => _navigateToPVPage(context, row),
+                ),
+                DataCell(
+                  Text(row['offendername']),
+                  onTap: () => _navigateToPVPage(context, row),
+                ),
+                DataCell(
+                  Text(row['pvissuedate']),
+                  onTap: () => _navigateToPVPage(context, row),
+                ),
+                DataCell(
+                  Text(row['violationtype']),
+                  onTap: () => _navigateToPVPage(context, row),
+                ),
+                DataCell(
+                  Text(row['inspectingofficers']),
+                  onTap: () => _navigateToPVPage(context, row),
+                ),
                 DataCell(
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -85,24 +104,6 @@ class PVDataTable extends StatelessWidget {
                           ),
                         ],
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.arrow_forward,
-                            color: Color(0xFF545837)),
-                        onPressed: () {
-                          // Reset the PV data in the controller
-                          final controller =
-                              Provider.of<PVController>(context, listen: false);
-                          controller.resetPV(); // Reset before navigating
-
-                          // Navigate to the PVPage with the PV ID
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PVPage(pvId: row['PVid']),
-                            ),
-                          );
-                        },
-                      ),
                     ],
                   ),
                 ),
@@ -121,6 +122,18 @@ class PVDataTable extends StatelessWidget {
           Text(title),
           const Icon(Icons.arrow_drop_down, size: 18),
         ],
+      ),
+    );
+  }
+
+  void _navigateToPVPage(BuildContext context, Map<String, dynamic> row) {
+    final controller = Provider.of<PVController>(context, listen: false);
+    controller.resetPV(); // Reset before navigating
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PVPage(pvId: row['PVid']),
       ),
     );
   }

@@ -6,7 +6,7 @@ class AddInspectorPageStrings {
   static const String inspectorBadgeNumberHint = "Inspector Badge Number";
   static const String contactNumberHint = "Contact Number";
   static const String cancelButton = "Cancel";
-  static const String saveButton = "Save";
+  static const String saveButton = "Add";
   static const String inspectorAddedMessage = "Inspector added";
   static const String inspectorDefaultDepartment = "HR";
   static const String message = "";
