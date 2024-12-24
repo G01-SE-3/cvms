@@ -1,4 +1,4 @@
-class BusinessOffender {
+/*class BusinessOffender {
   final int business_id;
   final String business_name;
   final String name;
@@ -27,3 +27,4 @@ class BusinessOffender {
     required this.business_address,
   });
 }
+*/

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/individual_offender_form/widgets/TextFieldInput.dart';
 import 'package:cvms/presentation/screens/individual_offender_form/constants/strings/individualoffenderinformation.dart';
-import 'package:cvms/domain/entities/individual_offender/individual_offender.dart';
+//import 'package:cvms/domain/entities/individual_offender/individual_offender.dart';
 import 'package:cvms/presentation/screens/individual_offender_form/individual_offender_informations/IndividualOffenderInformation.dart';
-import 'package:cvms/presentation/controllers/individual_offender/individual_offender_controller.dart';
+//import 'package:cvms/presentation/controllers/individual_offender/individual_offender_controller.dart';
 
-
-final controller = IndividualOffenderController();
 
 Widget OffenderForm({
   required BuildContext context,
@@ -41,7 +39,7 @@ Widget OffenderForm({
               ),
               onPressed: () {
                 if (formKey.currentState!.validate()) {
-                  submitForm(context);
+                  //submitForm(context);
                 }
               },
               child: const Text(
@@ -70,7 +68,7 @@ void clearForm() {
   addressController.clear();
   business_addressController.clear();
 }
-void submitForm(BuildContext context) {
+/*void submitForm(BuildContext context) {
   if (formKey.currentState!.validate()) {
     // Create a BusinessOffender instance from input
     final offender = IndividualOffender(
@@ -104,3 +102,4 @@ void submitForm(BuildContext context) {
   }
 }
 
+*/

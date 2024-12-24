@@ -1,4 +1,4 @@
-import 'package:postgres/postgres.dart';
+/*import 'package:postgres/postgres.dart';
 import 'package:cvms/data/models/individual_offender/individual_offender_model.dart';
 class IndividualOffenderDataSource {
   final PostgreSQLConnection connection;
@@ -58,4 +58,4 @@ class IndividualOffenderDataSource {
 
 
 
-}
+}*/

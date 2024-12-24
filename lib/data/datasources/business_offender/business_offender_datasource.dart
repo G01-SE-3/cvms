@@ -1,4 +1,4 @@
-import 'package:postgres/postgres.dart';
+/*import 'package:postgres/postgres.dart';
 import 'package:cvms/data/models/business_offender/business_offender_model.dart';
 
 class BusinessOffenderDataSource {
@@ -69,4 +69,4 @@ class BusinessOffenderDataSource {
 
 
 
-}
+}*/

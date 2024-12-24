@@ -1,4 +1,4 @@
-import 'package:postgres/postgres.dart';
+/*import 'package:postgres/postgres.dart';
 import 'package:cvms/domain/entities/business_offender/business_offender.dart';
 import 'package:cvms/domain/entities/business_offender/business_offender.dart';
 abstract class BusinessOffenderrepository {
@@ -48,5 +48,5 @@ class BusinessOffenderRepository {
     return offenders;
   }
 }
-
+*/
 

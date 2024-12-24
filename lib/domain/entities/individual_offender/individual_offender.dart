@@ -1,4 +1,4 @@
-class IndividualOffender {
+/*class IndividualOffender {
   final int individual_id;
   final String name;
   final String surname;
@@ -25,3 +25,4 @@ class IndividualOffender {
     required this.business_address,
   });
 }
+*/

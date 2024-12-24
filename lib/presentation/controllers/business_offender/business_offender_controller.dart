@@ -1,4 +1,4 @@
-import 'package:cvms/domain/usecases/business_offender/add_offender.dart';
+/*import 'package:cvms/domain/usecases/business_offender/add_offender.dart';
 import 'package:cvms/domain/usecases/business_offender/get_all_offenders.dart';
 import 'package:cvms/domain/entities/business_offender/business_offender.dart';
 import 'package:cvms/domain/repositories/business_offender/business_offender_repository.dart';
@@ -98,3 +98,4 @@ class BusinessOffenderController {
     await _databaseConnection.close();
   }
 }
+*/

@@ -10,3 +10,4 @@ String MothersnameandSurname="Mothers name & Surname";
 String FatherName="Father Name";
 String BusinessAddress="Business Address";
 String Menu="Menu";
+String name_and_surname="name , surname";

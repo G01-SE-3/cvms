@@ -1,6 +1,6 @@
-import 'package:postgres/postgres.dart';
-import 'package:cvms/domain/entities/individual_offender/individual_offender.dart';
-import 'package:cvms/domain/entities/individual_offender/individual_offender.dart';
+/*import 'package:postgres/postgres.dart';
+import 'package:cvms/domain/entities/Individual_offender/Individual_offender.dart';
+import 'package:cvms/domain/entities/Individual_offender/Individual_offender.dart';
 abstract class IndividualOffenderrepository {
   //Future<List<IndividualOffender>> fetchAllOffenders();
   Future<void> addOffender(IndividualOffender offender);
@@ -19,8 +19,8 @@ class IndividualOffenderRepository {
     
     // Fetch data from the PostgreSQL database
     List<List<dynamic>> results = await connection.query('''
-      SELECT  name, surname, date_of_birth, address, business_address
-      FROM individual_offender
+      SELECT name, surname, date_of_birth, address, business_address
+      FROM business_offender
     ''');
 
     // Convert results to a list of BusinessOffender objects
@@ -47,5 +47,5 @@ class IndividualOffenderRepository {
     return offenders;
   }
 }
-
+*/
 

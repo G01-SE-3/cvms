@@ -1,4 +1,4 @@
-import 'package:cvms/domain/entities/commercial_register/commercial_register.dart';
+/*import 'package:cvms/domain/entities/commercial_register/commercial_register.dart';
 class CommercialRegisterModel extends CommercialRegister {
   
 
@@ -53,4 +53,4 @@ class CommercialRegisterModel extends CommercialRegister {
    );
 }
 
-}
+}*/

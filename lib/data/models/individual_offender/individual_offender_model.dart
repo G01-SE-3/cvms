@@ -1,4 +1,4 @@
-import 'package:cvms/domain/entities/individual_offender/individual_offender.dart';
+/*import 'package:cvms/domain/entities/individual_offender/individual_offender.dart';
 
 class IndividualOffenderModel extends IndividualOffender {
   
@@ -84,4 +84,4 @@ class IndividualOffenderModel extends IndividualOffender {
   );
 }
 
-}
+}*/

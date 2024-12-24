@@ -1,4 +1,4 @@
-import 'package:cvms/domain/entities/business_offender/business_offender.dart';
+/*import 'package:cvms/domain/entities/business_offender/business_offender.dart';
 
 class BusinessOffenderModel extends BusinessOffender {
   
@@ -89,4 +89,4 @@ class BusinessOffenderModel extends BusinessOffender {
   );
 }
 
-}
+}*/

@@ -1,3 +1,5 @@
+import 'package:cvms/presentation/screens/BusinessOffender/BusinessOffenderList.dart';
+import 'package:cvms/presentation/screens/EconomicOperatorDetails/EconomicOperatorDetails.dart';
 import 'package:flutter/material.dart';
 import 'core/utils/get_db.dart';
 import 'package:cvms/presentation/screens/IndividualOffender/IndividualOffenderList.dart';

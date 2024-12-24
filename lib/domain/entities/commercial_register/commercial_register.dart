@@ -1,4 +1,4 @@
-class CommercialRegister {
+/*class CommercialRegister {
   final int business_id;
   final String CommercialRegisterNumber;
   final String CommercialRegisterDate;
@@ -13,4 +13,4 @@ class CommercialRegister {
     required this.CancellationDate,
     
   });
-}
+}*/

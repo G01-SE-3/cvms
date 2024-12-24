@@ -1,4 +1,4 @@
-import 'package:cvms/domain/usecases/individual_offender/add_offender.dart';
+/*import 'package:cvms/domain/usecases/individual_offender/add_offender.dart';
 import 'package:cvms/domain/usecases/individual_offender/get_all_offenders.dart';
 import 'package:cvms/domain/entities/individual_offender/individual_offender.dart';
 import 'package:postgres/postgres.dart';
@@ -98,3 +98,4 @@ class IndividualOffenderController {
     }
   }
 }
+*/
