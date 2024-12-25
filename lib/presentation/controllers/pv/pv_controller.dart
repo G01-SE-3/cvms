@@ -3,21 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:cvms/domain/entities/pv/pv.dart';
 import 'package:cvms/domain/usecases/pv/get_pv_details.dart';
 import 'package:cvms/domain/usecases/pv/get_all_pvs.dart';
+import 'package:cvms/domain/usecases/pv/search_pv.dart';
 
 class PVController extends ChangeNotifier {
   final GetPVDetails getPVDetails;
   final GetAllPVs getAllPVs;
   final InsertPV insertPV;
+  final GetPVsByNumber searchPV;
 
   PV? pv;
   List<PV> allPVs = [];
+  List<PV> searchResults = []; 
   bool isLoading = false;
   String? errorMessage;
 
   PVController(
       {required this.getPVDetails,
       required this.getAllPVs,
-      required this.insertPV});
+      required this.insertPV,
+      required this.searchPV});
 
   Future<void> loadPV(String pvId) async {
     if (pv != null) return;
@@ -81,5 +85,21 @@ class PVController extends ChangeNotifier {
   void dispose() {
     // Dispose any resources like database connection if needed
     super.dispose();
+  }
+
+    Future<void> searchPVsByNumber(int pvNumber) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      searchResults = await searchPV.execute(pvNumber);  // Call the search use case
+      errorMessage = null;
+    } catch (e) {
+      errorMessage = e.toString();
+      searchResults = [];
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
   }
 }

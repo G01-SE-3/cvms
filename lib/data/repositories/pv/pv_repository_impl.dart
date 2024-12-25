@@ -54,4 +54,19 @@ class PVRepositoryImpl implements PVRepository {
       rethrow;
     }
   }
+
+@override
+Future<List<PV>> searchPV(int pvNumber) async {
+  try {
+    // Fetch PVs with the specific pvNumber from the data source
+    final pvModels = await dataSource. searchPV(pvNumber) ;
+
+    // Convert the list of models to a list of entities
+    return pvModels.map((model) => model.toEntity()).toList();
+  } catch (e) {
+    // Handle errors (e.g., data fetching issues)
+    print("Failed to fetch PVs with pvNumber $pvNumber: $e");
+    rethrow;
+  }
+}
 }

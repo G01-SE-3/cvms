@@ -8,6 +8,7 @@ String? validateDateRange(DateTime? startDate, DateTime? endDate) {
   {
          return "Input  fields cannot be empty.";
   }
+  return null;
  
 
 }

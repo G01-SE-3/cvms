@@ -350,4 +350,83 @@ class PVDataSource {
       rethrow; // Propagate the error to the caller
     }
   }
-}
+
+///Searching PVS with a specific number 
+Future<List<PVModel>> searchPV(int pvnumber) async {
+  final connection = await getDatabaseConnection(); // Get DB connection
+  List<PVModel> pvList = [];
+
+  try {
+    // Query to fetch only PVs with the given pvNumber
+    var result = await connection.connection!.query('''
+    SELECT 
+      pv_id, 
+      pv_number, 
+      issue_date, 
+      violation_type, 
+      total_reparation_amount, 
+      total_non_fixed, 
+      subsidized_good
+    FROM pv
+    WHERE pv_number = @Pvnumber;
+    ''', substitutionValues: {'pvnumber': pvnumber});
+
+    for (var pvData in result) {
+      String pvId = pvData[0];
+      int pvNumber = pvData[1];
+      DateTime issueDate = pvData[2];
+      String violationType = pvData[3];
+      double? totalReparationAmount = _tryParseDouble(pvData[4]);
+      double? totalNonFixed = _tryParseDouble(pvData[5]);
+      String? subsidizedGood = pvData[6];
+
+      // Fetch Inspectors for each PV
+      var inspectorResult = await connection.connection!.query('''
+      SELECT 
+        i.inspector_id, 
+        i.name, 
+        i.surname, 
+        i.badge_number, 
+        i.assigned_department, 
+        i.contact_number
+      FROM inspector i
+      JOIN pv_inspector pi ON pi.inspector_id = i.inspector_id
+      WHERE pi.pv_id = @pvId;
+      ''', substitutionValues: {'pvId': pvId});
+
+      List<InspectorModel> inspectors = [];
+      for (var inspectorData in inspectorResult) {
+        inspectors.add(InspectorModel(
+          id: inspectorData[0],
+          name: inspectorData[1],
+          surname: inspectorData[2],
+          badgeNumber: inspectorData[3],
+          assignedDepartment: inspectorData[4],
+          contactNumber: inspectorData[5],
+        ));
+      }
+
+      // Add the matching PV to the list
+      pvList.add(PVModel(
+        pvId: pvId,
+        pvNumber: pvNumber,
+        issueDate: issueDate,
+        violationType: violationType,
+        totalReparationAmount: totalReparationAmount,
+        totalNonFixed: totalNonFixed,
+        subsidizedGood: subsidizedGood,
+        offender: OffenderModel(name: "John Doe"),
+        inspectors: inspectors,
+        seizures: [],
+        closure: null, 
+        nationalCardRegistration: null, 
+        financialPenalty: null, 
+      ));
+    }
+
+    return pvList;
+  } catch (e) {
+    print("Error fetching PVs: $e");
+    rethrow;
+  }
+}}
