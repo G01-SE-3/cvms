@@ -1,3 +1,4 @@
+import 'package:cvms/domain/usecases/pv/search_pv.dart';
 import 'package:cvms/presentation/screens/PVs_list_page/PVListPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,7 @@ void main() {
   final getPVDetails = GetPVDetails(pvRepository);
   final getAllPVs = GetAllPVs(pvRepository);
   final insertPV = InsertPV(pvRepository);
+  final searchPV = GetPVsByNumber(pvRepository);
 
   runApp(
     MultiProvider(
@@ -30,6 +32,8 @@ void main() {
             getPVDetails: getPVDetails,
             getAllPVs: getAllPVs,
             insertPV: insertPV,
+            searchPV:searchPV
+
           ),
         ),
       ],
