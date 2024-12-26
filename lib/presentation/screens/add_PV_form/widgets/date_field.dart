@@ -57,7 +57,7 @@ class DateField extends StatelessWidget {
               lastDate: DateTime(2100),
             );
 
-            if (selectedDate != null && onDateSelected != null) {
+            if (selectedDate != null) {
               onDateSelected!(selectedDate);
             }
           },

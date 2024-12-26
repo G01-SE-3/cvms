@@ -3,11 +3,13 @@ import 'package:cvms/presentation/screens/navigation_bars/Sidebar.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const Sidebar(), 
-      appBar: const PreferredSize(
+    return const Scaffold(
+      drawer: Sidebar(), 
+      appBar: PreferredSize(
         preferredSize: Size.fromHeight(180.0),
         child: GeneralAppBar(search: false),
       ),

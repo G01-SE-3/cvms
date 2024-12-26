@@ -17,7 +17,7 @@ class PVDataTable extends StatelessWidget {
         width: MediaQuery.of(context).size.width - 32,
         padding: const EdgeInsets.symmetric(horizontal: 0),
         child: DataTable(
-          headingRowColor: MaterialStateProperty.all(
+          headingRowColor: WidgetStateProperty.all(
             Colors.grey[200],
           ),
           columnSpacing: 24,
