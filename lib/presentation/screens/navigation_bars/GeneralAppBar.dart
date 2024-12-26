@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/navigation_bar.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/title_row.dart';
-import 'package:cvms/presentation/screens/navigation_bars/constants/Strings/GeneralAppBar.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/custom_search_bar.dart';
 import 'package:cvms/presentation/screens/homepage/homepage.dart';
 import 'package:cvms/presentation/screens/PVs_list_page/PVListPage.dart';
@@ -64,7 +63,7 @@ class _GeneralAppBarState extends State<GeneralAppBar> {
             }),
           ),
           const SizedBox(height: 8), // Decreased height
-          widget.search ? CustomSearchBar(PageName: widget.PageName) : const SizedBox(),
+          widget.search ? const CustomSearchBar() : const SizedBox(),
         ],
       ),
     );

@@ -37,12 +37,14 @@ void main() {
           ),
         ),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     // Access AuthService using Provider
@@ -57,10 +59,10 @@ class MyApp extends StatelessWidget {
           ? const HomePage() 
           : const LoginPage(), 
       routes: {
-        '/pvs': (context) => PVListPage(),
-        '/inspectors': (context) => InspectorsListPage(),
-        '/business_offender': (context) => BusinessOffenderList(),
-        '/individual_offender': (context) => IndividualOffenderList(),
+        '/pvs': (context) => const PVListPage(),
+        '/inspectors': (context) => const InspectorsListPage(),
+        '/business_offender': (context) => const BusinessOffenderList(),
+        '/individual_offender': (context) => const IndividualOffenderList(),
       },
       onUnknownRoute: (settings) => MaterialPageRoute(
         builder: (context) => const LoginPage(),

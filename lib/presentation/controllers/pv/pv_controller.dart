@@ -87,19 +87,22 @@ class PVController extends ChangeNotifier {
     super.dispose();
   }
 
-    Future<void> searchPVsByNumber(int pvNumber) async {
-    isLoading = true;
-    notifyListeners();
+  Future<List<PV>> searchPVsByNumber(int pvNumber) async {
+  isLoading = true;
+  notifyListeners();
 
-    try {
-      searchResults = await searchPV.execute(pvNumber);  // Call the search use case
-      errorMessage = null;
-    } catch (e) {
-      errorMessage = e.toString();
-      searchResults = [];
-    } finally {
-      isLoading = false;
-      notifyListeners();
-    }
+  try {
+    // Assuming the search logic in the use case returns the list of PVs
+    searchResults = await searchPV.execute(pvNumber);
+    errorMessage = null;
+    return searchResults;  // Return the list of PVs
+  } catch (e) {
+    errorMessage = e.toString();
+    searchResults = [];
+    return [];  // Return an empty list in case of error
+  } finally {
+    isLoading = false;
+    notifyListeners();
   }
+}
 }

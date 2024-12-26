@@ -6,7 +6,6 @@ import 'package:cvms/data/models/pv/closure_model.dart';
 import 'package:cvms/data/models/pv/national_card_reg_model.dart';
 import 'package:cvms/data/models/pv/seizure_model.dart';
 import 'package:cvms/data/models/inspector/inspector_model.dart';
-import 'package:cvms/data/models/inspector/inspector_model.dart';
 
 class PVDataSource {
   Future<PVModel?> getPVDetails(String pvId) async {
@@ -258,7 +257,7 @@ class PVDataSource {
           'totalReparationAmount': pvModel.totalReparationAmount,
           'totalNonFixed': pvModel.totalNonFixed,
           'subsidizedGood': pvModel.subsidizedGood,
-          'individualId': pvModel.offender?.name ?? null, // TO BE UPDATED
+          'individualId': pvModel.offender?.name, // TO BE UPDATED
           'businessId': pvModel.offender?.name ?? 1, // TO BE UPDATED
         });
 
@@ -368,8 +367,8 @@ Future<List<PVModel>> searchPV(int pvnumber) async {
       total_non_fixed, 
       subsidized_good
     FROM pv
-    WHERE pv_number = @Pvnumber;
-    ''', substitutionValues: {'pvnumber': pvnumber});
+    WHERE pv_number = @pvnumber; 
+    ''', substitutionValues: {'pvnumber': pvnumber});  
 
     for (var pvData in result) {
       String pvId = pvData[0];
@@ -429,4 +428,5 @@ Future<List<PVModel>> searchPV(int pvnumber) async {
     print("Error fetching PVs: $e");
     rethrow;
   }
-}}
+}
+}
