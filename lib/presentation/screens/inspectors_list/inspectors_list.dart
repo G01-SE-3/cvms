@@ -25,7 +25,7 @@ class InspectorsListPage extends StatelessWidget {
             Row(
               children: [
                 const Text(
-                  'Inspectors List',  // Title text instead of the back arrow
+                  'Inspectors List',  
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
