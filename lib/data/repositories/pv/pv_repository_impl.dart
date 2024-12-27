@@ -69,4 +69,34 @@ Future<List<PV>> searchPV(int pvNumber) async {
     rethrow;
   }
 }
+
+@override
+Future<List<PV>> filterByLatest(int number) async {
+  try {
+    // Fetch the latest PVs from the data source
+    final pvModels = await dataSource.filterByLatest(number);
+
+    // Convert the list of models to a list of entities
+    return pvModels.map((model) => model.toEntity()).toList();
+  } catch (e) {
+    // Handle errors (e.g., data fetching issues)
+    print("Failed to fetch the latest $number PVs: $e");
+    rethrow;
+  }
+}
+@override
+Future<List<PV>> filterByDate(DateTime startDate, DateTime endDate) async {
+  try {
+    // Fetch PVs within the date range from the data source
+    final pvModels = await dataSource.filterByDate(startDate, endDate);
+
+    // Convert the list of models to a list of entities
+    return pvModels.map((model) => model.toEntity()).toList();
+  } catch (e) {
+    // Handle errors (e.g., data fetching issues)
+    print("Failed to fetch PVs between $startDate and $endDate: $e");
+    rethrow;
+  }
+}
+
 }

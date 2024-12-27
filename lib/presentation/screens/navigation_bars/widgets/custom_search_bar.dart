@@ -1,5 +1,9 @@
 import 'package:cvms/presentation/screens/PVs_list_page/PVListPage.dart';
+import 'package:cvms/presentation/screens/navigation_bars/constants/Strings/search_bar.dart';
 import 'package:cvms/presentation/screens/navigation_bars/constants/validation.dart';
+import 'package:cvms/presentation/screens/navigation_bars/forms/date_form.dart';
+import 'package:cvms/presentation/screens/navigation_bars/forms/latest_form.dart';
+import 'package:cvms/presentation/screens/navigation_bars/widgets/DropdownButton.dart';
 import 'package:flutter/material.dart';
 import 'package:cvms/domain/entities/pv/pv.dart';
 import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
@@ -19,32 +23,32 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
 
   @override
   Widget build(BuildContext context) {
-    // Access PVController using Provider
+    
     final pvController = Provider.of<PVController>(context, listen: false);
 
 void onSearch() async {
   // Validate input
   String? validationError = validateInput(searchController.text);
   if (validationError != null) {
-    showErrorMessage(context, validationError); // Show error message if validation fails
+    showErrorMessage(context, validationError); 
     return;
   }
 
 
   try {
-    // Parse input to integer
+   
     int pvNumber = int.parse(searchController.text);
 
-    // Search for PVs
+    
     List<PV> searchResults = await pvController.searchPVsByNumber(pvNumber);
   
-    // Handle no results found
+    
     if (searchResults.isEmpty) {
       handleNoPVFound(context);
       return;
     }
 
-    // Navigate to PVListPage with search results
+   
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -96,19 +100,19 @@ void onSearch() async {
             child: Center(
               child: GestureDetector(
                 onTap: () {
-  setState(() {
-    searchController.clear(); // Clears the search field
-  });
-  
-  
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(
-      builder: (context) => const PVListPage(), // Rebuild PVListPage to show all PVs
-    ),
-  );
-},
-                child: const Text(
+                          setState(() {
+                            searchController.clear(); // Clears the search field
+                          });
+                          
+                            
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const PVListPage(), // Rebuild PVListPage to show all PVs
+                              ),
+                            );
+                          },
+                                          child: const Text(
                   "Clear",
                   style: TextStyle(
                     fontSize: 16.0,
@@ -120,6 +124,31 @@ void onSearch() async {
             ),
           ),
           const SizedBox(width: 8.0),
+          
+          // Filter Dropdown
+          dropdownButton(
+            selectedValue: null,
+            hint: "Filter by",
+            items: filterDropdownItems, 
+            onChanged: (value) {
+              if (value == 'Latest') {
+                
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const LatestPopupForm();
+                  },
+                );
+              } else if (value == 'Date') {
+                
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const DateFilterPopup();
+                  },
+                );
+              }
+            })
         ],
       ),
     );

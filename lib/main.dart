@@ -1,3 +1,5 @@
+import 'package:cvms/domain/usecases/pv/filter_pv_byDate.dart';
+import 'package:cvms/domain/usecases/pv/filter_pv_byLatest.dart';
 import 'package:cvms/domain/usecases/pv/search_pv.dart';
 import 'package:cvms/presentation/screens/PVs_list_page/PVListPage.dart';
 import 'package:flutter/material.dart';
@@ -16,32 +18,35 @@ import 'package:cvms/services/auth_service.dart';
 import 'package:cvms/presentation/screens/homepage/homepage.dart';
 
 void main() {
-  final pvRepository = PVRepositoryImpl(PVDataSource());
-  final getPVDetails = GetPVDetails(pvRepository);
-  final getAllPVs = GetAllPVs(pvRepository);
-  final insertPV = InsertPV(pvRepository);
-  final searchPV = GetPVsByNumber(pvRepository);
+ final pvRepository = PVRepositoryImpl(PVDataSource());
+final getPVDetails = GetPVDetails(pvRepository);
+final getAllPVs = GetAllPVs(pvRepository);
+final insertPV = InsertPV(pvRepository);
+final searchPV = GetPVsByNumber(pvRepository);
+final getLatestPVs = GetLatestPVs(pvRepository); 
+final getPVsByDate = GetPVsByDate(pvRepository); 
 
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-            create: (context) => AuthService()), 
-        ChangeNotifierProvider<PVController>(
-          create: (context) => PVController(
-            getPVDetails: getPVDetails,
-            getAllPVs: getAllPVs,
-            insertPV: insertPV,
-            searchPV:searchPV
-
-          ),
+runApp(
+  MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (context) => AuthService(),
+      ),
+      ChangeNotifierProvider<PVController>(
+        create: (context) => PVController(
+          getPVDetails: getPVDetails,
+          getAllPVs: getAllPVs,
+          insertPV: insertPV,
+          searchPV: searchPV,
+          getLatestPVs: getLatestPVs, 
+          getPVsByDate: getPVsByDate, 
         ),
-      ],
-      child: const MyApp(),
-    ),
-  );
+      ),
+    ],
+    child: const MyApp(),
+  ),
+);
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
