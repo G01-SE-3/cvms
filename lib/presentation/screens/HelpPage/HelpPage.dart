@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import '../navigation_bars/Sidebar.dart';
 
 class HelpPage extends StatelessWidget {
+  const HelpPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-     drawer: const Sidebar(), 
-      appBar: const PreferredSize(
+    return const Scaffold(
+     drawer: Sidebar(), 
+      appBar: PreferredSize(
         preferredSize: Size.fromHeight(180.0),
         child: GeneralAppBar(search: false),
       ),

@@ -1,3 +1,6 @@
+import 'package:cvms/domain/usecases/pv/filter_pv_byDate.dart';
+import 'package:cvms/domain/usecases/pv/filter_pv_byLatest.dart';
+import 'package:cvms/domain/usecases/pv/search_pv.dart';
 import 'package:cvms/presentation/screens/PVs_list_page/PVListPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,30 +19,39 @@ import 'package:cvms/services/auth_service.dart';
 import 'package:cvms/presentation/screens/login/widgets/LoginButton.dart';
 
 void main() {
-  final pvRepository = PVRepositoryImpl(PVDataSource());
-  final getPVDetails = GetPVDetails(pvRepository);
-  final getAllPVs = GetAllPVs(pvRepository);
-  final insertPV = InsertPV(pvRepository);
+ final pvRepository = PVRepositoryImpl(PVDataSource());
+final getPVDetails = GetPVDetails(pvRepository);
+final getAllPVs = GetAllPVs(pvRepository);
+final insertPV = InsertPV(pvRepository);
+final searchPV = GetPVsByNumber(pvRepository);
+final getLatestPVs = GetLatestPVs(pvRepository); 
+final getPVsByDate = GetPVsByDate(pvRepository); 
 
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-            create: (context) => AuthService()), // Add AuthService
-        ChangeNotifierProvider<PVController>(
-          create: (context) => PVController(
-            getPVDetails: getPVDetails,
-            getAllPVs: getAllPVs,
-            insertPV: insertPV,
-          ),
+
+runApp(
+  MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (context) => AuthService(),
+      ),
+      ChangeNotifierProvider<PVController>(
+        create: (context) => PVController(
+          getPVDetails: getPVDetails,
+          getAllPVs: getAllPVs,
+          insertPV: insertPV,
+          searchPV: searchPV,
+          getLatestPVs: getLatestPVs, 
+          getPVsByDate: getPVsByDate, 
         ),
-      ],
-      child: MyApp(),
-    ),
-  );
+      ),
+    ],
+    child: const MyApp(),
+  ),
+);
 }
-
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -49,10 +61,10 @@ class MyApp extends StatelessWidget {
       ),
       home: LoginPage(),
       routes: {
-        '/pvs': (context) => PVListPage(),
-        '/inspectors': (context) => InspectorsListPage(),
-        '/business_offender': (context) => BusinessOffenderList(),
-        '/individual_offender': (context) => IndividualOffenderList(),
+        '/pvs': (context) => const PVListPage(),
+        '/inspectors': (context) => const InspectorsListPage(),
+        '/business_offender': (context) => const BusinessOffenderList(),
+        '/individual_offender': (context) => const IndividualOffenderList(),
       },
       onUnknownRoute: (settings) => MaterialPageRoute(
         builder: (context) => LoginPage(), // Fallback route
