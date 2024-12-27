@@ -1,9 +1,14 @@
+import 'package:cvms/domain/entities/pv/pv.dart';
+import 'package:cvms/presentation/screens/PVs_list_page/PVListPage.dart';
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/input_field.dart';
 import 'package:cvms/presentation/screens/navigation_bars/constants/validation.dart';
 import 'package:cvms/presentation/screens/navigation_bars/constants/data_picker.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/title.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/buttons.dart';
+import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
+import 'package:provider/provider.dart';
+
 
 class DateFilterPopup extends StatefulWidget {
   const DateFilterPopup({super.key});
@@ -12,8 +17,6 @@ class DateFilterPopup extends StatefulWidget {
   State<DateFilterPopup> createState() => _DateFilterPopupState();
 }
 
-
-  
 class _DateFilterPopupState extends State<DateFilterPopup> {
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
@@ -24,6 +27,8 @@ class _DateFilterPopupState extends State<DateFilterPopup> {
 
   @override
   Widget build(BuildContext context) {
+    final pvController = Provider.of<PVController>(context, listen: false);
+
     return Dialog(
       insetPadding: const EdgeInsets.all(16),
       child: Container(
@@ -75,7 +80,7 @@ class _DateFilterPopupState extends State<DateFilterPopup> {
                         _endDate = pickedDate;
                         _errorText = null; // Reset error text when date is picked
                       });
-                      _errorText = validateDateRange(_startDate, _endDate); // Validate date range
+                      _errorText = validateDateRange(_startDate, _endDate); 
                     },
                   ),
                 ),
@@ -96,13 +101,27 @@ class _DateFilterPopupState extends State<DateFilterPopup> {
               onCancel: () {
                 Navigator.pop(context);
               },
-              onApply: () {
+              onApply: () async {
                 setState(() {
-                  _errorText = validateDateRange(_startDate, _endDate); // Validate on apply
+                  _errorText = validateDateRange(_startDate, _endDate); 
                 });
                 if (_errorText == null) {
-                  // If no error, proceed with apply logic
-                  Navigator.pop(context);
+                  try {
+                   
+                    List<PV> filteredPVs = await pvController.fetchPVsByDate(_startDate!, _endDate!);
+
+                    
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PVListPage(searchResults: filteredPVs),
+                      ),
+                    );
+                  } catch (e) {
+                    setState(() {
+                      _errorText = 'Error fetching PVs: ${e.toString()}';
+                    });
+                  }
                 }
               },
             ),
