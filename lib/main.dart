@@ -1,6 +1,8 @@
+import 'package:cvms/domain/usecases/pv/delete_pv.dart';
+import 'package:cvms/domain/usecases/pv/search_pv.dart';
+import 'package:cvms/domain/usecases/pv/update_pv.dart';
 import 'package:cvms/domain/usecases/pv/filter_pv_byDate.dart';
 import 'package:cvms/domain/usecases/pv/filter_pv_byLatest.dart';
-import 'package:cvms/domain/usecases/pv/search_pv.dart';
 import 'package:cvms/presentation/screens/PVs_list_page/PVListPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +40,8 @@ void main() async {
   final searchPV = GetPVsByNumber(pvRepository);
   final getLatestPVs = GetLatestPVs(pvRepository);
   final getPVsByDate = GetPVsByDate(pvRepository);
+  final deletePV = DeletePV(pvRepository);
+  final updatePV = UpdatePV(pvRepository);
 
   runApp(
     MultiProvider(
@@ -47,13 +51,14 @@ void main() async {
         ),
         ChangeNotifierProvider<PVController>(
           create: (context) => PVController(
-            getPVDetails: getPVDetails,
-            getAllPVs: getAllPVs,
-            insertPV: insertPV,
-            searchPV: searchPV,
-            getLatestPVs: getLatestPVs,
-            getPVsByDate: getPVsByDate,
-          ),
+              getPVDetails: getPVDetails,
+              getAllPVs: getAllPVs,
+              insertPV: insertPV,
+              searchPV: searchPV,
+              getLatestPVs: getLatestPVs,
+              getPVsByDate: getPVsByDate,
+              deletePV: deletePV,
+              updatePV: updatePV),
         ),
       ],
       child: const MyApp(),

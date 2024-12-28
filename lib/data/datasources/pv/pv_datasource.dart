@@ -350,14 +350,14 @@ class PVDataSource {
     }
   }
 
-///Searching PVS with a specific number 
-Future<List<PVModel>> searchPV(int pvnumber) async {
-  final connection = await getDatabaseConnection(); // Get DB connection
-  List<PVModel> pvList = [];
+  ///Searching PVS with a specific number
+  Future<List<PVModel>> searchPV(int pvnumber) async {
+    final connection = await getDatabaseConnection(); // Get DB connection
+    List<PVModel> pvList = [];
 
-  try {
-    // Query to fetch only PVs with the given pvNumber
-    var result = await connection.connection!.query('''
+    try {
+      // Query to fetch only PVs with the given pvNumber
+      var result = await connection.connection!.query('''
     SELECT 
       pv_id, 
       pv_number, 
@@ -368,19 +368,19 @@ Future<List<PVModel>> searchPV(int pvnumber) async {
       subsidized_good
     FROM pv
     WHERE pv_number = @pvnumber; 
-    ''', substitutionValues: {'pvnumber': pvnumber});  
+    ''', substitutionValues: {'pvnumber': pvnumber});
 
-    for (var pvData in result) {
-      String pvId = pvData[0];
-      int pvNumber = pvData[1];
-      DateTime issueDate = pvData[2];
-      String violationType = pvData[3];
-      double? totalReparationAmount = _tryParseDouble(pvData[4]);
-      double? totalNonFixed = _tryParseDouble(pvData[5]);
-      String? subsidizedGood = pvData[6];
+      for (var pvData in result) {
+        String pvId = pvData[0];
+        int pvNumber = pvData[1];
+        DateTime issueDate = pvData[2];
+        String violationType = pvData[3];
+        double? totalReparationAmount = _tryParseDouble(pvData[4]);
+        double? totalNonFixed = _tryParseDouble(pvData[5]);
+        String? subsidizedGood = pvData[6];
 
-      // Fetch Inspectors for each PV
-      var inspectorResult = await connection.connection!.query('''
+        // Fetch Inspectors for each PV
+        var inspectorResult = await connection.connection!.query('''
       SELECT 
         i.inspector_id, 
         i.name, 
@@ -393,51 +393,51 @@ Future<List<PVModel>> searchPV(int pvnumber) async {
       WHERE pi.pv_id = @pvId;
       ''', substitutionValues: {'pvId': pvId});
 
-      List<InspectorModel> inspectors = [];
-      for (var inspectorData in inspectorResult) {
-        inspectors.add(InspectorModel(
-          id: inspectorData[0],
-          name: inspectorData[1],
-          surname: inspectorData[2],
-          badgeNumber: inspectorData[3],
-          assignedDepartment: inspectorData[4],
-          contactNumber: inspectorData[5],
+        List<InspectorModel> inspectors = [];
+        for (var inspectorData in inspectorResult) {
+          inspectors.add(InspectorModel(
+            id: inspectorData[0],
+            name: inspectorData[1],
+            surname: inspectorData[2],
+            badgeNumber: inspectorData[3],
+            assignedDepartment: inspectorData[4],
+            contactNumber: inspectorData[5],
+          ));
+        }
+
+        // Add the matching PV to the list
+        pvList.add(PVModel(
+          pvId: pvId,
+          pvNumber: pvNumber,
+          issueDate: issueDate,
+          violationType: violationType,
+          totalReparationAmount: totalReparationAmount,
+          totalNonFixed: totalNonFixed,
+          subsidizedGood: subsidizedGood,
+          offender: OffenderModel(name: "John Doe"),
+          inspectors: inspectors,
+          seizures: [],
+          closure: null,
+          nationalCardRegistration: null,
+          financialPenalty: null,
         ));
       }
 
-      // Add the matching PV to the list
-      pvList.add(PVModel(
-        pvId: pvId,
-        pvNumber: pvNumber,
-        issueDate: issueDate,
-        violationType: violationType,
-        totalReparationAmount: totalReparationAmount,
-        totalNonFixed: totalNonFixed,
-        subsidizedGood: subsidizedGood,
-        offender: OffenderModel(name: "John Doe"),
-        inspectors: inspectors,
-        seizures: [],
-        closure: null, 
-        nationalCardRegistration: null, 
-        financialPenalty: null, 
-      ));
+      return pvList;
+    } catch (e) {
+      print("Error fetching PVs: $e");
+      rethrow;
     }
-
-    return pvList;
-  } catch (e) {
-    print("Error fetching PVs: $e");
-    rethrow;
   }
-}
 
-//filtering PVS by latest input 
-Future<List<PVModel>> filterByLatest(int number) async {
-  final connection = await getDatabaseConnection(); // Get DB connection
-  List<PVModel> pvList = [];
+//filtering PVS by latest input
+  Future<List<PVModel>> filterByLatest(int number) async {
+    final connection = await getDatabaseConnection(); // Get DB connection
+    List<PVModel> pvList = [];
 
-  try {
-    // Query to fetch the latest PV details based on issue_date
-    var result = await connection.connection!.query('''
+    try {
+      // Query to fetch the latest PV details based on issue_date
+      var result = await connection.connection!.query('''
     SELECT 
       pv_id, 
       pv_number, 
@@ -451,17 +451,17 @@ Future<List<PVModel>> filterByLatest(int number) async {
     LIMIT @limit;
     ''', substitutionValues: {'limit': number});
 
-    for (var pvData in result) {
-      String pvId = pvData[0];
-      int pvNumber = pvData[1];
-      DateTime issueDate = pvData[2];
-      String violationType = pvData[3];
-      double? totalReparationAmount = _tryParseDouble(pvData[4]);
-      double? totalNonFixed = _tryParseDouble(pvData[5]);
-      String? subsidizedGood = pvData[6];
+      for (var pvData in result) {
+        String pvId = pvData[0];
+        int pvNumber = pvData[1];
+        DateTime issueDate = pvData[2];
+        String violationType = pvData[3];
+        double? totalReparationAmount = _tryParseDouble(pvData[4]);
+        double? totalNonFixed = _tryParseDouble(pvData[5]);
+        String? subsidizedGood = pvData[6];
 
-      // Fetch Inspectors for each PV
-      var inspectorResult = await connection.connection!.query('''
+        // Fetch Inspectors for each PV
+        var inspectorResult = await connection.connection!.query('''
       SELECT 
         i.inspector_id, 
         i.name, 
@@ -474,52 +474,53 @@ Future<List<PVModel>> filterByLatest(int number) async {
       WHERE pi.pv_id = @pvId;
       ''', substitutionValues: {'pvId': pvId});
 
-      List<InspectorModel> inspectors = [];
-      for (var inspectorData in inspectorResult) {
-        inspectors.add(InspectorModel(
-          id: inspectorData[0],
-          name: inspectorData[1],
-          surname: inspectorData[2],
-          badgeNumber: inspectorData[3],
-          assignedDepartment: inspectorData[4],
-          contactNumber: inspectorData[5],
+        List<InspectorModel> inspectors = [];
+        for (var inspectorData in inspectorResult) {
+          inspectors.add(InspectorModel(
+            id: inspectorData[0],
+            name: inspectorData[1],
+            surname: inspectorData[2],
+            badgeNumber: inspectorData[3],
+            assignedDepartment: inspectorData[4],
+            contactNumber: inspectorData[5],
+          ));
+        }
+
+        // Create PVModel and add to list
+        pvList.add(PVModel(
+          pvId: pvId,
+          pvNumber: pvNumber,
+          issueDate: issueDate,
+          violationType: violationType,
+          totalReparationAmount: totalReparationAmount,
+          totalNonFixed: totalNonFixed,
+          subsidizedGood: subsidizedGood,
+          offender:
+              OffenderModel(name: "John Doe"), // You can adjust this as needed
+          inspectors: inspectors,
+          seizures: [], // Empty list for seizures as per your requirements
+          closure: null, // No closure data included
+          nationalCardRegistration:
+              null, // No national card registration included
+          financialPenalty: null, // No financial penalty included
         ));
       }
 
-      // Create PVModel and add to list
-      pvList.add(PVModel(
-        pvId: pvId,
-        pvNumber: pvNumber,
-        issueDate: issueDate,
-        violationType: violationType,
-        totalReparationAmount: totalReparationAmount,
-        totalNonFixed: totalNonFixed,
-        subsidizedGood: subsidizedGood,
-        offender:
-            OffenderModel(name: "John Doe"), // You can adjust this as needed
-        inspectors: inspectors,
-        seizures: [], // Empty list for seizures as per your requirements
-        closure: null, // No closure data included
-        nationalCardRegistration: null, // No national card registration included
-        financialPenalty: null, // No financial penalty included
-      ));
+      return pvList;
+    } catch (e) {
+      print("Error fetching the latest PVs: $e");
+      rethrow;
     }
-
-    return pvList;
-  } catch (e) {
-    print("Error fetching the latest PVs: $e");
-    rethrow;
   }
-}
 
+  Future<List<PVModel>> filterByDate(
+      DateTime startDate, DateTime endDate) async {
+    final connection = await getDatabaseConnection(); // Get DB connection
+    List<PVModel> pvList = [];
 
-Future<List<PVModel>> filterByDate(DateTime startDate, DateTime endDate) async {
-  final connection = await getDatabaseConnection(); // Get DB connection
-  List<PVModel> pvList = [];
-
-  try {
-    // Query to fetch PVs within the specified date range
-    var result = await connection.connection!.query('''
+    try {
+      // Query to fetch PVs within the specified date range
+      var result = await connection.connection!.query('''
     SELECT 
       pv_id, 
       pv_number, 
@@ -531,21 +532,21 @@ Future<List<PVModel>> filterByDate(DateTime startDate, DateTime endDate) async {
     FROM pv
     WHERE issue_date BETWEEN @startDate AND @endDate;
     ''', substitutionValues: {
-      'startDate': startDate.toIso8601String(),
-      'endDate': endDate.toIso8601String()
-    });
+        'startDate': startDate.toIso8601String(),
+        'endDate': endDate.toIso8601String()
+      });
 
-    for (var pvData in result) {
-      String pvId = pvData[0];
-      int pvNumber = pvData[1];
-      DateTime issueDate = pvData[2];
-      String violationType = pvData[3];
-      double? totalReparationAmount = _tryParseDouble(pvData[4]);
-      double? totalNonFixed = _tryParseDouble(pvData[5]);
-      String? subsidizedGood = pvData[6];
+      for (var pvData in result) {
+        String pvId = pvData[0];
+        int pvNumber = pvData[1];
+        DateTime issueDate = pvData[2];
+        String violationType = pvData[3];
+        double? totalReparationAmount = _tryParseDouble(pvData[4]);
+        double? totalNonFixed = _tryParseDouble(pvData[5]);
+        String? subsidizedGood = pvData[6];
 
-      // Fetch Inspectors for each PV
-      var inspectorResult = await connection.connection!.query('''
+        // Fetch Inspectors for each PV
+        var inspectorResult = await connection.connection!.query('''
       SELECT 
         i.inspector_id, 
         i.name, 
@@ -558,43 +559,303 @@ Future<List<PVModel>> filterByDate(DateTime startDate, DateTime endDate) async {
       WHERE pi.pv_id = @pvId;
       ''', substitutionValues: {'pvId': pvId});
 
-      List<InspectorModel> inspectors = [];
-      for (var inspectorData in inspectorResult) {
-        inspectors.add(InspectorModel(
-          id: inspectorData[0],
-          name: inspectorData[1],
-          surname: inspectorData[2],
-          badgeNumber: inspectorData[3],
-          assignedDepartment: inspectorData[4],
-          contactNumber: inspectorData[5],
+        List<InspectorModel> inspectors = [];
+        for (var inspectorData in inspectorResult) {
+          inspectors.add(InspectorModel(
+            id: inspectorData[0],
+            name: inspectorData[1],
+            surname: inspectorData[2],
+            badgeNumber: inspectorData[3],
+            assignedDepartment: inspectorData[4],
+            contactNumber: inspectorData[5],
+          ));
+        }
+
+        // Create PVModel and add to list
+        pvList.add(PVModel(
+          pvId: pvId,
+          pvNumber: pvNumber,
+          issueDate: issueDate,
+          violationType: violationType,
+          totalReparationAmount: totalReparationAmount,
+          totalNonFixed: totalNonFixed,
+          subsidizedGood: subsidizedGood,
+          offender:
+              OffenderModel(name: "John Doe"), // You can adjust this as needed
+          inspectors: inspectors,
+          seizures: [], // Empty list for seizures as per your requirements
+          closure: null, // No closure data included
+          nationalCardRegistration:
+              null, // No national card registration included
+          financialPenalty: null, // No financial penalty included
         ));
       }
 
-      // Create PVModel and add to list
-      pvList.add(PVModel(
-        pvId: pvId,
-        pvNumber: pvNumber,
-        issueDate: issueDate,
-        violationType: violationType,
-        totalReparationAmount: totalReparationAmount,
-        totalNonFixed: totalNonFixed,
-        subsidizedGood: subsidizedGood,
-        offender:
-            OffenderModel(name: "John Doe"), // You can adjust this as needed
-        inspectors: inspectors,
-        seizures: [], // Empty list for seizures as per your requirements
-        closure: null, // No closure data included
-        nationalCardRegistration: null, // No national card registration included
-        financialPenalty: null, // No financial penalty included
-      ));
+      return pvList;
+    } catch (e) {
+      print("Error fetching PVs within the date range: $e");
+      rethrow;
     }
-
-    return pvList;
-  } catch (e) {
-    print("Error fetching PVs within the date range: $e");
-    rethrow;
   }
-}
 
+  Future<void> updatePV(PVModel pvModel) async {
+    final connection = await getDatabaseConnection();
 
+    try {
+      await connection.connection!.transaction((txn) async {
+        // Update the main PV table
+        print("Updating PV record with ID: ${pvModel.pvId}");
+        await txn.query('''
+        UPDATE pv SET 
+          pv_number = @pvNumber, 
+          issue_date = @issueDate, 
+          violation_type = @violationType, 
+          total_reparation_amount = @totalReparationAmount, 
+          total_non_fixed = @totalNonFixed, 
+          subsidized_good = @subsidizedGood, 
+          individual_id = @individualId, 
+          business_id = @businessId
+        WHERE pv_id = @pvId
+      ''', substitutionValues: {
+          'pvId': pvModel.pvId,
+          'pvNumber': pvModel.pvNumber,
+          'issueDate': pvModel.issueDate,
+          'violationType': pvModel.violationType,
+          'totalReparationAmount': pvModel.totalReparationAmount,
+          'totalNonFixed': pvModel.totalNonFixed,
+          'subsidizedGood': pvModel.subsidizedGood,
+          'individualId': pvModel.offender?.name,
+          'businessId': pvModel.offender?.name ?? 1,
+        });
+
+        // Inspectors handling
+        print("Handling inspectors for PV ID: ${pvModel.pvId}");
+        var existingInspectors = await txn.query('''
+        SELECT inspector_id FROM pv_inspector WHERE pv_id = @pvId
+      ''', substitutionValues: {'pvId': pvModel.pvId});
+        print("Existing Inspectors: $existingInspectors");
+
+        var existingInspectorIds =
+            existingInspectors.map((row) => row[0]).toSet();
+        var newInspectorIds =
+            pvModel.inspectors.map((inspector) => inspector.id).toSet();
+
+        var inspectorsToDelete =
+            existingInspectorIds.difference(newInspectorIds);
+        print("Inspectors to delete: $inspectorsToDelete");
+        for (var inspectorId in inspectorsToDelete) {
+          await txn.query('''
+          DELETE FROM pv_inspector WHERE pv_id = @pvId AND inspector_id = @inspectorId
+        ''', substitutionValues: {
+            'pvId': pvModel.pvId,
+            'inspectorId': inspectorId
+          });
+        }
+
+        var inspectorsToAdd = newInspectorIds.difference(existingInspectorIds);
+        print("Inspectors to add: $inspectorsToAdd");
+        for (var inspectorId in inspectorsToAdd) {
+          await txn.query('''
+          INSERT INTO pv_inspector (pv_id, inspector_id) VALUES (@pvId, @inspectorId)
+        ''', substitutionValues: {
+            'pvId': pvModel.pvId,
+            'inspectorId': inspectorId
+          });
+        }
+
+        // Financial penalty
+        print("Handling financial penalty for PV ID: ${pvModel.pvId}");
+        if (pvModel.financialPenalty != null) {
+          var penaltyExists = (await txn.query('''
+          SELECT 1 FROM financial_penalty WHERE pv_id = @pvId
+        ''', substitutionValues: {'pvId': pvModel.pvId})).isNotEmpty;
+          print("Financial penalty exists: $penaltyExists");
+
+          if (penaltyExists) {
+            await txn.query('''
+            UPDATE financial_penalty SET 
+              penalty_amount = @penaltyAmount, 
+              penalty_date = @penaltyDate, 
+              payment_receipt_number = @paymentReceiptNumber, 
+              payment_receipt_date = @paymentReceiptDate
+            WHERE pv_id = @pvId
+          ''', substitutionValues: {
+              'pvId': pvModel.pvId,
+              'penaltyAmount': pvModel.financialPenalty!.penaltyAmount,
+              'penaltyDate': pvModel.financialPenalty!.penaltyDate,
+              'paymentReceiptNumber':
+                  pvModel.financialPenalty!.paymentReceiptNumber,
+              'paymentReceiptDate':
+                  pvModel.financialPenalty!.paymentReceiptDate,
+            });
+            print("Updated financial penalty for PV ID: ${pvModel.pvId}");
+          } else {
+            await txn.query('''
+            INSERT INTO financial_penalty (pv_id, penalty_amount, penalty_date, payment_receipt_number, payment_receipt_date)
+            VALUES (@pvId, @penaltyAmount, @penaltyDate, @paymentReceiptNumber, @paymentReceiptDate)
+          ''', substitutionValues: {
+              'pvId': pvModel.pvId,
+              'penaltyAmount': pvModel.financialPenalty!.penaltyAmount,
+              'penaltyDate': pvModel.financialPenalty!.penaltyDate,
+              'paymentReceiptNumber':
+                  pvModel.financialPenalty!.paymentReceiptNumber,
+              'paymentReceiptDate':
+                  pvModel.financialPenalty!.paymentReceiptDate,
+            });
+            print("Inserted financial penalty for PV ID: ${pvModel.pvId}");
+          }
+        } else {
+          print("Deleting financial penalty for PV ID: ${pvModel.pvId}");
+          await txn.query('DELETE FROM financial_penalty WHERE pv_id = @pvId',
+              substitutionValues: {'pvId': pvModel.pvId});
+        }
+
+        // Seizures
+        print("Handling seizures for PV ID: ${pvModel.pvId}");
+        var existingSeizures = await txn.query('''
+        SELECT seizure_id FROM pv_seizure WHERE pv_id = @pvId
+      ''', substitutionValues: {'pvId': pvModel.pvId});
+        print("Existing Seizures: $existingSeizures");
+
+        var existingSeizureIds = existingSeizures.map((row) {
+          var seizureId = row[0];
+          return seizureId is int
+              ? seizureId
+              : int.tryParse(seizureId.toString()) ?? 0;
+        }).toSet();
+
+        var newSeizures = pvModel.seizures.map((seizure) => seizure).toList();
+
+        for (var seizureId in existingSeizureIds) {
+          if (!newSeizures.any((seizure) => seizure.seizureId == seizureId)) {
+            print("Deleting seizure with ID: $seizureId");
+            await txn.query(
+                'DELETE FROM pv_seizure WHERE seizure_id = @seizureId',
+                substitutionValues: {'seizureId': seizureId});
+            await txn.query('DELETE FROM seizure WHERE seizure_id = @seizureId',
+                substitutionValues: {'seizureId': seizureId});
+          }
+        }
+
+        for (var seizure in newSeizures) {
+          if (existingSeizureIds.contains(seizure.seizureId)) {
+            print("Updating seizure with ID: ${seizure.seizureId}");
+            await txn.query('''
+            UPDATE seizure SET
+              seizure_amount = @seizureAmount,
+              seizure_quantity = @seizureQuantity,
+              seized_goods = @seizedGoods
+            WHERE seizure_id = @seizureId
+          ''', substitutionValues: {
+              'seizureId': seizure.seizureId,
+              'seizureAmount': seizure.seizureAmount,
+              'seizureQuantity': seizure.seizureQuantity,
+              'seizedGoods': seizure.seizedGoods,
+            });
+          } else {
+            print("Inserting new seizure for PV ID: ${pvModel.pvId}");
+            var result = await txn.query('''
+            INSERT INTO seizure (seizure_amount, seizure_quantity, seized_goods)
+            VALUES (@seizureAmount, @seizureQuantity, @seizedGoods) RETURNING seizure_id
+          ''', substitutionValues: {
+              'seizureAmount': seizure.seizureAmount,
+              'seizureQuantity': seizure.seizureQuantity,
+              'seizedGoods': seizure.seizedGoods,
+            });
+
+            int seizureId = result.first[0];
+            print("Linking seizure ID: $seizureId to PV ID: ${pvModel.pvId}");
+            await txn.query(
+                'INSERT INTO pv_seizure (pv_id, seizure_id) VALUES (@pvId, @seizureId)',
+                substitutionValues: {
+                  'pvId': pvModel.pvId,
+                  'seizureId': seizureId,
+                });
+          }
+        }
+
+        // Closure handling
+        print("Handling closure for PV ID: ${pvModel.pvId}");
+        if (pvModel.closure != null) {
+          var closureExists = (await txn.query('''
+          SELECT 1 FROM closure WHERE pv_id = @pvId
+        ''', substitutionValues: {'pvId': pvModel.pvId})).isNotEmpty;
+          print("Closure exists: $closureExists");
+
+          if (closureExists) {
+            await txn.query('''
+            UPDATE closure SET
+              closure_order_date = @closureOrderDate, 
+              reopening_request_number = @reopeningRequestNumber, 
+              reporting_date = @reportingDate
+            WHERE pv_id = @pvId
+          ''', substitutionValues: {
+              'pvId': pvModel.pvId,
+              'closureOrderDate': pvModel.closure!.closureOrderDate,
+              'reopeningRequestNumber': pvModel.closure!.reopeningRequestNumber,
+              'reportingDate': pvModel.closure!.reportingDate,
+            });
+            print("Updated closure for PV ID: ${pvModel.pvId}");
+          } else {
+            await txn.query('''
+            INSERT INTO closure (pv_id, closure_order_date, reopening_request_number, reporting_date)
+            VALUES (@pvId, @closureOrderDate, @reopeningRequestNumber, @reportingDate)
+          ''', substitutionValues: {
+              'pvId': pvModel.pvId,
+              'closureOrderDate': pvModel.closure!.closureOrderDate,
+              'reopeningRequestNumber': pvModel.closure!.reopeningRequestNumber,
+              'reportingDate': pvModel.closure!.reportingDate,
+            });
+            print("Inserted closure for PV ID: ${pvModel.pvId}");
+          }
+        } else {
+          print("Deleting closure for PV ID: ${pvModel.pvId}");
+          await txn.query('DELETE FROM closure WHERE pv_id = @pvId',
+              substitutionValues: {'pvId': pvModel.pvId});
+        }
+
+        print("Finished updating PV ID: ${pvModel.pvId}");
+      });
+    } catch (e) {
+      print("Error updating PV data: $e");
+      rethrow;
+    }
+  }
+
+  Future<void> deletePV(String pvId) async {
+    final connection = await getDatabaseConnection();
+    try {
+      // Start a transaction to ensure all deletes are done atomically
+      await connection.connection!.transaction((txn) async {
+        // Delete from the financial_penalty table
+        await txn.query('DELETE FROM financial_penalty WHERE pv_id = @pvId',
+            substitutionValues: {'pvId': pvId});
+
+        // Delete from the pv_inspector table
+        await txn.query('DELETE FROM pv_inspector WHERE pv_id = @pvId',
+            substitutionValues: {'pvId': pvId});
+
+        // Delete from the pv_seizure table
+        await txn.query('DELETE FROM pv_seizure WHERE pv_id = @pvId',
+            substitutionValues: {'pvId': pvId});
+
+        // Delete from the closure table
+        await txn.query('DELETE FROM closure WHERE pv_id = @pvId',
+            substitutionValues: {'pvId': pvId});
+
+        // Delete from the national_card_reg table
+        await txn.query('DELETE FROM national_card_reg WHERE pv_id = @pvId',
+            substitutionValues: {'pvId': pvId});
+
+        // Finally, delete from the pv table
+        await txn.query('DELETE FROM pv WHERE pv_id = @pvId',
+            substitutionValues: {'pvId': pvId});
+      });
+
+      print("PV and related data deleted successfully.");
+    } catch (e) {
+      print("Error deleting PV: $e");
+      rethrow;
+    }
+  }
 }
