@@ -92,11 +92,11 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
       appBar: null,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
-        child: Center(  // Wrap the Column with Center to center the content
+        child: Center(  
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,  // Center the content
+              crossAxisAlignment: CrossAxisAlignment.center, 
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -125,7 +125,7 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 0.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,  // Center the form fields
+                    crossAxisAlignment: CrossAxisAlignment.center,  
                     children: [
                       CustomTextField(
                         controller: _inspectorNumberController,
