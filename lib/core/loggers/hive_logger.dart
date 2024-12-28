@@ -15,7 +15,7 @@ class HiveLogger implements ILogger {
 
   Future<void> _initHive() async {
     // Initialize Hive and open the box for logs
-    Hive.init('./hive_logs'); // Ensure this path is writable
+    Hive.init('./hive_logs');
     await Hive.openBox(_boxName);
   }
 
@@ -34,18 +34,6 @@ class HiveLogger implements ILogger {
 
     // Insert the log data
     await box.add(logData);
-
-    // Retrieve and print all logs after insertion
-    await printAllLogs();
-  }
-
-  Future<void> printAllLogs() async {
-    List<Map<String, dynamic>> allLogs = await getLogs();
-    print("Current Logs:");
-    for (var log in allLogs) {
-      print(
-          "Timestamp: ${log['timestamp']}, Level: ${log['level']}, Message: ${log['message']}, Data: ${log['data']}");
-    }
   }
 
   @override
