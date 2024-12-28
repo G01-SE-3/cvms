@@ -10,20 +10,20 @@ import 'package:cvms/presentation/screens/navigation_bars/widgets/sidebar_item.d
 
 List<Widget> sidebarItemsTop(BuildContext context) {
   return [
-    sidebar_item(context, Icons.dashboard, 'Dashboard', HomePage()),
-    sidebar_item(context, Icons.description, 'PVs', PVListPage()),
-    sidebar_item(context, Icons.people, 'Inspectors',InspectorsListPage()),
+    sidebar_item(context, Icons.dashboard, 'Dashboard', const HomePage()),
+    sidebar_item(context, Icons.description, 'PVs', const PVListPage()),
+    sidebar_item(context, Icons.people, 'Inspectors',const InspectorsListPage()),
     sidebar_item(
-        context, Icons.person, 'Buisness Offender', BusinessOffenderList()),
+        context, Icons.person, 'Buisness Offender', const BusinessOffenderList()),
     sidebar_item(
-        context, Icons.person, 'Individual Offender', IndividualOffenderList()),
+        context, Icons.person, 'Individual Offender', const IndividualOffenderList()),
   ];
 }
 
 // Bottom menu items
 List<Widget> sidebarItemsBottom(BuildContext context) {
   return [
-    sidebar_item(context, Icons.help_outline, 'Help', HelpPage()),
-    sidebar_item(context, Icons.settings, 'Settings', SettingsPage()),
+    sidebar_item(context, Icons.help_outline, 'Help', const HelpPage()),
+    sidebar_item(context, Icons.settings, 'Settings', const SettingsPage()),
   ];
 }

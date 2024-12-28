@@ -43,7 +43,8 @@ class DateField extends StatelessWidget {
           firstDate: DateTime(2000),
           lastDate: DateTime(2100),
         );
-        controller?.text = "${selectedDate!.toLocal()}".split(' ')[0];
+        if(selectedDate!=null)
+        controller?.text = "${selectedDate.toLocal()}".split(' ')[0];
             },
     );
   }

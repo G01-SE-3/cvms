@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-class DateField extends StatelessWidget {
-  final String placeholder;
-  final bool isRequired;
-  final Function(DateTime)? onDateSelected;
+class RcField extends StatefulWidget {
+  final TextEditingController controller;
+  final Function(bool isRcExisting, String? error) onRcChanged;
 
-  const DateField({
+  const RcField({
     super.key,
-    required this.placeholder,
-    this.isRequired = false,
-    this.onDateSelected, // Callback for selected date
+    required this.controller,
+    required this.onRcChanged,
   });
 
+  @override
+  State<RcField> createState() => _RcFieldState();
+}
+
+class _RcFieldState extends State<RcField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,12 +22,9 @@ class DateField extends StatelessWidget {
       child: SizedBox(
         width: 800, // Adjust the width as needed
         child: TextFormField(
-          readOnly: true,
-          controller: TextEditingController(
-            text: DateFormat('yyyy-MM-dd').format(DateTime.now()),
-          ),
+          controller: widget.controller,
           decoration: InputDecoration(
-            labelText: placeholder,
+            labelText: "Enter RC Number",
             labelStyle: const TextStyle(color: Colors.black54),
             filled: true,
             fillColor: const Color(0xFFDDE5CD),
@@ -43,22 +42,16 @@ class DateField extends StatelessWidget {
             ),
           ),
           style: const TextStyle(color: Color(0xFF545837)),
-          validator: (value) {
-            if (isRequired && (value == null || value.isEmpty)) {
-              return "This field is required.";
-            }
-            return null;
-          },
-          onTap: () async {
-            DateTime? selectedDate = await showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(2000),
-              lastDate: DateTime(2100),
-            );
-
-            if (selectedDate != null) {
-              onDateSelected!(selectedDate);
+          keyboardType: TextInputType.text,
+          onChanged: (value) {
+            if (value.isNotEmpty) {
+              if (value == "123456") {
+                widget.onRcChanged(true, null);
+              } else {
+                widget.onRcChanged(false, "Non-existing economic operator.");
+              }
+            } else {
+              widget.onRcChanged(false, null);
             }
           },
         ),

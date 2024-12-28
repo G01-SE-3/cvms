@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-class DateField extends StatelessWidget {
+class CustomTextField extends StatelessWidget {
   final String placeholder;
+  final bool isNumeric;
   final bool isRequired;
-  final Function(DateTime)? onDateSelected;
+  final TextEditingController? controller;
 
-  const DateField({
+  const CustomTextField({
     super.key,
     required this.placeholder,
+    this.isNumeric = false,
     this.isRequired = false,
-    this.onDateSelected, // Callback for selected date
+    this.controller,
   });
 
   @override
@@ -20,10 +21,7 @@ class DateField extends StatelessWidget {
       child: SizedBox(
         width: 800, // Adjust the width as needed
         child: TextFormField(
-          readOnly: true,
-          controller: TextEditingController(
-            text: DateFormat('yyyy-MM-dd').format(DateTime.now()),
-          ),
+          controller: controller,
           decoration: InputDecoration(
             labelText: placeholder,
             labelStyle: const TextStyle(color: Colors.black54),
@@ -43,23 +41,19 @@ class DateField extends StatelessWidget {
             ),
           ),
           style: const TextStyle(color: Color(0xFF545837)),
+          keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
           validator: (value) {
-            if (isRequired && (value == null || value.isEmpty)) {
+            // If the field is required, check for empty values
+            if (isRequired && (value == null || value.trim().isEmpty)) {
               return "This field is required.";
             }
-            return null;
-          },
-          onTap: () async {
-            DateTime? selectedDate = await showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(2000),
-              lastDate: DateTime(2100),
-            );
-
-            if (selectedDate != null) {
-              onDateSelected!(selectedDate);
+            // If it's numeric, ensure the input is a valid number
+            if (isNumeric && value != null && value.trim().isNotEmpty) {
+              if (double.tryParse(value) == null) {
+                return "Enter a valid number.";
+              }
             }
+            return null;
           },
         ),
       ),

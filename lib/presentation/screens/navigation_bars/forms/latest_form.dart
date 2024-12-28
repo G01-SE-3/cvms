@@ -3,7 +3,10 @@ import 'package:cvms/presentation/screens/navigation_bars/widgets/input_field.da
 import 'package:cvms/presentation/screens/navigation_bars/constants/validation.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/title.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/buttons.dart';
-
+import 'package:cvms/domain/entities/pv/pv.dart';
+import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
+import 'package:provider/provider.dart';
+import 'package:cvms/presentation/screens/PVs_list_page/PVListPage.dart';
 
 class LatestPopupForm extends StatefulWidget {
   const LatestPopupForm({super.key});
@@ -11,40 +14,40 @@ class LatestPopupForm extends StatefulWidget {
   @override
   State<LatestPopupForm> createState() => _LatestPopupFormState();
 }
+
 class _LatestPopupFormState extends State<LatestPopupForm> {
   final TextEditingController _controller = TextEditingController();
-  String? _errorText; 
+  String? _errorText;
 
   @override
   Widget build(BuildContext context) {
+    final pvController = Provider.of<PVController>(context, listen: false);
+
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.all(16),
       child: Center(
         child: Container(
           padding: const EdgeInsets.all(12),
-          width: 800, // Set a fixed width
-          height: 250, // Set a fixed height
+          width: 800,
+          height: 250,
           decoration: BoxDecoration(
-            color: const Color(0xFF8DA285), // Green background
+            color: const Color(0xFF8DA285),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Column(
             children: [
-              title("Latest :"),
+              title("Latest:"),
               const SizedBox(height: 20),
               InputField(
                 controller: _controller,
                 hintText: "Enter a number",
                 icon: null,
                 color: Colors.white,
-                bordercolor: _errorText != null
-                    ? Colors.red
-                    : Colors.grey, // Set border color based on error
+                bordercolor: _errorText != null ? Colors.red : Colors.grey,
                 isReadOnly: false,
                 onIconPressed: null,
               ),
-              // Display error text below the input field
               if (_errorText != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
@@ -59,13 +62,35 @@ class _LatestPopupFormState extends State<LatestPopupForm> {
                 onCancel: () {
                   Navigator.pop(context);
                 },
-                onApply: () {
-                  // Call validateInput here when the Apply button is pressed
+                onApply: () async {
                   setState(() {
                     _errorText = validateInput(_controller.text);
                   });
                   if (_errorText == null) {
-                    Navigator.pop(context);
+                    try {
+                      
+                      int numberOfPVs = int.parse(_controller.text);
+
+                      
+                      List<PV> latestPVs = await pvController.fetchLatestPVs(numberOfPVs);
+                     
+
+                      Navigator.pop(context);
+
+                      
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PVListPage(
+                            searchResults: latestPVs,
+                          ),
+                        ),
+                      );
+                    } catch (e) {
+                      setState(() {
+                        _errorText = "Error: ${e.toString()}";
+                      });
+                    }
                   }
                 },
               ),

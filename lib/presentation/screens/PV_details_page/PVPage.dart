@@ -55,7 +55,7 @@ class PVPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const PVHeader(),
+                PVHeader(pvId: "${pv.pvNumber}-${pv.issueDate.year}"),
                 const SizedBox(height: 20),
                 PVDetailsSection(pv: pv),
                 const SizedBox(height: 20),

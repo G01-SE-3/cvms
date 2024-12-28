@@ -4,26 +4,32 @@ import 'package:intl/intl.dart';
 class DateField extends StatelessWidget {
   final String placeholder;
   final bool isRequired;
+  final DateTime? initialDate; // Optional initial date
   final Function(DateTime)? onDateSelected;
 
   const DateField({
     super.key,
     required this.placeholder,
     this.isRequired = false,
+    this.initialDate,
     this.onDateSelected, // Callback for selected date
   });
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _dateController = TextEditingController();
+
+    if (initialDate != null) {
+      _dateController.text = DateFormat('yyyy-MM-dd').format(initialDate!);
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: SizedBox(
         width: 800, // Adjust the width as needed
         child: TextFormField(
           readOnly: true,
-          controller: TextEditingController(
-            text: DateFormat('yyyy-MM-dd').format(DateTime.now()),
-          ),
+          controller: _dateController,
           decoration: InputDecoration(
             labelText: placeholder,
             labelStyle: const TextStyle(color: Colors.black54),
@@ -52,12 +58,14 @@ class DateField extends StatelessWidget {
           onTap: () async {
             DateTime? selectedDate = await showDatePicker(
               context: context,
-              initialDate: DateTime.now(),
+              initialDate: initialDate ?? DateTime.now(),
               firstDate: DateTime(2000),
               lastDate: DateTime(2100),
             );
 
             if (selectedDate != null) {
+              _dateController.text =
+                  DateFormat('yyyy-MM-dd').format(selectedDate);
               onDateSelected!(selectedDate);
             }
           },

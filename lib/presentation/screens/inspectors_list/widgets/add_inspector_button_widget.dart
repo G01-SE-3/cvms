@@ -9,15 +9,15 @@ class AddInspectorButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: () async {
-        // Use Navigator.push to open AddInspectorPage and get result
+      
         final result = await Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => AddInspectorPage()),
         );
 
-        // If result is true, trigger your list refresh or update logic
+     
         if (result == true) {
-          // Your logic to refresh or update the list goes here
+        
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Inspector added successfully!'),
@@ -32,7 +32,7 @@ class AddInspectorButtonWidget extends StatelessWidget {
         color: Colors.white,
       ),
       label: const Text(
-        Strings.addNewInspector,  // Use the string from the Strings class
+        Strings.addNewInspector,  
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.w500,
