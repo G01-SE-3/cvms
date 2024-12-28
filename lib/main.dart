@@ -17,38 +17,50 @@ import 'package:cvms/presentation/screens/login/LoginPage.dart';
 import 'package:cvms/presentation/screens/homepage/homepage.dart';
 import 'package:cvms/services/auth_service.dart';
 import 'package:cvms/presentation/screens/login/widgets/LoginButton.dart';
+import 'package:cvms/core/loggers/app_logger.dart';
 
-void main() {
- final pvRepository = PVRepositoryImpl(PVDataSource());
-final getPVDetails = GetPVDetails(pvRepository);
-final getAllPVs = GetAllPVs(pvRepository);
-final insertPV = InsertPV(pvRepository);
-final searchPV = GetPVsByNumber(pvRepository);
-final getLatestPVs = GetLatestPVs(pvRepository); 
-final getPVsByDate = GetPVsByDate(pvRepository); 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
+  // Logger
+  //
+  final logger = (await AppLogger.getInstance()).logger;
+  await logger.log(
+    "INFO",
+    "Application has started successfully.",
+    data: {"timestamp": DateTime.now().toIso8601String()},
+  );
+  //
+  final pvRepository = PVRepositoryImpl(PVDataSource());
+  final getPVDetails = GetPVDetails(pvRepository);
+  final getAllPVs = GetAllPVs(pvRepository);
+  final insertPV = InsertPV(pvRepository);
+  final searchPV = GetPVsByNumber(pvRepository);
+  final getLatestPVs = GetLatestPVs(pvRepository);
+  final getPVsByDate = GetPVsByDate(pvRepository);
 
-runApp(
-  MultiProvider(
-    providers: [
-      ChangeNotifierProvider(
-        create: (context) => AuthService(),
-      ),
-      ChangeNotifierProvider<PVController>(
-        create: (context) => PVController(
-          getPVDetails: getPVDetails,
-          getAllPVs: getAllPVs,
-          insertPV: insertPV,
-          searchPV: searchPV,
-          getLatestPVs: getLatestPVs, 
-          getPVsByDate: getPVsByDate, 
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => AuthService(),
         ),
-      ),
-    ],
-    child: const MyApp(),
-  ),
-);
+        ChangeNotifierProvider<PVController>(
+          create: (context) => PVController(
+            getPVDetails: getPVDetails,
+            getAllPVs: getAllPVs,
+            insertPV: insertPV,
+            searchPV: searchPV,
+            getLatestPVs: getLatestPVs,
+            getPVsByDate: getPVsByDate,
+          ),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -61,6 +73,7 @@ class MyApp extends StatelessWidget {
       ),
       home: LoginPage(),
       routes: {
+        // TODO: Put the routes in their specified folder
         '/pvs': (context) => const PVListPage(),
         '/inspectors': (context) => const InspectorsListPage(),
         '/business_offender': (context) => const BusinessOffenderList(),
