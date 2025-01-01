@@ -92,116 +92,119 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
       appBar: null,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.chevron_left,
-                      color: Color(0xFF306238),
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  const SizedBox(width: 10),
-                  const Text(
-                    AddInspectorPageStrings.title,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF306238),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 40),
-              Padding(
-                padding: const EdgeInsets.only(left: 0.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        child: Center(  
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center, 
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    CustomTextField(
-                      controller: _inspectorNumberController,
-                      hint: AddInspectorPageStrings.inspectorNumberHint,
-                      inputType: TextInputType.number,
-                      validator: ValidationUtil.validateInspectorNumber,
-                    ),
-                    const SizedBox(height: 20),
-                    CustomTextField(
-                      controller: _inspectorNameController,
-                      hint: AddInspectorPageStrings.inspectorNameHint,
-                      inputType: TextInputType.text,
-                      validator: ValidationUtil.validateInspectorName,
-                    ),
-                    const SizedBox(height: 20),
-                    CustomTextField(
-                      controller: _inspectorSurnameController,
-                      hint: AddInspectorPageStrings.inspectorSurnameHint,
-                      inputType: TextInputType.text,
-                      validator: ValidationUtil.validateInspectorSurname,
-                    ),
-                    const SizedBox(height: 20),
-                    CustomTextField(
-                      controller: _inspectorBadgeNumberController,
-                      hint: AddInspectorPageStrings.inspectorBadgeNumberHint,
-                      inputType: TextInputType.number,
-                      validator: ValidationUtil.validateInspectorBadgeNumber,
-                    ),
-                    const SizedBox(height: 20),
-                    CustomDropdownField(
-                      selectedDepartment: _selectedDepartment,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedDepartment = value;
-                        });
+                    IconButton(
+                      icon: const Icon(
+                        Icons.chevron_left,
+                        color: Color(0xFF306238),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
                       },
-                      validator: ValidationUtil.validateDepartment,
                     ),
-                    const SizedBox(height: 20),
-                    CustomTextField(
-                      controller: _contactNumberController,
-                      hint: AddInspectorPageStrings.contactNumberHint,
-                      inputType: TextInputType.phone,
-                      validator: ValidationUtil.validateContactNumber,
+                    const SizedBox(width: 10),
+                    const Text(
+                      AddInspectorPageStrings.title,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF306238),
+                      ),
                     ),
-                    const SizedBox(height: 40),
                   ],
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: _clearForm,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: const Color(0xFF306238),
-                      side: const BorderSide(color: Color(0xFF306238)),
-                      padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
-                    ),
-                    child: const Text(AddInspectorPageStrings.cancelButton),
+                const SizedBox(height: 40),
+                Padding(
+                  padding: const EdgeInsets.only(left: 0.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,  
+                    children: [
+                      CustomTextField(
+                        controller: _inspectorNumberController,
+                        hint: AddInspectorPageStrings.inspectorNumberHint,
+                        inputType: TextInputType.number,
+                        validator: ValidationUtil.validateInspectorNumber,
+                      ),
+                      const SizedBox(height: 20),
+                      CustomTextField(
+                        controller: _inspectorNameController,
+                        hint: AddInspectorPageStrings.inspectorNameHint,
+                        inputType: TextInputType.text,
+                        validator: ValidationUtil.validateInspectorName,
+                      ),
+                      const SizedBox(height: 20),
+                      CustomTextField(
+                        controller: _inspectorSurnameController,
+                        hint: AddInspectorPageStrings.inspectorSurnameHint,
+                        inputType: TextInputType.text,
+                        validator: ValidationUtil.validateInspectorSurname,
+                      ),
+                      const SizedBox(height: 20),
+                      CustomTextField(
+                        controller: _inspectorBadgeNumberController,
+                        hint: AddInspectorPageStrings.inspectorBadgeNumberHint,
+                        inputType: TextInputType.number,
+                        validator: ValidationUtil.validateInspectorBadgeNumber,
+                      ),
+                      const SizedBox(height: 20),
+                      CustomDropdownField(
+                        selectedDepartment: _selectedDepartment,
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedDepartment = value;
+                          });
+                        },
+                        validator: ValidationUtil.validateDepartment,
+                      ),
+                      const SizedBox(height: 20),
+                      CustomTextField(
+                        controller: _contactNumberController,
+                        hint: AddInspectorPageStrings.contactNumberHint,
+                        inputType: TextInputType.phone,
+                        validator: ValidationUtil.validateContactNumber,
+                      ),
+                      const SizedBox(height: 40),
+                    ],
                   ),
-                  const SizedBox(width: 40),
-                  ElevatedButton(
-                    onPressed: _addInspector,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF306238),
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: _clearForm,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: const Color(0xFF306238),
+                        side: const BorderSide(color: Color(0xFF306238)),
+                        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
+                      ),
+                      child: const Text(AddInspectorPageStrings.cancelButton),
                     ),
-                    child:  Text(AddInspectorPageStrings.saveButton),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 40),
-              if (_message.isNotEmpty) 
-                Center(child: Text(_message, style: TextStyle(fontSize: 16, color: Colors.green))),
-            ],
+                    const SizedBox(width: 40),
+                    ElevatedButton(
+                      onPressed: _addInspector,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF306238),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
+                      ),
+                      child:  Text(AddInspectorPageStrings.saveButton),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 40),
+                if (_message.isNotEmpty) 
+                  Center(child: Text(_message, style: TextStyle(fontSize: 16, color: Colors.green))),
+              ],
+            ),
           ),
         ),
       ),

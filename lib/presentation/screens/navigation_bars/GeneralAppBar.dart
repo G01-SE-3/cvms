@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/navigation_bar.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/title_row.dart';
-import 'package:cvms/presentation/screens/navigation_bars/constants/Strings/GeneralAppBar.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/custom_search_bar.dart';
 import 'package:cvms/presentation/screens/homepage/homepage.dart';
 import 'package:cvms/presentation/screens/PVs_list_page/PVListPage.dart';
@@ -11,12 +10,14 @@ import 'package:cvms/presentation/screens/IndividualOffender/IndividualOffenderL
 
 class GeneralAppBar extends StatefulWidget {
   final bool search;
-  final int initialTabIndex; // New parameter to accept initial index
+  final int initialTabIndex;
+  final String PageName; // New parameter to accept initial index
 
   const GeneralAppBar(
       {super.key,
       required this.search,
-      this.initialTabIndex = 0}); // Default to 0
+      this.initialTabIndex = -1,
+      this.PageName = 'none'}); // Default to 0
 
   @override
   _GeneralAppBarState createState() => _GeneralAppBarState();
@@ -71,11 +72,11 @@ class _GeneralAppBarState extends State<GeneralAppBar> {
   void _navigateToPage(int index, BuildContext context) {
     // Define the list of pages corresponding to each tab
     List<Widget> pages = [
-      HomePage(),
-      PVListPage(),
-      InspectorsListPage(),
-      BusinessOffenderList(),
-      IndividualOffenderList(),
+      const HomePage(),
+      const PVListPage(),
+      const InspectorsListPage(),
+      const BusinessOffenderList(),
+      const IndividualOffenderList(),
     ];
 
     // Ensure the index is valid and navigate to the selected page

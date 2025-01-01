@@ -275,49 +275,65 @@ class _AddPVPageState extends State<AddPVPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
+                          OutlinedButton(
+                            onPressed: () {
+                              _formKey.currentState!.reset();
+                              _rcController.clear();
+                              _pvNumberController.clear();
+                              _violationTypeController.clear();
+                              _nonFactorizationController.clear();
+                              _illegalProfitController.clear();
+                              _subsidizedGoodController.clear();
+                              setState(() {
+                                selectedInspectors.clear();
+                                _rcError = null;
+                                _isRcExisting = false;
+                              });
+                            },
+                            style: OutlinedButton.styleFrom(
+                              minimumSize: const Size(160, 50),
+                              side: const BorderSide(color: Color(0xFF545837)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: const Text(
+                              "Clear",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF545837),
+                              ),
+                            ),
+                          ),
                           ElevatedButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate() &&
                                   _selectedDate != null &&
-                                  (_isRcExisting ||
-                                      _rcController.text.isNotEmpty)) {
+                                  (_isRcExisting || _rcController.text.isNotEmpty)) {
                                 final pv = PV(
                                   pvId:
                                       "${_pvNumberController.text.trim()}-${_selectedDate!.year}",
-                                  pvNumber: int.tryParse(
-                                          _pvNumberController.text.trim()) ??
-                                      0,
+                                  pvNumber: int.tryParse(_pvNumberController.text.trim()) ?? 0,
                                   issueDate: _selectedDate ?? DateTime.now(),
-                                  violationType:
-                                      _violationTypeController.text.trim(),
-                                  totalReparationAmount: double.tryParse(
-                                          _illegalProfitController.text
-                                              .trim()) ??
-                                      0.0,
-                                  totalNonFixed: double.tryParse(
-                                          _nonFactorizationController.text
-                                              .trim()) ??
-                                      0.0,
-                                  subsidizedGood:
-                                      _subsidizedGoodController.text.trim(),
+                                  violationType: _violationTypeController.text.trim(),
+                                  totalReparationAmount:
+                                      double.tryParse(_illegalProfitController.text.trim()) ?? 0.0,
+                                  totalNonFixed: double.tryParse(_nonFactorizationController.text.trim()) ?? 0.0,
+                                  subsidizedGood: _subsidizedGoodController.text.trim(),
                                   offender: null,
                                   inspectors: selectedInspectors,
                                   seizures: seizures ?? [],
                                   closure: closureSelection ? _closure : null,
                                   nationalCardRegistration:
-                                      nationalCardRegistrationSelection
-                                          ? _nationalCardRegistration
-                                          : null,
-                                  financialPenalty: financialPenaltySelection
-                                      ? _financialPenalty
-                                      : null,
-                                  legalProceedings: leagalProceedingsSelection
-                                      ? _legalProceedings
-                                      : null,
+                                      nationalCardRegistrationSelection ? _nationalCardRegistration : null,
+                                  financialPenalty:
+                                      financialPenaltySelection ? _financialPenalty : null,
+                                  legalProceedings:
+                                      leagalProceedingsSelection ? _legalProceedings : null,
                                 );
 
-                                final pvController =
-                                    context.read<PVController>();
+                                final pvController = context.read<PVController>();
                                 await pvController.insertPVData(pv);
 
                                 if (pvController.errorMessage == null) {
@@ -367,40 +383,15 @@ class _AddPVPageState extends State<AddPVPage> {
                               ),
                             ),
                           ),
-                          OutlinedButton(
-                            onPressed: () {
-                              _formKey.currentState!.reset();
-                              _rcController.clear();
-                              _pvNumberController.clear();
-                              _violationTypeController.clear();
-                              _nonFactorizationController.clear();
-                              _illegalProfitController.clear();
-                              _subsidizedGoodController.clear();
-                              setState(() {
-                                selectedInspectors.clear();
-                                _rcError = null;
-                                _isRcExisting = false;
-                              });
-                            },
-                            style: OutlinedButton.styleFrom(
-                              minimumSize: const Size(160, 50),
-                              side: const BorderSide(color: Color(0xFF545837)),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                            child: const Text(
-                              "Clear",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF545837),
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),
+
+
+
+
+
+
                   ],
                 ),
               ),
@@ -415,8 +406,8 @@ class _AddPVPageState extends State<AddPVPage> {
 class InspectorDropdownField extends StatelessWidget {
   final String title;
   final List<InspectorEntity> inspectors;
-  final ValueChanged<InspectorEntity?> onChanged;
   final InspectorEntity? selectedInspector;
+  final ValueChanged<InspectorEntity?> onChanged;
 
   const InspectorDropdownField({
     Key? key,
@@ -428,39 +419,61 @@ class InspectorDropdownField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title, style: Theme.of(context).textTheme.bodyMedium),
-        Container(
-          decoration: BoxDecoration(
-            color: const Color(0xFFDDE5CD),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: const Color(0xFFDDE5CD)),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: DropdownButton<InspectorEntity>(
-            value: selectedInspector,
-            isExpanded: true,
-            underline: SizedBox(),
-            dropdownColor: const Color(0xFFDDE5CD),
-            items: inspectors.map<DropdownMenuItem<InspectorEntity>>(
-                (InspectorEntity inspector) {
-              return DropdownMenuItem<InspectorEntity>(
-                value: inspector,
-                child: Container(
-                  color: const Color(0xFFDDE5CD),
-                  child: Text("${inspector.name} " " ${inspector.surname}"),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: SizedBox(
+        width: 800, // Adjust the width as needed
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 8),
+            DropdownButtonFormField<InspectorEntity>(
+              value: selectedInspector,
+              isExpanded: true,
+              decoration: InputDecoration(
+                labelText: title,
+                labelStyle: const TextStyle(color: Colors.black54),
+                filled: true,
+                fillColor: const Color(0xFFDDE5CD),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.grey),
                 ),
-              );
-            }).toList(),
-            onChanged: onChanged,
-            style: const TextStyle(color: Colors.black), // Text color
-            icon: const Icon(Icons.arrow_drop_down,
-                color: Color.fromARGB(255, 43, 72, 44)),
-          ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.green),
+                ),
+              ),
+              dropdownColor: const Color(0xFFDDE5CD),
+              items: inspectors.map<DropdownMenuItem<InspectorEntity>>(
+                (InspectorEntity inspector) {
+                  return DropdownMenuItem<InspectorEntity>(
+                    value: inspector,
+                    child: Text(
+                      "${inspector.name} ${inspector.surname}",
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                  );
+                },
+              ).toList(),
+              onChanged: onChanged,
+              style: const TextStyle(color: Color(0xFF545837)),
+              icon: const Icon(
+                Icons.arrow_drop_down,
+                color: Color.fromARGB(255, 43, 72, 44),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

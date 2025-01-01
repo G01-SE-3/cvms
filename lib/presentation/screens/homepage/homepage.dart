@@ -12,15 +12,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedTabIndex = -1; // To track navigation bar tab index
+  final int _selectedTabIndex = -1; // To track navigation bar tab index
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Removed the drawer property from here
-      appBar: PreferredSize(
+      drawer: const Sidebar(), 
+      appBar: const PreferredSize(
         preferredSize: Size.fromHeight(180.0), // Adjust height as needed
-        child: GeneralAppBar(search: false),
+        child: GeneralAppBar(search: false,initialTabIndex:0),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -89,9 +89,9 @@ class _HomePageState extends State<HomePage> {
     return LineChart(
       LineChartData(
         gridData:
-            FlGridData(show: true), // Show grid lines for better readability
+            const FlGridData(show: true), // Show grid lines for better readability
         titlesData: FlTitlesData(
-          leftTitles: AxisTitles(
+          leftTitles: const AxisTitles(
             sideTitles: SideTitles(showTitles: true),
           ),
           bottomTitles: AxisTitles(
@@ -138,24 +138,24 @@ class _HomePageState extends State<HomePage> {
         lineBarsData: [
           LineChartBarData(
             spots: [
-              FlSpot(0, 30), // Jan
-              FlSpot(1, 45), // Feb
-              FlSpot(2, 60), // Mar
-              FlSpot(3, 50), // Apr
-              FlSpot(4, 70), // May
-              FlSpot(5, 80), // Jun
-              FlSpot(6, 60), // Jul
-              FlSpot(7, 75), // Aug
-              FlSpot(8, 85), // Sep
-              FlSpot(9, 90), // Oct
-              FlSpot(10, 95), // Nov
-              FlSpot(11, 100), // Dec
+              const FlSpot(0, 30), // Jan
+              const FlSpot(1, 45), // Feb
+              const FlSpot(2, 60), // Mar
+              const FlSpot(3, 50), // Apr
+              const FlSpot(4, 70), // May
+              const FlSpot(5, 80), // Jun
+              const FlSpot(6, 60), // Jul
+              const FlSpot(7, 75), // Aug
+              const FlSpot(8, 85), // Sep
+              const FlSpot(9, 90), // Oct
+              const FlSpot(10, 95), // Nov
+              const FlSpot(11, 100), // Dec
             ],
             isCurved: false, // Set to false to create straight lines
             color: const Color.fromARGB(
                 255, 59, 108, 61), // Color matching your theme
             dotData:
-                FlDotData(show: false), // Hides dots on points for cleaner look
+                const FlDotData(show: false), // Hides dots on points for cleaner look
             belowBarData: BarAreaData(
               show: true, // Show area below the line for a filled effect
               color: const Color.fromARGB(

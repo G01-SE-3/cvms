@@ -1,23 +1,41 @@
+import 'package:cvms/domain/usecases/pv/filter_pv_byDate.dart';
+import 'package:cvms/domain/usecases/pv/filter_pv_byLatest.dart';
 import 'package:cvms/domain/usecases/pv/insert_pv.dart';
 import 'package:flutter/material.dart';
 import 'package:cvms/domain/entities/pv/pv.dart';
 import 'package:cvms/domain/usecases/pv/get_pv_details.dart';
 import 'package:cvms/domain/usecases/pv/get_all_pvs.dart';
+import 'package:cvms/domain/usecases/pv/search_pv.dart';
+import 'package:cvms/domain/usecases/pv/update_pv.dart';
+import 'package:cvms/domain/usecases/pv/delete_pv.dart';
 
 class PVController extends ChangeNotifier {
   final GetPVDetails getPVDetails;
   final GetAllPVs getAllPVs;
   final InsertPV insertPV;
+  final GetPVsByNumber searchPV;
+  final GetLatestPVs getLatestPVs;
+  final GetPVsByDate getPVsByDate;
+  final UpdatePV updatePV;
+  final DeletePV deletePV;
 
   PV? pv;
   List<PV> allPVs = [];
+  List<PV> searchResults = [];
+  List<PV> latestPVs = [];
+  List<PV> dateFilteredPVs = [];
   bool isLoading = false;
   String? errorMessage;
 
   PVController(
       {required this.getPVDetails,
       required this.getAllPVs,
-      required this.insertPV});
+      required this.insertPV,
+      required this.searchPV,
+      required this.getLatestPVs,
+      required this.getPVsByDate,
+      required this.updatePV,
+      required this.deletePV});
 
   Future<void> loadPV(String pvId) async {
     if (pv != null) return;
@@ -81,5 +99,92 @@ class PVController extends ChangeNotifier {
   void dispose() {
     // Dispose any resources like database connection if needed
     super.dispose();
+  }
+
+  Future<List<PV>> searchPVsByNumber(int pvNumber) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      // Assuming the search logic in the use case returns the list of PVs
+      searchResults = await searchPV.execute(pvNumber);
+      errorMessage = null;
+      return searchResults; // Return the list of PVs
+    } catch (e) {
+      errorMessage = e.toString();
+      searchResults = [];
+      return []; // Return an empty list in case of error
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<List<PV>> fetchLatestPVs(int number) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      latestPVs = await getLatestPVs.execute(number);
+      errorMessage = null;
+      return latestPVs;
+    } catch (e) {
+      errorMessage = e.toString();
+      latestPVs = [];
+      return [];
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<List<PV>> fetchPVsByDate(DateTime startDate, DateTime endDate) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      dateFilteredPVs = await getPVsByDate.execute(startDate, endDate);
+      errorMessage = null;
+      return dateFilteredPVs;
+    } catch (e) {
+      errorMessage = e.toString();
+      dateFilteredPVs = [];
+      return [];
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> updatePVData(PV pvData) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      await updatePV.execute(pvData);
+      errorMessage = null;
+      await loadAllPVs(); // Refresh list after insert
+    } catch (e) {
+      errorMessage = e.toString();
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> deletePVById(String pvId) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      await deletePV.execute(pvId); // Call the DeletePV use case
+      errorMessage = null;
+      await loadAllPVs(); // Refresh the list of PVs after deletion
+    } catch (e) {
+      errorMessage = e.toString();
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
   }
 }

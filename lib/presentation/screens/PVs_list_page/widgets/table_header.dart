@@ -67,7 +67,7 @@ class HeaderRow extends StatelessWidget {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF545837),
+                backgroundColor: const Color(0xFF6C845E),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),

@@ -3,6 +3,7 @@ import 'package:cvms/presentation/screens/PVs_list_page/constants/strings/pv_dat
 import 'package:cvms/presentation/screens/PV_details_page/PVPage.dart';
 import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
 import 'package:provider/provider.dart';
+import 'package:cvms/presentation/screens/PV_editing_form/EditPVPage.dart';
 
 class PVDataTable extends StatelessWidget {
   final List<Map<String, dynamic>> tableData;
@@ -41,13 +42,32 @@ class PVDataTable extends StatelessWidget {
           ],
           rows: tableData.map((row) {
             return DataRow(
+              // Linking functionality without selection behavior
               cells: [
-                DataCell(Text(row['PVnumber'])),
-                DataCell(Text(row['offendercr'])),
-                DataCell(Text(row['offendername'])),
-                DataCell(Text(row['pvissuedate'])),
-                DataCell(Text(row['violationtype'])),
-                DataCell(Text(row['inspectingofficers'])),
+                DataCell(
+                  Text(row['PVnumber']),
+                  onTap: () => _navigateToPVPage(context, row),
+                ),
+                DataCell(
+                  Text(row['offendercr']),
+                  onTap: () => _navigateToPVPage(context, row),
+                ),
+                DataCell(
+                  Text(row['offendername']),
+                  onTap: () => _navigateToPVPage(context, row),
+                ),
+                DataCell(
+                  Text(row['pvissuedate']),
+                  onTap: () => _navigateToPVPage(context, row),
+                ),
+                DataCell(
+                  Text(row['violationtype']),
+                  onTap: () => _navigateToPVPage(context, row),
+                ),
+                DataCell(
+                  Text(row['inspectingofficers']),
+                  onTap: () => _navigateToPVPage(context, row),
+                ),
                 DataCell(
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -85,24 +105,6 @@ class PVDataTable extends StatelessWidget {
                           ),
                         ],
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.arrow_forward,
-                            color: Color(0xFF545837)),
-                        onPressed: () {
-                          // Reset the PV data in the controller
-                          final controller =
-                              Provider.of<PVController>(context, listen: false);
-                          controller.resetPV(); // Reset before navigating
-
-                          // Navigate to the PVPage with the PV ID
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PVPage(pvId: row['PVid']),
-                            ),
-                          );
-                        },
-                      ),
                     ],
                   ),
                 ),
@@ -125,8 +127,26 @@ class PVDataTable extends StatelessWidget {
     );
   }
 
+  void _navigateToPVPage(BuildContext context, Map<String, dynamic> row) {
+    final controller = Provider.of<PVController>(context, listen: false);
+    controller.resetPV(); // Reset before navigating
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PVPage(pvId: row['PVid']),
+      ),
+    );
+  }
+
   void _showEditDialog(BuildContext context, Map<String, dynamic> row) {
-    print('Edit PVid: ${row['PVid']}');
+    final String pvId = row['PVid'];
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditPVPage(pvId: pvId),
+      ),
+    );
   }
 
   void _showDeleteConfirmation(BuildContext context, Map<String, dynamic> row) {
@@ -144,8 +164,34 @@ class PVDataTable extends StatelessWidget {
               child: const Text(cancelLabel),
             ),
             ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
+              onPressed: () async {
+                final controller =
+                    Provider.of<PVController>(context, listen: false);
+
+                try {
+                  // Call the delete method from the controller
+                  await controller.deletePVById(row['PVid']);
+                  // Show a success message (optional)
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content:
+                          Text('Successfully deleted PV ${row['PVnumber']}'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                } catch (e) {
+                  // Show an error message if something goes wrong
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content:
+                          Text('Failed to delete PV ${row['PVnumber']}: $e'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                } finally {
+                  // Close the dialog
+                  Navigator.pop(context);
+                }
               },
               child: const Text(deleteLabelDialog),
             ),

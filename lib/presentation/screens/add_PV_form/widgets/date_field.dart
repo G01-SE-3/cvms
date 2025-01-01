@@ -15,46 +15,54 @@ class DateField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      readOnly: true,
-      controller: TextEditingController(
-        text: onDateSelected != null && onDateSelected != null
-            ? DateFormat('yyyy-MM-dd').format(DateTime.now())
-            : null,
-      ),
-      decoration: InputDecoration(
-        hintText: placeholder,
-        hintStyle: const TextStyle(color: Colors.grey),
-        filled: true,
-        fillColor: const Color(0xFFDDE5CD),
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide.none,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: SizedBox(
+        width: 800, // Adjust the width as needed
+        child: TextFormField(
+          readOnly: true,
+          controller: TextEditingController(
+            text: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+          ),
+          decoration: InputDecoration(
+            labelText: placeholder,
+            labelStyle: const TextStyle(color: Colors.black54),
+            filled: true,
+            fillColor: const Color(0xFFDDE5CD),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: Colors.grey),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: Colors.grey),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: Colors.green),
+            ),
+          ),
+          style: const TextStyle(color: Color(0xFF545837)),
+          validator: (value) {
+            if (isRequired && (value == null || value.isEmpty)) {
+              return "This field is required.";
+            }
+            return null;
+          },
+          onTap: () async {
+            DateTime? selectedDate = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2100),
+            );
+
+            if (selectedDate != null) {
+              onDateSelected!(selectedDate);
+            }
+          },
         ),
       ),
-      style: const TextStyle(color: Color(0xFF545837)),
-      validator: (value) {
-        if (isRequired && (value == null || value.isEmpty)) {
-          return "This field is required.";
-        }
-        return null;
-      },
-      onTap: () async {
-        DateTime? selectedDate = await showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(2000),
-          lastDate: DateTime(2100),
-        );
-
-        if (selectedDate != null) {
-          if (onDateSelected != null) {
-            onDateSelected!(selectedDate);
-          }
-        }
-      },
     );
   }
 }
