@@ -26,4 +26,6 @@ class BusinessOffender {
     required this.address,
     required this.business_address,
   });
+
+  static toEntity(BusinessOffender offender) {}
 }

@@ -3,14 +3,15 @@ import 'package:cvms/presentation/screens/business_offender_form/widgets/TextFie
 import 'package:cvms/presentation/screens/business_offender_form/constants/strings/businessoffenderinformation.dart';
 import 'package:cvms/domain/entities/business_offender/business_offender.dart';
 import 'package:cvms/presentation/screens/business_offender_form/Business_offender_informations/BusinessOffenderInformation.dart';
-import 'package:cvms/presentation/controllers/business_offender/business_offender_controller.dart';
+import '../../../../data/datasources/business_offender/business_offender_datasource.dart';
+import '../../../../data/repositories/business_offender/business_offender_repository_impl.dart';
+import '../../../../domain/repositories/business_offender/business_offender_repository.dart';
 
 
-final controller = BusinessOffenderController();
+final BusinessOffenderrepository repository = BusinessOffenderRepositoryImpl(BusinessOffenderDataSource());
 
 Widget OffenderForm({
   required BuildContext context,
-  
 }) {
   return Center(
     child: SingleChildScrollView(
@@ -57,8 +58,6 @@ Widget OffenderForm({
   );
 }
 
-
-
 void clearForm() {
   business_nameController.clear();
   nameController.clear();
@@ -72,6 +71,7 @@ void clearForm() {
   addressController.clear();
   business_addressController.clear();
 }
+
 void submitForm(BuildContext context) {
   if (formKey.currentState!.validate()) {
     // Create a BusinessOffender instance from input
@@ -90,8 +90,7 @@ void submitForm(BuildContext context) {
       business_address: business_addressController.text,
     );
 
-    // Use the controller to add the offender
-    controller.createOffender(offender).then((_) {
+    repository.addOffender(offender).then((_) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Business Offender added successfully!')),
       );
@@ -100,10 +99,6 @@ void submitForm(BuildContext context) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to add offender: $error')),
       );
-    }).whenComplete(() async {
-      await controller.closeConnection();  // Close connection after operation
     });
-   
   }
 }
-
