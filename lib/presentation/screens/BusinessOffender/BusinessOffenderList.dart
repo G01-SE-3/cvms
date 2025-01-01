@@ -9,16 +9,19 @@ import 'package:cvms/presentation/screens/BusinessOffender/constants/strings/Bus
 //import 'package:cvms/presentation/screens/BusinessOffender/constants/strings/BusinessOffenderInformations.dart';
 import 'package:cvms/presentation/screens/BusinessOffender/constants/strings/ButtonsText.dart';
 import 'package:cvms/presentation/screens/business_offender_form/BusinessOffenderForm.dart';
-import 'Edit_form.dart';
+// import 'Edit_form.dart';
+
 class BusinessOffenderList extends StatefulWidget {
   const BusinessOffenderList({super.key});
 
-	 BusinessOffenderList extends StatefulWidget {
+  @override
+  State<BusinessOffenderList> createState() => BusinessOffenderListScreen();
 }
 
 class BusinessOffenderListScreen extends State<BusinessOffenderList> {
-  final BusinessOffenderrepository repository = BusinessOffenderRepositoryImpl(BusinessOffenderDataSource());
-  late List<BusinessOffender> offenders;
+  final BusinessOffenderrepository repository =
+      BusinessOffenderRepositoryImpl(BusinessOffenderDataSource());
+  late List<BusinessOffender> offenders = [];
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +46,11 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
                 Row(
                   children: [
                     ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.file_download, color: Colors.black),
+                      onPressed: () {
+                        // Implement export functionality here
+                      },
+                      icon:
+                          const Icon(Icons.file_download, color: Colors.black),
                       label: Text(
                         Export,
                         style: const TextStyle(color: Colors.black),
@@ -59,7 +65,9 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const BusinessOffenderForm()),
+                          MaterialPageRoute(
+                            builder: (context) => const BusinessOffenderForm(),
+                          ),
                         );
                       },
                       icon: const Icon(Icons.add, color: Colors.white),
@@ -88,10 +96,10 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
                 } else {
                   offenders = snapshot.data!;
                   return SizedBox(
-                    width: double.infinity, // Extend the width to the right
+                    width: double.infinity,
                     child: DataTable(
-                      columnSpacing: 16.0, // Adjust the spacing between columns
-                      headingRowColor: WidgetStateProperty.resolveWith(
+                      columnSpacing: 16.0,
+                      headingRowColor: MaterialStateProperty.resolveWith(
                         (states) => Colors.grey[200],
                       ),
                       columns: _buildColumns(),
@@ -173,6 +181,7 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
           ],
           onSelected: (value) async {
             if (value == 'edit') {
+              /*
               final updatedOffender = await Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -183,13 +192,14 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
               if (updatedOffender != null) {
                 await repository.editBusinessOffender(updatedOffender);
                 setState(() {});
-              }
+              }*/
             } else if (value == 'delete') {
               final confirmDelete = await showDialog<bool>(
                 context: context,
                 builder: (context) => AlertDialog(
                   title: const Text('Confirm Delete'),
-                  content: const Text('Are you sure you want to delete this record?'),
+                  content: const Text(
+                      'Are you sure you want to delete this record?'),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(false),
@@ -215,5 +225,4 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
       ),
     ];
   }
-}
 }
