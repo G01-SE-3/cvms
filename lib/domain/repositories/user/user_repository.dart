@@ -7,5 +7,5 @@ abstract class UserRepository {
   Future<User?> fetchUserByUsername(String username);
   Future<bool> checkUserCredentials(String username, String password);
   Future<void> addUser(User user);
-  Future<void> updateUser(User user);
+  Future<bool> updateUser(User user,String username);
 }
