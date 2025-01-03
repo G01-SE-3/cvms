@@ -122,4 +122,39 @@ class PVRepositoryImpl implements PVRepository {
       rethrow;
     }
   }
+
+  @override
+Future<List<int>> getMonthlyPVCounts() async {
+  try {
+    // Call data source to get the monthly PV counts
+    final monthlyPVCounts = await dataSource.getMonthlyPVCounts();
+    if (monthlyPVCounts.isEmpty) {
+      throw Exception("No PV data found for the current year.");
+    }
+    // Return the monthly counts list
+    return monthlyPVCounts;
+  } catch (e) {
+    // Handle errors (e.g., data fetching issues, no data found)
+    print("Failed to fetch monthly PV counts: $e");
+    rethrow;
+  }
+}
+@override
+  Future<int> getTotalPVCount() async {
+    try {
+      // Call data source to get the total PV count
+      final totalPVCount = await dataSource.getTotalPVCount();
+
+      if (totalPVCount == 0) {
+        throw Exception("No PV data found.");
+      }
+
+      // Return the total PV count
+      return totalPVCount;
+    } catch (e) {
+      // Handle errors (e.g., data fetching issues, no data found)
+      print("Failed to fetch total PV count: $e");
+      rethrow;
+    }
+  }
 }
