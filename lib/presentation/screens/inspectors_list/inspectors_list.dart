@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'widgets/inspector_table.dart';
 import 'widgets/add_inspector_button_widget.dart';
 import 'widgets/export_inspector_button_widget.dart';
+import 'package:cvms/domain/repositories/inspector/inspector_repository.dart';
+import 'package:cvms/data/repositories/inspector/inspector_repository_impl.dart';
 import 'package:cvms/presentation/screens/navigation_bars/GeneralAppBar.dart';
 import 'package:cvms/presentation/screens/navigation_bars/sidebar.dart';
 
@@ -10,12 +12,16 @@ class InspectorsListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final InspectorRepository inspectorRepository = InspectorRepositoryImpl();
+
     return Scaffold(
       drawer: const Sidebar(),
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(220.0), // Adjust height as needed
         child: GeneralAppBar(
-            search: false, initialTabIndex: 2), // Set index for Inspectors
+          search: false,
+          initialTabIndex: 2, // Set index for Inspectors
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -25,14 +31,16 @@ class InspectorsListPage extends StatelessWidget {
             Row(
               children: [
                 const Text(
-                  'Inspectors List',  
+                  'Inspectors List',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const Spacer(),
-                const ExportInspectorButtonWidget(),
+                ExportInspectorButtonWidget(
+                  fetchInspectors: inspectorRepository.getAllInspectors(),
+                ),
                 const SizedBox(width: 10),
                 const AddInspectorButtonWidget(),
               ],

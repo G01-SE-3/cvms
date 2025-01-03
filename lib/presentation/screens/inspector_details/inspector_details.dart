@@ -5,14 +5,12 @@ import 'widgets/export_inspector_button.dart';
 import 'widgets/delete_inspector_button.dart';
 import 'constants/strings/inspector_details_strings.dart';
 
-// This one defines the UI for the page and only creates an example by passing dummy data
 class InspectorDetailsPage extends StatelessWidget {
   final String inspectorName;
   final String inspectorSurname;
   final String inspectorDepartment;
   final String contactNumber;
 
-  // Constructor to receive data
   InspectorDetailsPage({
     required this.inspectorName,
     required this.inspectorSurname,
@@ -30,22 +28,21 @@ class InspectorDetailsPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Row to show back arrow and inspector name
               Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.black), // Return arrow
+                    icon: const Icon(Icons.arrow_back, color: Colors.black),
                     onPressed: () {
-                      Navigator.pop(context); // Navigate back to the previous page
+                      Navigator.pop(context);
                     },
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    "Inspector Details", // Show the inspector's name and surname
+                    "Inspector Details",
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black, // Inspector name in black
+                      color: Colors.black,
                     ),
                   ),
                 ],
@@ -64,7 +61,7 @@ class InspectorDetailsPage extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black, // Inspector name in black
+                            color: Colors.black,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -82,7 +79,7 @@ class InspectorDetailsPage extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end, // Align buttons to the right
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         AddInspectorButtonWidget(
                           inspectorName: inspectorName,
@@ -91,7 +88,12 @@ class InspectorDetailsPage extends StatelessWidget {
                           contactNumber: contactNumber,
                         ),
                         const SizedBox(width: 8),
-                        ExportInspectorButtonWidget(),
+                        ExportInspectorButtonWidget(
+                          inspectorName: inspectorName,
+                          inspectorSurname: inspectorSurname,
+                          inspectorDepartment: inspectorDepartment,
+                          contactNumber: contactNumber,
+                        ),
                         const SizedBox(width: 8),
                         DeleteInspectorButtonWidget(),
                       ],
@@ -100,29 +102,24 @@ class InspectorDetailsPage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16),
-
-              // Control the spacing here (add more height for more space before the content starts)
-              const SizedBox(height: 32), // <-- Added space here
-
-              // "Table" container with shadow, width restriction, and centered alignment
+              const SizedBox(height: 32),
               Center(
                 child: Container(
-                  width: 1200, // <-- Control the width here. Increase this value to make it wider.
+                  width: 1200,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(12.0), // Rounded corners
+                    borderRadius: BorderRadius.circular(12.0),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.5), // Shadow color
+                        color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 1,
                         blurRadius: 6,
-                        offset: const Offset(0, 3), // Shadow offset
+                        offset: const Offset(0, 3),
                       ),
                     ],
                   ),
                   child: Column(
                     children: [
-                      // Title row
                       Container(
                         decoration: const BoxDecoration(
                           color: Color(0xFFD9EAD3),
@@ -149,7 +146,6 @@ class InspectorDetailsPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      // Information rows
                       InformationRow(
                         label: InspectorDetailsPageStrings.inspectorNumberLabel,
                         value: "123456",
