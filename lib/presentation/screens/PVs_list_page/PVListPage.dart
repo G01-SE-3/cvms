@@ -43,7 +43,7 @@ class _PVListPageState extends State<PVListPage> {
         child: GeneralAppBar(
           search: true,
           initialTabIndex: 1,
-          PageName: 'PV',
+          
         ),
       ),
       body: SingleChildScrollView(

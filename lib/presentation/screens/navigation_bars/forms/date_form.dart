@@ -10,6 +10,8 @@ import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
 import 'package:provider/provider.dart';
 
 
+import '../constants/Strings/date_form.dart'; // Import the new class
+
 class DateFilterPopup extends StatefulWidget {
   const DateFilterPopup({super.key});
 
@@ -39,13 +41,13 @@ class _DateFilterPopupState extends State<DateFilterPopup> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            title("Filtering by Date :"),
+            title(DateFilterStrings.filteringByDate), // Using DateFilterStrings for the title
             const SizedBox(height: 20),
             Row(
               children: [
                 InputField(
                   controller: _startDateController,
-                  hintText: "Start Date",
+                  hintText: DateFilterStrings.startDate,  // Using DateFilterStrings for the start date hint
                   icon: Icons.calendar_today,
                   color: const Color(0x00ffffff),
                   bordercolor: _errorText != null ? Colors.red : Colors.grey,
@@ -66,7 +68,7 @@ class _DateFilterPopupState extends State<DateFilterPopup> {
                 const SizedBox(width: 10),
                 InputField(
                   controller: _endDateController,
-                  hintText: "End Date",
+                  hintText: DateFilterStrings.endDate, // Using DateFilterStrings for the end date hint
                   icon: Icons.calendar_today,
                   color: const Color(0x00ffffff),
                   bordercolor: _errorText != null ? Colors.red : Colors.grey,
@@ -107,10 +109,8 @@ class _DateFilterPopupState extends State<DateFilterPopup> {
                 });
                 if (_errorText == null) {
                   try {
-                   
                     List<PV> filteredPVs = await pvController.fetchPVsByDate(_startDate!, _endDate!);
 
-                    
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -119,7 +119,7 @@ class _DateFilterPopupState extends State<DateFilterPopup> {
                     );
                   } catch (e) {
                     setState(() {
-                      _errorText = 'Error fetching PVs: ${e.toString()}';
+                      _errorText = '${DateFilterStrings.errorMessage} ${e.toString()}';  // Using DateFilterStrings for error message
                     });
                   }
                 }

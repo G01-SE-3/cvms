@@ -18,28 +18,32 @@ class UserDataSource {
 
   // Fetch user by username
   Future<UserModel?> fetchUserByUsername(String username) async {
-    if (username.isEmpty) {
-      print("Username is empty.");
-      return null;
-    }
-
-    final connection = await DatabaseHelper().connection;  // Get the singleton connection
-    final result = await connection.query(
-      'SELECT * FROM users WHERE username = @username',
-      substitutionValues: {'username': username},
-    );
-
-    if (result.isNotEmpty) {
-      final row = result.first;
-      return UserModel(
-        username: row[0],
-        email: row[1],
-        hashedPassword: row[2],
-      );
-    }
-    print("User with username $username not found.");
+  if (username.isEmpty) {
+    print("Username is empty.");
     return null;
   }
+
+  final connection = await DatabaseHelper().connection;  // Get the singleton connection
+  final result = await connection.query(
+    'SELECT * FROM users WHERE username = @username',
+    substitutionValues: {'username': username},
+  );
+
+  if (result.isNotEmpty) {
+    final row = result.first.toColumnMap();  // Convert row to map
+
+    // Ensure correct types when creating UserModel
+    return UserModel(
+      username: row['username'], // Use the actual column name 'username'
+      email: row['email'],       // Use the actual column name 'email'
+      hashedPassword: row['password'], // Use the actual column name 'password'
+    );
+  }
+
+  print("User with username $username not found.");
+  return null;
+}
+
 
   // Fetch user by email
   Future<UserModel?> fetchUserByEmail(String email) async {
@@ -138,20 +142,24 @@ class UserDataSource {
   }
 
   // Update user details
-  Future<void> updateUser(UserModel user) async {
-    if (user.username.isEmpty || user.email.isEmpty) {
-      print("Cannot update user. One or more required fields are empty.");
-      return;
+  Future<bool> updateUser(UserModel user,String username) async {
+    if (user.username.isEmpty || user.email.isEmpty||user.hashedPassword.isEmpty) {
+     //rise ecxeption
+      return false;
     }
 
     final connection = await DatabaseHelper().connection;  // Get the singleton connection
     await connection.query(
-      'UPDATE users SET username = @username, email = @email, password = @password WHERE user_id = @id',
+      'UPDATE users SET username = @username, email = @email, password = @hashedPassword WHERE username  = @Username',
       substitutionValues: {
+        'Username':username,
         'username': user.username,
         'email': user.email,
-        'password': user.hashedPassword
+        'hashedPassword': user.hashedPassword
       },
     );
+
+  
+    return true;
   }
 }

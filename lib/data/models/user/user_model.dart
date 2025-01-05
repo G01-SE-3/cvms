@@ -1,15 +1,14 @@
 import 'package:cvms/domain/entities/user/user.dart';
 
 class UserModel extends User {
+  @override
   final String hashedPassword;
 
   UserModel({
-    required String username,
-    required String email,
+    required super.username,
+    required super.email,
     required this.hashedPassword,
   }) : super(
-          username: username,
-          email: email,
           hashedPassword: hashedPassword,
         );
 

@@ -1,8 +1,10 @@
+import 'package:cvms/presentation/screens/Settings/constants/Strings/Account.dart';
 import 'package:cvms/presentation/screens/Settings/widgets/AccountForm.dart';
 import 'package:cvms/presentation/screens/Settings/widgets/AccountList.dart';
 import 'package:flutter/material.dart';
-import '../constants/Strings/Account.dart';
-import 'customElevatedButton.dart';
+import 'package:provider/provider.dart';
+import 'package:cvms/presentation/controllers/user/user_controller.dart';
+import 'package:cvms/services/auth_service.dart';
 
 class Account extends StatefulWidget {
   const Account({super.key});
@@ -15,12 +17,51 @@ class _AccountState extends State<Account> {
   bool _isEditing = false;
   bool _isChangingPassword = false;
 
-  final TextEditingController _usernameController = TextEditingController(text: 'JohnDoe123');
-  final TextEditingController _emailController = TextEditingController(text: 'johndoe@example.com');
-  final TextEditingController _currentPasswordController = TextEditingController();
-  final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  late TextEditingController _usernameController;
+  late TextEditingController _emailController;
+  late TextEditingController _currentPasswordController;
+  late TextEditingController _newPasswordController;
+  late TextEditingController _confirmPasswordController;
+ 
 
+  @override
+  void initState() {
+    super.initState();
+    _usernameController = TextEditingController();
+    _emailController = TextEditingController();
+    _currentPasswordController = TextEditingController();
+    _newPasswordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
+   
+
+    _loadUserDetails();
+  }
+
+  Future<void> _loadUserDetails() async {
+  // Access the logged-in username from AuthService
+  final authService = Provider.of<AuthService>(context, listen: false);
+  final username = authService.username; 
+  
+
+  if (username != null) {
+    
+    final userController = Provider.of<UserController>(context, listen: false);
+     
+    final user = await userController.getUserByUsername.execute(username);
+     
+
+    if (user != null) {
+      setState(() {
+         
+        _usernameController.text = user.username ?? '';
+        _emailController.text = user.email ?? '';
+        _currentPasswordController.text = user.hashedPassword??'';
+      });
+
+    
+    }
+  }
+}
   @override
   void dispose() {
     _usernameController.dispose();
@@ -42,6 +83,7 @@ class _AccountState extends State<Account> {
         padding: const EdgeInsets.all(16.0),
         child: _isEditing
             ? AccountForm(
+               username:_usernameController.text,
                 usernameController: _usernameController,
                 emailController: _emailController,
                 currentPasswordController: _currentPasswordController,
@@ -69,6 +111,7 @@ class _AccountState extends State<Account> {
             : ListWidget(
                 usernameController: _usernameController,
                 emailController: _emailController,
+               
                 onEdit: () {
                   setState(() {
                     _isEditing = true;

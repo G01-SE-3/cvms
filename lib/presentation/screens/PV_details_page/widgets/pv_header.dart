@@ -83,7 +83,7 @@ class PVHeader extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Delete PV'),
+          title: const Text('Delete PV'),
           content: const Text("Are you sure you want to delete this PV?"),
           actions: [
             TextButton(

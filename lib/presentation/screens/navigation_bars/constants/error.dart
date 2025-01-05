@@ -10,6 +10,6 @@ Widget buildErrorText(String? errorText) {
       ),
     );
   } else {
-    return const SizedBox.shrink(); // Return an empty space if there's no error
+    return const SizedBox.shrink(); 
   }
 }

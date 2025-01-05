@@ -18,7 +18,7 @@ class DynamicSeizureSections extends StatefulWidget {
 }
 
 class _DynamicSeizureSectionsState extends State<DynamicSeizureSections> {
-  List<SeizureSection> _seizureSections = [];
+  final List<SeizureSection> _seizureSections = [];
   List<Seizure> seizures = [];
 
   @override

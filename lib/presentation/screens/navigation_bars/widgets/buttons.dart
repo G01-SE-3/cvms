@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../constants/Strings/buttons.dart';  // Import the ButtonStrings class
 
 Widget buttons({
   required BuildContext context,
@@ -10,18 +11,17 @@ Widget buttons({
     children: [
       TextButton(
         onPressed: onCancel,
-        child: const Text(
-          "Cancel",
-          style: TextStyle(color: Colors.black),
+        child: Text(
+          ButtonStrings.cancel,  // Using ButtonStrings for the cancel text
+          style: const TextStyle(color: Colors.black),
         ),
       ),
       const SizedBox(width: 10),
       ElevatedButton(
         onPressed: onApply,
-        
-        child: const Text(
-          "Apply",
-          style: TextStyle(color: Colors.black),
+        child: Text(
+          ButtonStrings.apply,  // Using ButtonStrings for the apply text
+          style: const TextStyle(color: Colors.black),
         ),
       ),
     ],

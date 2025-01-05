@@ -8,10 +8,10 @@ class ClosureSection extends StatefulWidget {
       onClosureUpdated; // Callback to pass Closure data
 
   const ClosureSection({
-    Key? key,
+    super.key,
     this.closure,
     required this.onClosureUpdated,
-  }) : super(key: key);
+  });
 
   @override
   _ClosureSectionState createState() => _ClosureSectionState();
