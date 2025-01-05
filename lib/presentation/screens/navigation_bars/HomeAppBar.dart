@@ -14,6 +14,13 @@ class HomeAppBar extends StatefulWidget {
 class _HomeAppBarState extends State<HomeAppBar> {
   int _selectedTabIndex = -1; // None selected by default
 
+  // Define the tabs using constants from GeneralAppbarStrings
+  final List<String> tabs = [
+    GeneralAppbarStrings.pvList,
+    GeneralAppbarStrings.inspectors,
+    GeneralAppbarStrings.businessOffenders, // Or Economic Operators if needed
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +38,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: navigation_bar(context ,tabs, _selectedTabIndex, (index) {
+                  child: navigation_bar(context, tabs, _selectedTabIndex, (index) {
                     setState(() {
                       _selectedTabIndex = index;
                     });

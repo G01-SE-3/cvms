@@ -80,7 +80,7 @@ class PVRepositoryImpl implements PVRepository {
       return pvModels.map((model) => model.toEntity()).toList();
     } catch (e) {
       // Handle errors (e.g., data fetching issues)
-      print("Failed to fetch the latest $number PVs: $e");
+      print("Failed to fetch the latest $number PVs: $e");//replace it with exception
       rethrow;
     }
   }
@@ -95,7 +95,7 @@ class PVRepositoryImpl implements PVRepository {
       return pvModels.map((model) => model.toEntity()).toList();
     } catch (e) {
       // Handle errors (e.g., data fetching issues)
-      print("Failed to fetch PVs between $startDate and $endDate: $e");
+      print("Failed to fetch PVs between $startDate and $endDate: $e"); //replace it with exception
       rethrow;
     }
   }
@@ -119,6 +119,41 @@ class PVRepositoryImpl implements PVRepository {
       print("PV with ID $pvId deleted successfully.");
     } catch (e) {
       print("Failed to delete PV with ID $pvId: $e");
+      rethrow;
+    }
+  }
+
+    @override
+Future<List<int>> getMonthlyPVCounts() async {
+  try {
+    // Call data source to get the monthly PV counts
+    final monthlyPVCounts = await dataSource.getMonthlyPVCounts();
+    if (monthlyPVCounts.isEmpty) {
+      throw Exception("No PV data found for the current year.");  // replace with exception
+    } 
+    // Return the monthly counts list
+    return monthlyPVCounts;
+  } catch (e) {
+    // Handle errors (e.g., data fetching issues, no data found)
+    print("Failed to fetch monthly PV counts: $e"); // replace with exception
+    rethrow;
+  }
+}
+@override
+  Future<int> getTotalPVCount() async {
+    try {
+      // Call data source to get the total PV count
+      final totalPVCount = await dataSource.getTotalPVCount();
+
+      if (totalPVCount == 0) {
+        throw Exception("No PV data found."); // replace with exception
+      }
+
+      // Return the total PV count
+      return totalPVCount;
+    } catch (e) {
+      // Handle errors (e.g., data fetching issues, no data found)
+      print("Failed to fetch total PV count: $e"); // replace with exception
       rethrow;
     }
   }

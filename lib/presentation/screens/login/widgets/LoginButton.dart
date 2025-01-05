@@ -83,7 +83,7 @@ class LoginButtonState extends State<LoginButton> {
             });
 
             if (isValid) {
-              await authService.signIn();
+              await authService.signIn(username);
 
               if (mounted) {
                 Navigator.pushReplacement(

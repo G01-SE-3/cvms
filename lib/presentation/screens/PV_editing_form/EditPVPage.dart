@@ -23,7 +23,7 @@ import 'package:cvms/domain/entities/inspector/inspector.dart';
 class EditPVPage extends StatefulWidget {
   final String pvId;
 
-  const EditPVPage({Key? key, required this.pvId}) : super(key: key);
+  const EditPVPage({super.key, required this.pvId});
 
   @override
   _EditPVPageState createState() => _EditPVPageState();
@@ -48,7 +48,7 @@ class _EditPVPageState extends State<EditPVPage> {
   DateTime? _selectedDate;
 
   final List<SeizureSection> _seizureSections = [];
-  List<Seizure>? seizures = null;
+  List<Seizure>? seizures;
   void _handleSeizuresUpdated(List<Seizure>? updatedSeizures) {
     setState(() {
       seizures = updatedSeizures;
@@ -162,7 +162,7 @@ class _EditPVPageState extends State<EditPVPage> {
                                             Text('Error: ${snapshot.error}'));
                                   } else if (!snapshot.hasData ||
                                       snapshot.data!.isEmpty) {
-                                    return Center(
+                                    return const Center(
                                         child: Text('No inspectors found'));
                                   } else {
                                     final inspectors = snapshot.data!;
@@ -409,12 +409,12 @@ class InspectorDropdownField extends StatelessWidget {
   final ValueChanged<InspectorEntity?> onChanged;
 
   const InspectorDropdownField({
-    Key? key,
+    super.key,
     required this.title,
     required this.inspectors,
     required this.onChanged,
     this.selectedInspector,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

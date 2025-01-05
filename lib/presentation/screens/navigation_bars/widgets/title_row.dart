@@ -43,7 +43,7 @@ Widget title_row(bool isHome, BuildContext context) {
                     onPressed: () {
                      Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
+                  MaterialPageRoute(builder: (context) => const HomePage()),
                 );
                     },
                   ),
@@ -53,7 +53,7 @@ Widget title_row(bool isHome, BuildContext context) {
                     onPressed: () {
                       Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                  MaterialPageRoute(builder: (context) => const SettingsPage()),
                 );
                     },
                   ),

@@ -68,9 +68,9 @@ class _PVFinancialPenaltySectionState extends State<PVFinancialPenaltySection> {
           children: [
             const SizedBox(height: 10),
             _buildFinancialRow(FinancialPenaltyStrings.penaltyAmount,
-                financialPenalty.penaltyAmount?.toString() ?? "N/A"),
+                financialPenalty.penaltyAmount.toString() ?? "N/A"),
             _buildFinancialRow(FinancialPenaltyStrings.penaltyDate,
-                financialPenalty.penaltyDate?.toString() ?? "N/A"),
+                financialPenalty.penaltyDate.toString() ?? "N/A"),
             _buildFinancialRow(FinancialPenaltyStrings.paymentReceiptNumber,
                 financialPenalty.paymentReceiptNumber ?? "N/A"),
             _buildFinancialRow(FinancialPenaltyStrings.paymentReceiptDate,

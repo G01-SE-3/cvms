@@ -1,14 +1,11 @@
-import 'package:flutter/material.dart';
-
-// Define a list of DropdownMenuItems for "Type"
-const List<DropdownMenuItem<String>> typeDropdownItems = [
-  DropdownMenuItem(value: "type", child: Text("type")),
-  DropdownMenuItem(value: "PV", child: Text("PV")),
-  DropdownMenuItem(value: "RC", child: Text("RC")),
-];
-
-// Define a list of DropdownMenuItems for "Filter"
-const List<DropdownMenuItem<String>> filterDropdownItems = [
-  DropdownMenuItem(value: "Latest", child: Text("Latest")),
-  DropdownMenuItem(value: "Date", child: Text("Date")),
-];
+class SearchStrings {
+  static const String type = 'Type';
+  static const String pv = 'PV';
+  static const String rc = 'RC';
+  static const String latest = 'Latest';
+  static const String date = 'Date';
+  static const String clear = 'Clear';
+  static const String search = 'Search';
+  static const String filterBy = 'Filter by';
+  static const String error = 'Error: ';
+}

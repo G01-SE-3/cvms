@@ -8,6 +8,8 @@ import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:cvms/presentation/screens/PVs_list_page/PVListPage.dart';
 
+import '../constants/Strings/latest_form.dart'; // Import the new class
+
 class LatestPopupForm extends StatefulWidget {
   const LatestPopupForm({super.key});
 
@@ -37,11 +39,11 @@ class _LatestPopupFormState extends State<LatestPopupForm> {
           ),
           child: Column(
             children: [
-              title("Latest:"),
+              title(LatestPopupFormStrings.title), // Using LatestPopupFormStrings for the title
               const SizedBox(height: 20),
               InputField(
                 controller: _controller,
-                hintText: "Enter a number",
+                hintText: LatestPopupFormStrings.hintText,  // Using LatestPopupFormStrings for the hint text
                 icon: null,
                 color: Colors.white,
                 bordercolor: _errorText != null ? Colors.red : Colors.grey,
@@ -68,16 +70,12 @@ class _LatestPopupFormState extends State<LatestPopupForm> {
                   });
                   if (_errorText == null) {
                     try {
-                      
                       int numberOfPVs = int.parse(_controller.text);
 
-                      
                       List<PV> latestPVs = await pvController.fetchLatestPVs(numberOfPVs);
-                     
 
                       Navigator.pop(context);
 
-                      
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -88,7 +86,7 @@ class _LatestPopupFormState extends State<LatestPopupForm> {
                       );
                     } catch (e) {
                       setState(() {
-                        _errorText = "Error: ${e.toString()}";
+                        _errorText = '${LatestPopupFormStrings.errorMessage} ${e.toString()}';  // Using LatestPopupFormStrings for the error message
                       });
                     }
                   }

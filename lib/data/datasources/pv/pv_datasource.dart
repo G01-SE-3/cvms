@@ -858,4 +858,68 @@ class PVDataSource {
       rethrow;
     }
   }
+  Future<List<int>> getMonthlyPVCounts() async {
+  final connection = await getDatabaseConnection(); // Get DB connection
+  try {
+   
+
+    // Query to count PVs for each month in the current year
+    final currentYear = DateTime.now().year;
+    var result = await connection.connection!.query(''' 
+      SELECT 
+        EXTRACT(MONTH FROM issue_date) AS month, 
+        COUNT(*) AS pv_count
+      FROM pv
+      WHERE EXTRACT(YEAR FROM issue_date) = @currentYear
+      GROUP BY month
+      ORDER BY month;
+    ''', substitutionValues: {'currentYear': currentYear});
+
+    // Initialize an array with 12 zeros (for 12 months)
+    List<int> monthlyPVCounts = List.filled(12, 0);
+
+    // Populate counts for each month
+    for (var row in result) {
+      int month = (row[0] is String) 
+          ? int.parse(row[0]) 
+          : (row[0] as double).toInt(); // Handle month value correctly
+      int count = row[1] as int; // Ensure the count is treated as an int
+
+      // Fill the correct position in the array
+      monthlyPVCounts[month - 1] = count;
+
+    
+    }
+
+
+    return monthlyPVCounts;
+  } catch (e) {
+    print("Error fetching monthly PV counts: $e");
+    rethrow;
+  }
+}
+
+
+Future<int> getTotalPVCount() async {
+  final connection = await getDatabaseConnection(); // Get DB connection
+  try {
+    
+
+    // Query to count all PVs regardless of month or year
+    var result = await connection.connection!.query(''' 
+      SELECT COUNT(*) AS total_pv_count
+      FROM pv;
+
+    ''');
+
+    // Extract the total PV count from the query result
+    int totalPVCount = result.isNotEmpty ? result.first[0] : 0;
+
+   
+    return totalPVCount;
+  } catch (e) {
+    //rise exception 
+    rethrow;
+  }
+}
 }

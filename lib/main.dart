@@ -16,10 +16,19 @@ import 'package:cvms/presentation/screens/inspectors_list/inspectors_list.dart';
 import 'package:cvms/presentation/screens/BusinessOffender/BusinessOffenderList.dart';
 import 'package:cvms/presentation/screens/IndividualOffender/IndividualOffenderList.dart';
 import 'package:cvms/presentation/screens/login/LoginPage.dart';
-import 'package:cvms/presentation/screens/homepage/homepage.dart';
+
 import 'package:cvms/services/auth_service.dart';
-import 'package:cvms/presentation/screens/login/widgets/LoginButton.dart';
+
 import 'package:cvms/core/loggers/app_logger.dart';
+
+import 'data/repositories/user/user_repositoty_impl.dart';
+import 'domain/usecases/pv/TotalPvCount.dart';
+import 'domain/usecases/pv/monthlyPvCount.dart';
+import 'domain/usecases/user/add_user.dart';
+import 'domain/usecases/user/get_user_by_username.dart';
+import 'domain/usecases/user/get_user_details.dart';
+import 'domain/usecases/user/update_user.dart';
+import 'presentation/controllers/user/user_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,6 +51,17 @@ void main() async {
   final getPVsByDate = GetPVsByDate(pvRepository);
   final deletePV = DeletePV(pvRepository);
   final updatePV = UpdatePV(pvRepository);
+  final MonthlyPVCounts = GetMonthlyPVCounts(pvRepository);
+
+  final totalPVCount = TotalPVCount(pvRepository);
+ // User Repository and UseCases
+  final userRepository = UserRepositoryImpl();
+  final getUserDetails = GetUserDetails(userRepository);
+  final getUserByUsername = GetUserByUsername(userRepository);
+  final addUser = AddUser(userRepository:userRepository);
+  final updateUser = UpdateUser(userRepository);
+
+  
 
   runApp(
     MultiProvider(
@@ -58,7 +78,20 @@ void main() async {
               getLatestPVs: getLatestPVs,
               getPVsByDate: getPVsByDate,
               deletePV: deletePV,
-              updatePV: updatePV),
+              updatePV: updatePV,
+              MonthlyPVCounts:MonthlyPVCounts,
+              TotalpVCount:totalPVCount),
+
+        ),
+         
+        // UserController Provider
+        ChangeNotifierProvider<UserController>(
+          create: (context) => UserController(
+            getUserDetails: getUserDetails,
+            getUserByUsername: getUserByUsername,
+            addUser: addUser,
+            updateUser: updateUser,  
+          ),
         ),
       ],
       child: const MyApp(),
@@ -76,7 +109,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      home: const LoginPage(),
       routes: {
         // TODO: Put the routes in their specified folder
         '/pvs': (context) => const PVListPage(),
@@ -85,7 +118,7 @@ class MyApp extends StatelessWidget {
         '/individual_offender': (context) => const IndividualOffenderList(),
       },
       onUnknownRoute: (settings) => MaterialPageRoute(
-        builder: (context) => LoginPage(), // Fallback route
+        builder: (context) => const LoginPage(), // Fallback route
       ),
     );
   }

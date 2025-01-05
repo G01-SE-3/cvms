@@ -17,10 +17,10 @@ class DateField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _dateController = TextEditingController();
+    final TextEditingController dateController = TextEditingController();
 
     if (initialDate != null) {
-      _dateController.text = DateFormat('yyyy-MM-dd').format(initialDate!);
+      dateController.text = DateFormat('yyyy-MM-dd').format(initialDate!);
     }
 
     return Padding(
@@ -29,7 +29,7 @@ class DateField extends StatelessWidget {
         width: 800, // Adjust the width as needed
         child: TextFormField(
           readOnly: true,
-          controller: _dateController,
+          controller: dateController,
           decoration: InputDecoration(
             labelText: placeholder,
             labelStyle: const TextStyle(color: Colors.black54),
@@ -64,7 +64,7 @@ class DateField extends StatelessWidget {
             );
 
             if (selectedDate != null) {
-              _dateController.text =
+              dateController.text =
                   DateFormat('yyyy-MM-dd').format(selectedDate);
               onDateSelected!(selectedDate);
             }

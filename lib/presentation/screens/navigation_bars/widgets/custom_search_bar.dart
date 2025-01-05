@@ -10,9 +10,35 @@ import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/input_field.dart';
 
+const List<DropdownMenuItem<String>> typeDropdownItems = [
+    DropdownMenuItem(
+      value: SearchStrings.type,
+      child: Text(SearchStrings.type),
+    ),
+    DropdownMenuItem(
+      value: SearchStrings.pv,
+      child: Text(SearchStrings.pv),
+    ),
+    DropdownMenuItem(
+      value: SearchStrings.rc,
+      child: Text(SearchStrings.rc),
+    ),
+  ];
+
+ const  List<DropdownMenuItem<String>> filterDropdownItems = [
+    DropdownMenuItem(
+      value: SearchStrings.latest,
+      child: Text(SearchStrings.latest),
+    ),
+    DropdownMenuItem(
+      value: SearchStrings.date,
+      child: Text(SearchStrings.date),
+    ),
+  ];
+
 class CustomSearchBar extends StatefulWidget {
-  final String pageName;
-  const CustomSearchBar({super.key, this.pageName = 'PV'});
+  
+  const CustomSearchBar({super.key});
 
   @override
   _CustomSearchBarState createState() => _CustomSearchBarState();
@@ -23,51 +49,41 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
 
   @override
   Widget build(BuildContext context) {
-    
     final pvController = Provider.of<PVController>(context, listen: false);
 
-void onSearch() async {
-  // Validate input
-  String? validationError = validateInput(searchController.text);
-  if (validationError != null) {
-    showErrorMessage(context, validationError); 
-    return;
-  }
+    void onSearch() async {
+      String? validationError = validateInput(searchController.text);
+      if (validationError != null) {
+        showErrorMessage(context, validationError);
+        return;
+      }
 
+      try {
+        int pvNumber = int.parse(searchController.text);
+        List<PV> searchResults = await pvController.searchPVsByNumber(pvNumber);
 
-  try {
-   
-    int pvNumber = int.parse(searchController.text);
+        if (searchResults.isEmpty) {
+          handleNoPVFound(context);
+          return;
+        }
 
-    
-    List<PV> searchResults = await pvController.searchPVsByNumber(pvNumber);
-  
-    
-    if (searchResults.isEmpty) {
-      handleNoPVFound(context);
-      return;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PVListPage(
+              searchResults: searchResults,
+            ),
+          ),
+        );
+      } catch (e) {
+        showErrorMessage(context, "${SearchStrings.error}${e.toString()}");
+      }
     }
-
-   
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PVListPage(
-          searchResults: searchResults,
-        ),
-      ),
-    );
-  } catch (e) {
-    showErrorMessage(context, "Error: ${e.toString()}"); // Handle other errors
-  }
-}
-
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
         children: [
-          // Search Bar
           Flexible(
             flex: 2,
             child: Container(
@@ -77,18 +93,16 @@ void onSearch() async {
               ),
               child: InputField(
                 controller: searchController,
-                hintText: "Search",
+                hintText: SearchStrings.search,
                 icon: Icons.search,
                 color: const Color(0xFFBDC9AA),
                 bordercolor: Colors.grey,
                 isReadOnly: false,
-                onIconPressed: onSearch, // Trigger the search when the icon is pressed
+                onIconPressed: onSearch,
               ),
             ),
           ),
           const SizedBox(width: 8.0),
-
-          // Clear Button
           Container(
             height: 48.0,
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -100,20 +114,18 @@ void onSearch() async {
             child: Center(
               child: GestureDetector(
                 onTap: () {
-                          setState(() {
-                            searchController.clear(); // Clears the search field
-                          });
-                          
-                            
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const PVListPage(), // Rebuild PVListPage to show all PVs
-                              ),
-                            );
-                          },
-                                          child: const Text(
-                  "Clear",
+                  setState(() {
+                    searchController.clear();
+                  });
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PVListPage(),
+                    ),
+                  );
+                },
+                child: const Text(
+                  SearchStrings.clear,
                   style: TextStyle(
                     fontSize: 16.0,
                     color: Colors.black,
@@ -124,23 +136,19 @@ void onSearch() async {
             ),
           ),
           const SizedBox(width: 8.0),
-          
-          // Filter Dropdown
           dropdownButton(
             selectedValue: null,
-            hint: "Filter by",
-            items: filterDropdownItems, 
+            hint: SearchStrings.filterBy,
+            items: filterDropdownItems,
             onChanged: (value) {
-              if (value == 'Latest') {
-                
+              if (value == SearchStrings.latest) {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return const LatestPopupForm();
                   },
                 );
-              } else if (value == 'Date') {
-                
+              } else if (value == SearchStrings.date) {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -148,9 +156,12 @@ void onSearch() async {
                   },
                 );
               }
-            })
+            },
+          ),
         ],
       ),
     );
   }
+
+  
 }

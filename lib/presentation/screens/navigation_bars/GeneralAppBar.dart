@@ -1,3 +1,4 @@
+import 'package:cvms/presentation/screens/navigation_bars/constants/Strings/GeneralAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/navigation_bar.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/title_row.dart';
@@ -8,16 +9,18 @@ import 'package:cvms/presentation/screens/inspectors_list/inspectors_list.dart';
 import 'package:cvms/presentation/screens/BusinessOffender/BusinessOffenderList.dart';
 import 'package:cvms/presentation/screens/IndividualOffender/IndividualOffenderList.dart';
 
+
 class GeneralAppBar extends StatefulWidget {
   final bool search;
   final int initialTabIndex;
-  final String PageName; // New parameter to accept initial index
 
-  const GeneralAppBar(
-      {super.key,
-      required this.search,
-      this.initialTabIndex = -1,
-      this.PageName = 'none'}); // Default to 0
+
+  const GeneralAppBar({
+    super.key,
+    required this.search,
+    this.initialTabIndex = -1,
+   
+  });
 
   @override
   _GeneralAppBarState createState() => _GeneralAppBarState();
@@ -28,11 +31,11 @@ class _GeneralAppBarState extends State<GeneralAppBar> {
 
   // Define the tabs for navigation
   final List<String> tabs = [
-    'Home',
-    'PV List',
-    'Inspectors',
-    'Business Offenders',
-    'Individual Offenders'
+    GeneralAppbarStrings.home,
+    GeneralAppbarStrings.pvList,
+    GeneralAppbarStrings.inspectors,
+    GeneralAppbarStrings.businessOffenders,
+    GeneralAppbarStrings.individualOffenders,
   ];
 
   @override
