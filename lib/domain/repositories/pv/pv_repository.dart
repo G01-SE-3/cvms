@@ -9,7 +9,4 @@ abstract class PVRepository {
   Future<List<PV>> filterByDate(DateTime startDate, DateTime endDate);
   Future<void> updatePV(PV pvEntity);
   Future<void> deletePV(String pvId);
-  Future<List<int>> getMonthlyPVCounts() ;
-  Future<int> getTotalPVCount();
-
 }

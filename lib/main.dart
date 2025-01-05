@@ -1,6 +1,4 @@
-import 'package:cvms/domain/usecases/pv/TotalPvCount.dart';
 import 'package:cvms/domain/usecases/pv/delete_pv.dart';
-import 'package:cvms/domain/usecases/pv/monthlyPvCount.dart';
 import 'package:cvms/domain/usecases/pv/search_pv.dart';
 import 'package:cvms/domain/usecases/pv/update_pv.dart';
 import 'package:cvms/domain/usecases/pv/filter_pv_byDate.dart';
@@ -18,7 +16,9 @@ import 'package:cvms/presentation/screens/inspectors_list/inspectors_list.dart';
 import 'package:cvms/presentation/screens/BusinessOffender/BusinessOffenderList.dart';
 import 'package:cvms/presentation/screens/IndividualOffender/IndividualOffenderList.dart';
 import 'package:cvms/presentation/screens/login/LoginPage.dart';
+import 'package:cvms/presentation/screens/homepage/homepage.dart';
 import 'package:cvms/services/auth_service.dart';
+import 'package:cvms/presentation/screens/login/widgets/LoginButton.dart';
 import 'package:cvms/core/loggers/app_logger.dart';
 
 void main() async {
@@ -42,9 +42,6 @@ void main() async {
   final getPVsByDate = GetPVsByDate(pvRepository);
   final deletePV = DeletePV(pvRepository);
   final updatePV = UpdatePV(pvRepository);
-  final MonthlyPVCounts = GetMonthlyPVCounts(pvRepository);
-
-  final totalPVCount = TotalPVCount(pvRepository);
 
   runApp(
     MultiProvider(
@@ -61,10 +58,7 @@ void main() async {
               getLatestPVs: getLatestPVs,
               getPVsByDate: getPVsByDate,
               deletePV: deletePV,
-              updatePV: updatePV,
-              MonthlyPVCounts:MonthlyPVCounts,
-              TotalpVCount:totalPVCount),
-
+              updatePV: updatePV),
         ),
       ],
       child: const MyApp(),
@@ -82,7 +76,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(),
+      home: LoginPage(),
       routes: {
         // TODO: Put the routes in their specified folder
         '/pvs': (context) => const PVListPage(),
@@ -91,7 +85,7 @@ class MyApp extends StatelessWidget {
         '/individual_offender': (context) => const IndividualOffenderList(),
       },
       onUnknownRoute: (settings) => MaterialPageRoute(
-        builder: (context) => const LoginPage(), // Fallback route
+        builder: (context) => LoginPage(), // Fallback route
       ),
     );
   }
