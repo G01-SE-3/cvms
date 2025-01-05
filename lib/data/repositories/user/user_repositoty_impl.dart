@@ -69,10 +69,10 @@ class UserRepositoryImpl implements UserRepository {
 
   // Update user
   @override
-  Future<bool> updateUser(User user,String username) async {
+  Future<void> updateUser(User user) async {
     if (user.username.isEmpty || user.email.isEmpty) {
       print("Cannot update user. One or more required fields are empty.");
-      return false;
+      return;
     }
 
     final userModel = UserModel(
@@ -80,10 +80,8 @@ class UserRepositoryImpl implements UserRepository {
       email: user.email,
       hashedPassword: user.hashedPassword,
     );
-    print('user updated successfully');
 
-    await _datasource.updateUser(userModel,username);
-    return true;
+    await _datasource.updateUser(userModel);
   }
 
   @override

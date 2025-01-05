@@ -2,6 +2,7 @@ import 'package:cvms/presentation/screens/Settings/constants/Strings/SettingsMen
 import 'package:cvms/presentation/screens/Settings/settings.dart';
 import 'package:cvms/presentation/screens/Settings/widgets/Account.dart';
 import 'package:cvms/presentation/screens/Settings/widgets/Languages.dart';
+import 'package:cvms/presentation/screens/homepage/homepage.dart';
 import 'package:flutter/material.dart';
 
 class PageContent extends StatelessWidget {
@@ -16,10 +17,11 @@ class PageContent extends StatelessWidget {
         return const Account();
       case SettingsMenuStrings.ChangeLanguage:
         return const LanguagesPage();
-      
+      case SettingsMenuStrings.Logout:
+         MaterialPageRoute(builder: (context) => const HomePage()); ///implement the logout property
       default:
-        return const SettingsPage();
+        return SettingsPage();
     }
-    
+    return Container(); 
   }
 }

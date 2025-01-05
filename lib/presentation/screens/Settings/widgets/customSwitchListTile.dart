@@ -7,7 +7,7 @@ Widget customSwitchListTile({
 }) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 8.0),
-    child: SizedBox(
+    child: Container(
       height: 40, 
       child: SwitchListTile(
         value: value,

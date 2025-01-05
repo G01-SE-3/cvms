@@ -1,10 +1,6 @@
 import 'package:cvms/presentation/screens/Settings/constants/Strings/SettingsMenu.dart';
-import 'package:cvms/presentation/screens/login/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/Settings/widgets/ListTile.dart';
-import 'package:provider/provider.dart';
-
-import '../../../../services/auth_service.dart';
 class SettingsMenu extends StatelessWidget {
   final String? pageSelected;
   final Function(String) onPageSelected;
@@ -38,17 +34,8 @@ class SettingsMenu extends StatelessWidget {
           icon: Icons.logout,
           title: SettingsMenuStrings.Logout,
           isSelected: pageSelected == SettingsMenuStrings.Logout,
-          onTap: ()async {
-             // Call signOut from AuthService to clear authentication data
-                    final authService = Provider.of<AuthService>(context, listen: false);
-                    await authService.signOut();
-
-                    // Navigate to login screen and clear the navigation stack
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LoginPage()),
-                      (route) => false,
-                    );
+          onTap: () {
+            onPageSelected(SettingsMenuStrings.Logout);
           },
         ),
       ],
