@@ -7,7 +7,7 @@ class ListWidget extends StatefulWidget {
   final TextEditingController emailController;
   final VoidCallback onEdit;
 
-  const ListWidget({super.key, 
+  const ListWidget({
     required this.usernameController,
     required this.emailController,
     required this.onEdit,
