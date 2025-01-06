@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
 
+import '../constants/Strings/LineChart.dart';
+
 class LineChartWidget extends StatefulWidget {
   final String title;
 
@@ -38,7 +40,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
 
         // Handle empty data scenario
         if (spots.isEmpty) {
-          return const Center(child: Text("No data available for the chart"));
+          return const Center(child: Text(LineChartStrings.noDataAvailable));
         }
 
         // Calculate max Y value for the chart's Y-axis range
@@ -82,29 +84,29 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                           if (value % 1 == 0 && value >= 0 && value <= 11) {
                             switch (value.toInt()) {
                               case 0:
-                                return const Text('Jan');
+                                return const Text(LineChartStrings.january);
                               case 1:
-                                return const Text('Feb');
+                                return const Text(LineChartStrings.february);
                               case 2:
-                                return const Text('Mar');
+                                return const Text(LineChartStrings.march);
                               case 3:
-                                return const Text('Apr');
+                                return const Text(LineChartStrings.april);
                               case 4:
-                                return const Text('May');
+                                return const Text(LineChartStrings.may);
                               case 5:
-                                return const Text('Jun');
+                                return const Text(LineChartStrings.june);
                               case 6:
-                                return const Text('Jul');
+                                return const Text(LineChartStrings.july);
                               case 7:
-                                return const Text('Aug');
+                                return const Text(LineChartStrings.august);
                               case 8:
-                                return const Text('Sep');
+                                return const Text(LineChartStrings.september);
                               case 9:
-                                return const Text('Oct');
+                                return const Text(LineChartStrings.october);
                               case 10:
-                                return const Text('Nov');
+                                return const Text(LineChartStrings.november);
                               case 11:
-                                return const Text('Dec');
+                                return const Text(LineChartStrings.december);
                               default:
                                 return const Text('');
                             }
