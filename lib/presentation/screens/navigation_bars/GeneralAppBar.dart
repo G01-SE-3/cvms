@@ -9,17 +9,36 @@ import 'package:cvms/presentation/screens/inspectors_list/inspectors_list.dart';
 import 'package:cvms/presentation/screens/BusinessOffender/BusinessOffenderList.dart';
 import 'package:cvms/presentation/screens/IndividualOffender/IndividualOffenderList.dart';
 
+/// General rule for using `GeneralAppBar`:
+/// 
+/// To include `GeneralAppBar` in your Scaffold, use it as follows:
+/// 1. Wrap it in a `PreferredSize` widget to specify the preferred height of the app bar.
+/// 2. Pass required parameters:
+///    - `search: true` or `false` to display or hide the search bar.
+///    - `initialTabIndex: X` where X is the initial tab index you want to display (optional, defaults to -1).
+/// 
+/// Example usage:
+/// ```dart
+/// appBar: const PreferredSize(
+///   preferredSize: Size.fromHeight(220.0), // Set the height of the app bar
+///   child: GeneralAppBar(
+///     search: true, // Display the search bar in the app bar set to false if not needed 
+///     initialTabIndex: 1, // Set the initially selected tab (index 1 in this case)
+///   ),
+/// ),
+/// ```
+
+/// GeneralAppBar is a StatefulWidget that displays a navigation bar with tabs and
+/// an optional search bar. It handles navigation to different pages based on the tab selected.
 
 class GeneralAppBar extends StatefulWidget {
-  final bool search;
-  final int initialTabIndex;
-
+  final bool search; // Determines if the search bar should be shown
+  final int initialTabIndex; // The initial tab index to display
 
   const GeneralAppBar({
     super.key,
     required this.search,
     this.initialTabIndex = -1,
-   
   });
 
   @override
@@ -27,9 +46,9 @@ class GeneralAppBar extends StatefulWidget {
 }
 
 class _GeneralAppBarState extends State<GeneralAppBar> {
-  late int _selectedTabIndex; // Use late modifier to initialize later
+  late int _selectedTabIndex; // Keeps track of the currently selected tab index
 
-  // Define the tabs for navigation
+  // List of tab titles
   final List<String> tabs = [
     GeneralAppbarStrings.home,
     GeneralAppbarStrings.pvList,
@@ -41,39 +60,46 @@ class _GeneralAppBarState extends State<GeneralAppBar> {
   @override
   void initState() {
     super.initState();
-    _selectedTabIndex = widget.initialTabIndex; // Set the initial index
+    _selectedTabIndex = widget.initialTabIndex; // Set the initial tab index from the widget
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFF4A4A31),
+      color: const Color(0xFF4A4A31), // Background color for the app bar
       child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(
-                horizontal: 4.0, vertical: 8.0), // Decreased vertical padding
+                horizontal: 4.0, vertical: 8.0), // Padding for the title row
             child: title_row(false, context),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
-                horizontal: 12.0), // Decreased horizontal padding
-            child: navigation_bar(context, tabs, _selectedTabIndex, (index) {
-              setState(() {
-                _selectedTabIndex = index; // Update selected index
-              });
-              _navigateToPage(index, context); // Navigate to the selected page
-            }),
+                horizontal: 12.0), // Padding for the navigation bar
+            child: navigation_bar(
+              context,
+              tabs,
+              _selectedTabIndex,
+              (index) {
+                setState(() {
+                  _selectedTabIndex = index; // Update the selected tab index
+                });
+                _navigateToPage(index, context); // Navigate to the corresponding page
+              },
+            ),
           ),
-          const SizedBox(height: 8), // Decreased height
-          widget.search ? const CustomSearchBar() : const SizedBox(),
+          const SizedBox(height: 8), // Small space below the navigation bar
+          widget.search ? const CustomSearchBar() : const SizedBox(), // Show search bar if needed
         ],
       ),
     );
   }
 
+  /// Navigates to the page corresponding to the selected tab index.
+  /// This method uses the index to determine which page to display.
   void _navigateToPage(int index, BuildContext context) {
-    // Define the list of pages corresponding to each tab
+    // List of pages corresponding to each tab index
     List<Widget> pages = [
       const HomePage(),
       const PVListPage(),
@@ -82,7 +108,7 @@ class _GeneralAppBarState extends State<GeneralAppBar> {
       const IndividualOffenderList(),
     ];
 
-    // Ensure the index is valid and navigate to the selected page
+    // Ensure the index is within the valid range of pages and navigate to the selected page
     if (index < pages.length) {
       Navigator.pushReplacement(
         context,

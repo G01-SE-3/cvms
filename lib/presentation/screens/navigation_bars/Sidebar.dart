@@ -11,11 +11,24 @@ import 'package:provider/provider.dart';
 
 import '../HelpPage/HelpPage.dart';
 import '../Settings/settings.dart';
-import 'widgets/sidebar_item.dart'; // Import for accessing AuthService
+import 'widgets/sidebar_item.dart'; 
+
+/// General rule for using `Sidebar`:
+/// 
+/// To include `Sidebar` in your Scaffold, use it as follows:
+/// 1. Set it as the `drawer` property of the `Scaffold`.
+/// 
+/// Example usage:
+/// ```dart
+/// drawer: const Sidebar(),
+/// ```
+/// This will display the sidebar on the left side of the screen. 
+/// You can use the `appBar` property to set the app bar as usual, and the sidebar will function as a drawer that can be opened by swiping or tapping the menu icon.
 
 class Sidebar extends StatelessWidget {
   const Sidebar({super.key});
 
+  // Top menu items
   List<Widget> sidebarItemsTop(BuildContext context) {
     return [
       sidebar_item(context, Icons.dashboard, SidebarStrings.dashboard, const HomePage()),
@@ -38,22 +51,20 @@ class Sidebar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-        color: const Color(0xFF4A4A31), // Background color
+        color: const Color(0xFF4A4A31),
         child: Column(
           children: [
-            // Top space
-            const SizedBox(height: 50),
+            const SizedBox(height: 50), // Space at the top of the sidebar
             // Top menu items
             Expanded(
               child: Column(
                 children: sidebarItemsTop(context),
               ),
             ),
-            // Bottom menu items
+            // Bottom menu items and logout button
             Column(
               children: [
                 ...sidebarItemsBottom(context),
-                // Logout Button
                 ListTile(
                   leading: const Icon(Icons.logout, color: Colors.white),
                   title: const Text(
@@ -81,3 +92,4 @@ class Sidebar extends StatelessWidget {
     );
   }
 }
+
