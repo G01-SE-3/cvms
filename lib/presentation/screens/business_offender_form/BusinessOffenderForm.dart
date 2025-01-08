@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/business_offender_form/widgets/OffenderForm.dart';
+import 'constants/strings/businessoffenderinformation.dart';
 
 class BusinessOffenderForm extends StatelessWidget {
   const BusinessOffenderForm({super.key});
@@ -7,7 +8,7 @@ class BusinessOffenderForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Text('Business Offender Form'),
+          title: Text(BusinessOffenderStrings().form_offender),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back), 
             onPressed: () {

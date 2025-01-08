@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'widgets/EconomicOperatorsTextWidget.dart';
 import 'widgets/TabContent.dart';
 
 class EconomicOperatorDetails extends StatelessWidget {
@@ -17,7 +16,6 @@ class EconomicOperatorDetails extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    EconomicOperatorsTextWidget(),
                     TabContent(),
                   ],
                 ),

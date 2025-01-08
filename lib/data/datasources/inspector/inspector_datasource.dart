@@ -1,4 +1,3 @@
-import 'package:postgres/postgres.dart';
 import '../../models/inspector/inspector_model.dart';
 import '../database_helper.dart';
 

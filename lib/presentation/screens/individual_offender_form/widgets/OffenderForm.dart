@@ -15,7 +15,7 @@ final IndividualOffenderRepository = IndividualOffenderRepositoryImpl(
 );
 
 class IndividualOffenderFormWidget extends StatefulWidget {
-  const IndividualOffenderFormWidget({Key? key}) : super(key: key);
+  const IndividualOffenderFormWidget({super.key});
 
   @override
   State<IndividualOffenderFormWidget> createState() =>
@@ -32,13 +32,13 @@ class _IndividualOffenderFormWidgetState
       key: formController.formKey,
       child: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 800),
+          constraints: const BoxConstraints(maxWidth: 800),
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
                 TextFieldInput(
-                    "Commercial Register Number", formController.commercialRegisterNumberController),
+                    IndividualOffenderStrings.commercialRegisterNumber, formController.commercialRegisterNumberController),
 
                 const SizedBox(height: 10),
                 Row(
@@ -51,42 +51,42 @@ class _IndividualOffenderFormWidgetState
                         });
                       },
                     ),
-                    const Text("Show register number details"),
+                    const Text(IndividualOffenderStrings.showRegisterNumberDetails),
                   ],
                 ),
 
                   if (showAdditionalInputs) ...[
                   _buildDatePickerField(
-                    label: "Commercial Register Date",
+                    label: IndividualOffenderStrings.commercialRegisterDate,
                     controller: formController.commercialRegisterDateController,
                   ),
                    const SizedBox(height: 16),
                   _buildDatePickerField(
-                    label: "Edit Date",
+                    label: IndividualOffenderStrings.editDate,
                     controller: formController.editDateController,
                   ),
                     const SizedBox(height: 16),
                   _buildDatePickerField(
-                    label: "Cancellation Date",
+                    label: IndividualOffenderStrings.cancellationDate,
                     controller: formController.cancellationDateController,
                   ),
                 ],
 
-                TextFieldInput(name, formController.nameController),
-                TextFieldInput(surname, formController.surnameController),
+                TextFieldInput(IndividualOffenderStrings.name, formController.nameController),
+                TextFieldInput(IndividualOffenderStrings.surname, formController.surnameController),
                 TextFieldInput(
-                    date_of_birth, formController.dateOfBirthController),
+                    IndividualOffenderStrings.dateOfBirth, formController.dateOfBirthController),
                 TextFieldInput(
-                    place_of_birth, formController.placeOfBirthController),
-                TextFieldInput(birth_certificate_number,
+                    IndividualOffenderStrings.placeOfBirth, formController.placeOfBirthController),
+                TextFieldInput(IndividualOffenderStrings.birthCertificateNumber,
                     formController.birthCertificateNumberController),
-                TextFieldInput(mother_name, formController.motherNameController),
+                TextFieldInput(IndividualOffenderStrings.motherName, formController.motherNameController),
                 TextFieldInput(
-                    mother_surname, formController.motherSurnameController),
-                TextFieldInput(father_name, formController.fatherNameController),
-                TextFieldInput(address, formController.addressController),
+                    IndividualOffenderStrings.motherSurname, formController.motherSurnameController),
+                TextFieldInput(IndividualOffenderStrings.fatherName, formController.fatherNameController),
+                TextFieldInput(IndividualOffenderStrings.address, formController.addressController),
                 TextFieldInput(
-                    business_address, formController.businessAddressController),
+                    IndividualOffenderStrings.businessAddress, formController.businessAddressController),
                 
                 
                 const SizedBox(height: 20),
@@ -134,7 +134,7 @@ class _IndividualOffenderFormWidgetState
           borderSide: BorderSide.none,
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        suffixIcon: Icon(Icons.calendar_today),
+        suffixIcon: const Icon(Icons.calendar_today),
       ),
       onTap: () async {
         DateTime? pickedDate = await showDatePicker(
@@ -167,10 +167,10 @@ void submitForm(BuildContext context, IndividualOffenderController formControlle
     cancellationDate = DateTime.tryParse(formController.cancellationDateController.text);
   }
 
-  final String? registerNumber = formController.commercialRegisterNumberController.text;
+  final String registerNumber = formController.commercialRegisterNumberController.text;
   if (registerNumber == null) {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Please enter a valid commercial register number.')),
+      const SnackBar(content: Text(IndividualOffenderStrings.validationError)),
     );
     return;
   }
@@ -192,10 +192,10 @@ void submitForm(BuildContext context, IndividualOffenderController formControlle
   try {
     
     final addedOffender = await IndividualOffenderRepository.addIndividualOffender(offender);
-    final int individual_offender_id = addedOffender.individual_id; 
+    final int individualOffenderId = addedOffender.individual_id; 
 
     final registerNumberEntity = RegisterNumberEntity(
-      individualOffenderId: individual_offender_id,
+      individualOffenderId: individualOffenderId,
       businessOffenderId: null,
       registerNumber: registerNumber,
       commercialRegisterDate: commercialRegisterDate?.toIso8601String() ?? '',
@@ -206,14 +206,14 @@ void submitForm(BuildContext context, IndividualOffenderController formControlle
     await registerNumberRepository.insertRegisterNumber(registerNumberEntity);
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Individual Offender added successfully!')),
+      const SnackBar(content: Text(IndividualOffenderStrings.successMessage)),
     );
 
     formController.resetForm();
 
   } catch (error) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Failed to add offender: $error')),
+      SnackBar(content: Text('${IndividualOffenderStrings.failureMessage} $error')),
     );
   }
   }

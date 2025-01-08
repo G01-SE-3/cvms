@@ -22,24 +22,24 @@ class _InspectorTableState extends State<InspectorTable> {
       future: _inspectorRepository.getAllInspectors(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text(InspectorTableStrings.noInspectorsFound));
+          return const Center(child: Text(InspectorTableStrings.noInspectorsFound));
         } else {
-          final _inspectors = snapshot.data!;
+          final inspectors = snapshot.data!;
 
           return SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: DataTable(
-                headingRowColor: MaterialStateProperty.resolveWith(
+                headingRowColor: WidgetStateProperty.resolveWith(
                     (states) => Colors.grey[200]), // Header row background color
                 showCheckboxColumn: false, // Removes the checkbox
                 columns: _buildColumns(),
-                rows: _inspectors.map((inspector) {
+                rows: inspectors.map((inspector) {
                   return DataRow(
                     onSelectChanged: (_) {
                       _viewInspectorDetails(inspector);
@@ -63,7 +63,7 @@ class _InspectorTableState extends State<InspectorTable> {
       _buildDataColumn(InspectorTableStrings.badgeNumber),
       _buildDataColumn(InspectorTableStrings.department),
       _buildDataColumn(InspectorTableStrings.contact),
-      DataColumn(
+      const DataColumn(
         label: SizedBox(width: 50, child: Text('')),
       ),
     ];
@@ -107,7 +107,7 @@ class _InspectorTableState extends State<InspectorTable> {
               child: Row(
                 children: [
                   Icon(Icons.edit, size: 18, color: Colors.grey[800]),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Text(InspectorTableStrings.edit, style: TextStyle(color: Colors.grey[800])),
                 ],
               ),
@@ -117,7 +117,7 @@ class _InspectorTableState extends State<InspectorTable> {
               child: Row(
                 children: [
                   Icon(Icons.delete, size: 18, color: Colors.grey[800]),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Text(InspectorTableStrings.delete, style: TextStyle(color: Colors.grey[800])),
                 ],
               ),

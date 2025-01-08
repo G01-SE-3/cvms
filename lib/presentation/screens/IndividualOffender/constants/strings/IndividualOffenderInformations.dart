@@ -1,4 +1,5 @@
 String Name="Name";
+String RegisterNumber = "Commercial Register Number";
 String Surname="Surname";
 String birthInfo="YYYY-MM-DD";
 String BirthCertificatenum="00000000000";
@@ -9,3 +10,10 @@ String MothersnameandSurname="Mothers name & Surname";
 String FatherName="Father Name";
 String BusinessAddress="Business Address";
 String Menu="Menu";
+String Error = "Error during fetching";
+const String edit = "Edit";
+const String loading = "loading ..";
+const String cancel = "cancel";
+const String delete = "Delete";
+const String confirmDelete = "confirm Delete";  
+String confirmDeleteRecord = "Are you sure you want to delete this record?";  
