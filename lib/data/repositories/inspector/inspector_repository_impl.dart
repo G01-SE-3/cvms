@@ -21,7 +21,7 @@ class InspectorRepositoryImpl implements InspectorRepository {
   @override
   Future<void> addInspector(InspectorEntity inspector) async {
     final inspectorModel = InspectorModel(
-      id: inspector.inspectorNumber != null && inspector.inspectorNumber != 0
+      id: inspector.inspectorNumber != 0
           ? inspector.inspectorNumber
           : null,
 
@@ -32,7 +32,7 @@ class InspectorRepositoryImpl implements InspectorRepository {
           ? inspector.badgeNumber
           : null,
 
-      assignedDepartment: inspector.assignedDepartment?.isNotEmpty == true
+      assignedDepartment: inspector.assignedDepartment.isNotEmpty == true
           ? inspector.assignedDepartment
           : null,
 
@@ -47,7 +47,7 @@ class InspectorRepositoryImpl implements InspectorRepository {
   @override
   Future<void> updateInspector(InspectorEntity inspector) async {
     final inspectorModel = InspectorModel(
-      id: inspector.inspectorNumber != null && inspector.inspectorNumber != 0
+      id: inspector.inspectorNumber != 0
           ? inspector.inspectorNumber
           : null,
       name: inspector.name.isNotEmpty ? inspector.name : 'Default Name',
@@ -55,7 +55,7 @@ class InspectorRepositoryImpl implements InspectorRepository {
       badgeNumber: inspector.badgeNumber != null && inspector.badgeNumber != 0
           ? inspector.badgeNumber
           : null,
-      assignedDepartment: inspector.assignedDepartment?.isNotEmpty == true
+      assignedDepartment: inspector.assignedDepartment.isNotEmpty == true
           ? inspector.assignedDepartment
           : null,
       contactNumber: inspector.contactNumber != 0

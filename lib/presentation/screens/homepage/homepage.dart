@@ -13,6 +13,9 @@ import 'package:cvms/domain/entities/business_offender/business_offender.dart';
 import 'package:cvms/data/repositories/business_offender/business_offender_repository_impl.dart';
 import 'package:cvms/data/datasources/business_offender/business_offender_datasource.dart';
 
+import '../../../data/datasources/rc/register_number_datasource.dart';
+import '../../../data/repositories/rc/register_number_repository_impl.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -22,8 +25,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final InspectorRepository _inspectorRepository = InspectorRepositoryImpl();
-  final BusinessOffenderrepository _businessOffenderRepository =
-      BusinessOffenderRepositoryImpl(BusinessOffenderDataSource());
+  final BusinessOffenderRepository _businessOffenderRepository =
+    BusinessOffenderRepositoryImpl(
+        BusinessOffenderDataSource(),
+        RegisterNumberRepositoryImpl(RegisterNumberDataSource()), // Pass the required argument
+    );
+
+
 
   @override
   void initState() {

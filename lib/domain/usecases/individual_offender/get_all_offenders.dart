@@ -7,9 +7,6 @@ class GetAllOffenders {
   GetAllOffenders(this.repository);
 
   Future<List<IndividualOffender>> execute() async {
-    return await repository.fetchAllOffenders();
+    return await repository.fetchAllIndividualOffenders();
   }
 }
-
-/*EACH USE CASE SHOULD HAVE A SEPARATE FILE*/
-/* CONTAINS ONLY EXECUTE FUNCTION*/
