@@ -17,7 +17,7 @@ class PVListPage extends StatefulWidget {
 }
 
 class _PVListPageState extends State<PVListPage> {
-  late List<PV> displayedPVs;
+  late List<PV> displayedPVs = [];
 
   @override
   void initState() {
@@ -51,8 +51,8 @@ class _PVListPageState extends State<PVListPage> {
         child: Center(
           child: Consumer<PVController>(
             builder: (context, pvController, child) {
-              // If search results exist, use them
-              final pvs = widget.searchResults ?? pvController.allPVs;
+              // Use search results if available, otherwise use loaded PVs
+              displayedPVs = widget.searchResults ?? pvController.allPVs;
 
               if (pvController.isLoading) {
                 return const CircularProgressIndicator();
@@ -65,10 +65,13 @@ class _PVListPageState extends State<PVListPage> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const HeaderRow(),
+                    // Pass the updated displayedPVs to HeaderRow
+                    HeaderRow(
+                      pvs: displayedPVs,
+                    ),
                     const SizedBox(height: 16),
                     PVDataTable(
-                      tableData: pvs.map((pv) {
+                      tableData: displayedPVs.map((pv) {
                         return {
                           'PVid': pv.pvId,
                           'PVnumber': pv.pvNumber.toString(),

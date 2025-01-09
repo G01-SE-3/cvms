@@ -196,4 +196,144 @@ class PdfService {
       ),
     );
   }
+
+  static Future<void> exportPVsToPdf(BuildContext context, List<PV> pvs) async {
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.center,
+            children: [
+              _buildHeader(),
+              pw.SizedBox(height: 20),
+              pw.Text(
+                "Liste des PVs",
+                style:
+                    pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold),
+              ),
+              pw.SizedBox(height: 20),
+              _buildPVTable(pvs),
+            ],
+          );
+        },
+      ),
+    );
+
+    try {
+      // Get the current date and time
+      final now = DateTime.now();
+      final formattedDateTime =
+          "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}_"
+          "${now.hour.toString().padLeft(2, '0')}h${now.minute.toString().padLeft(2, '0')}min${now.second.toString().padLeft(2, '0')}s";
+
+      // Append the formatted date and time to the file name
+      final directory = await getApplicationDocumentsDirectory();
+      final file =
+          File('${directory.path}/Liste_de_PVs_$formattedDateTime.pdf');
+      await file.writeAsBytes(await pdf.save());
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('PDF exported successfully to ${file.path}'),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to export PDF: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  static pw.Widget _buildPVTable(List<PV> pvs) {
+    return pw.Table(
+      border: pw.TableBorder.all(),
+      columnWidths: {
+        0: pw.FlexColumnWidth(1.5),
+        1: pw.FlexColumnWidth(1.5),
+        2: pw.FlexColumnWidth(2),
+        3: pw.FlexColumnWidth(2),
+        4: pw.FlexColumnWidth(1.5),
+        5: pw.FlexColumnWidth(2),
+      },
+      children: [
+        // Table Header
+        pw.TableRow(
+          decoration: const pw.BoxDecoration(color: PdfColors.grey300),
+          children: [
+            pw.Padding(
+              padding: const pw.EdgeInsets.all(5),
+              child: pw.Text('Numéro PV',
+                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+            ),
+            pw.Padding(
+              padding: const pw.EdgeInsets.all(5),
+              child: pw.Text('Registre Commerce',
+                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+            ),
+            pw.Padding(
+              padding: const pw.EdgeInsets.all(5),
+              child: pw.Text('Nom Contrevenant',
+                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+            ),
+            pw.Padding(
+              padding: const pw.EdgeInsets.all(5),
+              child: pw.Text('Date Emission',
+                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+            ),
+            pw.Padding(
+              padding: const pw.EdgeInsets.all(5),
+              child: pw.Text('Type Infraction',
+                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+            ),
+            pw.Padding(
+              padding: const pw.EdgeInsets.all(5),
+              child: pw.Text('Inspecteurs',
+                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+            ),
+          ],
+        ),
+        // Table Rows
+        ...pvs.map((pv) {
+          return pw.TableRow(
+            children: [
+              pw.Padding(
+                padding: const pw.EdgeInsets.all(5),
+                child: pw.Text(pv.pvNumber.toString()),
+              ),
+              pw.Padding(
+                padding: const pw.EdgeInsets.all(5),
+                child: pw.Text(pv.offender?.rcNumber ?? 'N/A'),
+              ),
+              pw.Padding(
+                padding: const pw.EdgeInsets.all(5),
+                child: pw.Text(pv.offender?.name ?? 'N/A'),
+              ),
+              pw.Padding(
+                padding: const pw.EdgeInsets.all(5),
+                child: pw.Text(
+                  pv.issueDate.toIso8601String().split('T')[0], // Remove time
+                ),
+              ),
+              pw.Padding(
+                padding: const pw.EdgeInsets.all(5),
+                child: pw.Text(pv.violationType),
+              ),
+              pw.Padding(
+                padding: const pw.EdgeInsets.all(5),
+                child: pw.Text(
+                  pv.inspectors.map((i) => i.surname).join(", "),
+                ),
+              ),
+            ],
+          );
+        }).toList(),
+      ],
+    );
+  }
 }
