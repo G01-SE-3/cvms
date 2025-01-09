@@ -4,12 +4,12 @@ import 'package:cvms/presentation/screens/sign_up/constants/strings/LoginPromptS
 
 class Signupbutton extends StatelessWidget {
   final Function onSubmit;
-  final bool isLoading;  
-  final String? errorMessage;  
+  final bool isLoading;
+  final String? errorMessage;
 
   const Signupbutton({
     required this.onSubmit,
-    required this.isLoading, 
+    required this.isLoading,
     this.errorMessage,
     super.key,
   });
@@ -22,7 +22,7 @@ class Signupbutton extends StatelessWidget {
         ElevatedButton(
           onPressed: () {
             if (!isLoading) {
-              onSubmit(); 
+              onSubmit();
             }
           },
           style: ElevatedButton.styleFrom(
@@ -38,12 +38,12 @@ class Signupbutton extends StatelessWidget {
                     color: Colors.white,
                   ),
                 )
-              : const Text(
+              : Text(
                   AccountCreationButtonStrings.createAccountButton,
                   style: TextStyle(color: Colors.white),
                 ),
         ),
-        if (errorMessage != null) 
+        if (errorMessage != null)
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: Text(
@@ -58,7 +58,7 @@ class Signupbutton extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               AccountCreationButtonStrings.haveAccount,
               style: TextStyle(
                 color: Color(0xFF98A2B3),
@@ -71,7 +71,7 @@ class Signupbutton extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const LoginPage()),
                 );
               },
-              child: const Text(
+              child: Text(
                 AccountCreationButtonStrings.login,
                 style: TextStyle(
                   color: Color(0xFF306238),

@@ -1,11 +1,36 @@
 class AccountStrings {
-  static const String Account = "Account";
-  static const String Username = "Username";
-  static const String Email = "Email";
-  static const String ChangePassword = "Change Password";
-  static const String CurrentPassword = "Current Password";
-  static const String NewPassword = "New Password";
-  static const String ConfirmNewPassword = "Confirm New Password";
-  static const String Cancel = "Cancel";
-  static const String Confirm = "Confirm";
+  static String Account = "";
+  static String Username = "";
+  static String Email = "";
+  static String ChangePassword = "";
+  static String CurrentPassword = "";
+  static String NewPassword = "";
+  static String ConfirmNewPassword = "";
+  static String Cancel = "";
+  static String Confirm = "";
+
+  /// Load strings dynamically based on the selected language
+  static void loadLanguage(String languageCode) {
+    if (languageCode == 'en') {
+      Account = "Account";
+      Username = "Username";
+      Email = "Email";
+      ChangePassword = "Change Password";
+      CurrentPassword = "Current Password";
+      NewPassword = "New Password";
+      ConfirmNewPassword = "Confirm New Password";
+      Cancel = "Cancel";
+      Confirm = "Confirm";
+    } else if (languageCode == 'fr') {
+      Account = "Compte";
+      Username = "Nom d'utilisateur";
+      Email = "Email";
+      ChangePassword = "Changer le mot de passe";
+      CurrentPassword = "Mot de passe actuel";
+      NewPassword = "Nouveau mot de passe";
+      ConfirmNewPassword = "Confirmer le nouveau mot de passe";
+      Cancel = "Annuler";
+      Confirm = "Confirmer";
+    }
+  }
 }

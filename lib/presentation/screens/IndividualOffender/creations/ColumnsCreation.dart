@@ -1,81 +1,79 @@
 import 'package:flutter/material.dart';
 import '../constants/strings/IndividualOffenderInformations.dart';
+
 List<DataColumn> ColumnsCreation() {
-    return [
-      DataColumn(
-        label: Row(
-          children: [
-            Text(Name),
-            const Icon(Icons.arrow_downward),
-          ],
-        ),
+  return [
+    DataColumn(
+      label: Row(
+        children: [
+          Text(IndividualDetailsStrings.Name),
+          const Icon(Icons.arrow_downward),
+        ],
       ),
-      DataColumn(
-        label: Row(
-          children: [
-            Text(Surname),
-            const Icon(Icons.arrow_downward),
-          ],
-        ),
+    ),
+    DataColumn(
+      label: Row(
+        children: [
+          Text(IndividualDetailsStrings.Surname),
+          const Icon(Icons.arrow_downward),
+        ],
       ),
-      DataColumn(
-        label: Row(
-          children: [
-            Text(DateandPlaceofbirth),
-            const Icon(Icons.arrow_downward),
-          ],
-        ),
+    ),
+    DataColumn(
+      label: Row(
+        children: [
+          Text(IndividualDetailsStrings.DateandPlaceofbirth),
+          const Icon(Icons.arrow_downward),
+        ],
       ),
-      DataColumn(
-        label: Row(
-          children: [
-            Text(BirthCertificatenumber),
-            const Icon(Icons.arrow_downward),
-          ],
-        ),
+    ),
+    DataColumn(
+      label: Row(
+        children: [
+          Text(IndividualDetailsStrings.BirthCertificatenumber),
+          const Icon(Icons.arrow_downward),
+        ],
       ),
-      DataColumn(
-        label: Row(
-          children: [
-            Text(MothersnameandSurname),
-            const Icon(Icons.arrow_downward),
-          ],
-        ),
+    ),
+    DataColumn(
+      label: Row(
+        children: [
+          Text(IndividualDetailsStrings.MothersnameandSurname),
+          const Icon(Icons.arrow_downward),
+        ],
       ),
-      DataColumn(
-        label: Row(
-          children: [
-            Text(FatherName),
-            const Icon(Icons.arrow_downward),
-          ],
-        ),
+    ),
+    DataColumn(
+      label: Row(
+        children: [
+          Text(IndividualDetailsStrings.FatherName),
+          const Icon(Icons.arrow_downward),
+        ],
       ),
-      DataColumn(
-        label: Row(
-          children: [
-            Text(Address),
-            const Icon(Icons.arrow_downward),
-          ],
-        ),
+    ),
+    DataColumn(
+      label: Row(
+        children: [
+          Text(IndividualDetailsStrings.Address),
+          const Icon(Icons.arrow_downward),
+        ],
       ),
-      DataColumn(
-        label: Row(
-          children: [
-            Text(BusinessAddress),
-            const Icon(Icons.arrow_downward),
-          ],
-        ),
+    ),
+    DataColumn(
+      label: Row(
+        children: [
+          Text(IndividualDetailsStrings.BusinessAddress),
+          const Icon(Icons.arrow_downward),
+        ],
       ),
-      DataColumn(
-        label: Row(
-          children: [
-            Text(Menu),
-            const Icon(Icons.arrow_downward),
-          ],
-        ),
+    ),
+    DataColumn(
+      label: Row(
+        children: [
+          Text(IndividualDetailsStrings.Menu),
+          const Icon(Icons.arrow_downward),
+        ],
       ),
-    ];
-  }
-
-
-  
+    ),
+  ];
+}

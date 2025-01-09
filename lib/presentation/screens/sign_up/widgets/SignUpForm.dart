@@ -17,10 +17,11 @@ class SignUpForm extends StatelessWidget {
   final String? Function(String?) validateEmail;
   final String? Function(String?) validatePassword;
   final Function onSubmit;
-  final bool isLoading; 
+  final bool isLoading;
   final String? errorMessage;
 
-  const SignUpForm({super.key, 
+  const SignUpForm({
+    super.key,
     required this.isPasswordVisible,
     required this.isConfirmPasswordVisible,
     required this.onPasswordVisibilityToggle,
@@ -33,7 +34,7 @@ class SignUpForm extends StatelessWidget {
     required this.validateEmail,
     required this.validatePassword,
     required this.onSubmit,
-    required this.isLoading,  
+    required this.isLoading,
     this.errorMessage,
   });
 
@@ -42,7 +43,7 @@ class SignUpForm extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Text(
+        Text(
           SignUpFormStrings.createAccount,
           style: TextStyle(
             fontSize: 30,
@@ -89,8 +90,8 @@ class SignUpForm extends StatelessWidget {
         const SizedBox(height: 50),
         Signupbutton(
           onSubmit: onSubmit,
-          isLoading: isLoading, 
-          errorMessage: errorMessage,  
+          isLoading: isLoading,
+          errorMessage: errorMessage,
         ),
         const SizedBox(height: 10),
       ],

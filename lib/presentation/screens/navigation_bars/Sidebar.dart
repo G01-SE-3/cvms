@@ -11,18 +11,18 @@ import 'package:provider/provider.dart';
 
 import '../HelpPage/HelpPage.dart';
 import '../Settings/settings.dart';
-import 'widgets/sidebar_item.dart'; 
+import 'widgets/sidebar_item.dart';
 
 /// General rule for using `Sidebar`:
-/// 
+///
 /// To include `Sidebar` in your Scaffold, use it as follows:
 /// 1. Set it as the `drawer` property of the `Scaffold`.
-/// 
+///
 /// Example usage:
 /// ```dart
 /// drawer: const Sidebar(),
 /// ```
-/// This will display the sidebar on the left side of the screen. 
+/// This will display the sidebar on the left side of the screen.
 /// You can use the `appBar` property to set the app bar as usual, and the sidebar will function as a drawer that can be opened by swiping or tapping the menu icon.
 
 class Sidebar extends StatelessWidget {
@@ -31,19 +31,26 @@ class Sidebar extends StatelessWidget {
   // Top menu items
   List<Widget> sidebarItemsTop(BuildContext context) {
     return [
-      sidebar_item(context, Icons.dashboard, SidebarStrings.dashboard, const HomePage()),
-      sidebar_item(context, Icons.description, SidebarStrings.pvList, const PVListPage()),
-      sidebar_item(context, Icons.people, SidebarStrings.inspectors, const InspectorsListPage()),
-      sidebar_item(context, Icons.person, SidebarStrings.businessOffender, const BusinessOffenderList()),
-      sidebar_item(context, Icons.person, SidebarStrings.individualOffender, const IndividualOffenderList()),
+      sidebar_item(
+          context, Icons.dashboard, SidebarStrings.dashboard, const HomePage()),
+      sidebar_item(context, Icons.description, SidebarStrings.pvList,
+          const PVListPage()),
+      sidebar_item(context, Icons.people, SidebarStrings.inspectors,
+          const InspectorsListPage()),
+      sidebar_item(context, Icons.person, SidebarStrings.businessOffender,
+          const BusinessOffenderList()),
+      sidebar_item(context, Icons.person, SidebarStrings.individualOffender,
+          const IndividualOffenderList()),
     ];
   }
 
   // Bottom menu items
   List<Widget> sidebarItemsBottom(BuildContext context) {
     return [
-      sidebar_item(context, Icons.help_outline, SidebarStrings.help, const HelpPage()),
-      sidebar_item(context, Icons.settings, SidebarStrings.settings, const SettingsPage()),
+      sidebar_item(
+          context, Icons.help_outline, SidebarStrings.help, const HelpPage()),
+      sidebar_item(context, Icons.settings, SidebarStrings.settings,
+          const SettingsPage()),
     ];
   }
 
@@ -67,19 +74,21 @@ class Sidebar extends StatelessWidget {
                 ...sidebarItemsBottom(context),
                 ListTile(
                   leading: const Icon(Icons.logout, color: Colors.white),
-                  title: const Text(
+                  title: Text(
                     SidebarStrings.logout,
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () async {
                     // Call signOut from AuthService to clear authentication data
-                    final authService = Provider.of<AuthService>(context, listen: false);
+                    final authService =
+                        Provider.of<AuthService>(context, listen: false);
                     await authService.signOut();
 
                     // Navigate to login screen and clear the navigation stack
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => const LoginPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()),
                       (route) => false,
                     );
                   },
@@ -92,4 +101,3 @@ class Sidebar extends StatelessWidget {
     );
   }
 }
-

@@ -5,7 +5,7 @@ import 'ForgotPasswordButton.dart';
 import 'SignUpPrompt.dart';
 import '../constants/strings/LoginPageStrings.dart';
 import 'package:cvms/domain/repositories/user/user_repository.dart';
-import 'LoginButton.dart'; 
+import 'LoginButton.dart';
 
 class LoginPageForm extends StatefulWidget {
   final TextEditingController usernameController;
@@ -24,7 +24,7 @@ class LoginPageForm extends StatefulWidget {
 }
 
 class _LoginPageFormState extends State<LoginPageForm> {
-  final _formKey = GlobalKey<FormState>(); 
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class _LoginPageFormState extends State<LoginPageForm> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
+          Text(
             LoginPageStrings.loginToAccountLabel,
             style: TextStyle(
               fontSize: 25,
@@ -51,7 +51,7 @@ class _LoginPageFormState extends State<LoginPageForm> {
             usernameController: widget.usernameController,
             passwordController: widget.passwordController,
             userRepository: widget.userRepository,
-            formKey: _formKey, 
+            formKey: _formKey,
           ),
           const SizedBox(height: 10),
           const SignUpPrompt(),

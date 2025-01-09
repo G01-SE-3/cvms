@@ -23,7 +23,7 @@ class _PVSeizuresSectionState extends State<PVSeizuresSection> {
       children: [
         Row(
           children: [
-            const Text(
+            Text(
               PVSeizuresStrings.title, // Use the title from constants
               style: TextStyle(
                 fontSize: 18,
@@ -92,7 +92,7 @@ class _PVSeizuresSectionState extends State<PVSeizuresSection> {
   }
 
   Widget _buildDisabledSeizuresMessage() {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.all(8),
       child: Text(
         PVSeizuresStrings.noSeizuresMessage, // Use message from constants

@@ -1,12 +1,33 @@
-// lib/constants/strings.dart
-
 class InspectorsListStrings {
-  static const String inspectorsListTitle = 'Inspectors List';
-  static const String edit = 'Edit';
-  static const String delete = 'Delete';
-  static const String cancel = 'Cancel';
-  static const String deleteInspector = 'Delete Inspector ';
-  static const String areYouSureDelete = 'Are you sure you want to delete this inspector?';
-  static const String export = 'Export';
-  static const String addInspector = 'Add Inspector';
+  static String inspectorsListTitle = "";
+  static String edit = "";
+  static String delete = "";
+  static String cancel = "";
+  static String deleteInspector = "";
+  static String areYouSureDelete = "";
+  static String export = "";
+  static String addInspector = "";
+
+  /// Load strings dynamically based on the selected language
+  static void loadLanguage(String languageCode) {
+    if (languageCode == 'en') {
+      inspectorsListTitle = "Inspectors List";
+      edit = "Edit";
+      delete = "Delete";
+      cancel = "Cancel";
+      deleteInspector = "Delete Inspector";
+      areYouSureDelete = "Are you sure you want to delete this inspector?";
+      export = "Export";
+      addInspector = "Add Inspector";
+    } else if (languageCode == 'fr') {
+      inspectorsListTitle = "Liste des Inspecteurs";
+      edit = "Modifier";
+      delete = "Supprimer";
+      cancel = "Annuler";
+      deleteInspector = "Supprimer l'Inspecteur";
+      areYouSureDelete = "Êtes-vous sûr de vouloir supprimer cet inspecteur ?";
+      export = "Exporter";
+      addInspector = "Ajouter un Inspecteur";
+    }
+  }
 }

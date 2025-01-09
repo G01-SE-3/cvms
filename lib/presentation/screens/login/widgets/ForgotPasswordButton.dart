@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/login/constants/strings/ForgotPasswordStrings.dart';
 
-
 class ForgotPasswordButton extends StatelessWidget {
   const ForgotPasswordButton({super.key});
 
@@ -11,7 +10,7 @@ class ForgotPasswordButton extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: TextButton(
         onPressed: () {},
-        child: const Text(
+        child: Text(
           Forgotpasswordstrings.ForgotPassword,
           style: TextStyle(color: Color(0xFF306238)),
         ),

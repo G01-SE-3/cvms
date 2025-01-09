@@ -1,11 +1,36 @@
 class SearchStrings {
-  static const String type = 'Type';
-  static const String pv = 'PV';
-  static const String rc = 'RC';
-  static const String latest = 'Latest';
-  static const String date = 'Date';
-  static const String clear = 'Clear';
-  static const String search = 'Search';
-  static const String filterBy = 'Filter by';
-  static const String error = 'Error: ';
+  static String type = "";
+  static String pv = "";
+  static String rc = "";
+  static String latest = "";
+  static String date = "";
+  static String clear = "";
+  static String search = "";
+  static String filterBy = "";
+  static String error = "";
+
+  /// Load strings dynamically based on the selected language
+  static void loadLanguage(String languageCode) {
+    if (languageCode == 'en') {
+      type = 'Type';
+      pv = 'PV';
+      rc = 'RC';
+      latest = 'Latest';
+      date = 'Date';
+      clear = 'Clear';
+      search = 'Search';
+      filterBy = 'Filter by';
+      error = 'Error: ';
+    } else if (languageCode == 'fr') {
+      type = 'Type';
+      pv = 'PV';
+      rc = 'RC';
+      latest = 'Dernier';
+      date = 'Date';
+      clear = 'Effacer';
+      search = 'Recherche';
+      filterBy = 'Filtrer par';
+      error = 'Erreur: ';
+    }
+  }
 }

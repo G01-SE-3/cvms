@@ -25,7 +25,7 @@ class PVDetailsSection extends StatelessWidget {
               ),
             ),
             alignment: Alignment.center,
-            child: const Text(
+            child: Text(
               DetailsStrings.sectionTitle, // Use string from the constants
               style: TextStyle(
                 fontSize: 18,

@@ -8,18 +8,18 @@ class BusinessOffenderForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text(BusinessOffenderStrings().form_offender),
+          title: Text(BusinessOffenderStrings.form_offender),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back), 
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context); 
+              Navigator.pop(context);
             },
           ),
         ),
-        body: SingleChildScrollView( 
-          child: BusinessOffenderFormWidget( 
+        body: SingleChildScrollView(
+          child: BusinessOffenderFormWidget(
             context: context,
-            showAdditionalInputs: false, 
+            showAdditionalInputs: false,
             onCheckboxChanged: (value) {},
           ),
         ),

@@ -1,13 +1,44 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 class AddInspectorPageStrings {
-  static const String title = "Add an Inspector";
-  static const String inspectorNumberHint = "Inspector number";
-  static const String inspectorNameHint = "Inspector Name";
-  static const String inspectorSurnameHint = "Inspector Surname";
-  static const String inspectorBadgeNumberHint = "Inspector Badge Number";
-  static const String contactNumberHint = "Contact Number";
-  static const String cancelButton = "Cancel";
-  static const String saveButton = "Add";
-  static const String inspectorAddedMessage = "Inspector added";
-  static const String inspectorDefaultDepartment = "HR";
-  static const String message = "";
+  static String title = "";
+  static String inspectorNumberHint = "";
+  static String inspectorNameHint = "";
+  static String inspectorSurnameHint = "";
+  static String inspectorBadgeNumberHint = "";
+  static String contactNumberHint = "";
+  static String cancelButton = "";
+  static String saveButton = "";
+  static String inspectorAddedMessage = "";
+  static String inspectorDefaultDepartment = "";
+  static String message = "";
+
+  /// Load strings dynamically based on the selected language
+  static void loadLanguage(String languageCode) {
+    if (languageCode == 'en') {
+      title = "Add an Inspector";
+      inspectorNumberHint = "Inspector number";
+      inspectorNameHint = "Inspector Name";
+      inspectorSurnameHint = "Inspector Surname";
+      inspectorBadgeNumberHint = "Inspector Badge Number";
+      contactNumberHint = "Contact Number";
+      cancelButton = "Cancel";
+      saveButton = "Add";
+      inspectorAddedMessage = "Inspector added";
+      inspectorDefaultDepartment = "HR";
+      message = "";
+    } else if (languageCode == 'fr') {
+      title = "Ajouter un Inspecteur";
+      inspectorNumberHint = "Numéro d'inspecteur";
+      inspectorNameHint = "Nom de l'inspecteur";
+      inspectorSurnameHint = "Prénom de l'inspecteur";
+      inspectorBadgeNumberHint = "Numéro de badge de l'inspecteur";
+      contactNumberHint = "Numéro de contact";
+      cancelButton = "Annuler";
+      saveButton = "Ajouter";
+      inspectorAddedMessage = "Inspecteur ajouté";
+      inspectorDefaultDepartment = "RH";
+      message = "";
+    }
+  }
 }

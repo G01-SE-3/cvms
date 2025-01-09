@@ -28,7 +28,6 @@ class _LineChartWidgetState extends State<LineChartWidget> {
     return Consumer<PVController>(
       builder: (context, pvController, child) {
         final monthlyPVCounts = pvController.monthlyPVCounts;
-         
 
         // Handle empty or zero data scenario
         if (monthlyPVCounts.isEmpty || monthlyPVCounts.every((pv) => pv == 0)) {
@@ -39,12 +38,15 @@ class _LineChartWidgetState extends State<LineChartWidget> {
         List<FlSpot> spots = List.generate(12, (index) {
           return FlSpot(
             index.toDouble(),
-            monthlyPVCounts.length > index ? monthlyPVCounts[index].toDouble() : 0,
+            monthlyPVCounts.length > index
+                ? monthlyPVCounts[index].toDouble()
+                : 0,
           );
         });
 
         // Calculate max Y value for the chart's Y-axis range
-        final maxYValue = monthlyPVCounts.reduce((a, b) => a > b ? a : b).toDouble();
+        final maxYValue =
+            monthlyPVCounts.reduce((a, b) => a > b ? a : b).toDouble();
         final step = (maxYValue / 5).ceil();
         final adjustedMaxY = step * 5;
 
@@ -71,7 +73,8 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                         },
                       ),
                     ),
-                    rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    rightTitles: const AxisTitles(
+                        sideTitles: SideTitles(showTitles: false)),
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
@@ -80,29 +83,29 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                           if (value % 1 == 0 && value >= 0 && value <= 11) {
                             switch (value.toInt()) {
                               case 0:
-                                return const Text(LineChartStrings.january);
+                                return Text(LineChartStrings.january);
                               case 1:
-                                return const Text(LineChartStrings.february);
+                                return Text(LineChartStrings.february);
                               case 2:
-                                return const Text(LineChartStrings.march);
+                                return Text(LineChartStrings.march);
                               case 3:
-                                return const Text(LineChartStrings.april);
+                                return Text(LineChartStrings.april);
                               case 4:
-                                return const Text(LineChartStrings.may);
+                                return Text(LineChartStrings.may);
                               case 5:
-                                return const Text(LineChartStrings.june);
+                                return Text(LineChartStrings.june);
                               case 6:
-                                return const Text(LineChartStrings.july);
+                                return Text(LineChartStrings.july);
                               case 7:
-                                return const Text(LineChartStrings.august);
+                                return Text(LineChartStrings.august);
                               case 8:
-                                return const Text(LineChartStrings.september);
+                                return Text(LineChartStrings.september);
                               case 9:
-                                return const Text(LineChartStrings.october);
+                                return Text(LineChartStrings.october);
                               case 10:
-                                return const Text(LineChartStrings.november);
+                                return Text(LineChartStrings.november);
                               case 11:
-                                return const Text(LineChartStrings.december);
+                                return Text(LineChartStrings.december);
                               default:
                                 return const Text('');
                             }
@@ -111,11 +114,13 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                         },
                       ),
                     ),
-                    topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    topTitles: const AxisTitles(
+                        sideTitles: SideTitles(showTitles: false)),
                   ),
                   borderData: FlBorderData(
                     show: true,
-                    border: Border.all(color: const Color(0xFF4A4A31), width: 1),
+                    border:
+                        Border.all(color: const Color(0xFF4A4A31), width: 1),
                   ),
                   lineBarsData: [
                     LineChartBarData(
@@ -129,7 +134,9 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                       ),
                     ),
                   ],
-                  lineTouchData: const LineTouchData(touchTooltipData: LineTouchTooltipData(), touchSpotThreshold: 10),
+                  lineTouchData: const LineTouchData(
+                      touchTooltipData: LineTouchTooltipData(),
+                      touchSpotThreshold: 10),
                   minX: 0,
                   maxX: 11,
                   minY: 0,

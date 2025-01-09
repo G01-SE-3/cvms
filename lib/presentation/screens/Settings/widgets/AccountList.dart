@@ -2,14 +2,13 @@ import 'package:cvms/presentation/screens/Settings/constants/Strings/AccountList
 import 'package:cvms/presentation/screens/Settings/widgets/customElevatedButton.dart';
 import 'package:flutter/material.dart';
 
-
 class ListWidget extends StatefulWidget {
   final TextEditingController usernameController;
   final TextEditingController emailController;
   final VoidCallback onEdit;
 
   const ListWidget({
-    super.key, 
+    super.key,
     required this.usernameController,
     required this.emailController,
     required this.onEdit,
@@ -34,7 +33,7 @@ class _ListWidgetState extends State<ListWidget> {
           subtitle: Text(widget.emailController.text),
         ),
         const Divider(),
-        const ListTile(
+        ListTile(
           title: Text(ListWidgetStrings.password),
           subtitle: Text(ListWidgetStrings.hiddenPassword),
         ),

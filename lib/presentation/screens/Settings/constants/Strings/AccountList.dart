@@ -1,7 +1,24 @@
 class ListWidgetStrings {
-  static const String username = 'Username';
-  static const String email = 'Email';
-  static const String password = 'Password';
-  static const String hiddenPassword = '********';
-  static const String editButtonText = 'Edit';
+  static String username = "";
+  static String email = "";
+  static String password = "";
+  static String hiddenPassword = "";
+  static String editButtonText = "";
+
+  /// Load strings dynamically based on the selected language
+  static void loadLanguage(String languageCode) {
+    if (languageCode == 'en') {
+      username = "Username";
+      email = "Email";
+      password = "Password";
+      hiddenPassword = "********";
+      editButtonText = "Edit";
+    } else if (languageCode == 'fr') {
+      username = "Nom d'utilisateur";
+      email = "Email";
+      password = "Mot de passe";
+      hiddenPassword = "********";
+      editButtonText = "Modifier";
+    }
+  }
 }

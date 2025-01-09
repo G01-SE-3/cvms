@@ -10,7 +10,7 @@ import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/input_field.dart';
 
-const List<DropdownMenuItem<String>> typeDropdownItems = [
+List<DropdownMenuItem<String>> typeDropdownItems = [
   DropdownMenuItem(
     value: SearchStrings.type,
     child: Text(SearchStrings.type),
@@ -24,8 +24,7 @@ const List<DropdownMenuItem<String>> typeDropdownItems = [
     child: Text(SearchStrings.rc),
   ),
 ];
-
-const List<DropdownMenuItem<String>> filterDropdownItems = [
+List<DropdownMenuItem<String>> filterDropdownItems = [
   DropdownMenuItem(
     value: SearchStrings.latest,
     child: Text(SearchStrings.latest),
@@ -37,12 +36,12 @@ const List<DropdownMenuItem<String>> filterDropdownItems = [
 ];
 
 /// General rule for using `CustomSearchBar` widget:
-/// 
+///
 /// To include this widget in your code:
 /// 1. Simply add `CustomSearchBar()` where you want the search bar to appear.
 /// 2. This widget provides a search functionality where the user can input a number to search.
 /// 3. It also allows filtering by "latest" or "date", which triggers different forms.
-/// 
+///
 /// Example usage:
 /// ```dart
 /// CustomSearchBar()
@@ -65,7 +64,8 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       // Validate the input before searching
       String? validationError = validateInput(searchController.text);
       if (validationError != null) {
-        showErrorMessage(context, validationError); // Display validation error message
+        showErrorMessage(
+            context, validationError); // Display validation error message
         return;
       }
 
@@ -87,7 +87,8 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
           context,
           MaterialPageRoute(
             builder: (context) => PVListPage(
-              searchResults: searchResults,  // Pass search results to the next screen
+              searchResults:
+                  searchResults, // Pass search results to the next screen
             ),
           ),
         );
@@ -115,7 +116,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                 color: const Color(0xFFBDC9AA),
                 bordercolor: Colors.grey,
                 isReadOnly: false,
-                onIconPressed: onSearch,  // Trigger search when icon is pressed
+                onIconPressed: onSearch, // Trigger search when icon is pressed
               ),
             ),
           ),
@@ -132,7 +133,8 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
               child: GestureDetector(
                 onTap: () {
                   setState(() {
-                    searchController.clear();  // Clear the search input when tapped
+                    searchController
+                        .clear(); // Clear the search input when tapped
                   });
                   // Navigate to Pv List page to refresh old content and clear search result from the list
                   Navigator.pushReplacement(
@@ -142,7 +144,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                     ),
                   );
                 },
-                child: const Text(
+                child: Text(
                   SearchStrings.clear,
                   style: TextStyle(
                     fontSize: 16.0,

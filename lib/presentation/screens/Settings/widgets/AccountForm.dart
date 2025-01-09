@@ -10,7 +10,6 @@ import 'package:cvms/domain/entities/user/user.dart';
 import 'package:cvms/presentation/controllers/user/user_controller.dart';
 import 'package:provider/provider.dart';
 
-
 class AccountForm extends StatefulWidget {
   final String username;
   final TextEditingController usernameController;
@@ -52,8 +51,7 @@ class _AccountFormState extends State<AccountForm> {
   String? newPasswordError;
   String? confirmPasswordError;
 
-
-  TextEditingController password = TextEditingController(); 
+  TextEditingController password = TextEditingController();
 
   String hashPassword(String password) {
     final bytes = utf8.encode(password);
@@ -71,7 +69,8 @@ class _AccountFormState extends State<AccountForm> {
           hashedPassword,
         );
         if (currentPasswordError == null) {
-          newPasswordError = validatePassword(widget.newPasswordController.text);
+          newPasswordError =
+              validatePassword(widget.newPasswordController.text);
           confirmPasswordError = validateConfirmPassword(
             widget.confirmPasswordController.text,
             widget.newPasswordController.text,
@@ -92,15 +91,13 @@ class _AccountFormState extends State<AccountForm> {
         currentPasswordError == null &&
         newPasswordError == null &&
         confirmPasswordError == null) {
-          if(widget.newPasswordController.text.isNotEmpty)
-          {
-            
-            widget.currentPasswordController.text = hashPassword(widget.newPasswordController.text);
-            widget.confirmPasswordController.text = '';
-            widget.newPasswordController.text = '';
+      if (widget.newPasswordController.text.isNotEmpty) {
+        widget.currentPasswordController.text =
+            hashPassword(widget.newPasswordController.text);
+        widget.confirmPasswordController.text = '';
+        widget.newPasswordController.text = '';
+      }
 
-          }
-        
       final updatedUser = User(
         username: widget.usernameController.text,
         email: widget.emailController.text,
@@ -112,7 +109,6 @@ class _AccountFormState extends State<AccountForm> {
 
       widget.onConfirm();
     }
-    
   }
 
   @override
@@ -135,7 +131,7 @@ class _AccountFormState extends State<AccountForm> {
           const SizedBox(height: 10),
           GestureDetector(
             onTap: widget.onTogglePasswordChange,
-            child: const Text(
+            child: Text(
               AccountStrings.ChangePassword,
               style: TextStyle(
                 color: Colors.black,

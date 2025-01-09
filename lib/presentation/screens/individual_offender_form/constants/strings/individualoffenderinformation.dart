@@ -1,23 +1,70 @@
 class IndividualOffenderStrings {
-  static const String name = "Name";
-  static const String surname = "Surname";
-  static const String commercialRegisterNumber = "Commercial Register Number";
-  static const String commercialRegisterDate = "Commercial Register Date";
-  static const String editDate = "Edit Date";
-  static const String cancellationDate = "Cancellation Date";
-  static const String dateOfBirth = "Date of Birth";
-  static const String placeOfBirth = "Place of Birth";
-  static const String birthCertificateNumber = "Birth Certificate Number";
-  static const String motherName = "Mother's Name";
-  static const String motherSurname = "Mother's Surname";
-  static const String fatherName = "Father's Name";
-  static const String address = "Address";
-  static const String businessAddress = "Business Address";
-  static const String showRegisterNumberDetails = "Show register number details";
-  static const String addButtonText = "Add";
-  static const String validationErrorEmptyField = "This field cannot be empty.";
-  static const String validationError = "Please enter a valid commercial register number";
-  static const String successMessage = "Individual Offender added successfully!";
-  static const String failureMessage = "Failed to add offender";
+  static String name = "";
+  static String surname = "";
+  static String commercialRegisterNumber = "";
+  static String commercialRegisterDate = "";
+  static String editDate = "";
+  static String cancellationDate = "";
+  static String dateOfBirth = "";
+  static String placeOfBirth = "";
+  static String birthCertificateNumber = "";
+  static String motherName = "";
+  static String motherSurname = "";
+  static String fatherName = "";
+  static String address = "";
+  static String businessAddress = "";
+  static String showRegisterNumberDetails = "";
+  static String addButtonText = "";
+  static String validationErrorEmptyField = "";
+  static String validationError = "";
+  static String successMessage = "";
+  static String failureMessage = "";
 
+  /// Load strings dynamically based on the selected language
+  static void loadLanguage(String languageCode) {
+    if (languageCode == 'en') {
+      name = "Name";
+      surname = "Surname";
+      commercialRegisterNumber = "Commercial Register Number";
+      commercialRegisterDate = "Commercial Register Date";
+      editDate = "Edit Date";
+      cancellationDate = "Cancellation Date";
+      dateOfBirth = "Date of Birth";
+      placeOfBirth = "Place of Birth";
+      birthCertificateNumber = "Birth Certificate Number";
+      motherName = "Mother's Name";
+      motherSurname = "Mother's Surname";
+      fatherName = "Father's Name";
+      address = "Address";
+      businessAddress = "Business Address";
+      showRegisterNumberDetails = "Show register number details";
+      addButtonText = "Add";
+      validationErrorEmptyField = "This field cannot be empty.";
+      validationError = "Please enter a valid commercial register number";
+      successMessage = "Individual Offender added successfully!";
+      failureMessage = "Failed to add offender";
+    } else if (languageCode == 'fr') {
+      name = "Nom";
+      surname = "Prénom";
+      commercialRegisterNumber = "Numéro de registre du commerce";
+      commercialRegisterDate = "Date du registre du commerce";
+      editDate = "Modifier la date";
+      cancellationDate = "Date d'annulation";
+      dateOfBirth = "Date de naissance";
+      placeOfBirth = "Lieu de naissance";
+      birthCertificateNumber = "Numéro de l'acte de naissance";
+      motherName = "Nom de la mère";
+      motherSurname = "Prénom de la mère";
+      fatherName = "Nom du père";
+      address = "Adresse";
+      businessAddress = "Adresse de l'entreprise";
+      showRegisterNumberDetails = "Afficher les détails du numéro de registre";
+      addButtonText = "Ajouter";
+      validationErrorEmptyField = "Ce champ ne peut pas être vide.";
+      validationError =
+          "Veuillez entrer un numéro de registre du commerce valide";
+      successMessage = "Infracteur individuel ajouté avec succès !";
+      failureMessage = "Échec de l'ajout de l'infracteur";
+    }
+  }
 }

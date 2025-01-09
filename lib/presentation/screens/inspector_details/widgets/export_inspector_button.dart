@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../constants/strings/export_inspector_button_strings.dart'; 
 
 class ExportInspectorButtonWidget extends StatelessWidget {
-  const ExportInspectorButtonWidget({super.key});
+  const ExportInspectorButtonWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class ExportInspectorButtonWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
         ),
       ),
-      child: const Text(ExportInspectorButtonWidgetStrings.exportButtonText),
+      child: Text(ExportInspectorButtonWidgetStrings.exportButtonText),
     );
   }
 }

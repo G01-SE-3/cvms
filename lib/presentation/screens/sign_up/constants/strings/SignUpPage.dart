@@ -1,15 +1,45 @@
 class SignUpPageStrings {
+  static String usernameRequired = '';
+  static String usernameExists = '';
+  static String emailRequired = '';
+  static String emailInvalid = '';
+  static String passwordRequired = '';
+  static String passwordTooShort = '';
+  static String usernamExample = '';
+  static String passwordStrength = '';
+  static String validatedForm = '';
+  static String notValidatedForm = '';
+  static String signUpFailed = '';
 
-  static const String usernameRequired = 'Username is required.';
-  static const String usernameExists = 'Username already exists';
-  static const String emailRequired = 'Email is required.';
-  static const String emailInvalid = 'Invalid email format.';
-  static const String passwordRequired = 'Password is required.';
-  static const String passwordTooShort = 'Password must be at least 6 characters.';
-  static const String usernamExample = 'user';
-  static const String passwordStrength = 'Password must contain at least one uppercase letter and one special character/number.';
-  static const String validatedForm = 'Form is valid, submitting data.';
-  static const String notValidatedForm = 'Form is invalid, please check your information';
-  static const String signUpFailed = 'Unexpected error occured, please try again later';
-
+  /// Load strings dynamically based on the selected language
+  static void loadLanguage(String languageCode) {
+    if (languageCode == 'en') {
+      usernameRequired = 'Username is required.';
+      usernameExists = 'Username already exists';
+      emailRequired = 'Email is required.';
+      emailInvalid = 'Invalid email format.';
+      passwordRequired = 'Password is required.';
+      passwordTooShort = 'Password must be at least 6 characters.';
+      usernamExample = 'user';
+      passwordStrength =
+          'Password must contain at least one uppercase letter and one special character/number.';
+      validatedForm = 'Form is valid, submitting data.';
+      notValidatedForm = 'Form is invalid, please check your information';
+      signUpFailed = 'Unexpected error occurred, please try again later';
+    } else if (languageCode == 'fr') {
+      usernameRequired = 'Le nom d’utilisateur est requis.';
+      usernameExists = 'Le nom d’utilisateur existe déjà';
+      emailRequired = 'L’email est requis.';
+      emailInvalid = 'Format d’email invalide.';
+      passwordRequired = 'Le mot de passe est requis.';
+      passwordTooShort = 'Le mot de passe doit contenir au moins 6 caractères.';
+      usernamExample = 'utilisateur';
+      passwordStrength =
+          'Le mot de passe doit contenir au moins une lettre majuscule et un caractère spécial/un nombre.';
+      validatedForm = 'Le formulaire est valide, envoi des données.';
+      notValidatedForm =
+          'Le formulaire est invalide, veuillez vérifier vos informations';
+      signUpFailed = 'Erreur inattendue, veuillez réessayer plus tard';
+    }
+  }
 }

@@ -25,7 +25,7 @@ class _PVLegalProceedingsSectionState extends State<PVLegalProceedingsSection> {
       children: [
         Row(
           children: [
-            const Text(
+            Text(
               PVLegalProceedingsStrings.title, // Use title from constants
               style: TextStyle(
                 fontSize: 18,
@@ -100,7 +100,7 @@ class _PVLegalProceedingsSectionState extends State<PVLegalProceedingsSection> {
   }
 
   Widget _buildNoLegalProceedingsMessage() {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.all(8),
       child: Text(
         PVLegalProceedingsStrings

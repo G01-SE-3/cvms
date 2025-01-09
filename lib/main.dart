@@ -29,9 +29,21 @@ import 'domain/usecases/user/get_user_by_username.dart';
 import 'domain/usecases/user/get_user_details.dart';
 import 'domain/usecases/user/update_user.dart';
 import 'presentation/controllers/user/user_controller.dart';
+import 'package:cvms/data/shared_prefs/LanguageProvider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize SharedPreferences
+  final prefs = await SharedPreferences.getInstance();
+  prefs.setString('language', 'fr');
+  String languageCode =
+      prefs.getString('language') ?? 'fr'; // Default to English
+
+  // Initialize the LanguageProvider with the stored language
+  final languageProvider = LanguageProvider();
+  languageProvider.changeLanguage(languageCode);
 
   // Logger
   //
@@ -66,6 +78,9 @@ void main() async {
       providers: [
         ChangeNotifierProvider(
           create: (context) => AuthService(),
+        ),
+        ChangeNotifierProvider<LanguageProvider>(
+          create: (context) => languageProvider, // Provide the LanguageProvider
         ),
         ChangeNotifierProvider<PVController>(
           create: (context) => PVController(

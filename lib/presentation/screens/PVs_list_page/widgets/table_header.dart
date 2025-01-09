@@ -13,8 +13,8 @@ class HeaderRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text(
-          pvListTitle,
+        Text(
+          PVListLabels.pvListTitle,
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         Row(
@@ -37,8 +37,8 @@ class HeaderRow extends StatelessWidget {
                 size: 20,
                 color: Color(0xFF344054),
               ),
-              label: const Text(
-                exportLabel,
+              label: Text(
+                PVListLabels.exportLabel,
                 style: TextStyle(
                   color: Color(0xFF545837),
                   fontWeight: FontWeight.w500,
@@ -72,8 +72,8 @@ class HeaderRow extends StatelessWidget {
                 size: 20,
                 color: Colors.white,
               ),
-              label: const Text(
-                addNewPVLabel,
+              label: Text(
+                PVListLabels.addNewPVLabel,
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w500,

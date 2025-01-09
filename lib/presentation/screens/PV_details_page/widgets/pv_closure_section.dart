@@ -29,7 +29,7 @@ class _PVClosureSectionState extends State<PVClosureSection> {
       children: [
         Row(
           children: [
-            const Text(
+            Text(
               ClosureStrings.sectionTitle, // Use string from the constants
               style: TextStyle(
                 fontSize: 18,
@@ -105,7 +105,7 @@ class _PVClosureSectionState extends State<PVClosureSection> {
   }
 
   Widget _buildDisabledClosureMessage() {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.all(8),
       child: Text(
         ClosureStrings.noClosureMessage, // Use string from the constants

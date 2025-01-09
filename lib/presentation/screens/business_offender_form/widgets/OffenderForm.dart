@@ -10,7 +10,8 @@ import 'TextFieldInput.dart';
 import '../constants/strings/businessoffenderinformation.dart';
 
 final registerNumberDataSource = RegisterNumberDataSource();
-final registerNumberRepository = RegisterNumberRepositoryImpl(registerNumberDataSource);
+final registerNumberRepository =
+    RegisterNumberRepositoryImpl(registerNumberDataSource);
 final businessOffenderRepository = BusinessOffenderRepositoryImpl(
   BusinessOffenderDataSource(),
   registerNumberRepository,
@@ -28,10 +29,12 @@ class BusinessOffenderFormWidget extends StatefulWidget {
   });
 
   @override
-  State<BusinessOffenderFormWidget> createState() => _BusinessOffenderFormWidgetState();
+  State<BusinessOffenderFormWidget> createState() =>
+      _BusinessOffenderFormWidgetState();
 }
 
-class _BusinessOffenderFormWidgetState extends State<BusinessOffenderFormWidget> {
+class _BusinessOffenderFormWidgetState
+    extends State<BusinessOffenderFormWidget> {
   bool showAdditionalInputs = false;
 
   @override
@@ -47,11 +50,10 @@ class _BusinessOffenderFormWidgetState extends State<BusinessOffenderFormWidget>
               child: Column(
                 children: [
                   TextFieldInput(
-                    businessOffenderStrings.commercial_register_number, 
+                    BusinessOffenderStrings.commercial_register_number,
                     formController.commercialRegisterNumberController,
                   ),
                   const SizedBox(height: 8),
-
                   Row(
                     children: [
                       Checkbox(
@@ -62,58 +64,68 @@ class _BusinessOffenderFormWidgetState extends State<BusinessOffenderFormWidget>
                           });
                         },
                       ),
-                      Text(businessOffenderStrings.register_number_details), 
+                      Text(BusinessOffenderStrings.register_number_details),
                     ],
                   ),
-
                   if (showAdditionalInputs) ...[
                     _buildInputFieldWithDatePicker(
-                      label: businessOffenderStrings.commercial_register_date, 
-                      controller: formController.commercialRegisterDateController,
+                      label: BusinessOffenderStrings.commercial_register_date,
+                      controller:
+                          formController.commercialRegisterDateController,
                     ),
                     const SizedBox(height: 16),
                     _buildInputFieldWithDatePicker(
-                      label: businessOffenderStrings.edit_date, 
+                      label: BusinessOffenderStrings.edit_date,
                       controller: formController.editDateController,
                     ),
                     const SizedBox(height: 16),
                     _buildInputFieldWithDatePicker(
-                      label: businessOffenderStrings.cancellation_date, 
+                      label: BusinessOffenderStrings.cancellation_date,
                       controller: formController.cancellationDateController,
                     ),
                   ],
-
                   const SizedBox(height: 16),
-
-                  TextFieldInput(businessOffenderStrings.business_name, formController.business_nameController), 
-                  TextFieldInput(businessOffenderStrings.name, formController.nameController), 
-                  TextFieldInput(businessOffenderStrings.surname, formController.surnameController), 
-                  TextFieldInput(businessOffenderStrings.date_of_birth, formController.dateOfBirthController), 
-                  TextFieldInput(businessOffenderStrings.place_of_birth, formController.placeOfBirthController), 
-                  TextFieldInput(businessOffenderStrings.birth_certificate_number, formController.birthCertificateNumberController), 
-                  TextFieldInput(businessOffenderStrings.mother_name, formController.motherNameController), 
-                  TextFieldInput(businessOffenderStrings.mother_surname, formController.motherSurnameController), 
-                  TextFieldInput(businessOffenderStrings.father_name, formController.fatherNameController), 
-                  TextFieldInput(businessOffenderStrings.address, formController.addressController), 
-                  TextFieldInput(businessOffenderStrings.business_address, formController.businessAddressController), 
-
+                  TextFieldInput(BusinessOffenderStrings.business_name,
+                      formController.business_nameController),
+                  TextFieldInput(BusinessOffenderStrings.name,
+                      formController.nameController),
+                  TextFieldInput(BusinessOffenderStrings.surname,
+                      formController.surnameController),
+                  TextFieldInput(BusinessOffenderStrings.date_of_birth,
+                      formController.dateOfBirthController),
+                  TextFieldInput(BusinessOffenderStrings.place_of_birth,
+                      formController.placeOfBirthController),
+                  TextFieldInput(
+                      BusinessOffenderStrings.birth_certificate_number,
+                      formController.birthCertificateNumberController),
+                  TextFieldInput(BusinessOffenderStrings.mother_name,
+                      formController.motherNameController),
+                  TextFieldInput(BusinessOffenderStrings.mother_surname,
+                      formController.motherSurnameController),
+                  TextFieldInput(BusinessOffenderStrings.father_name,
+                      formController.fatherNameController),
+                  TextFieldInput(BusinessOffenderStrings.address,
+                      formController.addressController),
+                  TextFieldInput(BusinessOffenderStrings.business_address,
+                      formController.businessAddressController),
                   const SizedBox(height: 16),
-
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF306238),
-                      padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 80, vertical: 15),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
                     onPressed: () {
                       if (formController.formKey.currentState!.validate()) {
-                        submitForm(context, formController, showAdditionalInputs);
+                        submitForm(
+                            context, formController, showAdditionalInputs);
                       }
                     },
                     child: Text(
-                      businessOffenderStrings.add_button, 
+                      BusinessOffenderStrings.add_button,
                       style: const TextStyle(color: Colors.white, fontSize: 12),
                     ),
                   ),
@@ -142,7 +154,8 @@ class _BusinessOffenderFormWidgetState extends State<BusinessOffenderFormWidget>
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide.none,
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         suffixIcon: const Icon(Icons.calendar_today),
       ),
       onTap: () async {
@@ -158,7 +171,7 @@ class _BusinessOffenderFormWidgetState extends State<BusinessOffenderFormWidget>
       },
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return businessOffenderStrings.date_empty_error; 
+          return BusinessOffenderStrings.date_empty_error;
         }
         return null;
       },
@@ -166,21 +179,26 @@ class _BusinessOffenderFormWidgetState extends State<BusinessOffenderFormWidget>
   }
 }
 
-void submitForm(BuildContext context, BusinessOffenderController formController, bool showAdditionalInputs) async {
+void submitForm(BuildContext context, BusinessOffenderController formController,
+    bool showAdditionalInputs) async {
   DateTime? commercialRegisterDate;
   DateTime? editDate;
   DateTime? cancellationDate;
 
   if (showAdditionalInputs) {
-    commercialRegisterDate = DateTime.tryParse(formController.commercialRegisterDateController.text);
+    commercialRegisterDate =
+        DateTime.tryParse(formController.commercialRegisterDateController.text);
     editDate = DateTime.tryParse(formController.editDateController.text);
-    cancellationDate = DateTime.tryParse(formController.cancellationDateController.text);
+    cancellationDate =
+        DateTime.tryParse(formController.cancellationDateController.text);
   }
 
-  final String registerNumber = formController.commercialRegisterNumberController.text;
+  final String registerNumber =
+      formController.commercialRegisterNumberController.text;
   if (registerNumber == null) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(businessOffenderStrings.register_number_validation)),
+      SnackBar(
+          content: Text(BusinessOffenderStrings.register_number_validation)),
     );
     return;
   }
@@ -192,7 +210,8 @@ void submitForm(BuildContext context, BusinessOffenderController formController,
     surname: formController.surnameController.text,
     date_of_birth: formController.dateOfBirthController.text,
     place_of_birth: formController.placeOfBirthController.text,
-    birth_certificate_number: formController.birthCertificateNumberController.text,
+    birth_certificate_number:
+        formController.birthCertificateNumberController.text,
     mother_name: formController.motherNameController.text,
     mother_surname: formController.motherSurnameController.text,
     father_name: formController.fatherNameController.text,
@@ -201,7 +220,8 @@ void submitForm(BuildContext context, BusinessOffenderController formController,
   );
 
   try {
-    final addedOffender = await businessOffenderRepository.addOffender(offender);
+    final addedOffender =
+        await businessOffenderRepository.addOffender(offender);
     final int businessId = addedOffender.business_id;
 
     final registerNumberEntity = RegisterNumberEntity(
@@ -216,14 +236,13 @@ void submitForm(BuildContext context, BusinessOffenderController formController,
     await registerNumberRepository.insertRegisterNumber(registerNumberEntity);
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(businessOffenderStrings.success)),
+      SnackBar(content: Text(BusinessOffenderStrings.success)),
     );
 
     formController.resetForm();
-
   } catch (error) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('${businessOffenderStrings.failed} $error')),
+      SnackBar(content: Text('${BusinessOffenderStrings.failed} $error')),
     );
   }
 }

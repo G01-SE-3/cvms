@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../constants/strings/delete_inspector_button_strings.dart';  // Import the AppStrings class
+import '../constants/strings/delete_inspector_button_strings.dart'; // Import the AppStrings class
 
 class DeleteInspectorButton extends StatelessWidget {
   final Map<String, dynamic> inspector;
@@ -19,19 +19,20 @@ class DeleteInspectorButton extends StatelessWidget {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('${DeleteInspectorButtonStrings.deleteInspector} ${inspector[DeleteInspectorButtonStrings.delete]}'),  
-            content: const Text(DeleteInspectorButtonStrings.areYouSureDelete),  
+            title: Text(
+                '${DeleteInspectorButtonStrings.deleteInspector} ${inspector[DeleteInspectorButtonStrings.delete]}'),
+            content: Text(DeleteInspectorButtonStrings.areYouSureDelete),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text(DeleteInspectorButtonStrings.cancel), 
+                child: Text(DeleteInspectorButtonStrings.cancel),
               ),
               TextButton(
                 onPressed: () {
                   onDelete();
                   Navigator.pop(context);
                 },
-                child: const Text(DeleteInspectorButtonStrings.delete),  
+                child: Text(DeleteInspectorButtonStrings.delete),
               ),
             ],
           ),

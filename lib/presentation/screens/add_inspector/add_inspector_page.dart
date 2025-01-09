@@ -8,8 +8,6 @@ import 'widgets/validation_util.dart';
 import 'constants/strings/add_inspector_page_strings.dart';
 
 class AddInspectorPage extends StatefulWidget {
-  const AddInspectorPage({super.key});
-
   @override
   _AddInspectorPageState createState() => _AddInspectorPageState();
 }
@@ -17,16 +15,21 @@ class AddInspectorPage extends StatefulWidget {
 class _AddInspectorPageState extends State<AddInspectorPage> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _inspectorNumberController = TextEditingController();
-  final TextEditingController _inspectorNameController = TextEditingController();
-  final TextEditingController _inspectorSurnameController = TextEditingController();
-  final TextEditingController _inspectorBadgeNumberController = TextEditingController();
-  final TextEditingController _contactNumberController = TextEditingController();
+  final TextEditingController _inspectorNumberController =
+      TextEditingController();
+  final TextEditingController _inspectorNameController =
+      TextEditingController();
+  final TextEditingController _inspectorSurnameController =
+      TextEditingController();
+  final TextEditingController _inspectorBadgeNumberController =
+      TextEditingController();
+  final TextEditingController _contactNumberController =
+      TextEditingController();
 
   String? _selectedDepartment;
   String _message = AddInspectorPageStrings.message;
 
-  final InspectorRepository _inspectorRepository = InspectorRepositoryImpl();  
+  final InspectorRepository _inspectorRepository = InspectorRepositoryImpl();
 
   @override
   void initState() {
@@ -52,10 +55,10 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
       final contactNumber = int.tryParse(_contactNumberController.text);
       if (contactNumber == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Please enter a valid contact number"),
+          SnackBar(
+            content: const Text("Please enter a valid contact number"),
             backgroundColor: Colors.red,
-            duration: Duration(seconds: 2),
+            duration: const Duration(seconds: 2),
           ),
         );
         return;
@@ -67,7 +70,7 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
         surname: _inspectorSurnameController.text,
         badgeNumber: int.tryParse(_inspectorBadgeNumberController.text) ?? 0,
         assignedDepartment: _selectedDepartment ?? '',
-        contactNumber: contactNumber,  
+        contactNumber: contactNumber,
       );
 
       _inspectorRepository.addInspector(inspector);
@@ -77,10 +80,10 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text(AddInspectorPageStrings.inspectorAddedMessage),
           backgroundColor: Colors.green,
-          duration: Duration(seconds: 2),
+          duration: const Duration(seconds: 2),
         ),
       );
 
@@ -94,11 +97,11 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
       appBar: null,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
-        child: Center(  
+        child: Center(
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center, 
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -113,7 +116,7 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
                       },
                     ),
                     const SizedBox(width: 10),
-                    const Text(
+                    Text(
                       AddInspectorPageStrings.title,
                       style: TextStyle(
                         fontSize: 24,
@@ -127,7 +130,7 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 0.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,  
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       CustomTextField(
                         controller: _inspectorNumberController,
@@ -186,9 +189,10 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
                         backgroundColor: Colors.white,
                         foregroundColor: const Color(0xFF306238),
                         side: const BorderSide(color: Color(0xFF306238)),
-                        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 6.0, horizontal: 30.0),
                       ),
-                      child: const Text(AddInspectorPageStrings.cancelButton),
+                      child: Text(AddInspectorPageStrings.cancelButton),
                     ),
                     const SizedBox(width: 40),
                     ElevatedButton(
@@ -196,15 +200,18 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF306238),
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 6.0, horizontal: 30.0),
                       ),
-                      child:  const Text(AddInspectorPageStrings.saveButton),
+                      child: Text(AddInspectorPageStrings.saveButton),
                     ),
                   ],
                 ),
                 const SizedBox(height: 40),
-                if (_message.isNotEmpty) 
-                  Center(child: Text(_message, style: const TextStyle(fontSize: 16, color: Colors.green))),
+                if (_message.isNotEmpty)
+                  Center(
+                      child: Text(_message,
+                          style: TextStyle(fontSize: 16, color: Colors.green))),
               ],
             ),
           ),

@@ -30,12 +30,12 @@ class PVDataTable extends StatelessWidget {
             color: Color(0xFF545837),
           ),
           columns: [
-            _sortableColumn(pvNumberLabel),
-            _sortableColumn(offenderRCLabel),
-            _sortableColumn(offenderNameLabel),
-            _sortableColumn(pvIssueDateLabel),
-            _sortableColumn(violationTypeLabel),
-            _sortableColumn(inspectingOfficersLabel),
+            _sortableColumn(PVDetailsLabels.pvNumberLabel),
+            _sortableColumn(PVDetailsLabels.offenderRCLabel),
+            _sortableColumn(PVDetailsLabels.offenderNameLabel),
+            _sortableColumn(PVDetailsLabels.pvIssueDateLabel),
+            _sortableColumn(PVDetailsLabels.violationTypeLabel),
+            _sortableColumn(PVDetailsLabels.inspectingOfficersLabel),
             DataColumn(
               label: Container(),
             ),
@@ -83,23 +83,23 @@ class PVDataTable extends StatelessWidget {
                           }
                         },
                         itemBuilder: (context) => [
-                          const PopupMenuItem<int>(
+                          PopupMenuItem<int>(
                             value: 1,
                             child: Row(
                               children: [
                                 Icon(Icons.edit, color: Color(0xFF545837)),
                                 SizedBox(width: 8),
-                                Text(editLabel),
+                                Text(PVDetailsLabels.editLabel),
                               ],
                             ),
                           ),
-                          const PopupMenuItem<int>(
+                          PopupMenuItem<int>(
                             value: 2,
                             child: Row(
                               children: [
                                 Icon(Icons.delete, color: Colors.red),
                                 SizedBox(width: 8),
-                                Text(deleteLabel),
+                                Text(PVDetailsLabels.deleteLabel),
                               ],
                             ),
                           ),
@@ -154,14 +154,15 @@ class PVDataTable extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('$deleteDialogTitle ${row['PVnumber']}'),
-          content: const Text(deleteDialogContent),
+          title:
+              Text('${PVDetailsLabels.deleteDialogTitle} ${row['PVnumber']}'),
+          content: Text(PVDetailsLabels.deleteDialogContent),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text(cancelLabel),
+              child: Text(PVDetailsLabels.cancelLabel),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -193,7 +194,7 @@ class PVDataTable extends StatelessWidget {
                   Navigator.pop(context);
                 }
               },
-              child: const Text(deleteLabelDialog),
+              child: Text(PVDetailsLabels.deleteLabelDialog),
             ),
           ],
         );

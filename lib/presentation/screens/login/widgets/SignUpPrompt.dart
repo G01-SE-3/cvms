@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '/presentation/screens/sign_up/SignUpPage.dart';
 import 'package:cvms/data/repositories/user/user_repositoty_impl.dart'; // Import the UserRepositoryImpl
+import 'package:cvms/presentation/screens/login/constants/strings/SignUpPromptStrings.dart';
 
 class SignUpPrompt extends StatelessWidget {
   const SignUpPrompt({super.key});
@@ -10,13 +11,12 @@ class SignUpPrompt extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          'Already have an account?', 
-          style: TextStyle(color: Color(0xFF98A2B3)), 
+        Text(
+          SignUpPromptStrings.haveAccountLabel,
+          style: TextStyle(color: Color(0xFF98A2B3)),
         ),
         TextButton(
           onPressed: () {
-
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -26,8 +26,9 @@ class SignUpPrompt extends StatelessWidget {
               ),
             );
           },
-          child: const Text(
-            'Sign Up',  // Text that should appear on the button
+          child: Text(
+            SignUpPromptStrings
+                .signUpLabel, // Text that should appear on the button
             style: TextStyle(color: Color(0xFF306238)),
           ),
         ),

@@ -9,7 +9,7 @@ class ExportInspectorButtonWidget extends StatelessWidget {
     return OutlinedButton.icon(
       onPressed: () {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text(ExportInspectorButtonStrings.exportFeatureComingSoon)),  // Use the string from AppStrings
+          SnackBar(content: Text(ExportInspectorButtonStrings.exportFeatureComingSoon)),  // Use the string from AppStrings
         );
       },
       icon: const Icon(
@@ -17,9 +17,9 @@ class ExportInspectorButtonWidget extends StatelessWidget {
         size: 20,
         color: Color(0xFF344054),  // Dark icon color
       ),
-      label: const Text(
+      label: Text(
         ExportInspectorButtonStrings.export,  // Use the string from AppStrings
-        style: TextStyle(
+        style: const TextStyle(
           color: Color(0xFF545837),  // Dark grey color
           fontWeight: FontWeight.w500,
           fontSize: 14,

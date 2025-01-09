@@ -13,7 +13,8 @@ import '../../../domain/entities/individual_offender/individual_offender.dart';
 
 final individualOffenderDataSource = IndividualOffenderDataSource();
 final registerNumberDataSource = RegisterNumberDataSource();
-final registerNumberRepository = RegisterNumberRepositoryImpl(registerNumberDataSource);
+final registerNumberRepository =
+    RegisterNumberRepositoryImpl(registerNumberDataSource);
 final individualOffenderRepository = IndividualOffenderRepositoryImpl(
   individualOffenderDataSource,
   registerNumberRepository,
@@ -29,7 +30,7 @@ class IndividualOffenderList extends StatefulWidget {
 class IndividualOffenderListScreen extends State<IndividualOffenderList> {
   late List<IndividualOffender> offenders = [];
   bool isLoading = true;
-  Map<String, String> registerNumbers = {};  
+  Map<String, String> registerNumbers = {};
 
   @override
   void initState() {
@@ -39,8 +40,9 @@ class IndividualOffenderListScreen extends State<IndividualOffenderList> {
 
   Future<void> _fetchOffenders() async {
     try {
-      offenders = await individualOffenderRepository.fetchAllIndividualOffenders();
-      await _loadRegisterNumbers(); 
+      offenders =
+          await individualOffenderRepository.fetchAllIndividualOffenders();
+      await _loadRegisterNumbers();
     } catch (e) {
       print("Error: $e");
     } finally {
@@ -53,13 +55,14 @@ class IndividualOffenderListScreen extends State<IndividualOffenderList> {
   Future<void> _loadRegisterNumbers() async {
     for (var offender in offenders) {
       try {
-        final registerNumber = await registerNumberRepository.getIndividualRegisterNumberById(offender.individual_id);
+        final registerNumber = await registerNumberRepository
+            .getIndividualRegisterNumberById(offender.individual_id);
         registerNumbers[offender.individual_id.toString()] = registerNumber;
       } catch (e) {
         print("Error ${offender.individual_id}: $e");
       }
     }
-    setState(() {}); 
+    setState(() {});
   }
 
   @override
@@ -93,7 +96,8 @@ class IndividualOffenderListScreen extends State<IndividualOffenderList> {
                             onPressed: () {
                               // Export logic here
                             },
-                            icon: const Icon(Icons.file_download, color: Colors.black),
+                            icon: const Icon(Icons.file_download,
+                                color: Colors.black),
                             label: Text(
                               Export,
                               style: const TextStyle(color: Colors.black),
@@ -108,7 +112,9 @@ class IndividualOffenderListScreen extends State<IndividualOffenderList> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => const IndividualOffenderForm()),
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const IndividualOffenderForm()),
                               );
                             },
                             icon: const Icon(Icons.add, color: Colors.white),
@@ -146,15 +152,15 @@ class IndividualOffenderListScreen extends State<IndividualOffenderList> {
 
   List<DataColumn> _buildColumns() {
     return [
-      _buildDataColumn(RegisterNumber),
-      _buildDataColumn(Name),
-      _buildDataColumn(Surname),
-      _buildDataColumn(DateandPlaceofbirth),
-      _buildDataColumn(BirthCertificatenumber),
-      _buildDataColumn(MothersnameandSurname),
-      _buildDataColumn(FatherName),
-      _buildDataColumn(Address),
-      _buildDataColumn(BusinessAddress),
+      _buildDataColumn(IndividualDetailsStrings.RegisterNumber),
+      _buildDataColumn(IndividualDetailsStrings.Name),
+      _buildDataColumn(IndividualDetailsStrings.Surname),
+      _buildDataColumn(IndividualDetailsStrings.DateandPlaceofbirth),
+      _buildDataColumn(IndividualDetailsStrings.BirthCertificatenumber),
+      _buildDataColumn(IndividualDetailsStrings.MothersnameandSurname),
+      _buildDataColumn(IndividualDetailsStrings.FatherName),
+      _buildDataColumn(IndividualDetailsStrings.Address),
+      _buildDataColumn(IndividualDetailsStrings.BusinessAddress),
       const DataColumn(
         label: SizedBox(width: 50, child: Text('')),
       ),
@@ -172,7 +178,8 @@ class IndividualOffenderListScreen extends State<IndividualOffenderList> {
 
   List<DataCell> _buildCells(IndividualOffender offender) {
     return [
-      DataCell(Text(registerNumbers[offender.individual_id.toString()] ?? loading)), 
+      DataCell(Text(registerNumbers[offender.individual_id.toString()] ??
+          IndividualDetailsStrings.loading)),
       DataCell(Text(offender.name)),
       DataCell(Text(offender.surname)),
       DataCell(Text(offender.date_of_birth)),
@@ -185,51 +192,52 @@ class IndividualOffenderListScreen extends State<IndividualOffenderList> {
         PopupMenuButton(
           icon: const Icon(Icons.more_vert, size: 18),
           itemBuilder: (context) => [
-            const PopupMenuItem(
-              value: edit,
+            PopupMenuItem(
+              value: IndividualDetailsStrings.edit,
               child: Row(
                 children: [
                   Icon(Icons.edit, size: 18),
                   SizedBox(width: 8),
-                  Text(edit),
+                  Text(IndividualDetailsStrings.edit),
                 ],
               ),
             ),
-            const PopupMenuItem(
-              value: delete,
+            PopupMenuItem(
+              value: IndividualDetailsStrings.delete,
               child: Row(
                 children: [
                   Icon(Icons.delete, size: 18),
                   SizedBox(width: 8),
-                  Text(delete),
+                  Text(IndividualDetailsStrings.delete),
                 ],
               ),
             ),
           ],
           onSelected: (value) async {
-            if (value == edit) {
+            if (value == IndividualDetailsStrings.edit) {
               // Handle edit logic here
-            } else if (value == delete) {
+            } else if (value == IndividualDetailsStrings.delete) {
               final confirmDelete = await showDialog<bool>(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title:  const Text('Confirm Delete'),
-                  content: Text(confirmDeleteRecord),
+                  title: const Text('Confirm Delete'),
+                  content: Text(IndividualDetailsStrings.confirmDeleteRecord),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(false),
-                      child: const Text(cancel),
+                      child: Text(IndividualDetailsStrings.cancel),
                     ),
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(true),
-                      child: const Text(delete),
+                      child: Text(IndividualDetailsStrings.delete),
                     ),
                   ],
                 ),
               );
 
               if (confirmDelete == true) {
-                await individualOffenderRepository.deleteIndividualOffender(offender.individual_id);
+                await individualOffenderRepository
+                    .deleteIndividualOffender(offender.individual_id);
                 setState(() {
                   offenders.remove(offender);
                 });

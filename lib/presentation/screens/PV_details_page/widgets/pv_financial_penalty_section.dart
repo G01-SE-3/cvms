@@ -25,7 +25,7 @@ class _PVFinancialPenaltySectionState extends State<PVFinancialPenaltySection> {
       children: [
         Row(
           children: [
-            const Text(
+            Text(
               FinancialPenaltyStrings.sectionTitle, // Use string from constants
               style: TextStyle(
                 fontSize: 18,
@@ -95,7 +95,7 @@ class _PVFinancialPenaltySectionState extends State<PVFinancialPenaltySection> {
   }
 
   Widget _buildNoFinancialPenaltyMessage() {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.all(8),
       child: Text(
         FinancialPenaltyStrings.noFinancialPenaltyMessage,

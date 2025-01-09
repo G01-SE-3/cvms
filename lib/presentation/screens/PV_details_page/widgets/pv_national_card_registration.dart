@@ -24,7 +24,7 @@ class _PVNationalCardSectionState extends State<PVNationalCardSection> {
       children: [
         Row(
           children: [
-            const Text(
+            Text(
               PVNationalCardStrings.title, // Use title from constants
               style: TextStyle(
                 fontSize: 18,
@@ -61,7 +61,7 @@ class _PVNationalCardSectionState extends State<PVNationalCardSection> {
             ),
           )
         else if (!hasNationalCard)
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(8),
             child: Text(
               PVNationalCardStrings

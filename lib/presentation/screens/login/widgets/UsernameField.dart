@@ -1,5 +1,6 @@
 import 'package:cvms/presentation/screens/login/constants/strings/UsernameFieldStrings.dart';
 import 'package:flutter/material.dart';
+import 'package:cvms/presentation/screens/login/validators/LoginValidate.dart';
 
 class UsernameField extends StatelessWidget {
   final TextEditingController controller;
@@ -10,7 +11,7 @@ class UsernameField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         labelText: Usernamefieldstrings.labelText,
         hintText: Usernamefieldstrings.hintText,
         border: OutlineInputBorder(

@@ -22,7 +22,6 @@ class _AccountState extends State<Account> {
   late TextEditingController _currentPasswordController;
   late TextEditingController _newPasswordController;
   late TextEditingController _confirmPasswordController;
- 
 
   @override
   void initState() {
@@ -32,36 +31,31 @@ class _AccountState extends State<Account> {
     _currentPasswordController = TextEditingController();
     _newPasswordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
-   
 
     _loadUserDetails();
   }
 
   Future<void> _loadUserDetails() async {
-  // Access the logged-in username from AuthService
-  final authService = Provider.of<AuthService>(context, listen: false);
-  final username = authService.username; 
-  
+    // Access the logged-in username from AuthService
+    final authService = Provider.of<AuthService>(context, listen: false);
+    final username = authService.username;
 
-  if (username != null) {
-    
-    final userController = Provider.of<UserController>(context, listen: false);
-     
-    final user = await userController.getUserByUsername.execute(username);
-     
+    if (username != null) {
+      final userController =
+          Provider.of<UserController>(context, listen: false);
 
-    if (user != null) {
-      setState(() {
-         
-        _usernameController.text = user.username ?? '';
-        _emailController.text = user.email ?? '';
-        _currentPasswordController.text = user.hashedPassword??'';
-      });
+      final user = await userController.getUserByUsername.execute(username);
 
-    
+      if (user != null) {
+        setState(() {
+          _usernameController.text = user.username ?? '';
+          _emailController.text = user.email ?? '';
+          _currentPasswordController.text = user.hashedPassword ?? '';
+        });
+      }
     }
   }
-}
+
   @override
   void dispose() {
     _usernameController.dispose();
@@ -76,14 +70,14 @@ class _AccountState extends State<Account> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(AccountStrings.Account),
+        title: Text(AccountStrings.Account),
         centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: _isEditing
             ? AccountForm(
-               username:_usernameController.text,
+                username: _usernameController.text,
                 usernameController: _usernameController,
                 emailController: _emailController,
                 currentPasswordController: _currentPasswordController,
@@ -111,7 +105,6 @@ class _AccountState extends State<Account> {
             : ListWidget(
                 usernameController: _usernameController,
                 emailController: _emailController,
-               
                 onEdit: () {
                   setState(() {
                     _isEditing = true;

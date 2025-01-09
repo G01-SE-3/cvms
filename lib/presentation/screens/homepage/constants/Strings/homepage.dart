@@ -1,12 +1,39 @@
 class HomePageStrings {
-  static const String totalPVs = 'Total PVs';
-  static const String economicOperators = 'Economic Operators';
-  static const String inspectors = 'Inspectors';
-  static const String errorMessage = 'Error: ';
-  static const String monthlyPVsEvolution = 'Monthly PVs Evolution';
+  static String totalPVs = "";
+  static String economicOperators = "";
+  static String inspectors = "";
+  static String errorMessage = "";
+  static String monthlyPVsEvolution = "";
 
-  static const String addPV = 'Add PV';
-  static const String addBusinessOffender = 'Add Business Offender';
-  static const String addIndividualOffender = 'Add Individual Offender';
-  static const String addInspector = 'Add Inspector';
+  static String addPV = "";
+  static String addBusinessOffender = "";
+  static String addIndividualOffender = "";
+  static String addInspector = "";
+
+  /// Load strings dynamically based on the selected language
+  static void loadLanguage(String languageCode) {
+    if (languageCode == 'en') {
+      totalPVs = 'Total PVs';
+      economicOperators = 'Economic Operators';
+      inspectors = 'Inspectors';
+      errorMessage = 'Error: ';
+      monthlyPVsEvolution = 'Monthly PVs Evolution';
+
+      addPV = 'Add PV';
+      addBusinessOffender = 'Add Business Offender';
+      addIndividualOffender = 'Add Individual Offender';
+      addInspector = 'Add Inspector';
+    } else if (languageCode == 'fr') {
+      totalPVs = 'Total PV';
+      economicOperators = 'Opérateurs économiques';
+      inspectors = 'Inspecteurs';
+      errorMessage = 'Erreur : ';
+      monthlyPVsEvolution = 'Évolution mensuelle des PV';
+
+      addPV = 'Ajouter un PV';
+      addBusinessOffender = 'Ajouter un infracteur commercial';
+      addIndividualOffender = 'Ajouter un infracteur individuel';
+      addInspector = 'Ajouter un inspecteur';
+    }
+  }
 }

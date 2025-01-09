@@ -110,7 +110,7 @@ class LoginButtonState extends State<LoginButton> {
                     color: Colors.white,
                   ),
                 )
-              : const Text(
+              : Text(
                   Loginbuttonstrings.LoginLabel,
                   style: TextStyle(color: Colors.white),
                 ),

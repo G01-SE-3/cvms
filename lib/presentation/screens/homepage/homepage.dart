@@ -188,7 +188,7 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                           const SizedBox(height: 30),
-                          const LineChartWidget(
+                          LineChartWidget(
                               title: HomePageStrings.monthlyPVsEvolution),
                         ],
                       );

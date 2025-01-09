@@ -14,7 +14,8 @@ import 'package:cvms/presentation/screens/EconomicOperatorDetails/EconomicOperat
 
 final businessOffenderDataSource = BusinessOffenderDataSource();
 final registerNumberDataSource = RegisterNumberDataSource();
-final registerNumberRepository = RegisterNumberRepositoryImpl(registerNumberDataSource);
+final registerNumberRepository =
+    RegisterNumberRepositoryImpl(registerNumberDataSource);
 final businessOffenderRepository = BusinessOffenderRepositoryImpl(
   businessOffenderDataSource,
   registerNumberRepository,
@@ -29,7 +30,7 @@ class BusinessOffenderList extends StatefulWidget {
 
 class BusinessOffenderListScreen extends State<BusinessOffenderList> {
   late List<BusinessOffender> offenders = [];
-  final Map<String, String> registerNumbers = {}; 
+  final Map<String, String> registerNumbers = {};
   bool isLoading = true;
 
   @override
@@ -42,9 +43,9 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
     try {
       offenders = await businessOffenderRepository.fetchAllOffenders();
       await _loadRegisterNumbers();
-    } catch (e) { 
-      print(BusinessOffenderStrings.Error);
-      } finally {
+    } catch (e) {
+      print(BusinessOffStrings.Error);
+    } finally {
       setState(() {
         isLoading = false;
       });
@@ -54,10 +55,12 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
   Future<void> _loadRegisterNumbers() async {
     for (var offender in offenders) {
       try {
-        final registerNumber = await registerNumberRepository.getBusinessRegisterNumberById(offender.business_id);
+        final registerNumber = await registerNumberRepository
+            .getBusinessRegisterNumberById(offender.business_id);
         registerNumbers[offender.business_id.toString()] = registerNumber;
       } catch (e) {
-        print("Error fetching register number for ID ${offender.business_id}: $e");
+        print(
+            "Error fetching register number for ID ${offender.business_id}: $e");
       }
     }
     setState(() {});
@@ -91,7 +94,8 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
                             onPressed: () {
                               // Export functionality to be added here
                             },
-                            icon: const Icon(Icons.file_download, color: Colors.black),
+                            icon: const Icon(Icons.file_download,
+                                color: Colors.black),
                             label: Text(
                               Export,
                               style: const TextStyle(color: Colors.black),
@@ -107,7 +111,8 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const BusinessOffenderForm(),
+                                  builder: (context) =>
+                                      const BusinessOffenderForm(),
                                 ),
                               );
                             },
@@ -126,7 +131,7 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
                   ),
                   const SizedBox(height: 16),
                   offenders.isEmpty
-                      ? const Center(child: Text(BusinessOffenderStrings.noData))
+                      ? Center(child: Text(BusinessOffStrings.noData))
                       : SizedBox(
                           width: double.infinity,
                           child: DataTable(
@@ -150,17 +155,18 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
 
   List<DataColumn> _buildColumns() {
     return [
-      _buildDataColumn(BusinessOffenderStrings.registerNumber),
-      _buildDataColumn(BusinessOffenderStrings.id),
-      _buildDataColumn(BusinessOffenderStrings.businessName),
-      _buildDataColumn(BusinessOffenderStrings.registerNumber),
-      _buildDataColumn(BusinessOffenderStrings.surname),
-      _buildDataColumn(BusinessOffenderStrings.birthInfo),
-      _buildDataColumn(BusinessOffenderStrings.birthCertificateNum),
-      _buildDataColumn(BusinessOffenderStrings.motherName),
-      _buildDataColumn(BusinessOffenderStrings.fatherName),
-      _buildDataColumn(BusinessOffenderStrings.address),
-      const DataColumn(label: SizedBox(width: 50, child: Text(BusinessOffenderStrings.action))),
+      _buildDataColumn(BusinessOffStrings.registerNumber),
+      _buildDataColumn(BusinessOffStrings.id),
+      _buildDataColumn(BusinessOffStrings.businessName),
+      _buildDataColumn(BusinessOffStrings.registerNumber),
+      _buildDataColumn(BusinessOffStrings.surname),
+      _buildDataColumn(BusinessOffStrings.birthInfo),
+      _buildDataColumn(BusinessOffStrings.birthCertificateNum),
+      _buildDataColumn(BusinessOffStrings.motherName),
+      _buildDataColumn(BusinessOffStrings.fatherName),
+      _buildDataColumn(BusinessOffStrings.address),
+      DataColumn(
+          label: SizedBox(width: 50, child: Text(BusinessOffStrings.action))),
     ];
   }
 
@@ -175,7 +181,8 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
 
   List<DataCell> _buildCells(BusinessOffender offender) {
     return [
-      DataCell(Text(registerNumbers[offender.business_id.toString()] ?? BusinessOffenderStrings.loading)), 
+      DataCell(Text(registerNumbers[offender.business_id.toString()] ??
+          BusinessOffStrings.loading)),
       DataCell(Text(offender.business_id.toString())),
       DataCell(Text(offender.business_name)),
       DataCell(Text(offender.name)),
@@ -189,39 +196,39 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
         PopupMenuButton(
           icon: const Icon(Icons.more_vert, size: 18),
           itemBuilder: (context) => [
-            const PopupMenuItem(
-              value: BusinessOffenderStrings.details,
+            PopupMenuItem(
+              value: BusinessOffStrings.details,
               child: Row(
                 children: [
                   Icon(Icons.remove_red_eye, size: 18),
                   SizedBox(width: 8),
-                  Text(BusinessOffenderStrings.details),
+                  Text(BusinessOffStrings.details),
                 ],
               ),
             ),
-            const PopupMenuItem(
-              value: BusinessOffenderStrings.Edit,
+            PopupMenuItem(
+              value: BusinessOffStrings.Edit,
               child: Row(
                 children: [
                   Icon(Icons.edit, size: 18),
                   SizedBox(width: 8),
-                  Text(BusinessOffenderStrings.Edit),
+                  Text(BusinessOffStrings.Edit),
                 ],
               ),
             ),
-            const PopupMenuItem(
-              value: BusinessOffenderStrings.delete,
+            PopupMenuItem(
+              value: BusinessOffStrings.delete,
               child: Row(
                 children: [
                   Icon(Icons.delete, size: 18),
                   SizedBox(width: 8),
-                  Text(BusinessOffenderStrings.delete),
+                  Text(BusinessOffStrings.delete),
                 ],
               ),
             ),
           ],
           onSelected: (value) async {
-            if (value == BusinessOffenderStrings.details) {
+            if (value == BusinessOffStrings.details) {
               // Navigate to the EconomicOperatorDetails screen
               Navigator.push(
                 context,
@@ -229,23 +236,22 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
                   builder: (context) => const EconomicOperatorDetails(),
                 ),
               );
-            } else if (value == BusinessOffenderStrings.Edit) {
-
+            } else if (value == BusinessOffStrings.Edit) {
               print("Edit action for ${offender.business_name} selected.");
-            } else if (value == BusinessOffenderStrings.delete) {
+            } else if (value == BusinessOffStrings.delete) {
               final confirmDelete = await showDialog<bool>(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: const Text(BusinessOffenderStrings.confirmDelete),
-                  content: const Text(BusinessOffenderStrings.deleteConfirmationMessage),
+                  title: Text(BusinessOffStrings.confirmDelete),
+                  content: Text(BusinessOffStrings.deleteConfirmationMessage),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(false),
-                      child: const Text(BusinessOffenderStrings.cancel),
+                      child: Text(BusinessOffStrings.cancel),
                     ),
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(true),
-                      child: const Text(BusinessOffenderStrings.cancel),
+                      child: Text(BusinessOffStrings.cancel),
                     ),
                   ],
                 ),
@@ -253,7 +259,8 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
 
               if (confirmDelete == true) {
                 // Perform delete operation
-                await businessOffenderRepository.deleteBusinessOffender(offender.business_id);
+                await businessOffenderRepository
+                    .deleteBusinessOffender(offender.business_id);
                 setState(() {
                   offenders.remove(offender);
                 });

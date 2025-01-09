@@ -6,7 +6,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType inputType;
   final String? Function(String?)? validator; 
 
-  const CustomTextField({super.key, 
+  const CustomTextField({
     required this.controller,
     required this.hint,
     required this.inputType,

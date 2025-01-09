@@ -25,6 +25,7 @@ import 'package:cvms/presentation/screens/business_offender_form/BusinessOffende
 import 'package:cvms/presentation/screens/individual_offender_form/IndividualOffenderForm.dart';
 import 'package:cvms/presentation/controllers/offender/offender_controller.dart';
 import 'package:cvms/domain/entities/pv/offender.dart';
+import 'package:cvms/presentation/screens/add_PV_form/constants/strings/addPVStrings.dart';
 
 class AddPVPage extends StatefulWidget {
   const AddPVPage({super.key});
@@ -69,15 +70,14 @@ class _AddPVPageState extends State<AddPVPage> {
   NationalCardRegistration? _nationalCardRegistration = null;
 
   List<InspectorEntity> selectedInspectors = [];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Add PV",
+          AddPVStrings.pageTitle,
           style: Theme.of(context).textTheme.headlineSmall,
-        ), // Title for the page
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 30),
@@ -94,7 +94,7 @@ class _AddPVPageState extends State<AddPVPage> {
                   children: [
                     const SizedBox(height: 16),
                     CustomTextField(
-                      placeholder: "Enter PV Number",
+                      placeholder: AddPVStrings.enterPVNumber,
                       isRequired: true,
                       controller: _pvNumberController,
                       isNumeric: true,
@@ -117,7 +117,6 @@ class _AddPVPageState extends State<AddPVPage> {
                         });
                       },
                     ),
-
                     if (_rcError != null) ...[
                       const SizedBox(height: 8),
                       Text(
@@ -129,12 +128,11 @@ class _AddPVPageState extends State<AddPVPage> {
                       ElevatedButton.icon(
                         onPressed: () {},
                         icon: const Icon(Icons.info_outline),
-                        label: const Text("See EO Details"),
+                        label: Text(AddPVStrings.seeEODetails),
                       ),
                     ] else ...[
                       ElevatedButton.icon(
                         onPressed: () {
-                          // Navigate to the BusinessOffenderForm
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -144,12 +142,11 @@ class _AddPVPageState extends State<AddPVPage> {
                           );
                         },
                         icon: const Icon(Icons.person_add),
-                        label: const Text("Add Business Offender"),
+                        label: Text(AddPVStrings.addBusinessOffender),
                       ),
                       const SizedBox(height: 12),
                       ElevatedButton.icon(
                         onPressed: () {
-                          // Navigate to the IndividualOffenderForm
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -159,12 +156,12 @@ class _AddPVPageState extends State<AddPVPage> {
                           );
                         },
                         icon: const Icon(Icons.person_add),
-                        label: const Text("Add Individual Offender"),
+                        label: Text(AddPVStrings.addIndividualOffender),
                       ),
                     ],
                     const SizedBox(height: 12),
                     DateField(
-                      placeholder: "Select PV Date",
+                      placeholder: AddPVStrings.selectPVDate,
                       isRequired: true,
                       onDateSelected: (date) {
                         setState(() {
@@ -174,13 +171,11 @@ class _AddPVPageState extends State<AddPVPage> {
                     ),
                     const SizedBox(height: 12),
                     CustomTextField(
-                      placeholder: "Enter Violation Type",
+                      placeholder: AddPVStrings.enterViolationType,
                       isRequired: true,
                       controller: _violationTypeController,
                     ),
                     const SizedBox(height: 12),
-
-                    // Dynamic Inspector Dropdowns
                     FutureBuilder<List<InspectorEntity>>(
                       future: _inspectorRepository.getAllInspectors(),
                       builder: (context, snapshot) {
@@ -193,7 +188,8 @@ class _AddPVPageState extends State<AddPVPage> {
                               child: Text('Error: ${snapshot.error}'));
                         } else if (!snapshot.hasData ||
                             snapshot.data!.isEmpty) {
-                          return Center(child: Text('No inspectors found'));
+                          return Center(
+                              child: Text(AddPVStrings.noInspectorsFound));
                         } else {
                           final inspectors = snapshot.data!;
                           return Column(
@@ -227,25 +223,23 @@ class _AddPVPageState extends State<AddPVPage> {
                         }
                       },
                     ),
-
                     const SizedBox(height: 12),
                     PriceField(
-                      placeholder: "Total Non-Factorization Amount",
+                      placeholder: AddPVStrings.totalNonFactorizationAmount,
                       controller: _nonFactorizationController,
                     ),
                     const SizedBox(height: 12),
                     PriceField(
-                      placeholder: "Total Illegal Profit",
+                      placeholder: AddPVStrings.totalIllegalProfit,
                       controller: _illegalProfitController,
                     ),
                     const SizedBox(height: 12),
                     CustomTextField(
-                      placeholder: "Enter Subsidized Good",
+                      placeholder: AddPVStrings.enterSubsidizedGood,
                       isNumeric: false,
                       controller: _subsidizedGoodController,
                     ),
                     const SizedBox(height: 16),
-
                     // OPTIONAL SECTIONS
                     ClosureSection(
                       onClosureUpdated: (closure) {
@@ -309,9 +303,9 @@ class _AddPVPageState extends State<AddPVPage> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                            child: const Text(
-                              "Clear",
-                              style: TextStyle(
+                            child: Text(
+                              AddPVStrings.clear,
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 color: Color(0xFF545837),

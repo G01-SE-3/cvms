@@ -5,7 +5,7 @@ class CustomDropdownFieldForDepartments extends StatelessWidget {
   final String selectedDepartment;
   final ValueChanged<String?> onChanged;
 
-  const CustomDropdownFieldForDepartments({super.key, 
+  const CustomDropdownFieldForDepartments({
     required this.selectedDepartment,
     required this.onChanged,
   });
@@ -18,26 +18,26 @@ class CustomDropdownFieldForDepartments extends StatelessWidget {
         width: 800, // Adjusted width to match the second dropdown field
         child: DropdownButtonFormField<String>(
           value: selectedDepartment,
-          items: const [
+          items: [
             DropdownMenuItem(
-              value: 'HR',
               child: Text(CustomDropdownFieldForDepartmentsStrings.hr),
+              value: 'HR',
             ),
             DropdownMenuItem(
-              value: 'Finance',
               child: Text(CustomDropdownFieldForDepartmentsStrings.finance),
+              value: 'Finance',
             ),
             DropdownMenuItem(
-              value: 'Operations',
               child: Text(CustomDropdownFieldForDepartmentsStrings.operations),
+              value: 'Operations',
             ),
             DropdownMenuItem(
-              value: 'IT',
               child: Text(CustomDropdownFieldForDepartmentsStrings.it),
+              value: 'IT',
             ),
             DropdownMenuItem(
-              value: 'Sales',
               child: Text(CustomDropdownFieldForDepartmentsStrings.sales),
+              value: 'Sales',
             ),
           ],
           onChanged: onChanged,
