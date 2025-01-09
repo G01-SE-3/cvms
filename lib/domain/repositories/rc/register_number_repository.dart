@@ -7,4 +7,5 @@ abstract class RegisterNumberRepository {
   Future<String> getIndividualRegisterNumberById(int id);
   Future<void> updateRegisterNumber(RegisterNumberEntity registerNumber);
   Future<void> deleteRegisterNumber(int id);
+  Future<Map<String, dynamic>> getOffenderByRC(String commercialRegisterNumber);
 }
