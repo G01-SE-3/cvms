@@ -3,10 +3,13 @@ import 'package:provider/provider.dart';
 import '../constants/strings/pv_header_strings.dart';
 import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
 import 'package:cvms/presentation/screens/PV_editing_form/EditPVPage.dart';
+import 'package:cvms/domain/entities/pv/pv.dart';
+import 'package:cvms/services/pdf_service.dart';
 
 class PVHeader extends StatelessWidget {
   final String pvId;
-  const PVHeader({super.key, required this.pvId});
+  final PV pv;
+  const PVHeader({super.key, required this.pvId, required this.pv});
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +17,9 @@ class PVHeader extends StatelessWidget {
       padding: const EdgeInsets.only(top: 80),
       child: Row(
         children: [
-          const Text(
+          Text(
             PVHeaderStrings.title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -32,13 +35,8 @@ class PVHeader extends StatelessWidget {
           _buildActionButton(
             PVHeaderStrings.exportButton,
             const Color(0xFF7E9A77),
-            onPressed: () {
-              // Placeholder for export functionality
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                    content:
-                        Text('Export functionality is not implemented yet')),
-              );
+            onPressed: () async {
+              await PdfService.exportPVToPdf(context, pv);
             },
           ),
           const SizedBox(width: 10),
@@ -114,7 +112,6 @@ class PVHeader extends StatelessWidget {
                     ),
                   );
                 } finally {
-                  // Close the dialog
                   Navigator.pop(context);
                 }
               },
