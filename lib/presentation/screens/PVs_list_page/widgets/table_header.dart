@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/PVs_list_page/constants/strings/table_header_strings.dart';
 import 'package:cvms/presentation/screens/add_PV_form/AddPVPage.dart';
+import 'package:cvms/domain/entities/pv/pv.dart';
+import 'package:cvms/services/pdf_service.dart';
 
 class HeaderRow extends StatelessWidget {
-  const HeaderRow({super.key});
+  final List<PV>? pvs;
+  const HeaderRow({super.key, required this.pvs});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,18 @@ class HeaderRow extends StatelessWidget {
         Row(
           children: [
             OutlinedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                if (pvs != null && pvs!.isNotEmpty) {
+                  PdfService.exportPVsToPdf(context, pvs!);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('No PVs available to export!'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              },
               icon: const Icon(
                 Icons.file_download,
                 size: 20,

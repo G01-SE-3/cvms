@@ -23,6 +23,8 @@ import 'package:cvms/data/repositories/inspector/inspector_repository_impl.dart'
 import 'package:cvms/domain/entities/inspector/inspector.dart';
 import 'package:cvms/presentation/screens/business_offender_form/BusinessOffenderForm.dart';
 import 'package:cvms/presentation/screens/individual_offender_form/IndividualOffenderForm.dart';
+import 'package:cvms/presentation/controllers/offender/offender_controller.dart';
+import 'package:cvms/domain/entities/pv/offender.dart';
 
 class AddPVPage extends StatefulWidget {
   const AddPVPage({super.key});
@@ -51,6 +53,7 @@ class _AddPVPageState extends State<AddPVPage> {
   bool _isRcExisting = false;
 
   DateTime? _selectedDate;
+  Map<String, dynamic>? _offenderDetails;
 
   final List<SeizureSection> _seizureSections = [];
   List<Seizure>? seizures = null;
@@ -99,13 +102,22 @@ class _AddPVPageState extends State<AddPVPage> {
                     const SizedBox(height: 12),
                     RcField(
                       controller: _rcController,
-                      onRcChanged: (isRcExisting, error) {
+                      onRcChanged: (isRcExisting, error, details) {
                         setState(() {
                           _isRcExisting = isRcExisting;
                           _rcError = error;
+
+                          // Store offender details if they exist
+                          if (isRcExisting && details != null) {
+                            _offenderDetails =
+                                details; // Declare _offenderDetails in your parent widget
+                          } else {
+                            _offenderDetails = null;
+                          }
                         });
                       },
                     ),
+
                     if (_rcError != null) ...[
                       const SizedBox(height: 8),
                       Text(
@@ -310,30 +322,49 @@ class _AddPVPageState extends State<AddPVPage> {
                             onPressed: () async {
                               if (_formKey.currentState!.validate() &&
                                   _selectedDate != null &&
-                                  (_isRcExisting || _rcController.text.isNotEmpty)) {
+                                  (_isRcExisting ||
+                                      _rcController.text.isNotEmpty)) {
                                 final pv = PV(
                                   pvId:
                                       "${_pvNumberController.text.trim()}-${_selectedDate!.year}",
-                                  pvNumber: int.tryParse(_pvNumberController.text.trim()) ?? 0,
+                                  pvNumber: int.tryParse(
+                                          _pvNumberController.text.trim()) ??
+                                      0,
                                   issueDate: _selectedDate ?? DateTime.now(),
-                                  violationType: _violationTypeController.text.trim(),
-                                  totalReparationAmount:
-                                      double.tryParse(_illegalProfitController.text.trim()) ?? 0.0,
-                                  totalNonFixed: double.tryParse(_nonFactorizationController.text.trim()) ?? 0.0,
-                                  subsidizedGood: _subsidizedGoodController.text.trim(),
-                                  offender: null,
+                                  violationType:
+                                      _violationTypeController.text.trim(),
+                                  totalReparationAmount: double.tryParse(
+                                          _illegalProfitController.text
+                                              .trim()) ??
+                                      0.0,
+                                  totalNonFixed: double.tryParse(
+                                          _nonFactorizationController.text
+                                              .trim()) ??
+                                      0.0,
+                                  subsidizedGood:
+                                      _subsidizedGoodController.text.trim(),
+                                  offender: Offender(
+                                      id: _offenderDetails!['offenderNumber']
+                                          .toString(),
+                                      type: _offenderDetails!['offenderType']
+                                          .toString()),
                                   inspectors: selectedInspectors,
                                   seizures: seizures ?? [],
                                   closure: closureSelection ? _closure : null,
                                   nationalCardRegistration:
-                                      nationalCardRegistrationSelection ? _nationalCardRegistration : null,
-                                  financialPenalty:
-                                      financialPenaltySelection ? _financialPenalty : null,
-                                  legalProceedings:
-                                      leagalProceedingsSelection ? _legalProceedings : null,
+                                      nationalCardRegistrationSelection
+                                          ? _nationalCardRegistration
+                                          : null,
+                                  financialPenalty: financialPenaltySelection
+                                      ? _financialPenalty
+                                      : null,
+                                  legalProceedings: leagalProceedingsSelection
+                                      ? _legalProceedings
+                                      : null,
                                 );
 
-                                final pvController = context.read<PVController>();
+                                final pvController =
+                                    context.read<PVController>();
                                 await pvController.insertPVData(pv);
 
                                 if (pvController.errorMessage == null) {
@@ -386,12 +417,6 @@ class _AddPVPageState extends State<AddPVPage> {
                         ],
                       ),
                     ),
-
-
-
-
-
-
                   ],
                 ),
               ),

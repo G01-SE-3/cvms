@@ -18,7 +18,6 @@ class _LineChartWidgetState extends State<LineChartWidget> {
   @override
   void initState() {
     super.initState();
-    // Fetch data when widget is initialized
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<PVController>(context, listen: false).fetchMonthlyPVCounts();
     });
@@ -29,6 +28,12 @@ class _LineChartWidgetState extends State<LineChartWidget> {
     return Consumer<PVController>(
       builder: (context, pvController, child) {
         final monthlyPVCounts = pvController.monthlyPVCounts;
+         
+
+        // Handle empty or zero data scenario
+        if (monthlyPVCounts.isEmpty || monthlyPVCounts.every((pv) => pv == 0)) {
+          return const SizedBox.shrink(); // Render nothing
+        }
 
         // Generate FlSpot data for the chart
         List<FlSpot> spots = List.generate(12, (index) {
@@ -38,17 +43,8 @@ class _LineChartWidgetState extends State<LineChartWidget> {
           );
         });
 
-        // Handle empty data scenario
-        if (spots.isEmpty) {
-          return const Center(child: Text(LineChartStrings.noDataAvailable));
-        }
-
         // Calculate max Y value for the chart's Y-axis range
-        final maxYValue = monthlyPVCounts.isNotEmpty
-            ? monthlyPVCounts.reduce((a, b) => a > b ? a : b).toDouble()
-            : 10;
-
-        // Calculate step size for Y-axis intervals
+        final maxYValue = monthlyPVCounts.reduce((a, b) => a > b ? a : b).toDouble();
         final step = (maxYValue / 5).ceil();
         final adjustedMaxY = step * 5;
 

@@ -44,7 +44,7 @@ class PVDetailsSection extends StatelessWidget {
                 _buildDetailRow(DetailsStrings.offenderName,
                     pv.offender?.name ?? "N/A"), // TO BE UPDATED
                 _buildDetailRow(DetailsStrings.offenderCr,
-                    pv.offender?.name ?? "N/A"), // TO BE UPDATED
+                    pv.offender?.rcNumber ?? "N/A"), // TO BE UPDATED
                 _buildDetailRow(
                     DetailsStrings.pvIssueDate, pv.issueDate.toString()),
                 _buildDetailRow(DetailsStrings.violationType, pv.violationType),

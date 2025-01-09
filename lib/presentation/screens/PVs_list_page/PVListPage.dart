@@ -6,6 +6,7 @@ import 'package:cvms/presentation/screens/PVs_list_page/widgets/table_header.dar
 import 'package:cvms/presentation/screens/PVs_list_page/widgets/pv_data_table.dart';
 import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
 import 'package:cvms/presentation/screens/navigation_bars/GeneralAppBar.dart';
+
 class PVListPage extends StatefulWidget {
   final List<PV>? searchResults;
 
@@ -16,7 +17,7 @@ class PVListPage extends StatefulWidget {
 }
 
 class _PVListPageState extends State<PVListPage> {
-  late List<PV> displayedPVs;
+  late List<PV> displayedPVs = [];
 
   @override
   void initState() {
@@ -43,7 +44,6 @@ class _PVListPageState extends State<PVListPage> {
         child: GeneralAppBar(
           search: true,
           initialTabIndex: 1,
-          
         ),
       ),
       body: SingleChildScrollView(
@@ -51,8 +51,8 @@ class _PVListPageState extends State<PVListPage> {
         child: Center(
           child: Consumer<PVController>(
             builder: (context, pvController, child) {
-              // If search results exist, use them
-              final pvs = widget.searchResults ?? pvController.allPVs;
+              // Use search results if available, otherwise use loaded PVs
+              displayedPVs = widget.searchResults ?? pvController.allPVs;
 
               if (pvController.isLoading) {
                 return const CircularProgressIndicator();
@@ -65,20 +65,22 @@ class _PVListPageState extends State<PVListPage> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const HeaderRow(),
+                    // Pass the updated displayedPVs to HeaderRow
+                    HeaderRow(
+                      pvs: displayedPVs,
+                    ),
                     const SizedBox(height: 16),
                     PVDataTable(
-                      tableData: pvs.map((pv) {
+                      tableData: displayedPVs.map((pv) {
                         return {
                           'PVid': pv.pvId,
                           'PVnumber': pv.pvNumber.toString(),
-                          'offendercr': pv.offender?.name ?? '',
+                          'offendercr': pv.offender?.rcNumber ?? '',
                           'offendername': pv.offender?.name ?? '',
                           'pvissuedate': pv.issueDate.toIso8601String(),
                           'violationtype': pv.violationType,
-                          'inspectingofficers': pv.inspectors
-                              .map((i) => i.surname)
-                              .join(", "),
+                          'inspectingofficers':
+                              pv.inspectors.map((i) => i.surname).join(", "),
                         };
                       }).toList(),
                     ),

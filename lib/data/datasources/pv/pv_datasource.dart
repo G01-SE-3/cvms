@@ -39,6 +39,64 @@ class PVDataSource {
       double? totalReparationAmount = _tryParseDouble(pvData[4]);
       double? totalNonFixed = _tryParseDouble(pvData[5]);
       String? subsidizedGood = pvData[6];
+      int? individualId = pvData[7];
+      int? businessId = pvData[8];
+
+      // Fetch Offender Details and RC Number
+      OffenderModel? offender;
+      if (individualId != null) {
+        var individualResult = await connection.connection!.query('''
+      SELECT individual_id, name, surname
+      FROM individual_offender
+      WHERE individual_id = @individualId;
+    ''', substitutionValues: {'individualId': individualId});
+
+        String? rcNumber;
+        if (individualResult.isNotEmpty) {
+          // Query RC table for individual
+          var rcResult = await connection.connection!.query('''
+        SELECT commercialregisternumber
+        FROM rc
+        WHERE individual_id = @individualId;
+      ''', substitutionValues: {'individualId': individualId});
+
+          rcNumber = rcResult.isNotEmpty ? rcResult.first[0] : null;
+
+          var offenderData = individualResult.first;
+          offender = OffenderModel(
+            id: offenderData[0].toString(),
+            type: "individual",
+            name: '${offenderData[1]} ${offenderData[2]}',
+            rcNumber: rcNumber, // Include RC Number
+          );
+        }
+      } else if (businessId != null) {
+        var businessResult = await connection.connection!.query('''
+      SELECT business_id, name, surname
+      FROM business_offender
+      WHERE business_id = @businessId;
+    ''', substitutionValues: {'businessId': businessId});
+
+        String? rcNumber;
+        if (businessResult.isNotEmpty) {
+          // Query RC table for business
+          var rcResult = await connection.connection!.query('''
+        SELECT commercialregisternumber
+        FROM rc
+        WHERE business_id = @businessId;
+      ''', substitutionValues: {'businessId': businessId});
+
+          rcNumber = rcResult.isNotEmpty ? rcResult.first[0] : null;
+
+          var offenderData = businessResult.first;
+          offender = OffenderModel(
+            id: offenderData[0].toString(),
+            type: "business",
+            name: '${offenderData[1]} ${offenderData[2]}',
+            rcNumber: rcNumber, // Include RC Number
+          );
+        }
+      }
 
       // Fetch Financial Penalty
       var financialPenaltyResult = await connection.connection!.query('''
@@ -136,7 +194,7 @@ class PVDataSource {
         totalReparationAmount: totalReparationAmount,
         totalNonFixed: totalNonFixed,
         subsidizedGood: subsidizedGood,
-        offender: OffenderModel(name: "John Doe"),
+        offender: offender,
         inspectors: inspectors,
         seizures: seizures,
         closure: closure,
@@ -169,7 +227,9 @@ class PVDataSource {
         violation_type, 
         total_reparation_amount, 
         total_non_fixed, 
-        subsidized_good
+        subsidized_good,
+        individual_id,
+        business_id
       FROM pv;
     ''');
 
@@ -181,8 +241,66 @@ class PVDataSource {
         double? totalReparationAmount = _tryParseDouble(pvData[4]);
         double? totalNonFixed = _tryParseDouble(pvData[5]);
         String? subsidizedGood = pvData[6];
+        int? individualId = pvData[7];
+        int? businessId = pvData[8];
 
-        // Fetch Inspectors for each PV
+        // Fetch Offender Details and RC Number
+        OffenderModel? offender;
+        if (individualId != null) {
+          var individualResult = await connection.connection!.query('''
+      SELECT individual_id, name, surname
+      FROM individual_offender
+      WHERE individual_id = @individualId;
+    ''', substitutionValues: {'individualId': individualId});
+
+          String? rcNumber;
+          if (individualResult.isNotEmpty) {
+            // Query RC table for individual
+            var rcResult = await connection.connection!.query('''
+        SELECT commercialregisternumber
+        FROM rc
+        WHERE individual_id = @individualId;
+      ''', substitutionValues: {'individualId': individualId});
+
+            rcNumber = rcResult.isNotEmpty ? rcResult.first[0] : null;
+
+            var offenderData = individualResult.first;
+            offender = OffenderModel(
+              id: offenderData[0].toString(),
+              type: "individual",
+              name: '${offenderData[1]} ${offenderData[2]}',
+              rcNumber: rcNumber, // Include RC Number
+            );
+          }
+        } else if (businessId != null) {
+          var businessResult = await connection.connection!.query('''
+      SELECT business_id, name, surname
+      FROM business_offender
+      WHERE business_id = @businessId;
+    ''', substitutionValues: {'businessId': businessId});
+
+          String? rcNumber;
+          if (businessResult.isNotEmpty) {
+            // Query RC table for business
+            var rcResult = await connection.connection!.query('''
+        SELECT commercialregisternumber
+        FROM rc
+        WHERE business_id = @businessId;
+      ''', substitutionValues: {'businessId': businessId});
+
+            rcNumber = rcResult.isNotEmpty ? rcResult.first[0] : null;
+
+            var offenderData = businessResult.first;
+            offender = OffenderModel(
+              id: offenderData[0].toString(),
+              type: "business",
+              name: '${offenderData[1]} ${offenderData[2]}',
+              rcNumber: rcNumber, // Include RC Number
+            );
+          }
+        }
+
+        // Fetch inspectors for each PV
         var inspectorResult = await connection.connection!.query('''
         SELECT 
           i.inspector_id, 
@@ -208,7 +326,7 @@ class PVDataSource {
           ));
         }
 
-        // Create PVModel and add to list
+        // Create PVModel and add to the list
         pvList.add(PVModel(
           pvId: pvId,
           pvNumber: pvNumber,
@@ -217,8 +335,7 @@ class PVDataSource {
           totalReparationAmount: totalReparationAmount,
           totalNonFixed: totalNonFixed,
           subsidizedGood: subsidizedGood,
-          offender:
-              OffenderModel(name: "John Doe"), // You can adjust this as needed
+          offender: offender,
           inspectors: inspectors,
           seizures: [], // Empty list for seizures as per your requirements
           closure: null, // No closure data included
@@ -236,20 +353,22 @@ class PVDataSource {
   }
 
   Future<void> insertPV(PVModel pvModel) async {
+    final offenderId = int.tryParse(pvModel.offender?.id ?? '0');
+    final isBusiness = pvModel.offender?.type == "business";
     final connection = await getDatabaseConnection(); // Get DB connection
     try {
       // Start a transaction to ensure atomicity
       await connection.connection!.transaction((txn) async {
         // Insert into `pv` table
         var result = await txn.query('''
-          INSERT INTO pv (
-            pv_id, pv_number, issue_date, violation_type, total_reparation_amount, 
-            total_non_fixed, subsidized_good, individual_id, business_id
-          ) VALUES (
-            @pvId, @pvNumber, @issueDate, @violationType, @totalReparationAmount,
-            @totalNonFixed, @subsidizedGood, @individualId, @businessId
-          )
-        ''', substitutionValues: {
+    INSERT INTO pv (
+      pv_id, pv_number, issue_date, violation_type, total_reparation_amount, 
+      total_non_fixed, subsidized_good, individual_id, business_id
+    ) VALUES (
+      @pvId, @pvNumber, @issueDate, @violationType, @totalReparationAmount,
+      @totalNonFixed, @subsidizedGood, @individualId, @businessId
+    )
+  ''', substitutionValues: {
           'pvId': pvModel.pvId,
           'pvNumber': pvModel.pvNumber,
           'issueDate': pvModel.issueDate,
@@ -257,8 +376,8 @@ class PVDataSource {
           'totalReparationAmount': pvModel.totalReparationAmount,
           'totalNonFixed': pvModel.totalNonFixed,
           'subsidizedGood': pvModel.subsidizedGood,
-          'individualId': pvModel.offender?.name, // TO BE UPDATED
-          'businessId': pvModel.offender?.name ?? 1, // TO BE UPDATED
+          'individualId': isBusiness ? null : offenderId, // Null if business
+          'businessId': isBusiness ? offenderId : null, // Null if individual
         });
 
         for (var inspector in pvModel.inspectors) {
@@ -350,8 +469,8 @@ class PVDataSource {
     }
   }
 
-  ///Searching PVS with a specific number
-  Future<List<PVModel>> searchPV(int pvnumber) async {
+  /// Searching PVs with a specific number
+  Future<List<PVModel>> searchPV(int pvNumber) async {
     final connection = await getDatabaseConnection(); // Get DB connection
     List<PVModel> pvList = [];
 
@@ -365,10 +484,12 @@ class PVDataSource {
       violation_type, 
       total_reparation_amount, 
       total_non_fixed, 
-      subsidized_good
+      subsidized_good,
+      individual_id,
+      business_id
     FROM pv
-    WHERE pv_number = @pvnumber; 
-    ''', substitutionValues: {'pvnumber': pvnumber});
+    WHERE pv_number = @pvNumber; 
+    ''', substitutionValues: {'pvNumber': pvNumber});
 
       for (var pvData in result) {
         String pvId = pvData[0];
@@ -378,8 +499,44 @@ class PVDataSource {
         double? totalReparationAmount = _tryParseDouble(pvData[4]);
         double? totalNonFixed = _tryParseDouble(pvData[5]);
         String? subsidizedGood = pvData[6];
+        int? individualId = pvData[7];
+        int? businessId = pvData[8];
 
-        // Fetch Inspectors for each PV
+        // Fetch offender details
+        OffenderModel? offender;
+        if (individualId != null) {
+          var individualResult = await connection.connection!.query('''
+          SELECT individual_id, name, surname
+          FROM individual_offender
+          WHERE individual_id = @individualId;
+        ''', substitutionValues: {'individualId': individualId});
+
+          if (individualResult.isNotEmpty) {
+            var offenderData = individualResult.first;
+            offender = OffenderModel(
+              id: offenderData[0].toString(),
+              type: "individual",
+              name: '${offenderData[1]} ${offenderData[2]}',
+            );
+          }
+        } else if (businessId != null) {
+          var businessResult = await connection.connection!.query('''
+          SELECT business_id, name, surname
+          FROM business_offender
+          WHERE business_id = @businessId;
+        ''', substitutionValues: {'businessId': businessId});
+
+          if (businessResult.isNotEmpty) {
+            var offenderData = businessResult.first;
+            offender = OffenderModel(
+              id: offenderData[0].toString(),
+              type: "business",
+              name: '${offenderData[1]} ${offenderData[2]}',
+            );
+          }
+        }
+
+        // Fetch inspectors for each PV
         var inspectorResult = await connection.connection!.query('''
       SELECT 
         i.inspector_id, 
@@ -414,7 +571,7 @@ class PVDataSource {
           totalReparationAmount: totalReparationAmount,
           totalNonFixed: totalNonFixed,
           subsidizedGood: subsidizedGood,
-          offender: OffenderModel(name: "John Doe"),
+          offender: offender,
           inspectors: inspectors,
           seizures: [],
           closure: null,
@@ -430,7 +587,7 @@ class PVDataSource {
     }
   }
 
-//filtering PVS by latest input
+  /// Filtering PVs by latest input
   Future<List<PVModel>> filterByLatest(int number) async {
     final connection = await getDatabaseConnection(); // Get DB connection
     List<PVModel> pvList = [];
@@ -445,7 +602,9 @@ class PVDataSource {
       violation_type, 
       total_reparation_amount, 
       total_non_fixed, 
-      subsidized_good
+      subsidized_good,
+      individual_id,
+      business_id
     FROM pv
     ORDER BY issue_date DESC
     LIMIT @limit;
@@ -459,6 +618,42 @@ class PVDataSource {
         double? totalReparationAmount = _tryParseDouble(pvData[4]);
         double? totalNonFixed = _tryParseDouble(pvData[5]);
         String? subsidizedGood = pvData[6];
+        int? individualId = pvData[7];
+        int? businessId = pvData[8];
+
+        // Fetch offender details
+        OffenderModel? offender;
+        if (individualId != null) {
+          var individualResult = await connection.connection!.query('''
+          SELECT individual_id, name, surname
+          FROM individual_offender
+          WHERE individual_id = @individualId;
+        ''', substitutionValues: {'individualId': individualId});
+
+          if (individualResult.isNotEmpty) {
+            var offenderData = individualResult.first;
+            offender = OffenderModel(
+              id: offenderData[0].toString(),
+              type: "individual",
+              name: '${offenderData[1]} ${offenderData[2]}',
+            );
+          }
+        } else if (businessId != null) {
+          var businessResult = await connection.connection!.query('''
+          SELECT business_id, name, surname
+          FROM business_offender
+          WHERE business_id = @businessId;
+        ''', substitutionValues: {'businessId': businessId});
+
+          if (businessResult.isNotEmpty) {
+            var offenderData = businessResult.first;
+            offender = OffenderModel(
+              id: offenderData[0].toString(),
+              type: "business",
+              name: '${offenderData[1]} ${offenderData[2]}',
+            );
+          }
+        }
 
         // Fetch Inspectors for each PV
         var inspectorResult = await connection.connection!.query('''
@@ -495,8 +690,7 @@ class PVDataSource {
           totalReparationAmount: totalReparationAmount,
           totalNonFixed: totalNonFixed,
           subsidizedGood: subsidizedGood,
-          offender:
-              OffenderModel(name: "John Doe"), // You can adjust this as needed
+          offender: offender,
           inspectors: inspectors,
           seizures: [], // Empty list for seizures as per your requirements
           closure: null, // No closure data included
@@ -513,6 +707,7 @@ class PVDataSource {
     }
   }
 
+  /// Filtering PVs by a specified date range
   Future<List<PVModel>> filterByDate(
       DateTime startDate, DateTime endDate) async {
     final connection = await getDatabaseConnection(); // Get DB connection
@@ -528,7 +723,9 @@ class PVDataSource {
       violation_type, 
       total_reparation_amount, 
       total_non_fixed, 
-      subsidized_good
+      subsidized_good,
+      individual_id,
+      business_id
     FROM pv
     WHERE issue_date BETWEEN @startDate AND @endDate;
     ''', substitutionValues: {
@@ -544,6 +741,42 @@ class PVDataSource {
         double? totalReparationAmount = _tryParseDouble(pvData[4]);
         double? totalNonFixed = _tryParseDouble(pvData[5]);
         String? subsidizedGood = pvData[6];
+        int? individualId = pvData[7];
+        int? businessId = pvData[8];
+
+        // Fetch offender details
+        OffenderModel? offender;
+        if (individualId != null) {
+          var individualResult = await connection.connection!.query('''
+          SELECT individual_id, name, surname
+          FROM individual_offender
+          WHERE individual_id = @individualId;
+        ''', substitutionValues: {'individualId': individualId});
+
+          if (individualResult.isNotEmpty) {
+            var offenderData = individualResult.first;
+            offender = OffenderModel(
+              id: offenderData[0].toString(),
+              type: "individual",
+              name: '${offenderData[1]} ${offenderData[2]}',
+            );
+          }
+        } else if (businessId != null) {
+          var businessResult = await connection.connection!.query('''
+          SELECT business_id, name, surname
+          FROM business_offender
+          WHERE business_id = @businessId;
+        ''', substitutionValues: {'businessId': businessId});
+
+          if (businessResult.isNotEmpty) {
+            var offenderData = businessResult.first;
+            offender = OffenderModel(
+              id: offenderData[0].toString(),
+              type: "business",
+              name: '${offenderData[1]} ${offenderData[2]}',
+            );
+          }
+        }
 
         // Fetch Inspectors for each PV
         var inspectorResult = await connection.connection!.query('''
@@ -580,8 +813,7 @@ class PVDataSource {
           totalReparationAmount: totalReparationAmount,
           totalNonFixed: totalNonFixed,
           subsidizedGood: subsidizedGood,
-          offender:
-              OffenderModel(name: "John Doe"), // You can adjust this as needed
+          offender: offender,
           inspectors: inspectors,
           seizures: [], // Empty list for seizures as per your requirements
           closure: null, // No closure data included
@@ -624,8 +856,8 @@ class PVDataSource {
           'totalReparationAmount': pvModel.totalReparationAmount,
           'totalNonFixed': pvModel.totalNonFixed,
           'subsidizedGood': pvModel.subsidizedGood,
-          'individualId': pvModel.offender?.name,
-          'businessId': pvModel.offender?.name ?? 1,
+          'individualId': pvModel.offender?.id,
+          'businessId': pvModel.offender?.id ?? 1,
         });
 
         // Inspectors handling
@@ -858,14 +1090,13 @@ class PVDataSource {
       rethrow;
     }
   }
-  Future<List<int>> getMonthlyPVCounts() async {
-  final connection = await getDatabaseConnection(); // Get DB connection
-  try {
-   
 
-    // Query to count PVs for each month in the current year
-    final currentYear = DateTime.now().year;
-    var result = await connection.connection!.query(''' 
+  Future<List<int>> getMonthlyPVCounts() async {
+    final connection = await getDatabaseConnection(); // Get DB connection
+    try {
+      // Query to count PVs for each month in the current year
+      final currentYear = DateTime.now().year;
+      var result = await connection.connection!.query('''
       SELECT 
         EXTRACT(MONTH FROM issue_date) AS month, 
         COUNT(*) AS pv_count
@@ -875,51 +1106,44 @@ class PVDataSource {
       ORDER BY month;
     ''', substitutionValues: {'currentYear': currentYear});
 
-    // Initialize an array with 12 zeros (for 12 months)
-    List<int> monthlyPVCounts = List.filled(12, 0);
+      // Initialize an array with 12 zeros (for 12 months)
+      List<int> monthlyPVCounts = List.filled(12, 0);
 
-    // Populate counts for each month
-    for (var row in result) {
-      int month = (row[0] is String) 
-          ? int.parse(row[0]) 
-          : (row[0] as double).toInt(); // Handle month value correctly
-      int count = row[1] as int; // Ensure the count is treated as an int
+      // Populate counts for each month
+      for (var row in result) {
+        int month = (row[0] is String)
+            ? int.parse(row[0])
+            : (row[0] as double).toInt(); // Handle month value correctly
+        int count = row[1] as int; // Ensure the count is treated as an int
 
-      // Fill the correct position in the array
-      monthlyPVCounts[month - 1] = count;
+        // Fill the correct position in the array
+        monthlyPVCounts[month - 1] = count;
+      }
 
-    
+      return monthlyPVCounts;
+    } catch (e) {
+      print("Error fetching monthly PV counts: $e");
+      rethrow;
     }
-
-
-    return monthlyPVCounts;
-  } catch (e) {
-    print("Error fetching monthly PV counts: $e");
-    rethrow;
   }
-}
 
-
-Future<int> getTotalPVCount() async {
-  final connection = await getDatabaseConnection(); // Get DB connection
-  try {
-    
-
-    // Query to count all PVs regardless of month or year
-    var result = await connection.connection!.query(''' 
+  Future<int> getTotalPVCount() async {
+    final connection = await getDatabaseConnection(); // Get DB connection
+    try {
+      // Query to count all PVs regardless of month or year
+      var result = await connection.connection!.query('''
       SELECT COUNT(*) AS total_pv_count
       FROM pv;
 
     ''');
 
-    // Extract the total PV count from the query result
-    int totalPVCount = result.isNotEmpty ? result.first[0] : 0;
+      // Extract the total PV count from the query result
+      int totalPVCount = result.isNotEmpty ? result.first[0] : 0;
 
-   
-    return totalPVCount;
-  } catch (e) {
-    //rise exception 
-    rethrow;
+      return totalPVCount;
+    } catch (e) {
+      //rise exception
+      rethrow;
+    }
   }
-}
 }
