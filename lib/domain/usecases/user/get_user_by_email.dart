@@ -3,23 +3,23 @@ import 'package:cvms/domain/repositories/user/user_repository.dart';
 import '../../../core/exceptions/custom_exception.dart';
 import '../../../core/loggers/app_logger.dart';
 
-class GetUserByUsername {
+class GetUserByEmail {
   final UserRepository repository;
 
-  GetUserByUsername(this.repository);
+  GetUserByEmail(this.repository);
 
-  Future<User?> execute(String username) async {
+  Future<User?> execute(String email) async {
     final appLogger = await AppLogger.getInstance();
 
     try {
-      return await repository.fetchUserByUsername(username);
+      return await repository.fetchUserByEmail(email);
     } catch (e) {
-      await appLogger.log("ERROR", "Failed to fetch user by username.", data: {
-        "username": username,
+      await appLogger.log("ERROR", "Failed to fetch user by email.", data: {
+        "email": email,
         "error": e.toString(),
       });
 
-      throw CustomException("Failed to fetch user by username", code: "GET_USER_ERROR");
+      throw CustomException("Failed to fetch user by email", code: "GET_USER_ERROR");
     }
   }
 }

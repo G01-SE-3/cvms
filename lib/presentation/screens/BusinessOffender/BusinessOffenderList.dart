@@ -1,4 +1,5 @@
 import 'package:cvms/domain/entities/business_offender/business_offender.dart';
+import 'package:cvms/presentation/screens/BusinessOffender/constants/strings/BusinessOffenderInformations.dart';
 import 'package:flutter/material.dart';
 import '../../../../data/datasources/business_offender/business_offender_datasource.dart';
 import '../../../../data/repositories/business_offender/business_offender_repository_impl.dart';
@@ -9,6 +10,7 @@ import 'package:cvms/presentation/screens/BusinessOffender/constants/strings/But
 import 'package:cvms/presentation/screens/business_offender_form/BusinessOffenderForm.dart';
 import '../../../data/datasources/rc/register_number_datasource.dart';
 import '../../../data/repositories/rc/register_number_repository_impl.dart';
+import 'package:cvms/presentation/screens/EconomicOperatorDetails/EconomicOperatorDetails.dart';
 
 final businessOffenderDataSource = BusinessOffenderDataSource();
 final registerNumberDataSource = RegisterNumberDataSource();
@@ -40,27 +42,26 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
     try {
       offenders = await businessOffenderRepository.fetchAllOffenders();
       await _loadRegisterNumbers();
-    } catch (e) {
-      print("Error fetching offenders: $e");
-    } finally {
+    } catch (e) { 
+      print(BusinessOffenderStrings.Error);
+      } finally {
       setState(() {
         isLoading = false;
       });
     }
   }
 
-Future<void> _loadRegisterNumbers() async {
-  for (var offender in offenders) {
-    try {
-      final registerNumber = await registerNumberRepository.getBusinessRegisterNumberById(offender.business_id);
-      registerNumbers[offender.business_id.toString()] = registerNumber;
-    } catch (e) {
-      print("Error fetching register number for ID ${offender.business_id}: $e");
+  Future<void> _loadRegisterNumbers() async {
+    for (var offender in offenders) {
+      try {
+        final registerNumber = await registerNumberRepository.getBusinessRegisterNumberById(offender.business_id);
+        registerNumbers[offender.business_id.toString()] = registerNumber;
+      } catch (e) {
+        print("Error fetching register number for ID ${offender.business_id}: $e");
+      }
     }
+    setState(() {});
   }
-  setState(() {});
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +89,7 @@ Future<void> _loadRegisterNumbers() async {
                         children: [
                           ElevatedButton.icon(
                             onPressed: () {
+                              // Export functionality to be added here
                             },
                             icon: const Icon(Icons.file_download, color: Colors.black),
                             label: Text(
@@ -124,12 +126,12 @@ Future<void> _loadRegisterNumbers() async {
                   ),
                   const SizedBox(height: 16),
                   offenders.isEmpty
-                      ? const Center(child: Text('No offenders found.'))
+                      ? const Center(child: Text(BusinessOffenderStrings.noData))
                       : SizedBox(
                           width: double.infinity,
                           child: DataTable(
                             columnSpacing: 16.0,
-                            headingRowColor: MaterialStateProperty.resolveWith(
+                            headingRowColor: WidgetStateProperty.resolveWith(
                               (states) => Colors.grey[200],
                             ),
                             columns: _buildColumns(),
@@ -148,17 +150,17 @@ Future<void> _loadRegisterNumbers() async {
 
   List<DataColumn> _buildColumns() {
     return [
-      _buildDataColumn('Commercial Register Number'),
-      _buildDataColumn('Business ID'),
-      _buildDataColumn('Business Name'),
-      _buildDataColumn('Name'),
-      _buildDataColumn('Surname'),
-      _buildDataColumn('Birth Info'),
-      _buildDataColumn('Birth Certificate'),
-      _buildDataColumn('Mother Name'),
-      _buildDataColumn('Father Name'),
-      _buildDataColumn('Address'),
-      const DataColumn(label: SizedBox(width: 50, child: Text('Actions'))),
+      _buildDataColumn(BusinessOffenderStrings.registerNumber),
+      _buildDataColumn(BusinessOffenderStrings.id),
+      _buildDataColumn(BusinessOffenderStrings.businessName),
+      _buildDataColumn(BusinessOffenderStrings.registerNumber),
+      _buildDataColumn(BusinessOffenderStrings.surname),
+      _buildDataColumn(BusinessOffenderStrings.birthInfo),
+      _buildDataColumn(BusinessOffenderStrings.birthCertificateNum),
+      _buildDataColumn(BusinessOffenderStrings.motherName),
+      _buildDataColumn(BusinessOffenderStrings.fatherName),
+      _buildDataColumn(BusinessOffenderStrings.address),
+      const DataColumn(label: SizedBox(width: 50, child: Text(BusinessOffenderStrings.action))),
     ];
   }
 
@@ -173,7 +175,7 @@ Future<void> _loadRegisterNumbers() async {
 
   List<DataCell> _buildCells(BusinessOffender offender) {
     return [
-      DataCell(Text(registerNumbers[offender.business_id.toString()] ?? 'Loading...')), 
+      DataCell(Text(registerNumbers[offender.business_id.toString()] ?? BusinessOffenderStrings.loading)), 
       DataCell(Text(offender.business_id.toString())),
       DataCell(Text(offender.business_name)),
       DataCell(Text(offender.name)),
@@ -188,48 +190,69 @@ Future<void> _loadRegisterNumbers() async {
           icon: const Icon(Icons.more_vert, size: 18),
           itemBuilder: (context) => [
             const PopupMenuItem(
-              value: 'edit',
+              value: BusinessOffenderStrings.details,
               child: Row(
                 children: [
-                  Icon(Icons.edit, size: 18),
+                  Icon(Icons.remove_red_eye, size: 18),
                   SizedBox(width: 8),
-                  Text("Edit"),
+                  Text(BusinessOffenderStrings.details),
                 ],
               ),
             ),
             const PopupMenuItem(
-              value: 'delete',
+              value: BusinessOffenderStrings.Edit,
+              child: Row(
+                children: [
+                  Icon(Icons.edit, size: 18),
+                  SizedBox(width: 8),
+                  Text(BusinessOffenderStrings.Edit),
+                ],
+              ),
+            ),
+            const PopupMenuItem(
+              value: BusinessOffenderStrings.delete,
               child: Row(
                 children: [
                   Icon(Icons.delete, size: 18),
                   SizedBox(width: 8),
-                  Text("Delete"),
+                  Text(BusinessOffenderStrings.delete),
                 ],
               ),
             ),
           ],
           onSelected: (value) async {
-            if (value == 'edit') {
-            } else if (value == 'delete') {
+            if (value == BusinessOffenderStrings.details) {
+              // Navigate to the EconomicOperatorDetails screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const EconomicOperatorDetails(),
+                ),
+              );
+            } else if (value == BusinessOffenderStrings.Edit) {
+
+              print("Edit action for ${offender.business_name} selected.");
+            } else if (value == BusinessOffenderStrings.delete) {
               final confirmDelete = await showDialog<bool>(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: const Text('Confirm Delete'),
-                  content: const Text('Are you sure you want to delete this record?'),
+                  title: const Text(BusinessOffenderStrings.confirmDelete),
+                  content: const Text(BusinessOffenderStrings.deleteConfirmationMessage),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(false),
-                      child: const Text('Cancel'),
+                      child: const Text(BusinessOffenderStrings.cancel),
                     ),
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(true),
-                      child: const Text('Delete'),
+                      child: const Text(BusinessOffenderStrings.cancel),
                     ),
                   ],
                 ),
               );
 
               if (confirmDelete == true) {
+                // Perform delete operation
                 await businessOffenderRepository.deleteBusinessOffender(offender.business_id);
                 setState(() {
                   offenders.remove(offender);

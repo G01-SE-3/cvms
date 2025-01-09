@@ -1,3 +1,4 @@
+import 'package:cvms/domain/usecases/user/add_user.dart';
 import 'package:flutter/material.dart'; 
 import 'widgets/SignUpForm.dart';
 import 'widgets/LeftBackground.dart';
@@ -29,7 +30,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
-
   late final UserRepository _userRepository;
 
   List<String> existingUsernames = [SignUpPageStrings.usernamExample];

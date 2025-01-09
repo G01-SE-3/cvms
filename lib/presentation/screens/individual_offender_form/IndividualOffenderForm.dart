@@ -4,7 +4,7 @@ import 'package:cvms/presentation/screens/navigation_bars/GeneralAppBar.dart';
 import 'package:cvms/presentation/screens/navigation_bars/sidebar.dart';
 
 class IndividualOffenderForm extends StatelessWidget {
-  const IndividualOffenderForm({Key? key}) : super(key: key);
+  const IndividualOffenderForm({super.key});
 
   @override
   Widget build(BuildContext context) {

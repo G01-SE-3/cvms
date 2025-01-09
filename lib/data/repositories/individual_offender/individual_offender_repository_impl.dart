@@ -5,18 +5,20 @@ import 'package:cvms/data/datasources/individual_offender/individual_offender_da
 import 'package:cvms/data/models/individual_offender/individual_offender_model.dart';
 import 'package:cvms/domain/repositories/rc/register_number_repository.dart';
 import 'package:cvms/domain/entities/rc/register_number_entity.dart';
+import '../../../core/exceptions/custom_exception.dart';
+import '../../../core/loggers/app_logger.dart';
 
- class IndividualOffenderRepositoryImpl implements IndividualOffenderRepository {
+class IndividualOffenderRepositoryImpl implements IndividualOffenderRepository {
   final IndividualOffenderDataSource _datasource;
   final RegisterNumberRepository _registerNumberRepository;
 
-  IndividualOffenderRepositoryImpl(this._datasource, this._registerNumberRepository, );
+  IndividualOffenderRepositoryImpl(this._datasource, this._registerNumberRepository);
 
   @override
   Future<IndividualOffender> addIndividualOffender(IndividualOffender offender) async {
+    final appLogger = await AppLogger.getInstance();
     try {
       final offenderModel = IndividualOffenderModel(
-        
         individual_id: offender.individual_id,
         name: offender.name,
         surname: offender.surname,
@@ -30,29 +32,34 @@ import 'package:cvms/domain/entities/rc/register_number_entity.dart';
         business_address: offender.business_address,
       );
 
-    final addedOffender = await _datasource.addIndividualOffender(offenderModel);
+      final addedOffender = await _datasource.addIndividualOffender(offenderModel);
 
-    return IndividualOffender(
-      individual_id: addedOffender.individual_id, 
-      name: addedOffender.name,
-      surname: addedOffender.surname,
-      date_of_birth: addedOffender.date_of_birth,
-      place_of_birth: addedOffender.place_of_birth,
-      birth_certificate_number: addedOffender.birth_certificate_number,
-      mother_name: addedOffender.mother_name,
-      mother_surname: addedOffender.mother_surname,
-      father_name: addedOffender.father_name,
-      address: addedOffender.address,
-      business_address: addedOffender.business_address,
-    );
-  } catch (e) {
-    print("Error occurred while adding offender: $e");
-    throw Exception("Failed to add offender: $e");
+      await appLogger.log("INFO", "Added individual offender successfully.");
+
+      return IndividualOffender(
+        individual_id: addedOffender.individual_id,
+        name: addedOffender.name,
+        surname: addedOffender.surname,
+        date_of_birth: addedOffender.date_of_birth,
+        place_of_birth: addedOffender.place_of_birth,
+        birth_certificate_number: addedOffender.birth_certificate_number,
+        mother_name: addedOffender.mother_name,
+        mother_surname: addedOffender.mother_surname,
+        father_name: addedOffender.father_name,
+        address: addedOffender.address,
+        business_address: addedOffender.business_address,
+      );
+    } catch (e) {
+      await appLogger.log("ERROR", "Failed to add individual offender.", data: {
+        "error": e.toString(),
+      });
+      throw CustomException("Failed to add individual offender", code: "ADD_INDIVIDUAL_OFFENDER_ERROR");
+    }
   }
-}
 
   @override
   Future<void> editIndividualOffender(IndividualOffender offender, RegisterNumberEntity registerNumber) async {
+    final appLogger = await AppLogger.getInstance();
     try {
       final offenderModel = IndividualOffenderModel(
         individual_id: offender.individual_id,
@@ -69,30 +76,41 @@ import 'package:cvms/domain/entities/rc/register_number_entity.dart';
       );
 
       await _datasource.updateIndividualOffender(offender.individual_id, offenderModel);
-
       await _registerNumberRepository.updateRegisterNumber(registerNumber);
+
+      await appLogger.log("INFO", "Updated individual offender successfully.");
     } catch (e) {
-      print("Error occurred while editing individual offender: $e");
-      throw Exception("Failed to edit individual offender: $e");
+      await appLogger.log("ERROR", "Failed to update individual offender.", data: {
+        "error": e.toString(),
+      });
+      throw CustomException("Failed to edit individual offender", code: "EDIT_INDIVIDUAL_OFFENDER_ERROR");
     }
   }
 
   @override
   Future<void> deleteIndividualOffender(int individualId) async {
+    final appLogger = await AppLogger.getInstance();
     try {
       await _datasource.deleteIndividualOffender(individualId);
       await _registerNumberRepository.deleteRegisterNumber(individualId);
+
+      await appLogger.log("INFO", "Deleted individual offender successfully.");
     } catch (e) {
-      print("Error occurred while deleting individual offender: $e");
-      throw Exception("Failed to delete individual offender: $e");
+      await appLogger.log("ERROR", "Failed to delete individual offender.", data: {
+        "error": e.toString(),
+      });
+      throw CustomException("Failed to delete individual offender", code: "DELETE_INDIVIDUAL_OFFENDER_ERROR");
     }
   }
 
   @override
   Future<List<IndividualOffender>> fetchAllIndividualOffenders() async {
+    final appLogger = await AppLogger.getInstance();
     try {
       final offenderModels = await _datasource.fetchAllIndividualOffenders();
-      print("fetch in datasource worked");
+
+      await appLogger.log("INFO", "Fetched all individual offenders successfully.");
+
       return offenderModels.map((model) {
         return IndividualOffender(
           individual_id: model.individual_id,
@@ -109,14 +127,15 @@ import 'package:cvms/domain/entities/rc/register_number_entity.dart';
         );
       }).toList();
     } catch (e) {
-      print("Error occurred while fetching all offenders: $e");
-      throw Exception("Failed to fetch offenders: $e");
+      await appLogger.log("ERROR", "Failed to fetch individual offenders.", data: {
+        "error": e.toString(),
+      });
+      throw CustomException("Failed to fetch individual offenders", code: "FETCH_INDIVIDUAL_OFFENDERS_ERROR");
     }
   }
 
   @override
   Future<BusinessOffenderModel?> fetchIndividualOffenderById(int id) {
-    // TODO: implement fetchIndividualOffenderById
     throw UnimplementedError();
   }
 }

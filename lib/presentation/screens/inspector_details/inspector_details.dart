@@ -13,7 +13,7 @@ class InspectorDetailsPage extends StatelessWidget {
   final String contactNumber;
 
   // Constructor to receive data
-  InspectorDetailsPage({
+  const InspectorDetailsPage({super.key, 
     required this.inspectorName,
     required this.inspectorSurname,
     required this.inspectorDepartment,
@@ -40,9 +40,9 @@ class InspectorDetailsPage extends StatelessWidget {
                     },
                   ),
                   const SizedBox(width: 10),
-                  Text(
+                  const Text(
                     "Inspector Details", // Show the inspector's name and surname
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Colors.black, // Inspector name in black
@@ -91,9 +91,9 @@ class InspectorDetailsPage extends StatelessWidget {
                           contactNumber: contactNumber,
                         ),
                         const SizedBox(width: 8),
-                        ExportInspectorButtonWidget(),
+                        const ExportInspectorButtonWidget(),
                         const SizedBox(width: 8),
-                        DeleteInspectorButtonWidget(),
+                        const DeleteInspectorButtonWidget(),
                       ],
                     ),
                   ),
@@ -132,25 +132,25 @@ class InspectorDetailsPage extends StatelessWidget {
                           ),
                         ),
                         padding: const EdgeInsets.all(12.0),
-                        child: Row(
+                        child: const Row(
                           children: [
                             Expanded(
                               flex: 1,
                               child: Text(
                                 InspectorDetailsPageStrings.personalInfoTitle,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xFF566038),
                                 ),
                               ),
                             ),
-                            const Expanded(flex: 2, child: SizedBox.shrink()),
+                            Expanded(flex: 2, child: SizedBox.shrink()),
                           ],
                         ),
                       ),
                       // Information rows
-                      InformationRow(
+                      const InformationRow(
                         label: InspectorDetailsPageStrings.inspectorNumberLabel,
                         value: "123456",
                       ),
@@ -162,7 +162,7 @@ class InspectorDetailsPage extends StatelessWidget {
                         label: InspectorDetailsPageStrings.inspectorSurnameLabel,
                         value: inspectorSurname,
                       ),
-                      InformationRow(
+                      const InformationRow(
                         label: InspectorDetailsPageStrings.inspectorBadgeNumberLabel,
                         value: "987654",
                       ),

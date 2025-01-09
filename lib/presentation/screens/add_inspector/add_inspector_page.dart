@@ -8,6 +8,8 @@ import 'widgets/validation_util.dart';
 import 'constants/strings/add_inspector_page_strings.dart';
 
 class AddInspectorPage extends StatefulWidget {
+  const AddInspectorPage({super.key});
+
   @override
   _AddInspectorPageState createState() => _AddInspectorPageState();
 }
@@ -50,10 +52,10 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
       final contactNumber = int.tryParse(_contactNumberController.text);
       if (contactNumber == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text("Please enter a valid contact number"),
+          const SnackBar(
+            content: Text("Please enter a valid contact number"),
             backgroundColor: Colors.red,
-            duration: const Duration(seconds: 2),
+            duration: Duration(seconds: 2),
           ),
         );
         return;
@@ -75,10 +77,10 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(AddInspectorPageStrings.inspectorAddedMessage),
+        const SnackBar(
+          content: Text(AddInspectorPageStrings.inspectorAddedMessage),
           backgroundColor: Colors.green,
-          duration: const Duration(seconds: 2),
+          duration: Duration(seconds: 2),
         ),
       );
 
@@ -196,13 +198,13 @@ class _AddInspectorPageState extends State<AddInspectorPage> {
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
                       ),
-                      child:  Text(AddInspectorPageStrings.saveButton),
+                      child:  const Text(AddInspectorPageStrings.saveButton),
                     ),
                   ],
                 ),
                 const SizedBox(height: 40),
                 if (_message.isNotEmpty) 
-                  Center(child: Text(_message, style: TextStyle(fontSize: 16, color: Colors.green))),
+                  Center(child: Text(_message, style: const TextStyle(fontSize: 16, color: Colors.green))),
               ],
             ),
           ),

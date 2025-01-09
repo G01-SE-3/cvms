@@ -16,14 +16,14 @@ class EditInspectorPage extends StatefulWidget {
   final String contactNumber;
 
   const EditInspectorPage({
-    Key? key,
+    super.key,
     required this.inspectorNumber,
     required this.inspectorName,
     required this.inspectorSurname,
     required this.inspectorBadgeNumber,
     required this.assignedDepartment,
     required this.contactNumber,
-  }) : super(key: key);
+  });
 
   @override
   _EditInspectorPageState createState() => _EditInspectorPageState();
@@ -129,9 +129,9 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
                       },
                     ),
                     const SizedBox(width: 10),
-                    Text(
+                    const Text(
                       EditInspectorPageStrings.title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF306238),
@@ -201,7 +201,7 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
                         side: const BorderSide(color: Color(0xFF306238)),
                         padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
                       ),
-                      child: Text(EditInspectorPageStrings.cancelButton),
+                      child: const Text(EditInspectorPageStrings.cancelButton),
                     ),
                     const SizedBox(width: 40),
                     ElevatedButton(
@@ -211,7 +211,7 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 30.0),
                       ),
-                      child: Text(EditInspectorPageStrings.saveButton),
+                      child: const Text(EditInspectorPageStrings.saveButton),
                     ),
                   ],
                 ),

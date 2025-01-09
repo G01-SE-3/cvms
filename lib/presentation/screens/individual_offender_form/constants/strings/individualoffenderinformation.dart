@@ -1,14 +1,23 @@
-String name="Name";
-String surname="Surname";
-String commercial_register_number="commercial register number";
-String commercial_register_date="commercial register date";
-String edit_date="Edit Date";
-String cancellation_date="cancellation date";
-String date_of_birth="Date of birth";
-String place_of_birth="place of birth";
-String birth_certificate_number="Birth Certificate Number";
-String mother_name="Mother's Name";
-String mother_surname="Mother's Surname";
-String father_name="Father's Name";
-String address="Address";
-String business_address="Business Address";
+class IndividualOffenderStrings {
+  static const String name = "Name";
+  static const String surname = "Surname";
+  static const String commercialRegisterNumber = "Commercial Register Number";
+  static const String commercialRegisterDate = "Commercial Register Date";
+  static const String editDate = "Edit Date";
+  static const String cancellationDate = "Cancellation Date";
+  static const String dateOfBirth = "Date of Birth";
+  static const String placeOfBirth = "Place of Birth";
+  static const String birthCertificateNumber = "Birth Certificate Number";
+  static const String motherName = "Mother's Name";
+  static const String motherSurname = "Mother's Surname";
+  static const String fatherName = "Father's Name";
+  static const String address = "Address";
+  static const String businessAddress = "Business Address";
+  static const String showRegisterNumberDetails = "Show register number details";
+  static const String addButtonText = "Add";
+  static const String validationErrorEmptyField = "This field cannot be empty.";
+  static const String validationError = "Please enter a valid commercial register number";
+  static const String successMessage = "Individual Offender added successfully!";
+  static const String failureMessage = "Failed to add offender";
+
+}

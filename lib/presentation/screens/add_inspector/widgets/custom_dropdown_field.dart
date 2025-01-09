@@ -7,11 +7,11 @@ class CustomDropdownField extends StatelessWidget {
   final String? Function(String?)? validator;
 
   const CustomDropdownField({
-    Key? key,
+    super.key,
     required this.selectedDepartment,
     required this.onChanged,
     this.validator,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,24 +23,24 @@ class CustomDropdownField extends StatelessWidget {
           value: selectedDepartment,
           items: const [
             DropdownMenuItem(
-              child: Text(CustomDropdownFieldStrings.hr),
               value: CustomDropdownFieldStrings.hr,
+              child: Text(CustomDropdownFieldStrings.hr),
             ),
             DropdownMenuItem(
-              child: Text(CustomDropdownFieldStrings.finance),
               value: CustomDropdownFieldStrings.finance,
+              child: Text(CustomDropdownFieldStrings.finance),
             ),
             DropdownMenuItem(
-              child: Text(CustomDropdownFieldStrings.operations),
               value: CustomDropdownFieldStrings.operations,
+              child: Text(CustomDropdownFieldStrings.operations),
             ),
             DropdownMenuItem(
-              child: Text(CustomDropdownFieldStrings.it),
               value: CustomDropdownFieldStrings.it,
+              child: Text(CustomDropdownFieldStrings.it),
             ),
             DropdownMenuItem(
-              child: Text(CustomDropdownFieldStrings.sales),
               value: CustomDropdownFieldStrings.sales,
+              child: Text(CustomDropdownFieldStrings.sales),
             ),
           ],
           onChanged: onChanged,

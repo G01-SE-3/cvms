@@ -42,7 +42,7 @@ class IndividualOffenderListScreen extends State<IndividualOffenderList> {
       offenders = await individualOffenderRepository.fetchAllIndividualOffenders();
       await _loadRegisterNumbers(); 
     } catch (e) {
-      print("Error fetching offenders: $e");
+      print("Error: $e");
     } finally {
       setState(() {
         isLoading = false;
@@ -56,7 +56,7 @@ class IndividualOffenderListScreen extends State<IndividualOffenderList> {
         final registerNumber = await registerNumberRepository.getIndividualRegisterNumberById(offender.individual_id);
         registerNumbers[offender.individual_id.toString()] = registerNumber;
       } catch (e) {
-        print("Error fetching register number for ID ${offender.individual_id}: $e");
+        print("Error ${offender.individual_id}: $e");
       }
     }
     setState(() {}); 
@@ -108,7 +108,7 @@ class IndividualOffenderListScreen extends State<IndividualOffenderList> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => IndividualOffenderForm()),
+                                MaterialPageRoute(builder: (context) => const IndividualOffenderForm()),
                               );
                             },
                             icon: const Icon(Icons.add, color: Colors.white),
@@ -128,7 +128,7 @@ class IndividualOffenderListScreen extends State<IndividualOffenderList> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: DataTable(
-                      headingRowColor: MaterialStateProperty.resolveWith(
+                      headingRowColor: WidgetStateProperty.resolveWith(
                           (states) => Colors.grey[200]),
                       columns: _buildColumns(),
                       rows: offenders.map((offender) {
@@ -146,7 +146,7 @@ class IndividualOffenderListScreen extends State<IndividualOffenderList> {
 
   List<DataColumn> _buildColumns() {
     return [
-      _buildDataColumn('Commercial Register Number'),
+      _buildDataColumn(RegisterNumber),
       _buildDataColumn(Name),
       _buildDataColumn(Surname),
       _buildDataColumn(DateandPlaceofbirth),
@@ -172,7 +172,7 @@ class IndividualOffenderListScreen extends State<IndividualOffenderList> {
 
   List<DataCell> _buildCells(IndividualOffender offender) {
     return [
-      DataCell(Text(registerNumbers[offender.individual_id.toString()] ?? 'Loading...')), 
+      DataCell(Text(registerNumbers[offender.individual_id.toString()] ?? loading)), 
       DataCell(Text(offender.name)),
       DataCell(Text(offender.surname)),
       DataCell(Text(offender.date_of_birth)),
@@ -186,43 +186,43 @@ class IndividualOffenderListScreen extends State<IndividualOffenderList> {
           icon: const Icon(Icons.more_vert, size: 18),
           itemBuilder: (context) => [
             const PopupMenuItem(
-              value: 'edit',
+              value: edit,
               child: Row(
                 children: [
                   Icon(Icons.edit, size: 18),
                   SizedBox(width: 8),
-                  Text("Edit"),
+                  Text(edit),
                 ],
               ),
             ),
             const PopupMenuItem(
-              value: 'delete',
+              value: delete,
               child: Row(
                 children: [
                   Icon(Icons.delete, size: 18),
                   SizedBox(width: 8),
-                  Text("Delete"),
+                  Text(delete),
                 ],
               ),
             ),
           ],
           onSelected: (value) async {
-            if (value == 'edit') {
+            if (value == edit) {
               // Handle edit logic here
-            } else if (value == 'delete') {
+            } else if (value == delete) {
               final confirmDelete = await showDialog<bool>(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: const Text('Confirm Delete'),
-                  content: const Text('Are you sure you want to delete this record?'),
+                  title:  const Text('Confirm Delete'),
+                  content: Text(confirmDeleteRecord),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(false),
-                      child: const Text('Cancel'),
+                      child: const Text(cancel),
                     ),
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(true),
-                      child: const Text('Delete'),
+                      child: const Text(delete),
                     ),
                   ],
                 ),

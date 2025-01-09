@@ -11,12 +11,12 @@ class AddInspectorButtonWidget extends StatelessWidget {
   final String contactNumber;
 
   const AddInspectorButtonWidget({
-    Key? key,
+    super.key,
     required this.inspectorName,
     required this.inspectorSurname,
     required this.inspectorDepartment,
     required this.contactNumber,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class AddInspectorButtonWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
         ),
       ),
-      child: Text(AddInspectorButtonWidgetStrings.addButtonText, style: const TextStyle(color: Colors.white)), // Use string from the class
+      child: const Text(AddInspectorButtonWidgetStrings.addButtonText, style: TextStyle(color: Colors.white)), // Use string from the class
     );
   }
 }
