@@ -18,7 +18,6 @@ import '../../../data/repositories/rc/register_number_repository_impl.dart';
 
 import 'constants/Strings/homepage.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -29,16 +28,21 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final InspectorRepository _inspectorRepository = InspectorRepositoryImpl();
   final BusinessOffenderRepository _businessOffenderRepository =
-    BusinessOffenderRepositoryImpl(
-        BusinessOffenderDataSource(),
-        RegisterNumberRepositoryImpl(RegisterNumberDataSource()), // Pass the required argument
-    );
+      BusinessOffenderRepositoryImpl(
+    BusinessOffenderDataSource(),
+    RegisterNumberRepositoryImpl(
+        RegisterNumberDataSource()), // Pass the required argument
+  );
 
-
+  late Future<List<InspectorEntity>> _inspectorsFuture;
+  late Future<List<BusinessOffender>> _businessOffendersFuture;
 
   @override
   void initState() {
     super.initState();
+    _inspectorsFuture = _inspectorRepository.getAllInspectors();
+    _businessOffendersFuture = _businessOffenderRepository.fetchAllOffenders();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Fetch the total PV count and Monthly PV counts early
       Provider.of<PVController>(context, listen: false).fetchTotalPVCount();
@@ -61,21 +65,28 @@ class _HomePageState extends State<HomePage> {
             final totalPVs = pvController.totalPVCount;
 
             return FutureBuilder<List<InspectorEntity>>(
-              future: _inspectorRepository.getAllInspectors(),
+              future: _inspectorsFuture, // Use the cached future
               builder: (context, inspectorSnapshot) {
                 return FutureBuilder<List<BusinessOffender>>(
-                  future: _businessOffenderRepository.fetchAllOffenders(),
+                  future: _businessOffendersFuture, // Use the cached future
                   builder: (context, businessOffenderSnapshot) {
-                    if (inspectorSnapshot.connectionState == ConnectionState.waiting ||
-                        businessOffenderSnapshot.connectionState == ConnectionState.waiting) {
+                    if (inspectorSnapshot.connectionState ==
+                            ConnectionState.waiting ||
+                        businessOffenderSnapshot.connectionState ==
+                            ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
-                    } else if (inspectorSnapshot.hasError || businessOffenderSnapshot.hasError) {
+                    } else if (inspectorSnapshot.hasError ||
+                        businessOffenderSnapshot.hasError) {
                       return Center(
-                        child: Text('${HomePageStrings.errorMessage}${inspectorSnapshot.error ?? businessOffenderSnapshot.error}'),
+                        child: Text(
+                          '${HomePageStrings.errorMessage}${inspectorSnapshot.error ?? businessOffenderSnapshot.error}',
+                        ),
                       );
                     } else {
-                      final totalInspectors = inspectorSnapshot.data?.length ?? 0;
-                      final totalEconomicOperators = businessOffenderSnapshot.data?.length ?? 0;
+                      final totalInspectors =
+                          inspectorSnapshot.data?.length ?? 0;
+                      final totalEconomicOperators =
+                          businessOffenderSnapshot.data?.length ?? 0;
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,13 +94,26 @@ class _HomePageState extends State<HomePage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              StatCard(HomePageStrings.totalPVs, totalPVs.toString(), Icons.description, Colors.blue),
-                              StatCard(HomePageStrings.economicOperators, totalEconomicOperators.toString(), Icons.business, Colors.green),
-                              StatCard(HomePageStrings.inspectors, totalInspectors.toString(), Icons.person, Colors.orange),
+                              StatCard(
+                                  HomePageStrings.totalPVs,
+                                  totalPVs.toString(),
+                                  Icons.description,
+                                  Colors.blue),
+                              StatCard(
+                                  HomePageStrings.economicOperators,
+                                  totalEconomicOperators.toString(),
+                                  Icons.business,
+                                  Colors.green),
+                              StatCard(
+                                  HomePageStrings.inspectors,
+                                  totalInspectors.toString(),
+                                  Icons.person,
+                                  Colors.orange),
                             ],
                           ),
                           const SizedBox(height: 30),
-                          const LineChartWidget(title: HomePageStrings.monthlyPVsEvolution),
+                          const LineChartWidget(
+                              title: HomePageStrings.monthlyPVsEvolution),
                         ],
                       );
                     }
