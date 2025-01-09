@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage> {
       // Fetch the total PV count and Monthly PV counts early
       Provider.of<PVController>(context, listen: false).fetchTotalPVCount();
       Provider.of<PVController>(context, listen: false).fetchMonthlyPVCounts();
+      Provider.of<PVController>(context, listen: false).fetchMonthlyPVCounts();
     });
   }
 
