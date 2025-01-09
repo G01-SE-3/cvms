@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/individual_offender_form/widgets/OffenderForm.dart';
-import 'package:cvms/presentation/screens/navigation_bars/GeneralAppBar.dart';
 import 'package:cvms/presentation/screens/navigation_bars/sidebar.dart';
 
 class IndividualOffenderForm extends StatelessWidget {
@@ -8,18 +7,20 @@ class IndividualOffenderForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      drawer: Sidebar(), // Optional sidebar
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(220.0), 
-        child: GeneralAppBar(
-          search: true, 
-          initialTabIndex: 4,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Individual Offender Form'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
+      drawer: const Sidebar(),
       body: SingleChildScrollView(
         child: Column(
-          children: [
+          children: const [
             IndividualOffenderFormWidget(),
           ],
         ),

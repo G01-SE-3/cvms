@@ -17,6 +17,10 @@ import '../../../data/datasources/rc/register_number_datasource.dart';
 import '../../../data/repositories/rc/register_number_repository_impl.dart';
 
 import 'constants/Strings/homepage.dart';
+import 'package:cvms/presentation/screens/add_PV_form/AddPVPage.dart';
+import 'package:cvms/presentation/screens/add_inspector/add_inspector_page.dart';
+import 'package:cvms/presentation/screens/business_offender_form/BusinessOffenderForm.dart';
+import 'package:cvms/presentation/screens/individual_offender_form/IndividualOffenderForm.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -58,17 +62,17 @@ class _HomePageState extends State<HomePage> {
         preferredSize: Size.fromHeight(180.0),
         child: GeneralAppBar(search: false, initialTabIndex: 0),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Consumer<PVController>(
           builder: (context, pvController, child) {
             final totalPVs = pvController.totalPVCount;
 
             return FutureBuilder<List<InspectorEntity>>(
-              future: _inspectorsFuture, // Use the cached future
+              future: _inspectorsFuture,
               builder: (context, inspectorSnapshot) {
                 return FutureBuilder<List<BusinessOffender>>(
-                  future: _businessOffendersFuture, // Use the cached future
+                  future: _businessOffendersFuture,
                   builder: (context, businessOffenderSnapshot) {
                     if (inspectorSnapshot.connectionState ==
                             ConnectionState.waiting ||
@@ -91,6 +95,78 @@ class _HomePageState extends State<HomePage> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          const SizedBox(height: 30),
+                          GridView.count(
+                            crossAxisCount: 4,
+                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 16,
+                            childAspectRatio: 10,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: [
+                              _buildActionButton(
+                                context,
+                                label: HomePageStrings.addPV,
+                                icon: Icons.add,
+                                color: Colors.blue,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AddPVPage()),
+                                  );
+                                },
+                              ),
+                              _buildActionButton(
+                                context,
+                                label: HomePageStrings.addBusinessOffender,
+                                icon: Icons.business,
+                                color: Colors.green,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            BusinessOffenderForm()),
+                                  );
+                                },
+                              ),
+                              _buildActionButton(
+                                context,
+                                label: HomePageStrings.addIndividualOffender,
+                                icon: Icons.person,
+                                color: Colors.orange,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            IndividualOffenderForm()),
+                                  );
+                                },
+                              ),
+                              _buildActionButton(
+                                context,
+                                label: HomePageStrings.addInspector,
+                                icon: Icons.badge,
+                                color: Colors.purple,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            AddInspectorPage()),
+                                  );
+                                },
+                              ),
+                            ].map((button) {
+                              return SizedBox(
+                                height: 10,
+                                child: button,
+                              );
+                            }).toList(),
+                          ),
+                          const SizedBox(height: 30),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -122,6 +198,32 @@ class _HomePageState extends State<HomePage> {
               },
             );
           },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionButton(BuildContext context,
+      {required String label,
+      required IconData icon,
+      required Color color,
+      required VoidCallback onPressed}) {
+    return ElevatedButton.icon(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color,
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4),
+        ),
+      ),
+      onPressed: onPressed,
+      icon: Icon(icon, size: 19, color: Colors.white),
+      label: Text(
+        label,
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
         ),
       ),
     );
