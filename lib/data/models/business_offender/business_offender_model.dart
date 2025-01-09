@@ -14,10 +14,10 @@ class BusinessOffenderModel extends BusinessOffender {
     required super.mother_surname,
     required super.father_name,
     required super.address,
-    required super.business_address,
+    required super.business_address, 
   });
 
-factory BusinessOffenderModel.fromMap(Map<String, dynamic> map) {
+  factory BusinessOffenderModel.fromMap(Map<String, dynamic> map) {
     String formattedDate = '';
     if (map['date_of_birth'] is DateTime) {
       formattedDate = DateFormat('yyyy-MM-dd').format(map['date_of_birth']);
@@ -37,7 +37,7 @@ factory BusinessOffenderModel.fromMap(Map<String, dynamic> map) {
       mother_surname: map['mother_surname'],
       father_name: map['father_name'],
       address: map['address'],
-      business_address: map['business_address'],
+      business_address: map['business_address'], // Add business_address from map
     );
   }
 
@@ -54,7 +54,7 @@ factory BusinessOffenderModel.fromMap(Map<String, dynamic> map) {
       'mother_surname': mother_surname,
       'father_name': father_name,
       'address': address,
-      'business_address': business_address,
+      'business_address': business_address, // Include business_address
     };
   }
 
@@ -71,11 +71,10 @@ factory BusinessOffenderModel.fromMap(Map<String, dynamic> map) {
       mother_surname: mother_surname,
       father_name: father_name,
       address: address,
-      business_address: business_address,
+      business_address: business_address, // Include business_address
     );
   }
 
-  // Add the fromEntity method here
   factory BusinessOffenderModel.fromEntity(BusinessOffender offender) {
     return BusinessOffenderModel(
       business_id: offender.business_id,
@@ -89,7 +88,7 @@ factory BusinessOffenderModel.fromMap(Map<String, dynamic> map) {
       mother_surname: offender.mother_surname,
       father_name: offender.father_name,
       address: offender.address,
-      business_address: offender.business_address,
+      business_address: offender.business_address, 
     );
   }
 

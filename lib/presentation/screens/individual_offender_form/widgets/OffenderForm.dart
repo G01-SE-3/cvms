@@ -1,106 +1,220 @@
-import 'package:flutter/material.dart';
-import 'package:cvms/presentation/screens/individual_offender_form/widgets/TextFieldInput.dart';
+import 'package:cvms/data/datasources/individual_offender/individual_offender_datasource.dart';
+import 'package:cvms/data/repositories/individual_offender/individual_offender_repository_impl.dart';
 import 'package:cvms/presentation/screens/individual_offender_form/constants/strings/individualoffenderinformation.dart';
-import 'package:cvms/domain/entities/individual_offender/individual_offender.dart';
-import 'package:cvms/presentation/screens/individual_offender_form/individual_offender_informations/IndividualOffenderInformation.dart';
+import 'package:flutter/material.dart';
 import 'package:cvms/presentation/controllers/individual_offender/individual_offender_controller.dart';
+import 'package:cvms/domain/entities/individual_offender/individual_offender.dart';
+import '../../../../domain/entities/rc/register_number_entity.dart';
+import '../../BusinessOffender/BusinessOffenderList.dart';
+import 'TextFieldInput.dart';
 
+final IndividualOffenderController formController = IndividualOffenderController();
+final IndividualOffenderRepository = IndividualOffenderRepositoryImpl(
+  IndividualOffenderDataSource(),
+  registerNumberRepository,
+);
 
-final controller = IndividualOffenderController();
+class IndividualOffenderFormWidget extends StatefulWidget {
+  const IndividualOffenderFormWidget({Key? key}) : super(key: key);
 
-Widget OffenderForm({
-  required BuildContext context,
-  
-}) {
-  return Center(
-    child: SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextFieldInput(name,  nameController),
-            TextFieldInput(surname,  surnameController),
-            TextFieldInput(date_of_birth,  date_of_birthController),
-            TextFieldInput(place_of_birth,  place_of_birthController),
-            TextFieldInput(birth_certificate_number,  birth_certificate_numberController),
-            TextFieldInput(mother_name,  mother_nameController),
-            TextFieldInput(mother_surname,  mother_surnameController),
-            TextFieldInput(father_name,  father_nameController),
-            TextFieldInput(address,  addressController),
-            TextFieldInput(business_address,  business_addressController),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF306238),
-                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+  @override
+  State<IndividualOffenderFormWidget> createState() =>
+      _IndividualOffenderFormWidgetState();
+}
+
+class _IndividualOffenderFormWidgetState
+    extends State<IndividualOffenderFormWidget> {
+  bool showAdditionalInputs = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: formController.formKey,
+      child: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 800),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                TextFieldInput(
+                    "Commercial Register Number", formController.commercialRegisterNumberController),
+
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: showAdditionalInputs,
+                      onChanged: (value) {
+                        setState(() {
+                          showAdditionalInputs = value ?? false;
+                        });
+                      },
+                    ),
+                    const Text("Show register number details"),
+                  ],
                 ),
-              ),
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  submitForm(context);
-                }
-              },
-              child: const Text(
-                'Add',
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
+
+                  if (showAdditionalInputs) ...[
+                  _buildDatePickerField(
+                    label: "Commercial Register Date",
+                    controller: formController.commercialRegisterDateController,
+                  ),
+                   const SizedBox(height: 16),
+                  _buildDatePickerField(
+                    label: "Edit Date",
+                    controller: formController.editDateController,
+                  ),
+                    const SizedBox(height: 16),
+                  _buildDatePickerField(
+                    label: "Cancellation Date",
+                    controller: formController.cancellationDateController,
+                  ),
+                ],
+
+                TextFieldInput(name, formController.nameController),
+                TextFieldInput(surname, formController.surnameController),
+                TextFieldInput(
+                    date_of_birth, formController.dateOfBirthController),
+                TextFieldInput(
+                    place_of_birth, formController.placeOfBirthController),
+                TextFieldInput(birth_certificate_number,
+                    formController.birthCertificateNumberController),
+                TextFieldInput(mother_name, formController.motherNameController),
+                TextFieldInput(
+                    mother_surname, formController.motherSurnameController),
+                TextFieldInput(father_name, formController.fatherNameController),
+                TextFieldInput(address, formController.addressController),
+                TextFieldInput(
+                    business_address, formController.businessAddressController),
+                
+                
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF306238),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () {
+                    if (formController.formKey.currentState!.validate()) {
+                      submitForm(context, formController, showAdditionalInputs);
+                    }
+                  },
+                  child: const Text(
+                    'Add',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
-    ),
+    );
+  }
+
+  Widget _buildDatePickerField({
+    required String label,
+    required TextEditingController controller,
+  }) {
+    return TextFormField(
+      controller: controller,
+      readOnly: true,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: const TextStyle(color: Colors.grey),
+        filled: true,
+        fillColor: const Color(0xFFDDE5CD),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide.none,
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        suffixIcon: Icon(Icons.calendar_today),
+      ),
+      onTap: () async {
+        DateTime? pickedDate = await showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(1900),
+          lastDate: DateTime(2100),
+        );
+        if (pickedDate != null) {
+          controller.text = '${pickedDate.toLocal()}'.split(' ')[0];
+        }
+      },
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return '$label cannot be empty';
+        }
+        return null;
+      },
+    );
+  }
+
+void submitForm(BuildContext context, IndividualOffenderController formController, bool showAdditionalInputs) async {
+  DateTime? commercialRegisterDate;
+  DateTime? editDate;
+  DateTime? cancellationDate;
+
+  if (showAdditionalInputs) {
+    commercialRegisterDate = DateTime.tryParse(formController.commercialRegisterDateController.text);
+    editDate = DateTime.tryParse(formController.editDateController.text);
+    cancellationDate = DateTime.tryParse(formController.cancellationDateController.text);
+  }
+
+  final String? registerNumber = formController.commercialRegisterNumberController.text;
+  if (registerNumber == null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please enter a valid commercial register number.')),
+    );
+    return;
+  }
+
+  final offender = IndividualOffender(
+    individual_id: 0, // Temporarily set individual_id to 0
+    name: formController.nameController.text,
+    surname: formController.surnameController.text,
+    date_of_birth: formController.dateOfBirthController.text,
+    place_of_birth: formController.placeOfBirthController.text,
+    birth_certificate_number: formController.birthCertificateNumberController.text,
+    mother_name: formController.motherNameController.text,
+    mother_surname: formController.motherSurnameController.text,
+    father_name: formController.fatherNameController.text,
+    address: formController.addressController.text,
+    business_address: formController.businessAddressController.text,
   );
-}
 
+  try {
+    
+    final addedOffender = await IndividualOffenderRepository.addIndividualOffender(offender);
+    final int individual_offender_id = addedOffender.individual_id; 
 
-
-void clearForm() {
-  nameController.clear();
-  surnameController.clear();
-  date_of_birthController.clear();
-  place_of_birthController.clear();
-  birth_certificate_numberController.clear();
-  mother_nameController.clear();
-  mother_surnameController.clear();
-  father_nameController.clear();
-  addressController.clear();
-  business_addressController.clear();
-}
-void submitForm(BuildContext context) {
-  if (formKey.currentState!.validate()) {
-    // Create a BusinessOffender instance from input
-    final offender = IndividualOffender(
-      individual_id: 0,
-      name: nameController.text,
-      surname: surnameController.text,
-      date_of_birth: date_of_birthController.text,
-      place_of_birth: place_of_birthController.text,
-      birth_certificate_number: birth_certificate_numberController.text,
-      mother_name: mother_nameController.text,
-      mother_surname: mother_surnameController.text,
-      father_name: father_nameController.text,
-      address: addressController.text,
-      business_address: business_addressController.text,
+    final registerNumberEntity = RegisterNumberEntity(
+      individualOffenderId: individual_offender_id,
+      businessOffenderId: null,
+      registerNumber: registerNumber,
+      commercialRegisterDate: commercialRegisterDate?.toIso8601String() ?? '',
+      editDate: editDate?.toIso8601String() ?? '',
+      cancellationDate: cancellationDate?.toIso8601String() ?? '',
     );
 
-    // Use the controller to add the offender
-    controller.createOffender(offender).then((_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Individual Offender added successfully!')),
-      );
-      clearForm();
-    }).catchError((error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to add offender: $error')),
-      );
-    }).whenComplete(() async {
-      await controller.closeConnection();  
-    });
-   
+    await registerNumberRepository.insertRegisterNumber(registerNumberEntity);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Individual Offender added successfully!')),
+    );
+
+    formController.resetForm();
+
+  } catch (error) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Failed to add offender: $error')),
+    );
+  }
   }
 }
-

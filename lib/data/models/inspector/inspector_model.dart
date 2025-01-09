@@ -45,9 +45,9 @@ class InspectorModel {
 
   InspectorEntity toEntity() {
     return InspectorEntity(
-      name: name!,
+      name: name,
       inspectorNumber: id!,
-      surname: surname!,
+      surname: surname,
       badgeNumber: badgeNumber!,
       assignedDepartment: assignedDepartment!,
       contactNumber: contactNumber!,

@@ -22,6 +22,6 @@ class IndividualOffender {
     required this.mother_surname,
     required this.father_name,
     required this.address,
-    required this.business_address,
+    required this.business_address, 
   });
 }

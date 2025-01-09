@@ -1,104 +1,230 @@
 import 'package:flutter/material.dart';
-import 'package:cvms/presentation/screens/business_offender_form/widgets/TextFieldInput.dart';
-import 'package:cvms/presentation/screens/business_offender_form/constants/strings/businessoffenderinformation.dart';
+import 'package:cvms/presentation/controllers/business_offender/business_offender_controller.dart';
+import 'package:cvms/data/datasources/business_offender/business_offender_datasource.dart';
+import 'package:cvms/data/repositories/business_offender/business_offender_repository_impl.dart';
 import 'package:cvms/domain/entities/business_offender/business_offender.dart';
-import 'package:cvms/presentation/screens/business_offender_form/Business_offender_informations/BusinessOffenderInformation.dart';
-import '../../../../data/datasources/business_offender/business_offender_datasource.dart';
-import '../../../../data/repositories/business_offender/business_offender_repository_impl.dart';
-import '../../../../domain/repositories/business_offender/business_offender_repository.dart';
+import '../../../../data/datasources/rc/register_number_datasource.dart';
+import '../../../../data/repositories/rc/register_number_repository_impl.dart';
+import '../../../../domain/entities/rc/register_number_entity.dart';
+import 'TextFieldInput.dart';
 
 
-final BusinessOffenderrepository repository = BusinessOffenderRepositoryImpl(BusinessOffenderDataSource());
 
-Widget OffenderForm({
-  required BuildContext context,
-}) {
-  return Center(
-    child: SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextFieldInput(business_name,  business_nameController),
-            TextFieldInput(name,  nameController),
-            TextFieldInput(surname,  surnameController),
-            TextFieldInput(date_of_birth,  date_of_birthController),
-            TextFieldInput(place_of_birth,  place_of_birthController),
-            TextFieldInput(birth_certificate_number,  birth_certificate_numberController),
-            TextFieldInput(mother_name,  mother_nameController),
-            TextFieldInput(mother_surname,  mother_surnameController),
-            TextFieldInput(father_name,  father_nameController),
-            TextFieldInput(address,  addressController),
-            TextFieldInput(business_address,  business_addressController),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF306238),
-                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  submitForm(context);
-                }
-              },
-              child: const Text(
-                'Add',
-                style: TextStyle(color: Colors.white, fontSize: 16),
+final registerNumberDataSource = RegisterNumberDataSource();
+final registerNumberRepository = RegisterNumberRepositoryImpl(registerNumberDataSource);
+final businessOffenderRepository = BusinessOffenderRepositoryImpl(
+  BusinessOffenderDataSource(),
+  registerNumberRepository,
+);
+
+final BusinessOffenderController formController = BusinessOffenderController();
+
+class BusinessOffenderFormWidget extends StatefulWidget {
+  const BusinessOffenderFormWidget({
+    Key? key,
+    required BuildContext context,
+    required bool showAdditionalInputs,
+    required Null Function(dynamic value) onCheckboxChanged,
+  }) : super(key: key);
+
+  @override
+  State<BusinessOffenderFormWidget> createState() => _BusinessOffenderFormWidgetState();
+}
+
+class _BusinessOffenderFormWidgetState extends State<BusinessOffenderFormWidget> {
+  bool showAdditionalInputs = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: formController.formKey,
+      child: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 800),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  TextFieldInput(
+                    'Commercial Register Number',
+                    formController.commercialRegisterNumberController,
+                  ),
+                  const SizedBox(height: 8),
+
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: showAdditionalInputs,
+                        onChanged: (value) {
+                          setState(() {
+                            showAdditionalInputs = value ?? false;
+                          });
+                        },
+                      ),
+                      const Text('Show Register Number Details'),
+                    ],
+                  ),
+
+                  if (showAdditionalInputs) ...[
+                    _buildInputFieldWithDatePicker(
+                      label: 'Commercial Register Date',
+                      controller: formController.commercialRegisterDateController,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildInputFieldWithDatePicker(
+                      label: 'Edit Date',
+                      controller: formController.editDateController,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildInputFieldWithDatePicker(
+                      label: 'Cancellation Date',
+                      controller: formController.cancellationDateController,
+                    ),
+                  ],
+
+                  const SizedBox(height: 16),
+
+                  TextFieldInput('Business Name', formController.business_nameController),
+                  TextFieldInput('Name', formController.nameController),
+                  TextFieldInput('Surname', formController.surnameController),
+                  TextFieldInput('Date of Birth', formController.dateOfBirthController),
+                  TextFieldInput('Place of Birth', formController.placeOfBirthController),
+                  TextFieldInput('Birth Certificate Number', formController.birthCertificateNumberController),
+                  TextFieldInput('Mother Name', formController.motherNameController),
+                  TextFieldInput('Mother Surname', formController.motherSurnameController),
+                  TextFieldInput('Father Name', formController.fatherNameController),
+                  TextFieldInput('Address', formController.addressController),
+                  TextFieldInput('Business Address', formController.businessAddressController),
+
+                  const SizedBox(height: 16),
+
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF306238),
+                      padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (formController.formKey.currentState!.validate()) {
+                        submitForm(context, formController, showAdditionalInputs);
+                      }
+                    },
+                    child: const Text(
+                      'Add',
+                      style: TextStyle(color: Colors.white, fontSize: 12),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
-    ),
+    );
+  }
+
+  Widget _buildInputFieldWithDatePicker({
+    required String label,
+    required TextEditingController controller,
+  }) {
+    return TextFormField(
+      controller: controller,
+      readOnly: true,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: const TextStyle(color: Colors.grey),
+        filled: true,
+        fillColor: const Color(0xFFDDE5CD),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide.none,
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        suffixIcon: Icon(Icons.calendar_today),
+      ),
+      onTap: () async {
+        DateTime? pickedDate = await showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(1900),
+          lastDate: DateTime(2100),
+        );
+        if (pickedDate != null) {
+          controller.text = '${pickedDate.toLocal()}'.split(' ')[0];
+        }
+      },
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return '$label cannot be empty';
+        }
+        return null;
+      },
+    );
+  }
+}
+
+
+void submitForm(BuildContext context, BusinessOffenderController formController, bool showAdditionalInputs) async {
+  DateTime? commercialRegisterDate;
+  DateTime? editDate;
+  DateTime? cancellationDate;
+
+  if (showAdditionalInputs) {
+    commercialRegisterDate = DateTime.tryParse(formController.commercialRegisterDateController.text);
+    editDate = DateTime.tryParse(formController.editDateController.text);
+    cancellationDate = DateTime.tryParse(formController.cancellationDateController.text);
+  }
+
+  final String? registerNumber = formController.commercialRegisterNumberController.text;
+  if (registerNumber == null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please enter a valid commercial register number.')),
+    );
+    return;
+  }
+
+  final offender = BusinessOffender(
+    business_id: 0, // business_id is set to 0 only temorarily
+    business_name: formController.business_nameController.text,
+    name: formController.nameController.text,
+    surname: formController.surnameController.text,
+    date_of_birth: formController.dateOfBirthController.text,
+    place_of_birth: formController.placeOfBirthController.text,
+    birth_certificate_number: formController.birthCertificateNumberController.text,
+    mother_name: formController.motherNameController.text,
+    mother_surname: formController.motherSurnameController.text,
+    father_name: formController.fatherNameController.text,
+    address: formController.addressController.text,
+    business_address: formController.businessAddressController.text,
   );
-}
 
-void clearForm() {
-  business_nameController.clear();
-  nameController.clear();
-  surnameController.clear();
-  date_of_birthController.clear();
-  place_of_birthController.clear();
-  birth_certificate_numberController.clear();
-  mother_nameController.clear();
-  mother_surnameController.clear();
-  father_nameController.clear();
-  addressController.clear();
-  business_addressController.clear();
-}
+  try {
+    final addedOffender = await businessOffenderRepository.addOffender(offender);
+    final int businessId = addedOffender.business_id; 
 
-void submitForm(BuildContext context) {
-  if (formKey.currentState!.validate()) {
-    // Create a BusinessOffender instance from input
-    final offender = BusinessOffender(
-      business_id: 0, // Assuming ID is auto-generated by the database
-      business_name: business_nameController.text,
-      name: nameController.text,
-      surname: surnameController.text,
-      date_of_birth: date_of_birthController.text,
-      place_of_birth: place_of_birthController.text,
-      birth_certificate_number: birth_certificate_numberController.text,
-      mother_name: mother_nameController.text,
-      mother_surname: mother_surnameController.text,
-      father_name: father_nameController.text,
-      address: addressController.text,
-      business_address: business_addressController.text,
+    final registerNumberEntity = RegisterNumberEntity(
+      individualOffenderId: null,
+      businessOffenderId: businessId,
+      registerNumber: registerNumber,
+      commercialRegisterDate: commercialRegisterDate?.toIso8601String() ?? '',
+      editDate: editDate?.toIso8601String() ?? '',
+      cancellationDate: cancellationDate?.toIso8601String() ?? '',
     );
 
-    repository.addOffender(offender).then((_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Business Offender added successfully!')),
-      );
-      clearForm();
-    }).catchError((error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to add offender: $error')),
-      );
-    });
+    await registerNumberRepository.insertRegisterNumber(registerNumberEntity);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Business Offender added successfully!')),
+    );
+
+    formController.resetForm();
+
+  } catch (error) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Failed to add offender: $error')),
+    );
   }
 }

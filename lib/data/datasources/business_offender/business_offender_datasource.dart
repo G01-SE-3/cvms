@@ -2,7 +2,7 @@ import 'package:cvms/data/models/business_offender/business_offender_model.dart'
 import '../database_helper.dart';
 
 class BusinessOffenderDataSource {
-  // Fetch all offenders
+
 Future<List<BusinessOffenderModel>> fetchAllOffenders() async {
   final connection = await DatabaseHelper().connection;
   final results = await connection.query('SELECT * FROM business_offender');
@@ -12,7 +12,6 @@ Future<List<BusinessOffenderModel>> fetchAllOffenders() async {
 }
 
 
-  // Fetch offender by ID
   Future<BusinessOffenderModel?> fetchOffenderById(int id) async {
     if (id <= 0) {
       print("Invalid offender ID.");
@@ -32,22 +31,17 @@ Future<List<BusinessOffenderModel>> fetchAllOffenders() async {
     return null;
   }
 
-  // Add a new offender
-Future<void> addOffender(BusinessOffenderModel offender) async {
-  if (offender.business_name.isEmpty || offender.name.isEmpty) {
-    print("Cannot add offender. Required fields are empty.");
-    return;
-  }
-
+Future<BusinessOffenderModel> addOffender(BusinessOffenderModel offender) async {
   final connection = await DatabaseHelper().connection;
   try {
-    await connection.query(
+    var result = await connection.query(
       '''
       INSERT INTO business_offender 
       (business_name, name, surname, date_of_birth, place_of_birth, birth_certificate_number, 
        mother_name, mother_surname, father_name, address, business_address) 
       VALUES (@business_name, @name, @surname, @date_of_birth, @place_of_birth, @birth_certificate_number, 
               @mother_name, @mother_surname, @father_name, @address, @business_address)
+      RETURNING business_id
       ''',
       substitutionValues: {
         'business_name': offender.business_name,
@@ -63,7 +57,26 @@ Future<void> addOffender(BusinessOffenderModel offender) async {
         'business_address': offender.business_address,
       },
     );
+
+    int businessId = result.first[0]; 
+
+    var addedOffender = BusinessOffenderModel(
+      business_id: businessId, 
+      business_name: offender.business_name,
+      name: offender.name,
+      surname: offender.surname,
+      date_of_birth: offender.date_of_birth,
+      place_of_birth: offender.place_of_birth,
+      birth_certificate_number: offender.birth_certificate_number,
+      mother_name: offender.mother_name,
+      mother_surname: offender.mother_surname,
+      father_name: offender.father_name,
+      address: offender.address,
+      business_address: offender.business_address,
+    );
+
     print("Offender added successfully.");
+    return addedOffender;
   } catch (e) {
     print("Error adding offender: $e");
     rethrow;
@@ -71,7 +84,7 @@ Future<void> addOffender(BusinessOffenderModel offender) async {
 }
 
 
-  // Update an offender
+
   Future<void> updateOffender(int id, BusinessOffenderModel offender) async {
     if (id <= 0 || offender.name.isEmpty) {
       print("Cannot update offender. Invalid ID or required fields are empty.");
@@ -99,14 +112,13 @@ Future<void> addOffender(BusinessOffenderModel offender) async {
     }
   }
 
-  // Delete an offender by ID
   Future<void> deleteOffender(int id) async {
     if (id <= 0) {
       print("Invalid offender ID.");
       return;
     }
 
-    final connection = await DatabaseHelper().connection; // Get the singleton connection
+    final connection = await DatabaseHelper().connection; 
     try {
       await connection.query(
         'DELETE FROM business_offender WHERE business_id = @id',
