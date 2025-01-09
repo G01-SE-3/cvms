@@ -54,14 +54,12 @@ void main() async {
   final MonthlyPVCounts = GetMonthlyPVCounts(pvRepository);
 
   final totalPVCount = TotalPVCount(pvRepository);
- // User Repository and UseCases
+  // User Repository and UseCases
   final userRepository = UserRepositoryImpl();
   final getUserDetails = GetUserDetails(userRepository);
   final getUserByUsername = GetUserByUsername(userRepository);
-  final addUser = AddUser(userRepository:userRepository);
+  final addUser = AddUser(userRepository: userRepository);
   final updateUser = UpdateUser(userRepository);
-
-  
 
   runApp(
     MultiProvider(
@@ -79,18 +77,17 @@ void main() async {
               getPVsByDate: getPVsByDate,
               deletePV: deletePV,
               updatePV: updatePV,
-              MonthlyPVCounts:MonthlyPVCounts,
-              TotalpVCount:totalPVCount),
-
+              MonthlyPVCounts: MonthlyPVCounts,
+              TotalpVCount: totalPVCount),
         ),
-         
+
         // UserController Provider
         ChangeNotifierProvider<UserController>(
           create: (context) => UserController(
             getUserDetails: getUserDetails,
             getUserByUsername: getUserByUsername,
             addUser: addUser,
-            updateUser: updateUser,  
+            updateUser: updateUser,
           ),
         ),
       ],
