@@ -13,8 +13,10 @@ class RegisterNumberRepositoryImpl implements RegisterNumberRepository {
     try {
       await _dataSource.addRegisterNumber(RegisterNumber(
         registerNumber: registerNumber.registerNumber,
-        individualOffenderId: registerNumber.individualOffenderId,  // Handle potential null
-        businessOffenderId: registerNumber.businessOffenderId,    // Handle potential null
+        individualOffenderId:
+            registerNumber.individualOffenderId, // Handle potential null
+        businessOffenderId:
+            registerNumber.businessOffenderId, // Handle potential null
         commercialRegisterDate: registerNumber.commercialRegisterDate,
         editDate: registerNumber.editDate,
         cancellationDate: registerNumber.cancellationDate,
@@ -44,28 +46,30 @@ class RegisterNumberRepositoryImpl implements RegisterNumberRepository {
       throw Exception("Failed to fetch register numbers: $e");
     }
   }
-@override
-Future<String> getBusinessRegisterNumberById(int id) async {
-  try {
-    final registerNumber = await _dataSource.fetchBusinessRegisterNumberById(id);
-    return registerNumber!.registerNumber;  
-  } catch (e) {
-    print("Error occurred while fetching register number by ID: $e");
-    throw Exception("Failed to fetch register number by ID: $e");
-  }
-}
 
-@override
-Future<String> getIndividualRegisterNumberById(int id) async {
-  try {
-    final registerNumber = await _dataSource.fetchIndividualRegisterNumberById(id);
-    return registerNumber!.registerNumber;  
-  } catch (e) {
-    print("Error occurred while fetching register number by ID: $e");
-    throw Exception("Failed to fetch register number by ID: $e");
+  @override
+  Future<String> getBusinessRegisterNumberById(int id) async {
+    try {
+      final registerNumber =
+          await _dataSource.fetchBusinessRegisterNumberById(id);
+      return registerNumber!.registerNumber;
+    } catch (e) {
+      print("Error occurred while fetching register number by ID: $e");
+      throw Exception("Failed to fetch register number by ID: $e");
+    }
   }
-}
 
+  @override
+  Future<String> getIndividualRegisterNumberById(int id) async {
+    try {
+      final registerNumber =
+          await _dataSource.fetchIndividualRegisterNumberById(id);
+      return registerNumber!.registerNumber;
+    } catch (e) {
+      print("Error occurred while fetching register number by ID: $e");
+      throw Exception("Failed to fetch register number by ID: $e");
+    }
+  }
 
   @override
   Future<void> updateRegisterNumber(RegisterNumberEntity registerNumber) async {
@@ -73,8 +77,8 @@ Future<String> getIndividualRegisterNumberById(int id) async {
       await _dataSource.updateRegisterNumber(
         RegisterNumber(
           registerNumber: registerNumber.registerNumber,
-          individualOffenderId: registerNumber.individualOffenderId,  
-          businessOffenderId: registerNumber.businessOffenderId,   
+          individualOffenderId: registerNumber.individualOffenderId,
+          businessOffenderId: registerNumber.businessOffenderId,
           commercialRegisterDate: registerNumber.commercialRegisterDate,
           editDate: registerNumber.editDate,
           cancellationDate: registerNumber.cancellationDate,
@@ -93,6 +97,19 @@ Future<String> getIndividualRegisterNumberById(int id) async {
     } catch (e) {
       print("Error occurred while deleting register number: $e");
       throw Exception("Failed to delete register number: $e");
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> getOffenderByRC(
+      String commercialRegisterNumber) async {
+    try {
+      final result =
+          await _dataSource.getOffenderByRC(commercialRegisterNumber);
+      return result;
+    } catch (e) {
+      print("Error occurred while fetching offender by RC: $e");
+      throw Exception("Failed to fetch offender by RC: $e");
     }
   }
 }

@@ -2,9 +2,7 @@ import 'package:cvms/data/models/rc/register_number_model.dart';
 import '../database_helper.dart';
 
 class RegisterNumberDataSource {
-
-
-Future<void> addRegisterNumber(RegisterNumber registerNumber) async {
+  Future<void> addRegisterNumber(RegisterNumber registerNumber) async {
     print("datasource function running");
     final connection = await DatabaseHelper().connection;
     try {
@@ -30,8 +28,7 @@ Future<void> addRegisterNumber(RegisterNumber registerNumber) async {
     }
   }
 
-  Future<void> updateRegisterNumber( RegisterNumber registerNumber) async {
-   
+  Future<void> updateRegisterNumber(RegisterNumber registerNumber) async {
     final connection = await DatabaseHelper().connection;
     try {
       await connection.query(
@@ -80,8 +77,6 @@ Future<void> addRegisterNumber(RegisterNumber registerNumber) async {
     }
   }
 
-  
-  
   Future<List<RegisterNumber>> fetchAllRegisterNumbers() async {
     final connection = await DatabaseHelper().connection;
     final results = await connection.query('SELECT * FROM rc');
@@ -90,48 +85,100 @@ Future<void> addRegisterNumber(RegisterNumber registerNumber) async {
     }).toList();
   }
 
+  Future<RegisterNumber?> fetchBusinessRegisterNumberById(int id) async {
+    try {
+      final connection = await DatabaseHelper().connection;
+      final result = await connection.query(
+        'SELECT commercialregisternumber FROM rc WHERE business_id = @business_id',
+        substitutionValues: {'business_id': id},
+      );
 
-
-Future<RegisterNumber?> fetchBusinessRegisterNumberById(int id) async {
-  try {
-    final connection = await DatabaseHelper().connection;
-    final result = await connection.query(
-      'SELECT commercialregisternumber FROM rc WHERE business_id = @business_id',
-      substitutionValues: {'business_id': id},
-    );
-
-    if (result.isNotEmpty) {
-      print("Query result for ID $id: ${result.first.toColumnMap()}");
-      final registerNumber = RegisterNumber.fromJson(result.first.toColumnMap());
-      return registerNumber;
-    } else {
+      if (result.isNotEmpty) {
+        print("Query result for ID $id: ${result.first.toColumnMap()}");
+        final registerNumber =
+            RegisterNumber.fromJson(result.first.toColumnMap());
+        return registerNumber;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print("Database error while fetching register number for ID $id: $e");
       return null;
     }
-  } catch (e) {
-    print("Database error while fetching register number for ID $id: $e");
-    return null;
   }
-}
 
-Future<RegisterNumber?> fetchIndividualRegisterNumberById(int id) async {
-  try {
-    final connection = await DatabaseHelper().connection;
-    final result = await connection.query(
-      'SELECT commercialregisternumber FROM rc WHERE individual_id = @individual_id',
-      substitutionValues: {'individual_id': id},
-    );
+  Future<RegisterNumber?> fetchIndividualRegisterNumberById(int id) async {
+    try {
+      final connection = await DatabaseHelper().connection;
+      final result = await connection.query(
+        'SELECT commercialregisternumber FROM rc WHERE individual_id = @individual_id',
+        substitutionValues: {'individual_id': id},
+      );
 
-    if (result.isNotEmpty) {
-      print("Query result for ID $id: ${result.first.toColumnMap()}");
-      final registerNumber = RegisterNumber.fromJson(result.first.toColumnMap());
-      return registerNumber;
-    } else {
+      if (result.isNotEmpty) {
+        print("Query result for ID $id: ${result.first.toColumnMap()}");
+        final registerNumber =
+            RegisterNumber.fromJson(result.first.toColumnMap());
+        return registerNumber;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print("Database error while fetching register number for ID $id: $e");
       return null;
     }
-  } catch (e) {
-    print("Database error while fetching register number for ID $id: $e");
-    return null;
   }
-}
 
+  Future<Map<String, dynamic>> getOffenderByRC(
+      String commercialRegisterNumber) async {
+    try {
+      final connection = await DatabaseHelper().connection;
+
+      // Query to fetch offender details by commercial register number
+      final result = await connection.query(
+        '''
+      SELECT 
+        rc.commercialregisternumber,
+        rc.individual_id,
+        rc.business_id
+      FROM rc
+      WHERE rc.commercialregisternumber = @commercialRegisterNumber
+      ''',
+        substitutionValues: {
+          'commercialRegisterNumber': commercialRegisterNumber
+        },
+      );
+
+      if (result.isNotEmpty) {
+        final row = result.first.toColumnMap();
+
+        final offenderType = row['individual_id'] != null
+            ? 'individual'
+            : (row['business_id'] != null ? 'business' : null);
+        final offenderNumber = row['individual_id'] ?? row['business_id'];
+
+        return {
+          'isExisting': 1,
+          'offenderType': offenderType,
+          'offenderNumber': offenderNumber,
+        };
+      } else {
+        // Offender does not exist
+        return {
+          'isExisting': 0,
+          'offenderType': null,
+          'offenderNumber': null,
+        };
+      }
+    } catch (e) {
+      print(
+          "Database error while fetching offender for RC $commercialRegisterNumber: $e");
+      // You can decide whether to throw or return default values in case of an error.
+      return {
+        'isExisting': 0,
+        'offenderType': null,
+        'offenderNumber': null,
+      };
+    }
+  }
 }

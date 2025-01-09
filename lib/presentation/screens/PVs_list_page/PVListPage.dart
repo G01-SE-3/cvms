@@ -6,6 +6,7 @@ import 'package:cvms/presentation/screens/PVs_list_page/widgets/table_header.dar
 import 'package:cvms/presentation/screens/PVs_list_page/widgets/pv_data_table.dart';
 import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
 import 'package:cvms/presentation/screens/navigation_bars/GeneralAppBar.dart';
+
 class PVListPage extends StatefulWidget {
   final List<PV>? searchResults;
 
@@ -43,7 +44,6 @@ class _PVListPageState extends State<PVListPage> {
         child: GeneralAppBar(
           search: true,
           initialTabIndex: 1,
-          
         ),
       ),
       body: SingleChildScrollView(
@@ -72,13 +72,12 @@ class _PVListPageState extends State<PVListPage> {
                         return {
                           'PVid': pv.pvId,
                           'PVnumber': pv.pvNumber.toString(),
-                          'offendercr': pv.offender?.name ?? '',
+                          'offendercr': pv.offender?.rcNumber ?? '',
                           'offendername': pv.offender?.name ?? '',
                           'pvissuedate': pv.issueDate.toIso8601String(),
                           'violationtype': pv.violationType,
-                          'inspectingofficers': pv.inspectors
-                              .map((i) => i.surname)
-                              .join(", "),
+                          'inspectingofficers':
+                              pv.inspectors.map((i) => i.surname).join(", "),
                         };
                       }).toList(),
                     ),
