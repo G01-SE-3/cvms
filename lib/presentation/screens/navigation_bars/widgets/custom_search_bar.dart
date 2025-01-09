@@ -11,33 +11,43 @@ import 'package:provider/provider.dart';
 import 'package:cvms/presentation/screens/navigation_bars/widgets/input_field.dart';
 
 const List<DropdownMenuItem<String>> typeDropdownItems = [
-    DropdownMenuItem(
-      value: SearchStrings.type,
-      child: Text(SearchStrings.type),
-    ),
-    DropdownMenuItem(
-      value: SearchStrings.pv,
-      child: Text(SearchStrings.pv),
-    ),
-    DropdownMenuItem(
-      value: SearchStrings.rc,
-      child: Text(SearchStrings.rc),
-    ),
-  ];
+  DropdownMenuItem(
+    value: SearchStrings.type,
+    child: Text(SearchStrings.type),
+  ),
+  DropdownMenuItem(
+    value: SearchStrings.pv,
+    child: Text(SearchStrings.pv),
+  ),
+  DropdownMenuItem(
+    value: SearchStrings.rc,
+    child: Text(SearchStrings.rc),
+  ),
+];
 
- const  List<DropdownMenuItem<String>> filterDropdownItems = [
-    DropdownMenuItem(
-      value: SearchStrings.latest,
-      child: Text(SearchStrings.latest),
-    ),
-    DropdownMenuItem(
-      value: SearchStrings.date,
-      child: Text(SearchStrings.date),
-    ),
-  ];
+const List<DropdownMenuItem<String>> filterDropdownItems = [
+  DropdownMenuItem(
+    value: SearchStrings.latest,
+    child: Text(SearchStrings.latest),
+  ),
+  DropdownMenuItem(
+    value: SearchStrings.date,
+    child: Text(SearchStrings.date),
+  ),
+];
 
+/// General rule for using `CustomSearchBar` widget:
+/// 
+/// To include this widget in your code:
+/// 1. Simply add `CustomSearchBar()` where you want the search bar to appear.
+/// 2. This widget provides a search functionality where the user can input a number to search.
+/// 3. It also allows filtering by "latest" or "date", which triggers different forms.
+/// 
+/// Example usage:
+/// ```dart
+/// CustomSearchBar()
+/// ```
 class CustomSearchBar extends StatefulWidget {
-  
   const CustomSearchBar({super.key});
 
   @override
@@ -52,30 +62,37 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
     final pvController = Provider.of<PVController>(context, listen: false);
 
     void onSearch() async {
+      // Validate the input before searching
       String? validationError = validateInput(searchController.text);
       if (validationError != null) {
-        showErrorMessage(context, validationError);
+        showErrorMessage(context, validationError); // Display validation error message
         return;
       }
 
       try {
+        // Parse the input text as an integer (e.g., PV number) for the search
         int pvNumber = int.parse(searchController.text);
+
+        // Call the controller to search for PVs using the parsed number
         List<PV> searchResults = await pvController.searchPVsByNumber(pvNumber);
 
         if (searchResults.isEmpty) {
+          // If no PVs are found, show a "no results" message
           handleNoPVFound(context);
           return;
         }
 
+        // If PVs are found, navigate to the PVListPage to display the results
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => PVListPage(
-              searchResults: searchResults,
+              searchResults: searchResults,  // Pass search results to the next screen
             ),
           ),
         );
       } catch (e) {
+        // If an error occurs, such as a parsing error, show an error message
         showErrorMessage(context, "${SearchStrings.error}${e.toString()}");
       }
     }
@@ -98,7 +115,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                 color: const Color(0xFFBDC9AA),
                 bordercolor: Colors.grey,
                 isReadOnly: false,
-                onIconPressed: onSearch,
+                onIconPressed: onSearch,  // Trigger search when icon is pressed
               ),
             ),
           ),
@@ -115,8 +132,9 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
               child: GestureDetector(
                 onTap: () {
                   setState(() {
-                    searchController.clear();
+                    searchController.clear();  // Clear the search input when tapped
                   });
+                  // Navigate to Pv List page to refresh old content and clear search result from the list
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
@@ -141,6 +159,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
             hint: SearchStrings.filterBy,
             items: filterDropdownItems,
             onChanged: (value) {
+              // Handle filter option selection
               if (value == SearchStrings.latest) {
                 showDialog(
                   context: context,
@@ -162,6 +181,4 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       ),
     );
   }
-
-  
 }

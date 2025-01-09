@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../homepage/homepage.dart';
+import '../constants/Strings/ChangesSavedDialog.dart';
+
 
 void ChangesSavedDialog(BuildContext context) {
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      title: const Text("Changes Saved"),
+      title: const Text(ChangesSavedDialogStrings.title),
       actions: [
         TextButton(
           onPressed: () {
@@ -15,7 +17,7 @@ void ChangesSavedDialog(BuildContext context) {
               (Route<dynamic> route) => false, 
             ); 
           },
-          child: const Text("OK"),
+          child: const Text(ChangesSavedDialogStrings.okButtonText),
         ),
       ],
     ),

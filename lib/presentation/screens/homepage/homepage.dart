@@ -16,6 +16,9 @@ import 'package:cvms/data/datasources/business_offender/business_offender_dataso
 import '../../../data/datasources/rc/register_number_datasource.dart';
 import '../../../data/repositories/rc/register_number_repository_impl.dart';
 
+import 'constants/Strings/homepage.dart';
+
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -68,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                       return const Center(child: CircularProgressIndicator());
                     } else if (inspectorSnapshot.hasError || businessOffenderSnapshot.hasError) {
                       return Center(
-                        child: Text('Error: ${inspectorSnapshot.error ?? businessOffenderSnapshot.error}'),
+                        child: Text('${HomePageStrings.errorMessage}${inspectorSnapshot.error ?? businessOffenderSnapshot.error}'),
                       );
                     } else {
                       final totalInspectors = inspectorSnapshot.data?.length ?? 0;
@@ -80,13 +83,13 @@ class _HomePageState extends State<HomePage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              StatCard('Total PVs', totalPVs.toString(), Icons.description, Colors.blue),
-                              StatCard('Economic Operators', totalEconomicOperators.toString(), Icons.business, Colors.green),
-                              StatCard('Inspectors', totalInspectors.toString(), Icons.person, Colors.orange),
+                              StatCard(HomePageStrings.totalPVs, totalPVs.toString(), Icons.description, Colors.blue),
+                              StatCard(HomePageStrings.economicOperators, totalEconomicOperators.toString(), Icons.business, Colors.green),
+                              StatCard(HomePageStrings.inspectors, totalInspectors.toString(), Icons.person, Colors.orange),
                             ],
                           ),
                           const SizedBox(height: 30),
-                          const LineChartWidget(title: 'Monthly PVs Evolution'),
+                          const LineChartWidget(title: HomePageStrings.monthlyPVsEvolution),
                         ],
                       );
                     }
