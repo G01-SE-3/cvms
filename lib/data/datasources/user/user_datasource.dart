@@ -1,12 +1,26 @@
+/*`File Name: <user_datasource.dart>
+Purpose: 
+- The purpose of this file is to manage user data operations, including fetching, adding, updating, and verifying users in the database.
+Authors:
+- BOUHOUIA Yousra [yousra.bouhouia@ensia.edu.dz]
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved`*/
+
 import 'package:cvms/data/models/user/user_model.dart';
 import '../database_helper.dart';
 
 
 class UserDataSource {
 
-  // Fetch all users
+/// Fetches all users from the database.
+/// This method is asynchronous and returns a list of [UserModel] objects.
+/// 
+/// Throws a [DatabaseException] if the fetch operation fails.
+  
   Future<List<UserModel>> fetchAllUsers() async {
-    final connection = await DatabaseHelper().connection;  // Get the singleton connection
+    final connection = await DatabaseHelper().connection;  
     final results = await connection.query('SELECT * FROM users');
 
     List<UserModel> users = [];
@@ -16,27 +30,30 @@ class UserDataSource {
     return users;
   }
 
-  // Fetch user by username
+/// Fetches a user from the database by their username.
+/// This method is asynchronous and returns a [UserModel] object if found, or null if not.
+/// 
+/// Throws a [DatabaseException] if the fetch operation fails.
+
   Future<UserModel?> fetchUserByUsername(String username) async {
   if (username.isEmpty) {
     print("Username is empty.");
     return null;
   }
 
-  final connection = await DatabaseHelper().connection;  // Get the singleton connection
+  final connection = await DatabaseHelper().connection;  
   final result = await connection.query(
     'SELECT * FROM users WHERE username = @username',
     substitutionValues: {'username': username},
   );
 
   if (result.isNotEmpty) {
-    final row = result.first.toColumnMap();  // Convert row to map
+    final row = result.first.toColumnMap();  
 
-    // Ensure correct types when creating UserModel
     return UserModel(
-      username: row['username'], // Use the actual column name 'username'
-      email: row['email'],       // Use the actual column name 'email'
-      hashedPassword: row['password'], // Use the actual column name 'password'
+      username: row['username'], 
+      email: row['email'],      
+      hashedPassword: row['password'], 
     );
   }
 
@@ -44,15 +61,18 @@ class UserDataSource {
   return null;
 }
 
+/// Fetches a user from the database by their email.
+/// This method is asynchronous and returns a [UserModel] object if found, or null if not.
+/// 
+/// Throws a [DatabaseException] if the fetch operation fails.
 
-  // Fetch user by email
   Future<UserModel?> fetchUserByEmail(String email) async {
     if (email.isEmpty) {
       print("Email is empty.");
       return null;
     }
 
-    final connection = await DatabaseHelper().connection;  // Get the singleton connection
+    final connection = await DatabaseHelper().connection;  
     final result = await connection.query(
       'SELECT * FROM users WHERE email = @email',
       substitutionValues: {'email': email},
@@ -70,14 +90,18 @@ class UserDataSource {
     return null;
   }
 
-  // Fetch user by ID
+/// Fetches a user from the database by their user ID.
+/// This method is asynchronous and returns a [UserModel] object if found, or null if not.
+/// 
+/// Throws a [DatabaseException] if the fetch operation fails or if the ID is invalid.
+
   Future<UserModel?> fetchUserById(int id) async {
     if (id <= 0) {
       print("Invalid user ID.");
       return null;
     }
 
-    final connection = await DatabaseHelper().connection;  // Get the singleton connection
+    final connection = await DatabaseHelper().connection; 
     final result = await connection.query(
       'SELECT * FROM users WHERE user_id = @id',
       substitutionValues: {'id': id},
@@ -95,9 +119,13 @@ class UserDataSource {
     return null;
   }
 
-  // Check if user exists by username and password
+/// Checks if the provided username and password match a user in the database.
+/// This method is asynchronous and returns a boolean indicating whether the credentials are valid.
+/// 
+/// Throws a [DatabaseException] if the query operation fails.
+
   Future<bool> checkUserCredentials(String username, String password) async {
-    final connection = await DatabaseHelper().connection;  // Get the singleton connection
+    final connection = await DatabaseHelper().connection; 
     final result = await connection.query(
       'SELECT * FROM users WHERE username = @username AND password = @password',
       substitutionValues: {
@@ -109,7 +137,11 @@ class UserDataSource {
     return result.isNotEmpty;
   }
 
-  // Add a new user
+/// Adds a new user to the database.
+/// This method is asynchronous and executes an SQL query to insert the new user data.
+/// 
+/// Throws a [DatabaseException] if the insert operation fails.
+
   Future<void> addUser(UserModel user) async {
     if (user.username.isEmpty || user.email.isEmpty || user.hashedPassword.isEmpty) {
       print("Cannot add user. One or more required fields are empty.");
@@ -141,7 +173,11 @@ class UserDataSource {
     }
   }
 
-  // Update user details
+/// Updates an existing user's details in the database based on their username.
+/// This method is asynchronous and executes an SQL query to update the user data.
+/// 
+/// Throws a [DatabaseException] if the update operation fails.
+
   Future<bool> updateUser(UserModel user,String username) async {
     if (user.username.isEmpty || user.email.isEmpty||user.hashedPassword.isEmpty) {
      //rise ecxeption

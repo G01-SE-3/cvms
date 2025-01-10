@@ -1,3 +1,14 @@
+/*
+File Name: inspector_datasource.dart
+Purpose: Handles the data operations related to the inspector entity, including fetching, adding, updating, and deleting inspector records from the database.
+Authors: 
+- Manar BENTAYEB [manar.bentayeb@ensia.edu.dz]
+
+Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
+
 import '../../models/inspector/inspector_model.dart';
 import '../database_helper.dart';
 

@@ -1,3 +1,14 @@
+/*
+File Name: PVListPage
+Purpose: This file implements the page displaying a list of PVs (Process Verbals). It allows users to view PV details in a tabular format. If search results are provided, it displays the filtered list; otherwise, it loads and displays all available PVs.
+Authors:
+- Team Member 1 safia.tifour@ensia.edu.dz
+
+Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
+
 import 'package:cvms/domain/entities/pv/pv.dart';
 import 'package:cvms/presentation/screens/navigation_bars/Sidebar.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +17,19 @@ import 'package:cvms/presentation/screens/PVs_list_page/widgets/table_header.dar
 import 'package:cvms/presentation/screens/PVs_list_page/widgets/pv_data_table.dart';
 import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
 import 'package:cvms/presentation/screens/navigation_bars/GeneralAppBar.dart';
+
+/// The PVListPage displays a list of PVs in a table format. It can show either a filtered set of PVs
+/// passed as search results or load and display all PVs from the repository. Users can view detailed information
+/// about each PV, including PV number, offender information, issue date, violation type, and inspecting officers.
+///
+/// Dependencies:
+/// - [PVController]: Manages fetching and loading all PVs from the repository. It provides loading state and error messages.
+/// - [Sidebar]: A custom sidebar for navigation.
+/// - [GeneralAppBar]: A custom app bar that includes a search bar and other app-wide elements.
+/// - [HeaderRow]: Displays the table header for the PV list, including column titles.
+/// - [PVDataTable]: Renders the list of PVs in a table format, where each row contains detailed information about a PV.
+/// - [Consumer<PVController>]: A provider consumer used to rebuild the UI based on the state of PV data (loading, error, or success).
+/// - [WidgetsBinding.instance.addPostFrameCallback]: Ensures that the loading of PVs happens after the widget is built.
 
 class PVListPage extends StatefulWidget {
   final List<PV>? searchResults;

@@ -1,3 +1,13 @@
+/*
+File Name: <individual_offender.dart>
+Purpose: <Represents a individual offender with personal and individual details, including a method for entity conversion>
+Authors: 
+- BENHAMOUCHE Lydia [lydia.benhamouche@ensia.edu.dz](mailto:lydia.benhamouche@ensia.edu.dz)
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
 class IndividualOffender {
   final int individual_id;
   final String name;

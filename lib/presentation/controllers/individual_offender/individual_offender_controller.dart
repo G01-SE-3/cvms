@@ -1,3 +1,15 @@
+/*
+File Name: <individual_offender_repository.dart>
+Purpose: < Implements the controller for managing individual offender form data, including handling user input, resetting fields, and managing form state>
+Authors: 
+- BENHAMOUCHE Lydia [lydia.benhamouche@ensia.edu.dz](mailto:lydia.benhamouche@ensia.edu.dz)
+- BOUHOUIA Yousra [yousra.bouhouia@ensia.edu.dz](mailto:yousra.bouhouia@ensia.edu.dz)
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
+
 import 'package:flutter/material.dart';
 
 class IndividualOffenderController extends ChangeNotifier {

@@ -1,3 +1,14 @@
+/*
+File Name: inspector_repository_impl.dart
+Purpose: Implements the InspectorRepository interface, providing methods to interact with the datasource and handle CRUD operations for inspector entities.
+Authors: 
+- Manar BENTAYEB [manar.bentayeb@ensia.edu.dz]
+
+Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
+
 import 'package:cvms/data/datasources/inspector/inspector_datasource.dart';
 import 'package:cvms/domain/repositories/inspector/inspector_repository.dart';
 import '../../models/inspector/inspector_model.dart';
@@ -63,10 +74,10 @@ class InspectorRepositoryImpl implements InspectorRepository {
           : null,
     );
 
-    await _datasource.updateInspector(inspectorModel);  // Ensure this method is implemented in your datasource
+    await _datasource.updateInspector(inspectorModel); 
   }
 
-   @override
+  @override
   Future<void> deleteInspector(InspectorEntity inspector) async {
     try {
       await _datasource.deleteInspector(inspector.inspectorNumber);
@@ -74,6 +85,7 @@ class InspectorRepositoryImpl implements InspectorRepository {
       throw Exception('Failed to delete inspector');
     }
   }
+
   InspectorEntity toEntity(InspectorModel model) {
     return InspectorEntity(
       inspectorNumber: model.id ?? 0,

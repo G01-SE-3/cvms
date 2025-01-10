@@ -1,3 +1,14 @@
+/*`File Name: <user_repository_impl.dart>
+Purpose: 
+- The purpose of this file is to interactwith the user data source, ensuring data operations 
+like fetch, add, update, and validate user credentials.
+Authors:
+- BOUHOUIA Yousra [yousra.bouhouia@ensia.edu.dz]
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved`*/
+
 import 'package:cvms/data/datasources/user/user_datasource.dart';
 import 'package:cvms/domain/repositories/user/user_repository.dart';
 import 'package:cvms/data/models/user/user_model.dart';
@@ -8,6 +19,11 @@ import '../../../core/loggers/app_logger.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final UserDataSource _datasource = UserDataSource();
+
+/// Fetches all users from the data source.
+/// This method is asynchronous and returns a list of [User] entities.
+/// 
+/// Throws a [CustomException] if the fetch operation fails.
 
   @override
   Future<List<User>> getAllUsers() async {
@@ -25,6 +41,11 @@ class UserRepositoryImpl implements UserRepository {
       throw CustomException("Failed to fetch all users", code: "FETCH_USERS_ERROR");
     }
   }
+
+/// Fetches a user from the data source by username.
+/// This method is asynchronous and returns a [User] entity.
+/// 
+/// Throws a [CustomException] if the fetch operation fails.
 
   @override
   Future<User?> fetchUserByUsername(String username) async {
@@ -58,6 +79,11 @@ class UserRepositoryImpl implements UserRepository {
     }
   }
 
+/// Fetches a user from the data source by email.
+/// This method is asynchronous and returns a [User] entity.
+/// 
+/// Throws a [CustomException] if the fetch operation fails.
+
   @override
   Future<User?> fetchUserByEmail(String email) async {
     final appLogger = await AppLogger.getInstance(); 
@@ -88,6 +114,11 @@ class UserRepositoryImpl implements UserRepository {
       throw CustomException("Failed to fetch user by email", code: "FETCH_USER_BY_EMAIL_ERROR");
     }
   }
+
+/// Fetches a user from the data source by ID.
+/// This method is asynchronous and returns a [User] entity.
+/// 
+/// Throws a [CustomException] if the fetch operation fails.
 
   @override
   Future<User?> fetchUserById(int id) async {
@@ -121,6 +152,12 @@ class UserRepositoryImpl implements UserRepository {
       throw CustomException("Failed to fetch user by ID", code: "FETCH_USER_BY_ID_ERROR");
     }
   }
+
+/// Adds a new user to the data source.
+/// This method is asynchronous and performs the necessary data transformation 
+/// between the entity and the model before calling the data source.
+/// 
+/// Throws a [CustomException] if the add operation fails.
 
   @override
   Future<void> addUser(User user) async {
@@ -160,6 +197,12 @@ class UserRepositoryImpl implements UserRepository {
     }
   }
 
+/// Updates an existing user in the data source.
+/// This method is asynchronous and performs the necessary data transformation 
+/// between the entity and the model before calling the data source.
+/// 
+/// Throws a [CustomException] if the update operation fails.
+
   @override
   Future<bool> updateUser(User user, String username) async {
     final appLogger = await AppLogger.getInstance();
@@ -197,6 +240,12 @@ class UserRepositoryImpl implements UserRepository {
       throw CustomException("Failed to update user", code: "UPDATE_USER_ERROR");
     }
   }
+
+/// Checks the user credentials in the data source.
+/// This method is asynchronous and returns a boolean indicating whether 
+/// the credentials are valid.
+/// 
+/// Throws a [CustomException] if the operation fails.
 
   @override
   Future<bool> checkUserCredentials(String username, String password) async {

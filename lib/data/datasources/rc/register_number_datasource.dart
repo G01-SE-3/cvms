@@ -1,7 +1,25 @@
+/*`File Name: <register_number_datasource.dart>
+Purpose: 
+- The purpose of this file is to manage the database operations for the registration numbers, 
+including adding, updating, deleting, and fetching register numbers and their associated offender details.
+Authors:
+- BOUHOUIA Yousra [yousra.bouhouia@ensia.edu.dz]
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved`*/
+
+
 import 'package:cvms/data/models/rc/register_number_model.dart';
 import '../database_helper.dart';
 
 class RegisterNumberDataSource {
+
+/// Adds a new register number to the database.
+/// This method is asynchronous and executes an SQL query to insert the new register number data.
+/// 
+/// Throws a [DatabaseException] if the insert operation fails.
+
   Future<void> addRegisterNumber(RegisterNumber registerNumber) async {
     print("datasource function running");
     final connection = await DatabaseHelper().connection;
@@ -27,6 +45,11 @@ class RegisterNumberDataSource {
       rethrow;
     }
   }
+
+/// Updates an existing register number in the database.
+/// This method is asynchronous and executes an SQL query to update the register number details.
+/// 
+/// Throws a [DatabaseException] if the update operation fails.
 
   Future<void> updateRegisterNumber(RegisterNumber registerNumber) async {
     final connection = await DatabaseHelper().connection;
@@ -58,6 +81,11 @@ class RegisterNumberDataSource {
     }
   }
 
+/// Deletes a register number from the database based on the given ID.
+/// This method is asynchronous and executes an SQL query to remove the register number.
+/// 
+/// Throws a [DatabaseException] if the deletion operation fails or if the ID is invalid.
+  
   Future<void> deleteRegisterNumber(int id) async {
     if (id <= 0) {
       print("Invalid register number ID.");
@@ -77,6 +105,11 @@ class RegisterNumberDataSource {
     }
   }
 
+/// Fetches all register numbers from the database.
+/// This method is asynchronous and returns a list of [RegisterNumber] objects.
+/// 
+/// Throws a [DatabaseException] if the fetch operation fails.
+
   Future<List<RegisterNumber>> fetchAllRegisterNumbers() async {
     final connection = await DatabaseHelper().connection;
     final results = await connection.query('SELECT * FROM rc');
@@ -84,6 +117,11 @@ class RegisterNumberDataSource {
       return RegisterNumber.fromJson(row.toColumnMap());
     }).toList();
   }
+
+/// Fetches a business's register number based on the given business ID.
+/// This method is asynchronous and returns a [RegisterNumber] object if found, or null if not.
+/// 
+/// Throws a [DatabaseException] if the fetch operation fails.
 
   Future<RegisterNumber?> fetchBusinessRegisterNumberById(int id) async {
     try {
@@ -107,6 +145,11 @@ class RegisterNumberDataSource {
     }
   }
 
+/// Fetches an individual's register number based on the given individual ID.
+/// This method is asynchronous and returns a [RegisterNumber] object if found, or null if not.
+/// 
+/// Throws a [DatabaseException] if the fetch operation fails.
+
   Future<RegisterNumber?> fetchIndividualRegisterNumberById(int id) async {
     try {
       final connection = await DatabaseHelper().connection;
@@ -128,6 +171,11 @@ class RegisterNumberDataSource {
       return null;
     }
   }
+
+/// Fetches offender details based on the given commercial register number.
+/// This method is asynchronous and returns a map containing offender information if found.
+/// 
+/// Throws a [DatabaseException] if the fetch operation fails.
 
   Future<Map<String, dynamic>> getOffenderByRC(
       String commercialRegisterNumber) async {

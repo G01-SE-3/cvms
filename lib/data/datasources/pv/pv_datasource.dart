@@ -1,3 +1,15 @@
+/*
+File Name: pv_repository_impl.dart
+Purpose: This file contains the implementation of the PVDataSource that interacts directly with the DB 
+to interact with the PV data source.
+Authors:
+- Team Member 1 safia.tifour@ensia.edu.dz
+- Team Member 2 hiba.ayadi@ensia.edu.dz
+
+Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
 import 'package:cvms/data/models/pv/pv_model.dart';
 import 'package:cvms/data/models/pv/offender.dart';
 import 'package:cvms/core/utils/get_db.dart';
@@ -9,7 +21,7 @@ import 'package:cvms/data/models/inspector/inspector_model.dart';
 
 class PVDataSource {
   Future<PVModel?> getPVDetails(String pvId) async {
-    final connection = await getDatabaseConnection(); // Get DB connection
+    final connection = await getDatabaseConnection();
     try {
       // Query to fetch PV details
       var result = await connection.connection!.query('''
@@ -44,60 +56,32 @@ class PVDataSource {
 
       // Fetch Offender Details and RC Number
       OffenderModel? offender;
-      if (individualId != null) {
-        var individualResult = await connection.connection!.query('''
-      SELECT individual_id, name, surname
-      FROM individual_offender
+      var individualResult = await connection.connection!.query('''
+    SELECT individual_id, name, surname
+    FROM individual_offender
+    WHERE individual_id = @individualId;
+  ''', substitutionValues: {'individualId': individualId});
+
+      String? rcNumber;
+      if (individualResult.isNotEmpty) {
+        // Query RC table for individual
+        var rcResult = await connection.connection!.query('''
+      SELECT commercialregisternumber
+      FROM rc
       WHERE individual_id = @individualId;
     ''', substitutionValues: {'individualId': individualId});
 
-        String? rcNumber;
-        if (individualResult.isNotEmpty) {
-          // Query RC table for individual
-          var rcResult = await connection.connection!.query('''
-        SELECT commercialregisternumber
-        FROM rc
-        WHERE individual_id = @individualId;
-      ''', substitutionValues: {'individualId': individualId});
+        rcNumber = rcResult.isNotEmpty ? rcResult.first[0] : null;
 
-          rcNumber = rcResult.isNotEmpty ? rcResult.first[0] : null;
-
-          var offenderData = individualResult.first;
-          offender = OffenderModel(
-            id: offenderData[0].toString(),
-            type: "individual",
-            name: '${offenderData[1]} ${offenderData[2]}',
-            rcNumber: rcNumber, // Include RC Number
-          );
-        }
-      } else if (businessId != null) {
-        var businessResult = await connection.connection!.query('''
-      SELECT business_id, name, surname
-      FROM business_offender
-      WHERE business_id = @businessId;
-    ''', substitutionValues: {'businessId': businessId});
-
-        String? rcNumber;
-        if (businessResult.isNotEmpty) {
-          // Query RC table for business
-          var rcResult = await connection.connection!.query('''
-        SELECT commercialregisternumber
-        FROM rc
-        WHERE business_id = @businessId;
-      ''', substitutionValues: {'businessId': businessId});
-
-          rcNumber = rcResult.isNotEmpty ? rcResult.first[0] : null;
-
-          var offenderData = businessResult.first;
-          offender = OffenderModel(
-            id: offenderData[0].toString(),
-            type: "business",
-            name: '${offenderData[1]} ${offenderData[2]}',
-            rcNumber: rcNumber, // Include RC Number
-          );
-        }
+        var offenderData = individualResult.first;
+        offender = OffenderModel(
+          id: offenderData[0].toString(),
+          type: "individual",
+          name: '${offenderData[1]} ${offenderData[2]}',
+          rcNumber: rcNumber, // Include RC Number
+        );
       }
-
+    
       // Fetch Financial Penalty
       var financialPenaltyResult = await connection.connection!.query('''
       SELECT penalty_id, penalty_amount, penalty_date, payment_receipt_number, payment_receipt_date
@@ -246,60 +230,32 @@ class PVDataSource {
 
         // Fetch Offender Details and RC Number
         OffenderModel? offender;
-        if (individualId != null) {
-          var individualResult = await connection.connection!.query('''
-      SELECT individual_id, name, surname
-      FROM individual_offender
+        var individualResult = await connection.connection!.query('''
+    SELECT individual_id, name, surname
+    FROM individual_offender
+    WHERE individual_id = @individualId;
+  ''', substitutionValues: {'individualId': individualId});
+
+        String? rcNumber;
+        if (individualResult.isNotEmpty) {
+          // Query RC table for individual
+          var rcResult = await connection.connection!.query('''
+      SELECT commercialregisternumber
+      FROM rc
       WHERE individual_id = @individualId;
     ''', substitutionValues: {'individualId': individualId});
 
-          String? rcNumber;
-          if (individualResult.isNotEmpty) {
-            // Query RC table for individual
-            var rcResult = await connection.connection!.query('''
-        SELECT commercialregisternumber
-        FROM rc
-        WHERE individual_id = @individualId;
-      ''', substitutionValues: {'individualId': individualId});
+          rcNumber = rcResult.isNotEmpty ? rcResult.first[0] : null;
 
-            rcNumber = rcResult.isNotEmpty ? rcResult.first[0] : null;
-
-            var offenderData = individualResult.first;
-            offender = OffenderModel(
-              id: offenderData[0].toString(),
-              type: "individual",
-              name: '${offenderData[1]} ${offenderData[2]}',
-              rcNumber: rcNumber, // Include RC Number
-            );
-          }
-        } else if (businessId != null) {
-          var businessResult = await connection.connection!.query('''
-      SELECT business_id, name, surname
-      FROM business_offender
-      WHERE business_id = @businessId;
-    ''', substitutionValues: {'businessId': businessId});
-
-          String? rcNumber;
-          if (businessResult.isNotEmpty) {
-            // Query RC table for business
-            var rcResult = await connection.connection!.query('''
-        SELECT commercialregisternumber
-        FROM rc
-        WHERE business_id = @businessId;
-      ''', substitutionValues: {'businessId': businessId});
-
-            rcNumber = rcResult.isNotEmpty ? rcResult.first[0] : null;
-
-            var offenderData = businessResult.first;
-            offender = OffenderModel(
-              id: offenderData[0].toString(),
-              type: "business",
-              name: '${offenderData[1]} ${offenderData[2]}',
-              rcNumber: rcNumber, // Include RC Number
-            );
-          }
+          var offenderData = individualResult.first;
+          offender = OffenderModel(
+            id: offenderData[0].toString(),
+            type: "individual",
+            name: '${offenderData[1]} ${offenderData[2]}',
+            rcNumber: rcNumber, // Include RC Number
+          );
         }
-
+      
         // Fetch inspectors for each PV
         var inspectorResult = await connection.connection!.query('''
         SELECT 
@@ -504,38 +460,21 @@ class PVDataSource {
 
         // Fetch offender details
         OffenderModel? offender;
-        if (individualId != null) {
-          var individualResult = await connection.connection!.query('''
-          SELECT individual_id, name, surname
-          FROM individual_offender
-          WHERE individual_id = @individualId;
-        ''', substitutionValues: {'individualId': individualId});
+        var individualResult = await connection.connection!.query('''
+        SELECT individual_id, name, surname
+        FROM individual_offender
+        WHERE individual_id = @individualId;
+      ''', substitutionValues: {'individualId': individualId});
 
-          if (individualResult.isNotEmpty) {
-            var offenderData = individualResult.first;
-            offender = OffenderModel(
-              id: offenderData[0].toString(),
-              type: "individual",
-              name: '${offenderData[1]} ${offenderData[2]}',
-            );
-          }
-        } else if (businessId != null) {
-          var businessResult = await connection.connection!.query('''
-          SELECT business_id, name, surname
-          FROM business_offender
-          WHERE business_id = @businessId;
-        ''', substitutionValues: {'businessId': businessId});
-
-          if (businessResult.isNotEmpty) {
-            var offenderData = businessResult.first;
-            offender = OffenderModel(
-              id: offenderData[0].toString(),
-              type: "business",
-              name: '${offenderData[1]} ${offenderData[2]}',
-            );
-          }
+        if (individualResult.isNotEmpty) {
+          var offenderData = individualResult.first;
+          offender = OffenderModel(
+            id: offenderData[0].toString(),
+            type: "individual",
+            name: '${offenderData[1]} ${offenderData[2]}',
+          );
         }
-
+      
         // Fetch inspectors for each PV
         var inspectorResult = await connection.connection!.query('''
       SELECT 
@@ -623,38 +562,21 @@ class PVDataSource {
 
         // Fetch offender details
         OffenderModel? offender;
-        if (individualId != null) {
-          var individualResult = await connection.connection!.query('''
-          SELECT individual_id, name, surname
-          FROM individual_offender
-          WHERE individual_id = @individualId;
-        ''', substitutionValues: {'individualId': individualId});
+        var individualResult = await connection.connection!.query('''
+        SELECT individual_id, name, surname
+        FROM individual_offender
+        WHERE individual_id = @individualId;
+      ''', substitutionValues: {'individualId': individualId});
 
-          if (individualResult.isNotEmpty) {
-            var offenderData = individualResult.first;
-            offender = OffenderModel(
-              id: offenderData[0].toString(),
-              type: "individual",
-              name: '${offenderData[1]} ${offenderData[2]}',
-            );
-          }
-        } else if (businessId != null) {
-          var businessResult = await connection.connection!.query('''
-          SELECT business_id, name, surname
-          FROM business_offender
-          WHERE business_id = @businessId;
-        ''', substitutionValues: {'businessId': businessId});
-
-          if (businessResult.isNotEmpty) {
-            var offenderData = businessResult.first;
-            offender = OffenderModel(
-              id: offenderData[0].toString(),
-              type: "business",
-              name: '${offenderData[1]} ${offenderData[2]}',
-            );
-          }
+        if (individualResult.isNotEmpty) {
+          var offenderData = individualResult.first;
+          offender = OffenderModel(
+            id: offenderData[0].toString(),
+            type: "individual",
+            name: '${offenderData[1]} ${offenderData[2]}',
+          );
         }
-
+      
         // Fetch Inspectors for each PV
         var inspectorResult = await connection.connection!.query('''
       SELECT 
@@ -746,38 +668,21 @@ class PVDataSource {
 
         // Fetch offender details
         OffenderModel? offender;
-        if (individualId != null) {
-          var individualResult = await connection.connection!.query('''
-          SELECT individual_id, name, surname
-          FROM individual_offender
-          WHERE individual_id = @individualId;
-        ''', substitutionValues: {'individualId': individualId});
+        var individualResult = await connection.connection!.query('''
+        SELECT individual_id, name, surname
+        FROM individual_offender
+        WHERE individual_id = @individualId;
+      ''', substitutionValues: {'individualId': individualId});
 
-          if (individualResult.isNotEmpty) {
-            var offenderData = individualResult.first;
-            offender = OffenderModel(
-              id: offenderData[0].toString(),
-              type: "individual",
-              name: '${offenderData[1]} ${offenderData[2]}',
-            );
-          }
-        } else if (businessId != null) {
-          var businessResult = await connection.connection!.query('''
-          SELECT business_id, name, surname
-          FROM business_offender
-          WHERE business_id = @businessId;
-        ''', substitutionValues: {'businessId': businessId});
-
-          if (businessResult.isNotEmpty) {
-            var offenderData = businessResult.first;
-            offender = OffenderModel(
-              id: offenderData[0].toString(),
-              type: "business",
-              name: '${offenderData[1]} ${offenderData[2]}',
-            );
-          }
+        if (individualResult.isNotEmpty) {
+          var offenderData = individualResult.first;
+          offender = OffenderModel(
+            id: offenderData[0].toString(),
+            type: "individual",
+            name: '${offenderData[1]} ${offenderData[2]}',
+          );
         }
-
+      
         // Fetch Inspectors for each PV
         var inspectorResult = await connection.connection!.query('''
       SELECT 
