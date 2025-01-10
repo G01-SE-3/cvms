@@ -1,3 +1,13 @@
+/*
+File Name: LanguageProvider.dart
+Purpose: This file contains the implementation of the LanguageProvider class that is responsible for changing the language.
+Authors:
+- Team Member 1 safia.tifour@ensia.edu.dz
+
+Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 //

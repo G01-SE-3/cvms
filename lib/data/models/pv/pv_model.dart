@@ -1,3 +1,15 @@
+/*
+File Name: pv_model.dart
+Purpose: This file defines the PVModel class
+
+Authors:
+- Team Member 1 safia.tifour@ensia.edu.dz
+
+Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
+
 import 'closure_model.dart';
 import 'financial_penalty_model.dart';
 import 'national_card_reg_model.dart';

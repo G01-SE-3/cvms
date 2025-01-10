@@ -1,3 +1,14 @@
+/*
+File Name: EditPVPage
+Purpose: This file implements the page where users can edit an existing PV by modifying details such as the PV number, violation type, associated financial penalties, and inspectors. It also allows users to update sections related to seizures, closure, legal proceedings, and national card registration.
+Authors:
+- Team Member 1 safia.tifour@ensia.edu.dz
+
+Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
+
 import 'package:cvms/domain/entities/pv/closure.dart';
 import 'package:cvms/presentation/screens/PV_editing_form/widgets/sections/closure_section.dart';
 import 'package:cvms/presentation/screens/PV_editing_form/widgets/sections/dynamic_seizures_section.dart';
@@ -19,6 +30,21 @@ import 'package:cvms/domain/entities/pv/seizure.dart';
 import 'package:cvms/domain/repositories/inspector/inspector_repository.dart';
 import 'package:cvms/data/repositories/inspector/inspector_repository_impl.dart';
 import 'package:cvms/domain/entities/inspector/inspector.dart';
+
+/// The EditPVPage allows users to view and edit the details of an existing PV (Process Verbal).
+/// It pre-populates the form fields with the existing PV data and provides the ability to update various sections, including violations, seizures, financial penalties, and inspector assignments.
+///
+/// Dependencies:
+/// - [InspectorRepositoryImpl]: Fetches and manages the list of available inspectors for the PV.
+/// - [TextEditingController]: Controls the input fields for PV number, violation type, non-factorization amount, illegal profit, and other details.
+/// - [RcField]: Handles the RC input field, including error checking and storing offender details.
+/// - [ClosureSection, FinancialPenaltySection, LegalProceedingsSection, NationalCardRegistrationSection]:
+///   These manage the respective legal and financial actions associated with the PV.
+/// - [DynamicSeizureSections]: Manages seizure sections dynamically as the user edits details.
+/// - [DateField, CustomTextField, PriceField, InspectorDropdownField]: Custom form fields for entering violation details, financial amounts, selecting inspectors, and PV date.
+/// - [PVController]: Handles fetching and updating PV data from the repository.
+/// - [SeizureSection]: Allows updating seizure information for the PV.
+/// - [OutlinedButton, ElevatedButton]: Provides buttons for resetting the form and saving the changes.
 
 class EditPVPage extends StatefulWidget {
   final String pvId;
