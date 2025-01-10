@@ -4,7 +4,7 @@ import 'package:cvms/presentation/screens/add_PV_form/widgets/sections/dynamic_s
 import 'package:cvms/presentation/screens/add_PV_form/widgets/sections/financial_penalty_section.dart';
 import 'package:cvms/presentation/screens/add_PV_form/widgets/sections/legal_proceedings_section.dart';
 import 'package:cvms/presentation/screens/add_PV_form/widgets/sections/national_card_registration_section.dart';
-import 'package:cvms/presentation/screens/add_PV_form.dart/widgets/sections/seizure_section.dart';
+import 'package:cvms/presentation/screens/add_PV_form/widgets/sections/seizure_section.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cvms/domain/entities/pv/pv.dart';
