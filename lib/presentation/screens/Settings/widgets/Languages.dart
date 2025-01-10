@@ -19,7 +19,8 @@ class _LanguagesPageState extends State<LanguagesPage> {
   @override
   void initState() {
     super.initState();
-    // Load the current language from the provider
+    // Load the current language from the provider.
+    /// This ensures that when the page is loaded, the currently selected language is retrieved and set correctly from shared preferences.
     final languageProvider =
         Provider.of<LanguageProvider>(context, listen: false);
     _selectedLanguage = languageProvider.currentLanguage;
@@ -28,6 +29,8 @@ class _LanguagesPageState extends State<LanguagesPage> {
   void _changeLanguage(String languageCode) {
     final languageProvider =
         Provider.of<LanguageProvider>(context, listen: false);
+    // Change the language in the LanguageProvider.
+    /// This updates the language in the provider, which is responsible for persisting the language preference.
     languageProvider.changeLanguage(languageCode);
     setState(() {
       _selectedLanguage = languageCode;
@@ -46,6 +49,8 @@ class _LanguagesPageState extends State<LanguagesPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Language selection switches for Arabic, English, and French.
+            // These allow the user to toggle between different language options.
             customSwitchListTile(
               value: _selectedLanguage == 'ar',
               title: LanguagesStrings.Arabic,
@@ -78,8 +83,9 @@ class _LanguagesPageState extends State<LanguagesPage> {
               child: customElevatedButton(
                 context: context,
                 onPressed: () {
+                  // Displays a dialog confirming that the changes have been saved.
                   ChangesSavedDialog(context);
-                  // Optionally, show a success message here
+                  // Optionally, show a success message here.
                 },
                 text: LanguagesStrings.SaveChanges,
                 icon: Icons.save,

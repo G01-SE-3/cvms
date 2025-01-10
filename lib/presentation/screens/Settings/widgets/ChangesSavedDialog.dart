@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../homepage/homepage.dart';
 import '../constants/Strings/ChangesSavedDialog.dart';
-
+/// Displays a dialog informing the user that their changes have been saved, and
+/// allows them to navigate back to the homepage after dismissing the dialog.
 void ChangesSavedDialog(BuildContext context) {
   showDialog(
     context: context,

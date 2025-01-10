@@ -18,6 +18,8 @@ class _LineChartWidgetState extends State<LineChartWidget> {
   @override
   void initState() {
     super.initState();
+
+    // Fetch monthly PV counts after widget is built
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<PVController>(context, listen: false).fetchMonthlyPVCounts();
     });
@@ -29,45 +31,48 @@ class _LineChartWidgetState extends State<LineChartWidget> {
       builder: (context, pvController, child) {
         final monthlyPVCounts = pvController.monthlyPVCounts;
 
-        // Handle empty or zero data scenario
+        // Handle cases where the data is empty or zero
         if (monthlyPVCounts.isEmpty || monthlyPVCounts.every((pv) => pv == 0)) {
-          return const SizedBox.shrink(); // Render nothing
+          return const SizedBox.shrink(); // Render nothing if no data
         }
 
-        // Generate FlSpot data for the chart
+        // Generate the data points (FlSpot) for the line chart
         List<FlSpot> spots = List.generate(12, (index) {
           return FlSpot(
             index.toDouble(),
             monthlyPVCounts.length > index
                 ? monthlyPVCounts[index].toDouble()
-                : 0,
+                : 0, // Default to 0 if data is missing
           );
         });
 
-        // Calculate max Y value for the chart's Y-axis range
+        // Calculate the maximum Y value and adjust for consistent scaling
         final maxYValue =
             monthlyPVCounts.reduce((a, b) => a > b ? a : b).toDouble();
-        final step = (maxYValue / 5).ceil();
-        final adjustedMaxY = step * 5;
+        final step = (maxYValue / 5).ceil(); // Define step size for Y-axis
+        final adjustedMaxY = step * 5; // Round up to the nearest multiple of 5
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Title for the chart
             Text(
               widget.title,
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
+            
+            // Container for the line chart
             SizedBox(
               height: 250,
               child: LineChart(
                 LineChartData(
-                  gridData: const FlGridData(show: true),
+                  gridData: const FlGridData(show: true), // Enable grid lines
                   titlesData: FlTitlesData(
                     leftTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
-                        interval: step.toDouble(),
+                        interval: step.toDouble(), // Set Y-axis intervals
                         getTitlesWidget: (value, meta) {
                           return Text(value.toStringAsFixed(0));
                         },
@@ -80,6 +85,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                         showTitles: true,
                         reservedSize: 30,
                         getTitlesWidget: (value, meta) {
+                          // Display month names for X-axis labels
                           if (value % 1 == 0 && value >= 0 && value <= 11) {
                             switch (value.toInt()) {
                               case 0:
@@ -125,22 +131,22 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                   lineBarsData: [
                     LineChartBarData(
                       spots: spots,
-                      isCurved: true,
+                      isCurved: true, // Smooth line curve
                       color: const Color.fromARGB(255, 59, 108, 61),
-                      dotData: const FlDotData(show: true),
+                      dotData: const FlDotData(show: true), // Enable dots on data points
                       belowBarData: BarAreaData(
                         show: true,
-                        color: const Color.fromARGB(98, 48, 120, 50),
+                        color: const Color.fromARGB(98, 48, 120, 50), // Fill under the line
                       ),
                     ),
                   ],
                   lineTouchData: const LineTouchData(
                       touchTooltipData: LineTouchTooltipData(),
-                      touchSpotThreshold: 10),
+                      touchSpotThreshold: 10), // Enable touch interactions
                   minX: 0,
                   maxX: 11,
                   minY: 0,
-                  maxY: adjustedMaxY.toDouble(),
+                  maxY: adjustedMaxY.toDouble(), // Set Y-axis max value
                 ),
               ),
             ),

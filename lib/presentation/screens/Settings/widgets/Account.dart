@@ -14,8 +14,8 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
-  bool _isEditing = false;
-  bool _isChangingPassword = false;
+  bool _isEditing = false; // Tracks whether the user is editing their account details.
+  bool _isChangingPassword = false; // Flag to handle password change mode.
 
   late TextEditingController _usernameController;
   late TextEditingController _emailController;
@@ -26,24 +26,24 @@ class _AccountState extends State<Account> {
   @override
   void initState() {
     super.initState();
+    // Initialize controllers for each field to manage form inputs.
     _usernameController = TextEditingController();
     _emailController = TextEditingController();
     _currentPasswordController = TextEditingController();
     _newPasswordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
 
-    _loadUserDetails();
+    _loadUserDetails(); // Load user details when the screen initializes.
   }
 
+  /// Fetches the user details based on the logged-in username from AuthService.
+  /// Uses the UserController to retrieve user data and updates the text controllers.
   Future<void> _loadUserDetails() async {
-    // Access the logged-in username from AuthService
     final authService = Provider.of<AuthService>(context, listen: false);
     final username = authService.username;
 
     if (username != null) {
-      final userController =
-          Provider.of<UserController>(context, listen: false);
-
+      final userController = Provider.of<UserController>(context, listen: false);
       final user = await userController.getUserByUsername.execute(username);
 
       if (user != null) {
@@ -58,6 +58,7 @@ class _AccountState extends State<Account> {
 
   @override
   void dispose() {
+    // Dispose of controllers when the widget is removed from the widget tree to prevent memory leaks.
     _usernameController.dispose();
     _emailController.dispose();
     _currentPasswordController.dispose();
@@ -86,18 +87,18 @@ class _AccountState extends State<Account> {
                 isChangingPassword: _isChangingPassword,
                 onTogglePasswordChange: () {
                   setState(() {
-                    _isChangingPassword = !_isChangingPassword;
+                    _isChangingPassword = !_isChangingPassword; // Toggle the password change mode.
                   });
                 },
                 onCancel: () {
                   setState(() {
-                    _isEditing = false;
+                    _isEditing = false; // Exit editing mode without saving changes.
                     _isChangingPassword = false;
                   });
                 },
                 onConfirm: () {
                   setState(() {
-                    _isEditing = false;
+                    _isEditing = false; // Exit editing mode and save changes.
                     _isChangingPassword = false;
                   });
                 },
@@ -107,7 +108,7 @@ class _AccountState extends State<Account> {
                 emailController: _emailController,
                 onEdit: () {
                   setState(() {
-                    _isEditing = true;
+                    _isEditing = true; // Enter editing mode to allow changes.
                   });
                 },
               ),

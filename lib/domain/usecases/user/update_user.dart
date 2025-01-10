@@ -2,7 +2,6 @@ import 'package:cvms/domain/entities/user/user.dart';
 import 'package:cvms/domain/repositories/user/user_repository.dart';
 import '../../../core/exceptions/custom_exception.dart';
 import '../../../core/loggers/app_logger.dart';
-
 class UpdateUser {
   final UserRepository repository;
 
@@ -19,7 +18,7 @@ class UpdateUser {
         "email": user.email,
       });
 
-      print(errorMessage);
+      
       return false;
     }
 
@@ -33,12 +32,14 @@ class UpdateUser {
 
       return true;
     } catch (e) {
+      // Log the error with potentially sensitive information (username, email)
       await appLogger.log("ERROR", "Failed to update user.", data: {
         "username": user.username,
         "email": user.email,
         "error": e.toString(),
       });
 
+      // Throwing a custom exception is good practice, but it might help to include more context
       throw CustomException("Failed to update user", code: "UPDATE_USER_ERROR");
     }
   }

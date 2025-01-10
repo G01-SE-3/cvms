@@ -9,27 +9,19 @@ import 'package:cvms/presentation/screens/inspectors_list/inspectors_list.dart';
 import 'package:cvms/presentation/screens/BusinessOffender/BusinessOffenderList.dart';
 import 'package:cvms/presentation/screens/IndividualOffender/IndividualOffenderList.dart';
 
-/// General rule for using `GeneralAppBar`:
-/// 
-/// To include `GeneralAppBar` in your Scaffold, use it as follows:
-/// 1. Wrap it in a `PreferredSize` widget to specify the preferred height of the app bar.
-/// 2. Pass required parameters:
-///    - `search: true` or `false` to display or hide the search bar.
-///    - `initialTabIndex: X` where X is the initial tab index you want to display (optional, defaults to -1).
-/// 
-/// Example usage:
-/// ```dart
-/// appBar: const PreferredSize(
-///   preferredSize: Size.fromHeight(220.0), // Set the height of the app bar
-///   child: GeneralAppBar(
-///     search: true, // Display the search bar in the app bar set to false if not needed 
-///     initialTabIndex: 1, // Set the initially selected tab (index 1 in this case)
-///   ),
-/// ),
-/// ```
 
-/// GeneralAppBar is a StatefulWidget that displays a navigation bar with tabs and
-/// an optional search bar. It handles navigation to different pages based on the tab selected.
+/*
+File Name: general_app_bar.dart
+Purpose: This file defines the `GeneralAppBar` widget, which displays a navigation bar with tabs and an optional search bar.
+It also handles navigation to different pages based on the selected tab.
+Author: 
+- Team Member 1 [hiba.ayadi@ensia.edu.dz]
+
+
+Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
 
 class GeneralAppBar extends StatefulWidget {
   final bool search; // Determines if the search bar should be shown
