@@ -1,3 +1,13 @@
+/*`File Name: <SignUpPage.dart>
+Purpose: 
+- The purpose of this file is to allow users to create a new account by providing their details.
+Authors:
+- BOUHOUIA Yousra [yousra.bouhouia@ensia.edu.dz]
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved`*/
+
 import 'package:flutter/material.dart'; 
 import 'widgets/SignUpForm.dart';
 import 'widgets/LeftBackground.dart';
@@ -8,6 +18,16 @@ import '../../screens/login/LoginPage.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:cvms/domain/entities/user/user.dart';  
+
+
+/// This screen allows users to sign up by filling out a form.  
+/// It validates user input, hashes the password, and saves the user data.  
+/// Users are redirected to the login screen upon successful sign-up.  
+/// 
+/// Dependencies:  
+/// - [UserRepository]: Handles user data storage.  
+/// - [SignUpPageValidate]: Provides validation for form fields.  
+ 
 
 class SignUpPage extends StatefulWidget {
   final UserRepository userRepository;  

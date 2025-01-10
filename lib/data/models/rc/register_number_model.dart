@@ -1,3 +1,13 @@
+/*`File Name: <register_number_model.dart>
+Purpose: 
+- The purpose of this file is to define the RegisterNumber class, which handles data related to commercial register numbers and associated dates.
+Authors:
+- BOUHOUIA Yousra [yousra.bouhouia@ensia.edu.dz]
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved`*/
+
 class RegisterNumber {
   final String registerNumber;  
   final int? individualOffenderId;  
