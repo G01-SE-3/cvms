@@ -3,6 +3,7 @@ File Name: <individual_offender_datasource.dart>
 Purpose: <Provides data access methods for managing individual offender records in the database.>
 Authors: 
 - BENHAMOUCHE Lydia [lydia.benhamouche@ensia.edu.dz](mailto:lydia.benhamouche@ensia.edu.dz)
+- BOUHOUIA Yousra [yousra.bouhouia@ensia.edu.dz](mailto:yousra.bouhouia@ensia.edu.dz)
 
 `Copyright 2025 G01-SE-3 Team.
 Created as part of the Software Engineering course at ENSIA.
