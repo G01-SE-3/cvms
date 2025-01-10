@@ -7,6 +7,7 @@ class ExportInspectorButtonStrings {
   static const String delete = 'Delete';
   static const String exportFeatureComingSoon = 'Export feature coming soon!';
   static const String export = 'Export';
+  static const String noDataToExport = 'No data available for export.'; // Add this line
   static void loadLanguage(String languageCode) {
     // do nothing
   }

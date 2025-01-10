@@ -1,18 +1,51 @@
+/*
+File Name: inspector_details_page.dart
+Purpose: Displays the details of a specific inspector, including their name, surname, department, and contact number.
+         Provides options to add, export, or delete the inspector's information, and allows navigation back to the previous page.
+Authors: 
+- Manar BENTAYEB [manar.bentayeb@ensia.edu.dz]
+
+Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
+
 import 'package:flutter/material.dart';
 import 'widgets/information_row.dart';
 import 'widgets/add_inspector_button.dart';
-import 'widgets/export_inspector_button.dart';
+import 'widgets/export_inspector_button.dart'; 
 import 'widgets/delete_inspector_button.dart';
 import 'constants/strings/inspector_details_strings.dart';
 
-// This one defines the UI for the page and only creates an example by passing dummy data
+ 
+/// Represents the page displaying the details of a specific inspector.
+/// This screen shows the inspector's name, surname, department, contact number, 
+/// and additional information like badge number and assigned department. 
+/// It also provides buttons to add, export, or delete the inspector, 
+/// and allows navigation back to the previous page.
+/// 
+/// Dependencies:
+/// - [InformationRow] for displaying individual pieces of information about the inspector.
+/// - [AddInspectorButtonWidget], [ExportInspectorButtonWidget], [DeleteInspectorButtonWidget] 
+///   for performing actions related to the inspector's details.
+/// - [InspectorDetailsPageStrings] for localized string constants related to the inspector's details.
+/// 
+/// Features:
+/// - Displays a detailed view of the inspector with formatted personal information.
+/// - Provides buttons for managing the inspector's data (add, export, delete).
+/// - Customizable container for displaying information with shadow effects and rounded corners.
+
+
+
+
+
 class InspectorDetailsPage extends StatelessWidget {
   final String inspectorName;
   final String inspectorSurname;
   final String inspectorDepartment;
   final String contactNumber;
 
-  // Constructor to receive data
+
   InspectorDetailsPage({
     required this.inspectorName,
     required this.inspectorSurname,
@@ -30,22 +63,22 @@ class InspectorDetailsPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Row to show back arrow and inspector name
+            
               Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.black), // Return arrow
+                    icon: const Icon(Icons.arrow_back, color: Colors.black), 
                     onPressed: () {
-                      Navigator.pop(context); // Navigate back to the previous page
+                      Navigator.pop(context); 
                     },
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    "Inspector Details", // Show the inspector's name and surname
+                    "Inspector Details", 
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black, // Inspector name in black
+                      color: Colors.black, 
                     ),
                   ),
                 ],
@@ -64,7 +97,7 @@ class InspectorDetailsPage extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black, // Inspector name in black
+                            color: Colors.black, 
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -82,7 +115,7 @@ class InspectorDetailsPage extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end, // Align buttons to the right
+                      mainAxisAlignment: MainAxisAlignment.end, 
                       children: [
                         AddInspectorButtonWidget(
                           inspectorName: inspectorName,
@@ -91,7 +124,12 @@ class InspectorDetailsPage extends StatelessWidget {
                           contactNumber: contactNumber,
                         ),
                         const SizedBox(width: 8),
-                        ExportInspectorButtonWidget(),
+                        ExportInspectorButtonWidget(
+                          inspectorName: inspectorName,
+                          inspectorSurname: inspectorSurname,
+                          inspectorDepartment: inspectorDepartment,
+                          contactNumber: contactNumber,
+                        ),
                         const SizedBox(width: 8),
                         DeleteInspectorButtonWidget(),
                       ],
@@ -100,29 +138,24 @@ class InspectorDetailsPage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16),
-
-              // Control the spacing here (add more height for more space before the content starts)
-              const SizedBox(height: 32), // <-- Added space here
-
-              // "Table" container with shadow, width restriction, and centered alignment
               Center(
                 child: Container(
-                  width: 1200, // <-- Control the width here. Increase this value to make it wider.
+                  width: 1200, 
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(12.0), // Rounded corners
+                    borderRadius: BorderRadius.circular(12.0), 
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.5), // Shadow color
+                        color: Colors.grey.withOpacity(0.5), 
                         spreadRadius: 1,
                         blurRadius: 6,
-                        offset: const Offset(0, 3), // Shadow offset
+                        offset: const Offset(0, 3), 
                       ),
                     ],
                   ),
                   child: Column(
                     children: [
-                      // Title row
+                      
                       Container(
                         decoration: const BoxDecoration(
                           color: Color(0xFFD9EAD3),

@@ -1,3 +1,17 @@
+/*
+File Name: edit_inspector_page.dart
+Purpose: Allows the user to edit an existing inspector's details, including their name, surname, badge number, contact number, and assigned department.
+         The form validates user input and provides options to save the updated data or reset the form.
+Authors: 
+- Manar BENTAYEB [manar.bentayeb@ensia.edu.dz]
+
+Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved.
+*/
+
+
+
 import 'package:cvms/data/repositories/inspector/inspector_repository_impl.dart';
 import 'package:cvms/domain/entities/inspector/inspector.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +20,27 @@ import 'widgets/custom_dropdown_field_for_departments.dart';
 import 'constants/strings/edit_inspector_page_strings.dart';
 import 'widgets/validation_util.dart';
 import 'package:cvms/domain/repositories/inspector/inspector_repository.dart';
+
+
+
+/// Represents the page for editing an existing inspector's details.
+/// This screen allows the user to modify the inspector's information,
+/// including inspector number, name, surname, badge number, contact number,
+/// and department. It provides validation for the input fields and 
+/// allows saving the updated information to the repository.
+/// 
+/// Dependencies:
+/// - [InspectorRepository] for updating the inspector's data in the system.
+/// - [CustomTextField] and [CustomDropdownFieldForDepartments] for collecting input from the user.
+/// - [ValidationUtil] for validating user inputs.
+/// 
+/// Features:
+/// - Form to edit an existing inspector with validation on input fields.
+/// - Buttons to reset the form or save the updated data.
+/// - Displays success/error messages after updating the inspector's information.
+
+
+
 
 class EditInspectorPage extends StatefulWidget {
   final String inspectorNumber;
@@ -89,14 +124,13 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
           contactNumber: int.tryParse(_contactNumberController.text) ?? 0,
         );
 
-        // Call the repository to update the inspector data
         await _inspectorRepository.updateInspector(inspector);
 
-        // Show success message after updating
+    
         _showSnackbar('Inspector data updated successfully!');
 
-        // Optionally, return to the previous page or notify it to refresh the list
-        Navigator.pop(context, true);  // Passing true to indicate a change occurred
+        
+        Navigator.pop(context, true); 
       } catch (e) {
         _showSnackbar('Failed to update inspector data.');
       }
@@ -109,12 +143,12 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
       appBar: null,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
-        child: Center(  // Centering the content
+        child: Center(  
           child: Form(
             key: _formKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,  // Center the form content
-              crossAxisAlignment: CrossAxisAlignment.center,  // Align items in the center
+              mainAxisAlignment: MainAxisAlignment.center, 
+              crossAxisAlignment: CrossAxisAlignment.center,  
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -191,7 +225,7 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
                   ),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,  // Center the buttons
+                  mainAxisAlignment: MainAxisAlignment.center, 
                   children: [
                     ElevatedButton(
                       onPressed: _resetForm,
@@ -205,7 +239,7 @@ class _EditInspectorPageState extends State<EditInspectorPage> {
                     ),
                     const SizedBox(width: 40),
                     ElevatedButton(
-                      onPressed: _updateInspector, // Updated to call the update function
+                      onPressed: _updateInspector,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF306238),
                         foregroundColor: Colors.white,
