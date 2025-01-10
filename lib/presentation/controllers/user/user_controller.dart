@@ -1,8 +1,19 @@
+/*`File Name: <user_controller.dart>
+Purpose: 
+-  The purpose of this file is to implement the controller for handling user-related operations, 
+such as loading, updating, and adding users, and managing the state for UI updates.
+Authors:
+- BOUHOUIA Yousra [yousra.bouhouia@ensia.edu.dz]
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved`*/
+
 import 'package:flutter/material.dart';
 import 'package:cvms/domain/usecases/user/get_user_details.dart';
 import 'package:cvms/domain/usecases/user/add_user.dart';
 import 'package:cvms/domain/usecases/user/get_user_by_username.dart';
-import 'package:cvms/domain/usecases/user/update_user.dart'; // Import the UpdateUser use case
+import 'package:cvms/domain/usecases/user/update_user.dart'; 
 import 'package:cvms/domain/entities/user/user.dart';
 
 class UserController extends ChangeNotifier {
@@ -19,7 +30,7 @@ class UserController extends ChangeNotifier {
     required this.getUserDetails,
     required this.addUser,
     required this.getUserByUsername,
-    required this.updateUser, // Inject UpdateUser use case
+    required this.updateUser, 
   });
 
   // Load a single user by ID

@@ -1,3 +1,14 @@
+/*`File Name: <SignUpPageValidate.dart>
+Purpose: 
+- The purpose of this file is to validate user input for the signup page, ensuring the username, email, and password meet required criteria.
+Authors:
+- BOUHOUIA Yousra [yousra.bouhouia@ensia.edu.dz]
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved`*/
+
+
 import 'package:cvms/presentation/screens/sign_up/constants/strings/SignUpPage.dart';
 
 class SignUpPageValidate {
