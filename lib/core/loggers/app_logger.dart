@@ -1,3 +1,13 @@
+/*
+File Name: app_logger.dart
+Purpose: This file contains the implementation of AppLogger class, the logging service for the app
+Authors:
+- Team Member 1 safia.tifour@ensia.edu.dz
+
+Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
 import 'hive_logger.dart';
 
 /// #################################################################

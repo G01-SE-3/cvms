@@ -1,3 +1,15 @@
+/*
+File Name: pv_controller.dart
+Purpose: This file defines the PVController class, which is responsible for managing the presentation logic for Process Verbal (PV) entities. The controller interacts with various use cases for fetching, inserting, updating, deleting, and searching PVs. It also handles the loading state and errors, notifying the UI of any state changes.
+Authors:
+- Team Member 1 safia.tifour@ensia.edu.dz
+- Team Member 2 hiba.ayadi@ensia.edu.dz
+
+Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
+
 import 'package:cvms/domain/usecases/pv/TotalPvCount.dart';
 import 'package:flutter/material.dart';
 import 'package:cvms/domain/usecases/pv/insert_pv.dart';
@@ -11,6 +23,11 @@ import 'package:cvms/domain/usecases/pv/delete_pv.dart';
 import 'package:cvms/domain/usecases/pv/monthlyPvCount.dart';
 import 'package:cvms/domain/entities/pv/pv.dart';
 import 'package:cvms/core/loggers/app_logger.dart';
+
+/// The PVController class manages the presentation logic for PV entities.
+/// It is responsible for interacting with various use cases related to PVs: fetching,
+/// inserting, updating, deleting, and searching PVs. It handles loading states, errors,
+/// and notifies the UI of any state changes.
 
 class PVController extends ChangeNotifier {
   final GetPVDetails getPVDetails;

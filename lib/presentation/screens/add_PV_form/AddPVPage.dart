@@ -1,3 +1,13 @@
+/*
+File Name: AddPVPage
+Purpose: This file implements the page where users can add a new PV.
+Authors:
+- Team Member 1 safia.tifour@ensia.edu.dz
+
+Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
 import 'package:cvms/domain/entities/pv/closure.dart';
 import 'package:cvms/presentation/screens/add_PV_form/widgets/sections/closure_section.dart';
 import 'package:cvms/presentation/screens/add_PV_form/widgets/sections/dynamic_seizures_section.dart';
@@ -26,6 +36,20 @@ import 'package:cvms/presentation/screens/individual_offender_form/IndividualOff
 import 'package:cvms/presentation/controllers/offender/offender_controller.dart';
 import 'package:cvms/domain/entities/pv/offender.dart';
 import 'package:cvms/presentation/screens/add_PV_form/constants/strings/addPVStrings.dart';
+
+/// Represents the main screen of AddPV page.
+/// This screen handles the initialization of the app's primary components
+///
+/// Dependencies:
+/// - [InspectorRepositoryImpl]: Fetches and manages the list of available inspectors for the PV.
+/// - [TextEditingController]: Controls the input fields for PV number, RC, violation type, and other financial details.
+/// - [RcField]: Handles the RC input field, including error checking and storing offender details.
+/// - [ClosureSection, FinancialPenaltySection, LegalProceedingsSection, NationalCardRegistrationSection]:
+///   These manage the respective legal and financial actions associated with the PV.
+/// - [DynamicSeizureSections]: Manages seizure sections dynamically as the user adds details.
+/// - [OffenderForm (BusinessOffenderForm, IndividualOffenderForm)]: Used to add offender details when an RC is not found.
+/// - [DateField, CustomTextField, PriceField, InspectorDropdownField]: Custom form fields for entering violation details,
+///   financial amounts, and selecting inspectors.
 
 class AddPVPage extends StatefulWidget {
   const AddPVPage({super.key});

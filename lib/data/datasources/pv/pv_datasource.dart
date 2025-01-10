@@ -1,3 +1,15 @@
+/*
+File Name: pv_repository_impl.dart
+Purpose: This file contains the implementation of the PVDataSource that interacts directly with the DB 
+to interact with the PV data source.
+Authors:
+- Team Member 1 safia.tifour@ensia.edu.dz
+- Team Member 2 hiba.ayadi@ensia.edu.dz
+
+Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
 import 'package:cvms/data/models/pv/pv_model.dart';
 import 'package:cvms/data/models/pv/offender.dart';
 import 'package:cvms/core/utils/get_db.dart';
@@ -9,7 +21,7 @@ import 'package:cvms/data/models/inspector/inspector_model.dart';
 
 class PVDataSource {
   Future<PVModel?> getPVDetails(String pvId) async {
-    final connection = await getDatabaseConnection(); // Get DB connection
+    final connection = await getDatabaseConnection();
     try {
       // Query to fetch PV details
       var result = await connection.connection!.query('''
