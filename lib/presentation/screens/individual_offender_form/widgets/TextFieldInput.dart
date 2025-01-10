@@ -1,3 +1,13 @@
+/*
+File Name: <TextFieldInput.dart>
+Purpose: <Provides a customizable text input field with validation for use in forms.>
+Authors: 
+- BENHAMOUCHE Lydia [lydia.benhamouche@ensia.edu.dz](mailto:lydia.benhamouche@ensia.edu.dz)
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/individual_offender_form/constants/strings/messages.dart';
 Widget TextFieldInput(String label, TextEditingController controller) {

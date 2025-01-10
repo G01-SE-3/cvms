@@ -1,3 +1,13 @@
+/*
+File Name: <OffenderForm.dart>
+Purpose: <provide a form for adding a business offender with necessary details and submitting the information to a repository.>
+Authors: 
+- BENHAMOUCHE Lydia [lydia.benhamouche@ensia.edu.dz](mailto:lydia.benhamouche@ensia.edu.dz)
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/controllers/business_offender/business_offender_controller.dart';
 import 'package:cvms/data/datasources/business_offender/business_offender_datasource.dart';
@@ -195,6 +205,7 @@ void submitForm(BuildContext context, BusinessOffenderController formController,
 
   final String registerNumber =
       formController.commercialRegisterNumberController.text;
+  // ignore: unnecessary_null_comparison
   if (registerNumber == null) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

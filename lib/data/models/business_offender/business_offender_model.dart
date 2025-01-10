@@ -1,3 +1,13 @@
+/*
+File Name: <business_offender_model.dart>
+Purpose: <Represents the data model for business offenders, providing methods for data mapping and conversion.>
+Authors: 
+- BENHAMOUCHE Lydia [lydia.benhamouche@ensia.edu.dz](mailto:lydia.benhamouche@ensia.edu.dz)
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
 import 'package:cvms/domain/entities/business_offender/business_offender.dart';
 import 'package:intl/intl.dart';
 
@@ -16,6 +26,7 @@ class BusinessOffenderModel extends BusinessOffender {
     required super.address,
     required super.business_address, 
   });
+/// Creates a [BusinessOffenderModel] from a map, formatting the 'date_of_birth' if needed.
 
   factory BusinessOffenderModel.fromMap(Map<String, dynamic> map) {
     String formattedDate = '';
@@ -41,6 +52,8 @@ class BusinessOffenderModel extends BusinessOffender {
     );
   }
 
+
+/// Converts the [BusinessOffenderModel] to a map for serialization.
   Map<String, dynamic> toMap() {
     return {
       'business_id': business_id,
@@ -58,6 +71,7 @@ class BusinessOffenderModel extends BusinessOffender {
     };
   }
 
+/// Converts the [BusinessOffenderModel] to a [BusinessOffender] entity.
   BusinessOffender toEntity() {
     return BusinessOffender(
       business_id: business_id,
@@ -71,10 +85,10 @@ class BusinessOffenderModel extends BusinessOffender {
       mother_surname: mother_surname,
       father_name: father_name,
       address: address,
-      business_address: business_address, // Include business_address
+      business_address: business_address,
     );
   }
-
+/// Creates a [BusinessOffenderModel] from a [BusinessOffender] entity.
   factory BusinessOffenderModel.fromEntity(BusinessOffender offender) {
     return BusinessOffenderModel(
       business_id: offender.business_id,
@@ -92,6 +106,8 @@ class BusinessOffenderModel extends BusinessOffender {
     );
   }
 
+  
+/// Creates a [BusinessOffenderModel] from a JSON object, with default values for missing fields.
   factory BusinessOffenderModel.fromJson(Map<String, dynamic> json) {
     return BusinessOffenderModel(
       business_id: json['business_id'] ?? 0,

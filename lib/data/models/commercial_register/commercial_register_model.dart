@@ -1,3 +1,13 @@
+/*
+File Name: <commercial_register_model.dart>
+Purpose: <Defines a model for the commercial register, providing methods for mapping, conversion>
+Authors: 
+- BENHAMOUCHE Lydia [lydia.benhamouche@ensia.edu.dz](mailto:lydia.benhamouche@ensia.edu.dz)
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
 import 'package:cvms/domain/entities/commercial_register/commercial_register.dart';
 class CommercialRegisterModel extends CommercialRegister {
   
@@ -11,6 +21,9 @@ class CommercialRegisterModel extends CommercialRegister {
 
   });
 
+
+/// Creates a [CommercialRegisterModel] from a map, with fields like 'business_id', 'CommercialRegisterNumber', etc.
+
   factory CommercialRegisterModel.fromMap(Map<String, dynamic> map) {
     return CommercialRegisterModel(
       business_id: map['business_id'], 
@@ -21,6 +34,9 @@ class CommercialRegisterModel extends CommercialRegister {
       
     );
   }
+
+
+/// Converts the [CommercialRegisterModel] to a map for serialization.
 
   Map<String, dynamic> toMap() {
     return {
@@ -33,6 +49,9 @@ class CommercialRegisterModel extends CommercialRegister {
 
   }
 
+
+/// Converts the [CommercialRegisterModel] to a [CommercialRegister] entity.
+
   CommercialRegister toEntity() {
     return CommercialRegister(
       business_id: business_id,
@@ -42,6 +61,9 @@ class CommercialRegisterModel extends CommercialRegister {
       CancellationDate: CancellationDate,
      );
   }
+
+
+/// Creates a [CommercialRegisterModel] from a JSON object, with default values for missing fields.
 
   factory CommercialRegisterModel.fromJson(Map<String, dynamic> json) {
   return CommercialRegisterModel(

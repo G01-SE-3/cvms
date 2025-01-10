@@ -1,3 +1,13 @@
+/*
+File Name: <add_offender.dart>
+Purpose: <Handles the addition of a new offender to the repository in the individual domain.>
+Authors: 
+- BENHAMOUCHE Lydia [lydia.benhamouche@ensia.edu.dz](mailto:lydia.benhamouche@ensia.edu.dz)
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
 import 'package:cvms/domain/entities/individual_offender/individual_offender.dart';
 import 'package:cvms/domain/repositories/individual_offender/individual_offender_repository.dart';
 import '../../../core/exceptions/custom_exception.dart';

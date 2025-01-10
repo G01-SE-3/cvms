@@ -1,8 +1,20 @@
+/*
+File Name: <business_offender_datasource.dart>
+Purpose: <Provides data access methods for managing business offender records in the database.>
+Authors: 
+- BENHAMOUCHE Lydia [lydia.benhamouche@ensia.edu.dz](mailto:lydia.benhamouche@ensia.edu.dz)
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
 import 'package:cvms/data/models/business_offender/business_offender_model.dart';
 import '../database_helper.dart';
 
 class BusinessOffenderDataSource {
 
+
+//async function that fetch all offenders from the database and returns a list of offenders 
 Future<List<BusinessOffenderModel>> fetchAllOffenders() async {
   final connection = await DatabaseHelper().connection;
   final results = await connection.query('SELECT * FROM business_offender');
@@ -11,7 +23,7 @@ Future<List<BusinessOffenderModel>> fetchAllOffenders() async {
   }).toList();
 }
 
-
+//async function that fetch offender by ID  from the database and returns information of that offender
   Future<BusinessOffenderModel?> fetchOffenderById(int id) async {
     if (id <= 0) {
       print("Invalid offender ID.");
@@ -31,6 +43,8 @@ Future<List<BusinessOffenderModel>> fetchAllOffenders() async {
     return null;
   }
 
+
+//async function that add offender to the database  
 Future<BusinessOffenderModel> addOffender(BusinessOffenderModel offender) async {
   final connection = await DatabaseHelper().connection;
   try {
@@ -84,7 +98,7 @@ Future<BusinessOffenderModel> addOffender(BusinessOffenderModel offender) async 
 }
 
 
-
+//async function that updates the offender information in the database 
   Future<void> updateOffender(int id, BusinessOffenderModel offender) async {
     if (id <= 0 || offender.name.isEmpty) {
       print("Cannot update offender. Invalid ID or required fields are empty.");
@@ -111,7 +125,7 @@ Future<BusinessOffenderModel> addOffender(BusinessOffenderModel offender) async 
       rethrow;
     }
   }
-
+//async function that delete offender from the database
   Future<void> deleteOffender(int id) async {
     if (id <= 0) {
       print("Invalid offender ID.");

@@ -1,3 +1,13 @@
+/*
+File Name: <individual_offender_model.dart>
+Purpose: <Represents the data model for individual offenders, providing methods for data mapping and conversion.>
+Authors: 
+- BENHAMOUCHE Lydia [lydia.benhamouche@ensia.edu.dz](mailto:lydia.benhamouche@ensia.edu.dz)
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
 import 'package:cvms/domain/entities/individual_offender/individual_offender.dart';
 import 'package:intl/intl.dart';
 
@@ -15,6 +25,9 @@ class IndividualOffenderModel extends IndividualOffender {
     required super.address,
     required super.business_address,
   });
+
+
+/// Creates an [IndividualOffenderModel] from a map, formatting 'date_of_birth' if necessary.
 
   factory IndividualOffenderModel.fromMap(Map<String, dynamic> map) {
     String formattedDate = '';
@@ -39,6 +52,9 @@ class IndividualOffenderModel extends IndividualOffender {
     );
   }
 
+
+/// Converts the [IndividualOffenderModel] to a map for serialization.
+
   Map<String, dynamic> toMap() {
     return {
       'individual_id': individual_id,
@@ -54,6 +70,9 @@ class IndividualOffenderModel extends IndividualOffender {
       'business_address': business_address,
     };
   }
+
+
+/// Converts the [IndividualOffenderModel] to an [IndividualOffender] entity.
 
   IndividualOffender toEntity() {
     return IndividualOffender(
@@ -71,6 +90,9 @@ class IndividualOffenderModel extends IndividualOffender {
     );
   }
 
+
+/// Creates an [IndividualOffenderModel] from an [IndividualOffender] entity.
+
   factory IndividualOffenderModel.fromEntity(IndividualOffender offender) {
     return IndividualOffenderModel(
       individual_id: offender.individual_id,
@@ -86,6 +108,9 @@ class IndividualOffenderModel extends IndividualOffender {
       business_address: offender.business_address,
     );
   }
+
+
+/// Creates an [IndividualOffenderModel] from a JSON object, with default values for missing fields.
 
   factory IndividualOffenderModel.fromJson(Map<String, dynamic> json) {
     return IndividualOffenderModel(

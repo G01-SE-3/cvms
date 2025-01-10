@@ -1,7 +1,16 @@
+/*
+File Name: <TabContent.dart>
+Purpose: <Renders tab content with action buttons and personal information details>
+Authors: 
+- BENHAMOUCHE Lydia [lydia.benhamouche@ensia.edu.dz](mailto:lydia.benhamouche@ensia.edu.dz)
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
 import 'package:flutter/material.dart';
 import 'ActionButtons.dart';
 import 'PersonalInformationPage.dart';
-import 'package:cvms/presentation/screens/EconomicOperatorDetails/constants/strings/AssociatedPVsText.dart';
 
 Widget TabContent() {
   return Column(
@@ -18,13 +27,7 @@ Widget TabContent() {
           children: [
             const PersonalInformationPage(),
             const SizedBox(height: 16),
-            Text(
-              AssociatedPVs,
-              style: const TextStyle(
-                color: Color(0xFF73AC8A),
-                fontSize: 16,
-              ),
-            ),
+
           ],
         ),
       ),
