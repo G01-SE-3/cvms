@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+
+/// Creates a customizable elevated button with an icon and text, allowing
+/// for flexible styling and behavior such as action handling and background color.
 Widget customElevatedButton({
     required BuildContext context,
     required VoidCallback onPressed,

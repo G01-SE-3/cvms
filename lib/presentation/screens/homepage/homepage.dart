@@ -1,3 +1,15 @@
+/*
+File Name: homepage.dart
+Purpose: This file serves as the main entry point for the application's homepage.
+Authors:
+- Team Member 1 [hiba.ayadi@ensia.edu.dz]
+- Team Member 2 [safia.tifour@enisa.edu.dz]
+
+Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
+
 import 'package:cvms/domain/repositories/business_offender/business_offender_repository.dart';
 import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +34,10 @@ import 'package:cvms/presentation/screens/add_inspector/add_inspector_page.dart'
 import 'package:cvms/presentation/screens/business_offender_form/BusinessOffenderForm.dart';
 import 'package:cvms/presentation/screens/individual_offender_form/IndividualOffenderForm.dart';
 
+import 'widgets/ActionButton.dart';
+
+/// Represents the homepage of the app where users can view key metrics,
+/// access different sections
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -29,31 +45,38 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+/// Manages the state of the [HomePage] widget, including fetching data and handling user actions.
 class _HomePageState extends State<HomePage> {
+  //initialize the inspector repository and the business offender repository
   final InspectorRepository _inspectorRepository = InspectorRepositoryImpl();
   final BusinessOffenderRepository _businessOffenderRepository =
       BusinessOffenderRepositoryImpl(
     BusinessOffenderDataSource(),
-    RegisterNumberRepositoryImpl(
-        RegisterNumberDataSource()), // Pass the required argument
+    RegisterNumberRepositoryImpl(RegisterNumberDataSource()),
   );
 
   late Future<List<InspectorEntity>> _inspectorsFuture;
   late Future<List<BusinessOffender>> _businessOffendersFuture;
 
+  /// Initializes the state of the widget, fetching initial data.
   @override
   void initState() {
     super.initState();
+
+    // Fetch the list of inspectors.
     _inspectorsFuture = _inspectorRepository.getAllInspectors();
+
+    // Fetch the list of business offenders.
     _businessOffendersFuture = _businessOffenderRepository.fetchAllOffenders();
 
+    // Fetch critical PV data after the widget is fully built.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Fetch the total PV count and Monthly PV counts early
       Provider.of<PVController>(context, listen: false).fetchTotalPVCount();
       Provider.of<PVController>(context, listen: false).fetchMonthlyPVCounts();
     });
   }
 
+  /// Builds the main UI of the [HomePage] widget.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,34 +91,35 @@ class _HomePageState extends State<HomePage> {
           builder: (context, pvController, child) {
             final totalPVs = pvController.totalPVCount;
 
+            // Fetch and display the number  for inspectors and business offenders.
             return FutureBuilder<List<InspectorEntity>>(
               future: _inspectorsFuture,
               builder: (context, inspectorSnapshot) {
                 return FutureBuilder<List<BusinessOffender>>(
                   future: _businessOffendersFuture,
                   builder: (context, businessOffenderSnapshot) {
-                    if (inspectorSnapshot.connectionState ==
-                            ConnectionState.waiting ||
-                        businessOffenderSnapshot.connectionState ==
-                            ConnectionState.waiting) {
+                    if (inspectorSnapshot.connectionState == ConnectionState.waiting ||
+                        businessOffenderSnapshot.connectionState == ConnectionState.waiting) {
+                      // Show a loading indicator while data is being fetched.
                       return const Center(child: CircularProgressIndicator());
-                    } else if (inspectorSnapshot.hasError ||
-                        businessOffenderSnapshot.hasError) {
+                    } else if (inspectorSnapshot.hasError || businessOffenderSnapshot.hasError) {
+                      // Display an error message if any data fetching fails.
                       return Center(
                         child: Text(
                           '${HomePageStrings.errorMessage}${inspectorSnapshot.error ?? businessOffenderSnapshot.error}',
                         ),
                       );
                     } else {
-                      final totalInspectors =
-                          inspectorSnapshot.data?.length ?? 0;
-                      final totalEconomicOperators =
-                          businessOffenderSnapshot.data?.length ?? 0;
+                      // Prepare data for display if fetched successfully.
+                      final totalInspectors = inspectorSnapshot.data?.length ?? 0;
+                      final totalEconomicOperators = businessOffenderSnapshot.data?.length ?? 0;
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 30),
+
+                          // Build the grid of action buttons.
                           GridView.count(
                             crossAxisCount: 4,
                             crossAxisSpacing: 16,
@@ -104,7 +128,8 @@ class _HomePageState extends State<HomePage> {
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             children: [
-                              _buildActionButton(
+                              // Button to add a new PV.
+                              ActionButton(
                                 context,
                                 label: HomePageStrings.addPV,
                                 icon: Icons.add,
@@ -112,50 +137,46 @@ class _HomePageState extends State<HomePage> {
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AddPVPage()),
+                                    MaterialPageRoute(builder: (context) => AddPVPage()),
                                   );
                                 },
                               ),
-                              _buildActionButton(
+                              // Button to add a new business offender.
+                              ActionButton(
                                 context,
                                 label: HomePageStrings.addBusinessOffender,
                                 icon: Icons.business,
-                                color: Colors.green,
+                                color: const Color.fromARGB(255, 15, 39, 16),
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            BusinessOffenderForm()),
+                                    MaterialPageRoute(builder: (context) => BusinessOffenderForm()),
                                   );
                                 },
                               ),
-                              _buildActionButton(
+                              // Button to add a new individual offender.
+                              ActionButton(
                                 context,
                                 label: HomePageStrings.addIndividualOffender,
                                 icon: Icons.person,
-                                color: Colors.orange,
+                                color: const Color.fromARGB(255, 97, 64, 15),
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            IndividualOffenderForm()),
+                                    MaterialPageRoute(builder: (context) => IndividualOffenderForm()),
                                   );
                                 },
                               ),
-                              _buildActionButton(
+                              // Button to add a new inspector.
+                              ActionButton(
                                 context,
                                 label: HomePageStrings.addInspector,
                                 icon: Icons.badge,
-                                color: Colors.purple,
+                                color: const Color.fromARGB(255, 84, 12, 97),
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            AddInspectorPage()),
+                                    MaterialPageRoute(builder: (context) => AddInspectorPage()),
                                   );
                                 },
                               ),
@@ -166,30 +187,23 @@ class _HomePageState extends State<HomePage> {
                               );
                             }).toList(),
                           ),
+
                           const SizedBox(height: 30),
+
+                          // Display key stats using StatCards Widget.
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              StatCard(
-                                  HomePageStrings.totalPVs,
-                                  totalPVs.toString(),
-                                  Icons.description,
-                                  Colors.blue),
-                              StatCard(
-                                  HomePageStrings.economicOperators,
-                                  totalEconomicOperators.toString(),
-                                  Icons.business,
-                                  Colors.green),
-                              StatCard(
-                                  HomePageStrings.inspectors,
-                                  totalInspectors.toString(),
-                                  Icons.person,
-                                  Colors.orange),
+                              StatCard(HomePageStrings.totalPVs, totalPVs.toString(), Icons.description, Colors.blue),
+                              StatCard(HomePageStrings.economicOperators, totalEconomicOperators.toString(), Icons.business, Colors.green),
+                              StatCard(HomePageStrings.inspectors, totalInspectors.toString(), Icons.person, Colors.orange),
                             ],
                           ),
+
                           const SizedBox(height: 30),
-                          LineChartWidget(
-                              title: HomePageStrings.monthlyPVsEvolution),
+
+                          // Display the line chart for monthly PV evolution.
+                          LineChartWidget(title: HomePageStrings.monthlyPVsEvolution),
                         ],
                       );
                     }
@@ -203,29 +217,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildActionButton(BuildContext context,
-      {required String label,
-      required IconData icon,
-      required Color color,
-      required VoidCallback onPressed}) {
-    return ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: color,
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
-        ),
-      ),
-      onPressed: onPressed,
-      icon: Icon(icon, size: 19, color: Colors.white),
-      label: Text(
-        label,
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
-        ),
-      ),
-    );
-  }
 }

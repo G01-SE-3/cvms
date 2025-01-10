@@ -64,11 +64,10 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       // Validate the input before searching
       String? validationError = validateInput(searchController.text);
       if (validationError != null) {
-        showErrorMessage(
-            context, validationError); // Display validation error message
-        return;
+        showErrorMessage(context, validationError); // Display validation error message
       }
-
+    
+    
       try {
         // Parse the input text as an integer (e.g., PV number) for the search
         int pvNumber = int.parse(searchController.text);

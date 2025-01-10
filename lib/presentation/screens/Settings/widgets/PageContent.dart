@@ -12,20 +12,22 @@ class PageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Based on the page argument, navigate to the corresponding screen.
     if (page == SettingsMenuStrings.Account) {
-      return const Account();
+      return const Account(); // Account page
     } else if (page == SettingsMenuStrings.ChangeLanguage) {
-      return const LanguagesPage();
+      return const LanguagesPage(); // Language change page
     } else if (page == SettingsMenuStrings.Logout) {
+      // Log out and navigate back to the homepage.
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const HomePage()),
         );
       });
-      return Container();
+      return Container(); // Empty container while redirecting
     } else {
-      return const SettingsPage();
+      return const SettingsPage(); // Default settings page
     }
   }
 }

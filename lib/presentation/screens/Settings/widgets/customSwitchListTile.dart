@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// Creates a customizable switch list tile that allows users to toggle a setting,
+/// with customizable value, title, and change behavior.
+
 Widget customSwitchListTile({
   required bool value,
   required String title,

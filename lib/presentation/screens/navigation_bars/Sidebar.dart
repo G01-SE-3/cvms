@@ -12,18 +12,18 @@ import 'package:provider/provider.dart';
 import '../HelpPage/HelpPage.dart';
 import '../Settings/settings.dart';
 import 'widgets/sidebar_item.dart';
+/*
+File Name: sidebar.dart
+Purpose: This file defines the `Sidebar` widget, which displays a sidebar navigation menu for the app.
+The sidebar includes top and bottom menu items for navigation, as well as a logout option that clears authentication data.
+Authors: 
+- Team Member 1 [hiba.ayadi@ensia.edu.dz]
 
-/// General rule for using `Sidebar`:
-///
-/// To include `Sidebar` in your Scaffold, use it as follows:
-/// 1. Set it as the `drawer` property of the `Scaffold`.
-///
-/// Example usage:
-/// ```dart
-/// drawer: const Sidebar(),
-/// ```
-/// This will display the sidebar on the left side of the screen.
-/// You can use the `appBar` property to set the app bar as usual, and the sidebar will function as a drawer that can be opened by swiping or tapping the menu icon.
+
+Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
 
 class Sidebar extends StatelessWidget {
   const Sidebar({super.key});
