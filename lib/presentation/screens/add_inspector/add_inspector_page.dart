@@ -1,3 +1,16 @@
+/*
+File Name: add_inspector_page.dart
+Purpose: Allows the user to add a new inspector's details, including their name, surname, badge number, contact number, and assigned department.
+         The form validates user input and provides options to save the inspector data to the repository or reset the form.
+Authors: 
+- Manar BENTAYEB [manar.bentayeb@ensia.edu.dz]
+
+Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved.
+*/
+
+
 import 'package:cvms/data/repositories/inspector/inspector_repository_impl.dart';
 import 'package:cvms/domain/entities/inspector/inspector.dart';
 import 'package:cvms/domain/repositories/inspector/inspector_repository.dart';
@@ -7,10 +20,26 @@ import 'widgets/custom_dropdown_field.dart';
 import 'widgets/validation_util.dart';
 import 'constants/strings/add_inspector_page_strings.dart';
 
+/// Represents the page for adding a new inspector.
+/// This screen allows the user to fill out a form with the inspector's details
+/// (e.g., inspector number, name, surname, badge number, contact number, department)
+/// and save the inspector to the repository. It also includes validation for the input fields
+/// and provides feedback messages after saving or clearing the form.
+/// 
+/// Dependencies:
+/// - [InspectorRepository] for adding the inspector data to the system.
+/// - [CustomTextField] and [CustomDropdownField] for collecting input from the user.
+/// - [ValidationUtil] for validating user inputs.
+/// 
+/// Features:
+/// - Form to add an inspector with validation on input fields.
+/// - Buttons to cancel or save the data.
+/// - Displays success/error messages based on the operation's outcome.
 class AddInspectorPage extends StatefulWidget {
   @override
   _AddInspectorPageState createState() => _AddInspectorPageState();
 }
+
 
 class _AddInspectorPageState extends State<AddInspectorPage> {
   final _formKey = GlobalKey<FormState>();
