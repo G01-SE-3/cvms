@@ -1,3 +1,13 @@
+/*
+File Name: <get_all_offenders.dart>
+Purpose: <defines a use case for fetching all business offenders from the repository.>
+Authors: 
+- BENHAMOUCHE Lydia [lydia.benhamouche@ensia.edu.dz](mailto:lydia.benhamouche@ensia.edu.dz)
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
 import 'package:cvms/domain/entities/business_offender/business_offender.dart';
 import 'package:cvms/domain/repositories/business_offender/business_offender_repository.dart';
 import '../../../core/exceptions/custom_exception.dart';

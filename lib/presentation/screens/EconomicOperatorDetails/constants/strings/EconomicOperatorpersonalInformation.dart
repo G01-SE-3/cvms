@@ -1,4 +1,13 @@
-String PersonalInformation="Personal Information";
+/*
+File Name: <EconomicOperatorpersonelInformation.dart>
+Purpose: <Defines string variables for storing information for an offender.>
+Authors: 
+- BENHAMOUCHE Lydia [lydia.benhamouche@ensia.edu.dz](mailto:lydia.benhamouche@ensia.edu.dz)
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/String PersonalInformation="Personal Information";
 String Name="Name";
 String samplename ="samplename";
 String Surname="Surname";

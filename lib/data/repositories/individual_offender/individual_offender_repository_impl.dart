@@ -1,4 +1,13 @@
-import 'package:cvms/data/models/business_offender/business_offender_model.dart';
+/*
+File Name: <individual_offender_repository.dart>
+Purpose: < Implements the individual offender repository interface to handle CRUD operations and data management for individual offender entities.>
+Authors: 
+- BENHAMOUCHE Lydia [lydia.benhamouche@ensia.edu.dz](mailto:lydia.benhamouche@ensia.edu.dz)
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/import 'package:cvms/data/models/business_offender/business_offender_model.dart';
 import 'package:cvms/domain/entities/individual_offender/individual_offender.dart';
 import 'package:cvms/domain/repositories/individual_offender/individual_offender_repository.dart';
 import 'package:cvms/data/datasources/individual_offender/individual_offender_datasource.dart';

@@ -1,3 +1,32 @@
+/*
+File Name: <IndividualOffenderList.dart>
+Purpose: <display a list of individual offenders with options to add, edit, delete, and export records>
+Authors: 
+- BENHAMOUCHE Lydia [lydia.benhamouche@ensia.edu.dz](mailto:lydia.benhamouche@ensia.edu.dz)
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
+
+
+// ignore: dangling_library_doc_comments
+/// This class represents the screen displaying a list of individual offenders.
+/// It fetches and displays offender details including their personal information and register number.
+/// The screen provides options to add a new offender, export data, and manage existing offender records via context menus.
+///
+/// Dependencies:
+/// - [IndividualOffenderRepositoryImpl] for fetching and managing individual offender data.
+/// - [RegisterNumberRepositoryImpl] for retrieving register numbers associated with offenders.
+/// - [IndividualOffenderForm] for adding new offender records.
+/// - [GeneralAppBar] and [Sidebar] for the app's navigation and header components.
+///
+/// Key Functionalities:
+/// - Fetching offender data asynchronously and updating the UI accordingly.
+/// - Handling add, export, and delete actions through buttons and context menus.
+/// - Rendering offender data in a scrollable table with dynamic columns and cells.
+
+
 import 'package:cvms/data/datasources/individual_offender/individual_offender_datasource.dart';
 import 'package:cvms/data/repositories/individual_offender/individual_offender_repository_impl.dart';
 import 'package:flutter/material.dart';

@@ -1,3 +1,13 @@
+/*
+File Name: <business_offender_repository.dart>
+Purpose: < Implements the business offender repository interface to handle CRUD operations and data management for business offender entities.>
+Authors: 
+- BENHAMOUCHE Lydia [lydia.benhamouche@ensia.edu.dz](mailto:lydia.benhamouche@ensia.edu.dz)
+
+`Copyright 2025 G01-SE-3 Team.
+Created as part of the Software Engineering course at ENSIA.
+All rights reserved
+*/
 import 'package:cvms/domain/entities/business_offender/business_offender.dart';
 import 'package:cvms/domain/repositories/business_offender/business_offender_repository.dart';
 import 'package:cvms/data/datasources/business_offender/business_offender_datasource.dart';
@@ -13,6 +23,9 @@ class BusinessOffenderRepositoryImpl implements BusinessOffenderRepository {
 
   BusinessOffenderRepositoryImpl(this._datasource, this._registerNumberRepository);
 
+
+
+///add offender function to store the infomation of the offender to the database
   @override
   Future<BusinessOffender> addOffender(BusinessOffender offender) async {
     final appLogger = await AppLogger.getInstance();
@@ -58,6 +71,9 @@ class BusinessOffenderRepositoryImpl implements BusinessOffenderRepository {
     }
   }
 
+
+
+/// function to delte the inofmration of the offender frm the database 
   @override
   Future<void> deleteBusinessOffender(int businessId) async {
     final appLogger = await AppLogger.getInstance();
@@ -74,6 +90,9 @@ class BusinessOffenderRepositoryImpl implements BusinessOffenderRepository {
     }
   }
 
+
+
+///function to fetch all the offenders informations from teh databse 
   @override
   Future<List<BusinessOffender>> fetchAllOffenders() async {
     final appLogger = await AppLogger.getInstance();
@@ -106,11 +125,14 @@ class BusinessOffenderRepositoryImpl implements BusinessOffenderRepository {
     }
   }
 
+//function to fetch offender by id from the databse 
   @override
   Future<BusinessOffenderModel?> fetchOffenderById(int id) {
     throw UnimplementedError();
   }
 
+
+// function to edit the informations of the offender in the databsae 
   @override
   Future<void> editBusinessOffender(BusinessOffender offender, RegisterNumberEntity registerNumber) {
     throw UnimplementedError();
