@@ -3,6 +3,7 @@ File Name: <BusinessOffenderList.dart>
 Purpose: <display a list of business offenders with options to add, edit, delete, and export records>
 Authors: 
 - BENHAMOUCHE Lydia [lydia.benhamouche@ensia.edu.dz](mailto:lydia.benhamouche@ensia.edu.dz)
+- BOUHOUIA Yousra [yousra.bouhouia@ensia.edu.dz](mailto:yousra.bouhouia@ensia.edu.dz)
 
 `Copyright 2025 G01-SE-3 Team.
 Created as part of the Software Engineering course at ENSIA.
@@ -10,10 +11,10 @@ All rights reserved
 */
 
 // ignore: dangling_library_doc_comments
-/// Represents the screen that displays a list of business offenders, allowing 
-/// users to view, add, edit, or delete business offenders. The screen 
-/// fetches offender data from a repository and displays it in a DataTable. 
-/// It also provides actions for exporting data and navigating to a form for 
+/// Represents the screen that displays a list of business offenders, allowing
+/// users to view, add, edit, or delete business offenders. The screen
+/// fetches offender data from a repository and displays it in a DataTable.
+/// It also provides actions for exporting data and navigating to a form for
 /// adding new offenders.
 ///
 /// Dependencies:
@@ -23,8 +24,6 @@ All rights reserved
 /// - [Sidebar] for the side navigation menu.
 /// - [BusinessOffenderForm] for adding new offenders.
 /// - [EconomicOperatorDetails] for viewing detailed offender information.
-
-
 
 import 'package:cvms/domain/entities/business_offender/business_offender.dart';
 import 'package:cvms/presentation/screens/BusinessOffender/constants/strings/BusinessOffenderInformations.dart';
@@ -258,12 +257,6 @@ class BusinessOffenderListScreen extends State<BusinessOffenderList> {
           onSelected: (value) async {
             if (value == BusinessOffStrings.details) {
               // Navigate to the EconomicOperatorDetails screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const EconomicOperatorDetails(),
-                ),
-              );
             } else if (value == BusinessOffStrings.Edit) {
               print("Edit action for ${offender.business_name} selected.");
             } else if (value == BusinessOffStrings.delete) {

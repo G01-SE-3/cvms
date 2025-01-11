@@ -60,6 +60,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   Widget build(BuildContext context) {
     final pvController = Provider.of<PVController>(context, listen: false);
 
+    // Search function
     void onSearch() async {
       // Validate the input before searching
       String? validationError = validateInput(searchController.text);
@@ -100,85 +101,96 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Row(
+      child: Column(
         children: [
-          Flexible(
-            flex: 2,
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFFBDC9AA),
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: InputField(
-                controller: searchController,
-                hintText: SearchStrings.search,
-                icon: Icons.search,
-                color: const Color(0xFFBDC9AA),
-                bordercolor: Colors.grey,
-                isReadOnly: false,
-                onIconPressed: onSearch, // Trigger search when icon is pressed
-              ),
-            ),
-          ),
-          const SizedBox(width: 8.0),
+          // The search bar
           Container(
-            height: 48.0,
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             decoration: BoxDecoration(
               color: const Color(0xFFBDC9AA),
               borderRadius: BorderRadius.circular(8.0),
-              border: Border.all(color: Colors.grey),
             ),
-            child: Center(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    searchController
-                        .clear(); // Clear the search input when tapped
-                  });
-                  // Navigate to Pv List page to refresh old content and clear search result from the list
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const PVListPage(),
-                    ),
-                  );
-                },
-                child: Text(
-                  SearchStrings.clear,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.black,
+            child: Row(
+              children: [
+                // Search input field
+                Expanded(
+                  flex: 2,
+                  child: InputField(
+                    controller: searchController,
+                    hintText: SearchStrings.search,
+                    icon: Icons.search,
+                    color: const Color(0xFFBDC9AA),
+                    bordercolor: Colors.grey,
+                    isReadOnly: false,
+                    onIconPressed:
+                        onSearch, // Trigger search when icon is pressed
                   ),
-                  textAlign: TextAlign.center,
                 ),
-              ),
+                const SizedBox(width: 8.0),
+                // Clear button
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      searchController
+                          .clear(); // Clear the search input when tapped
+                    });
+                    // Navigate to Pv List page to refresh old content and clear search result from the list
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PVListPage(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: 48.0,
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFBDC9AA),
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(color: Colors.grey),
+                    ),
+                    child: Center(
+                      child: Text(
+                        SearchStrings.clear,
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8.0),
+                // Filter dropdown
+                dropdownButton(
+                  selectedValue: null,
+                  hint: SearchStrings.filterBy,
+                  items: filterDropdownItems,
+                  onChanged: (value) {
+                    // Handle filter option selection
+                    if (value == SearchStrings.latest) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const LatestPopupForm();
+                        },
+                      );
+                    } else if (value == SearchStrings.date) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const DateFilterPopup();
+                        },
+                      );
+                    }
+                  },
+                ),
+              ],
             ),
           ),
-          const SizedBox(width: 8.0),
-          dropdownButton(
-            selectedValue: null,
-            hint: SearchStrings.filterBy,
-            items: filterDropdownItems,
-            onChanged: (value) {
-              // Handle filter option selection
-              if (value == SearchStrings.latest) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return const LatestPopupForm();
-                  },
-                );
-              } else if (value == SearchStrings.date) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return const DateFilterPopup();
-                  },
-                );
-              }
-            },
-          ),
+          const SizedBox(
+              height:
+                  16.0), // Add space between the search bar and any other widgets if needed
         ],
       ),
     );

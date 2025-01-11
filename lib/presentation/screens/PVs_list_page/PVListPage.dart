@@ -13,8 +13,10 @@ import 'package:cvms/domain/entities/pv/pv.dart';
 import 'package:cvms/presentation/screens/navigation_bars/Sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:cvms/presentation/screens/PVs_list_page/widgets/table_header.dart';
 import 'package:cvms/presentation/screens/PVs_list_page/widgets/pv_data_table.dart';
+
 import 'package:cvms/presentation/controllers/pv/pv_controller.dart';
 import 'package:cvms/presentation/screens/navigation_bars/GeneralAppBar.dart';
 
@@ -99,15 +101,19 @@ class _PVListPageState extends State<PVListPage> {
                         return {
                           'PVid': pv.pvId,
                           'PVnumber': pv.pvNumber.toString(),
-                          'offendercr': pv.offender?.rcNumber ?? '',
-                          'offendername': pv.offender?.name ?? '',
-                          'pvissuedate': pv.issueDate.toIso8601String(),
-                          'violationtype': pv.violationType,
+                          'offendercr': pv.offender?.rcNumber ??
+                              'N/A', // Default to 'N/A' if null
+                          'offendername': pv.offender?.name ?? 'N/A',
+                          'pvissuedate': pv.issueDate
+                              .toIso8601String(), // Ensure `issueDate` is valid
+                          'violationtype': pv.violationType ??
+                              'N/A', // Default to 'N/A' if null
                           'inspectingofficers':
                               pv.inspectors.map((i) => i.surname).join(", "),
                         };
                       }).toList(),
                     ),
+
                     const SizedBox(height: 20),
                   ],
                 );

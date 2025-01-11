@@ -23,25 +23,29 @@ class _ListWidgetState extends State<ListWidget> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
+        // Display username with the value from usernameController
         ListTile(
           title: Text(ListWidgetStrings.username),
           subtitle: Text(widget.usernameController.text),
         ),
         const Divider(),
+        // Display email with the value from emailController
         ListTile(
           title: Text(ListWidgetStrings.email),
           subtitle: Text(widget.emailController.text),
         ),
         const Divider(),
+        // Display a masked password for security purposes
         ListTile(
           title: Text(ListWidgetStrings.password),
           subtitle: Text(ListWidgetStrings.hiddenPassword),
         ),
         const Divider(),
+        // Edit button that triggers the onEdit callback when pressed
         Center(
           child: customElevatedButton(
             context: context,
-            onPressed: widget.onEdit,
+            onPressed: widget.onEdit, // This triggers the onEdit method passed from parent widget
             text: ListWidgetStrings.editButtonText,
             icon: Icons.edit,
           ),

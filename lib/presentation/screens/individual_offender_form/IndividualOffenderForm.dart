@@ -1,8 +1,10 @@
+
 /*
 File Name: <IndividualOffenderForm.dart>
 Purpose: <manage the form interface and functionality for submitting individual offender information in the application.>
 Authors: 
 - BENHAMOUCHE Lydia [lydia.benhamouche@ensia.edu.dz](mailto:lydia.benhamouche@ensia.edu.dz)
+- BOUHOUIA Yousra [yousra.bouhouia@ensia.edu.dz](mailto:yousra.bouhouia@ensia.edu.dz)
 
 `Copyright 2025 G01-SE-3 Team.
 Created as part of the Software Engineering course at ENSIA.
@@ -21,6 +23,7 @@ All rights reserved
 /// - [IndividualOffenderFormWidget] for the actual form content.
 
 
+import 'package:cvms/presentation/screens/IndividualOffender/constants/strings/IndividualOffenderInformations.dart';
 import 'package:flutter/material.dart';
 import 'package:cvms/presentation/screens/individual_offender_form/widgets/OffenderForm.dart';
 import 'package:cvms/presentation/screens/navigation_bars/GeneralAppBar.dart';
@@ -31,15 +34,17 @@ class IndividualOffenderForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      drawer: Sidebar(), // Optional sidebar
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(220.0), 
-        child: GeneralAppBar(
-          search: true, 
-          initialTabIndex: 4,
+    return Scaffold(
+       appBar: AppBar(
+          
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
-      ),
+      
       body: SingleChildScrollView(
         child: Column(
           children: [

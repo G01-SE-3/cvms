@@ -53,22 +53,28 @@ class _AccountFormState extends State<AccountForm> {
 
   TextEditingController password = TextEditingController();
 
+  /// Hashes the password using SHA-256 encoding.
+  /// This is used for password comparison and storage security.
   String hashPassword(String password) {
     final bytes = utf8.encode(password);
     return sha256.convert(bytes).toString();
   }
 
+  /// Validates the form fields and updates error messages.
+  /// If the password change is enabled, it also validates the password-related fields.
   bool validateInputs(String hashedPassword) {
     setState(() {
       usernameError = validateUsername(widget.usernameController.text);
       emailError = validateEmail(widget.emailController.text);
 
       if (widget.isChangingPassword) {
+        // Validate current password if the user is changing it
         currentPasswordError = validateUserPassword(
           widget.currentPasswordController.text,
           hashedPassword,
         );
         if (currentPasswordError == null) {
+          // Validate new password and confirm password fields
           newPasswordError =
               validatePassword(widget.newPasswordController.text);
           confirmPasswordError = validateConfirmPassword(
@@ -81,6 +87,8 @@ class _AccountFormState extends State<AccountForm> {
     return true;
   }
 
+  /// Handles the confirm action: validates input, hashes the new password, 
+  /// updates the user details, and triggers the onConfirm callback.
   void handleConfirm() async {
     final hashedCurrentPassword = hashPassword(password.text);
 
@@ -92,6 +100,7 @@ class _AccountFormState extends State<AccountForm> {
         newPasswordError == null &&
         confirmPasswordError == null) {
       if (widget.newPasswordController.text.isNotEmpty) {
+        // If password is updated, update the current password field with the new hashed password
         widget.currentPasswordController.text =
             hashPassword(widget.newPasswordController.text);
         widget.confirmPasswordController.text = '';
@@ -104,10 +113,11 @@ class _AccountFormState extends State<AccountForm> {
         hashedPassword: widget.currentPasswordController.text,
       );
 
+      // Update user details through UserController
       final userController = context.read<UserController>();
       await userController.updateUserDetails(updatedUser, widget.username);
 
-      widget.onConfirm();
+      widget.onConfirm(); // Callback to confirm changes
     }
   }
 
@@ -130,7 +140,7 @@ class _AccountFormState extends State<AccountForm> {
           ),
           const SizedBox(height: 10),
           GestureDetector(
-            onTap: widget.onTogglePasswordChange,
+            onTap: widget.onTogglePasswordChange, 
             child: Text(
               AccountStrings.ChangePassword,
               style: TextStyle(
@@ -185,7 +195,7 @@ class _AccountFormState extends State<AccountForm> {
               children: [
                 customElevatedButton(
                   context: context,
-                  onPressed: widget.onCancel,
+                  onPressed: widget.onCancel, 
                   text: AccountStrings.Cancel,
                   icon: Icons.cancel,
                   backgroundColor: Colors.red,
@@ -193,7 +203,7 @@ class _AccountFormState extends State<AccountForm> {
                 const SizedBox(width: 10),
                 customElevatedButton(
                   context: context,
-                  onPressed: handleConfirm,
+                  onPressed: handleConfirm, // Trigger the handleConfirm method on button press
                   text: AccountStrings.Confirm,
                   icon: Icons.check,
                 ),

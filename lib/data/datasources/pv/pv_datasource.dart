@@ -21,7 +21,7 @@ import 'package:cvms/data/models/inspector/inspector_model.dart';
 
 class PVDataSource {
   Future<PVModel?> getPVDetails(String pvId) async {
-    final connection = await getDatabaseConnection();
+    final connection = await getDatabaseConnection(); // Get DB connection
     try {
       // Query to fetch PV details
       var result = await connection.connection!.query('''

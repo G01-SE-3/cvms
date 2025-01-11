@@ -21,18 +21,21 @@ class _SettingsSubMenuState extends State<SettingsSubMenu> {
   Widget build(BuildContext context) {
     return Row(
       children: [
+        // Left menu containing the settings options
         Container(
-          width: MediaQuery.of(context).size.width * 0.2,
+          width: MediaQuery.of(context).size.width * 0.2, // 20% of screen width
           color: Colors.grey[200],
           child: SettingsMenu(
-            pageSelected: widget.pageSelected,
-            onPageSelected: widget.onPageSelected,
+            pageSelected: widget.pageSelected, // Pass selected page to highlight the menu
+            onPageSelected: widget.onPageSelected, // Handle page selection
           ),
         ),
+        
+        // Main content area showing the selected page's content
         Expanded(
           child: Container(
             color: Colors.white,
-            child: PageContent(page: widget.pageSelected),
+            child: PageContent(page: widget.pageSelected), // Display the selected page content
           ),
         ),
       ],
